@@ -2,7 +2,6 @@ import SwiftUI
 import shared
 
 struct ContentView: View {
-	//let greet = Greeting().greet()
 
 	var body: some View {
         VStack {
@@ -13,13 +12,14 @@ struct ContentView: View {
                     
                 Text("YouKon")
                     .font(.largeTitle)
-                    .fontWeight(.black)
+                    .fontWeight(.heavy)
+                    .foregroundColor(Color.white)
             }
+            Text(UserData().name)
             Spacer()
         }
         .background(
             Image("Background")
-                        //.resizable()
         )
 	}
 }
