@@ -2,10 +2,25 @@ import SwiftUI
 import shared
 
 struct ContentView: View {
-	let greet = Greeting().greet()
+	//let greet = Greeting().greet()
 
 	var body: some View {
-		Text(greet)
+        VStack {
+            HStack {
+                Image("Icon")
+                    .resizable()
+                    .frame(width: 48, height: 48)
+                    
+                Text("YouKon")
+                    .font(.largeTitle)
+                    .fontWeight(.black)
+            }
+            Spacer()
+        }
+        .background(
+            Image("Background")
+                        //.resizable()
+        )
 	}
 }
 
