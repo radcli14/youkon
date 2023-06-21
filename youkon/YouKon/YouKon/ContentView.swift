@@ -4,23 +4,17 @@ import shared
 struct ContentView: View {
 
 	var body: some View {
-        VStack {
-            HStack {
-                Image("Icon")
-                    .resizable()
-                    .frame(width: 48, height: 48)
-                    
-                Text("YouKon")
-                    .font(.largeTitle)
-                    .fontWeight(.heavy)
-                    .foregroundColor(Color.white)
-            }
-            Text(UserData().name)
+        VStack(spacing: 24) {
+            Header()
+            //Text(UserData().name)
+            QuickConvertCard()
+            ProjectsCard()
             Spacer()
         }
         .background(
             Image("Background")
         )
+        .padding(12)
 	}
 }
 
