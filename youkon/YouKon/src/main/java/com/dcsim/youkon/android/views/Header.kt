@@ -2,6 +2,7 @@ package com.dcsim.youkon.android.views
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
@@ -24,11 +25,12 @@ fun Header() {
             painter = painterResource(id = R.drawable.icon_clearbackground),
             contentDescription = "App icon",
             modifier = Modifier.width(90.dp),
-            colorFilter = ColorFilter.tint(MaterialTheme.colors.surface)
+            colorFilter = ColorFilter.tint(MaterialTheme.colors.onBackground)
         )
         Text("YouKon",
             fontWeight = FontWeight.Bold,
             style = MaterialTheme.typography.h2
         )
+        Spacer(modifier = Modifier.width(90.dp))
     }
 }
