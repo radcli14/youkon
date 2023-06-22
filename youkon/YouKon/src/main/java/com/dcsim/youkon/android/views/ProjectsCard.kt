@@ -8,6 +8,7 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 
 @Composable
@@ -16,9 +17,12 @@ fun ProjectsCard() {
         modifier = Modifier.fillMaxSize()
     ) {
         Column(
-            modifier = Modifier.padding(8.dp)
+            modifier = Modifier.padding(16.dp)
         ) {
-            Text("Projects", style = MaterialTheme.typography.body2)
+            Text("Projects",
+                fontWeight = FontWeight.SemiBold,
+                style = MaterialTheme.typography.h6
+            )
         }
     }
 }

@@ -9,6 +9,7 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 
 @Composable
@@ -19,9 +20,12 @@ fun QuickConvertCard() {
             .requiredHeight(128.dp)
     ) {
         Column(
-            modifier = Modifier.padding(8.dp)
+            modifier = Modifier.padding(16.dp)
         ) {
-            Text("Quick Convert", style = MaterialTheme.typography.body2)
+            Text("Quick Convert",
+                fontWeight = FontWeight.SemiBold,
+                style = MaterialTheme.typography.h6
+            )
         }
     }
 }
