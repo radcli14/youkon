@@ -2,17 +2,18 @@ import SwiftUI
 import shared
 
 struct ContentView: View {
-
+    @Environment(\.colorScheme) var colorScheme
+    
 	var body: some View {
         VStack(spacing: 24) {
             Header()
-            //Text(UserData().name)
             QuickConvertCard()
             ProjectsCard()
-            Spacer()
+            //Spacer()
         }
         .background(
             Image("Background")
+                .brightness(colorScheme == .dark ? -0.3 : 0.3)
         )
         .padding(12)
 	}

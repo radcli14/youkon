@@ -13,16 +13,17 @@ struct Header: View {
         HStack {
             Image("Icon_clearbackground")
                 .resizable()
-                .frame(width: 64, height: 64)
+                .frame(width: 81, height: 81)
                 .colorInvert()
                 .colorMultiply(.primary)
+                .padding(-5)
                 
             Text("YouKon")
-                .font(.largeTitle)
-                .fontWeight(.heavy)
+                .font(.system(size: 54))
+                .fontWeight(.bold)
             
             Spacer()
-                .frame(width: 72)
+                .frame(width: 76)
         }
     }
 }

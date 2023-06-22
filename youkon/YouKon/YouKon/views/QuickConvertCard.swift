@@ -13,8 +13,12 @@ struct QuickConvertCard: View {
         GroupBox(
             label: Text("Quick Convert")
         ) {
-            Text("...")
+            VStack {
+                Text("...")
+            }
+            .frame(minHeight: 60)
         }
+        .frame(maxWidth: 340)
     }
 }
 

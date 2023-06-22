@@ -13,7 +13,10 @@ struct ProjectsCard: View {
         GroupBox(
             label: Text("Projects")
         ) {
-            Text("...")
+            VStack {
+                Text("...")
+            }
+            .frame(maxHeight: .infinity)
         }
     }
 }
