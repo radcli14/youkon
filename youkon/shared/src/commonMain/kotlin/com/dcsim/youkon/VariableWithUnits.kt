@@ -44,6 +44,23 @@ class Measurement(
         return Measurement(convertedValue, targetUnit)
     }
 
+    fun convertTo(targetUnit: String): Measurement {
+        return convertTo(conversionUnit(targetUnit))
+    }
+
+    private fun conversionUnit(targetUnit: String): Unit {
+        val conversionUnit: Unit = when (targetUnit.lowercase()) {
+            "kilograms" -> Unit.KILOGRAMS
+            "pounds" -> Unit.POUNDS
+            "meters" -> Unit.METERS
+            "feet" -> Unit.FEET
+            "newtons" -> Unit.NEWTONS
+            "pound_force" -> Unit.POUND_FORCE
+            else -> unit
+        }
+        return conversionUnit
+    }
+
     override fun toString(): String {
         return "$value $unit"
     }

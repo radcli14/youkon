@@ -57,7 +57,7 @@ fun QuickConvertCard() {
             )
 
             // The display of the measurement after conversion
-            Text(measurement.convertTo(Measurement.Unit.FEET).toString())
+            Text(measurement.convertTo("feet").toString())
         }
     }
 }
