@@ -53,9 +53,5 @@ fun MainView() {
 @Preview
 @Composable
 fun DefaultPreview() {
-    MyApplicationTheme {
-        BackgroundBox {
-            Header()
-        }
-    }
+    MainView()
 }
