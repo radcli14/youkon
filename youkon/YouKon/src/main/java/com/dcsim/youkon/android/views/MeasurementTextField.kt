@@ -15,7 +15,7 @@ import androidx.compose.ui.unit.dp
 import com.dcsim.youkon.Measurement
 
 @Composable
-fun MeasurementTextField(measurement: Measurement) {
+fun MeasurementTextField(measurement: Measurement, updateMeasurement: () -> Unit) {
     var text by remember { mutableStateOf(TextFieldValue(measurement.value.toString())) }
 
     TextField(
@@ -26,10 +26,11 @@ fun MeasurementTextField(measurement: Measurement) {
             if (newText.text.toDoubleOrNull() != null) {
                 text = newText
                 measurement.value = newText.text.toDouble()
-            } else if (newText.text == "") {
+            } else if (newText.text.isBlank()) {
                 text = newText
                 measurement.value = 0.0
             }
+            updateMeasurement()
         },
         modifier = Modifier.width(96.dp)
     )

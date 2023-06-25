@@ -6,12 +6,9 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredWidth
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Card
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
-import androidx.compose.material.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -19,16 +16,14 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import com.dcsim.youkon.testMeasurement
 
 @Composable
 fun QuickConvertCard() {
     val measurement by remember { mutableStateOf(testMeasurement()) }
-    var text by remember { mutableStateOf(TextFieldValue(measurement.value.toString())) }
     var targetUnit by remember { mutableStateOf("FEET") }
+    var convertedText by remember { mutableStateOf(measurement.convertTo(targetUnit).toString()) }
 
     Card(
         modifier = Modifier
@@ -45,26 +40,13 @@ fun QuickConvertCard() {
             )
 
             Row(
-                horizontalArrangement = Arrangement.spacedBy(16.dp),
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
                 modifier = Modifier.fillMaxWidth()
             ) {
                 // The field that takes the user input on the numeric value of the measurement
-                //MeasurementTextField(measurement = measurement)
-                TextField(
-                    value = text,
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                    singleLine = true,
-                    onValueChange = { newText ->
-                        if (newText.text.toDoubleOrNull() != null) {
-                            text = newText
-                            measurement.value = newText.text.toDouble()
-                        } else if (newText.text == "") {
-                            text = newText
-                            measurement.value = 0.0
-                        }
-                    },
-                    modifier = Modifier.width(72.dp)
-                )
+                MeasurementTextField(measurement = measurement) {
+                    convertedText = measurement.convertTo(targetUnit).toString()
+                }
 
                 // Selection for which type of unit to convert from
                 FromDropdown(measurement = measurement)
@@ -72,7 +54,7 @@ fun QuickConvertCard() {
             }
 
             // The display of the measurement after conversion
-            Text(measurement.convertTo(targetUnit).toString())
+            Text(convertedText)
         }
     }
 }
