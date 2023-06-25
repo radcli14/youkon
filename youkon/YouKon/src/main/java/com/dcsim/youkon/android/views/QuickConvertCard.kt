@@ -17,12 +17,14 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.dcsim.youkon.Measurement
 import com.dcsim.youkon.testMeasurement
 
 @Composable
 fun QuickConvertCard() {
     val measurement = testMeasurement()
-    val targetUnit by remember { mutableStateOf("FEET") }
+    var equivalentUnits by remember { mutableStateOf(measurement.equivalentUnits()) }
+    var targetUnit by remember { mutableStateOf(Measurement.Unit.FEET) }
     var convertedText by remember { mutableStateOf(measurement.convertTo(targetUnit).toString()) }
 
     Card(
@@ -49,8 +51,17 @@ fun QuickConvertCard() {
                 }
 
                 // Selection for which type of unit to convert from
-                FromDropdown(measurement = measurement)
-                ToDropdown(measurement = measurement, targetUnit = targetUnit)
+                FromDropdown(measurement = measurement) { unit ->
+                    if (unit != null) {
+                        measurement.unit = unit
+                        equivalentUnits = measurement.equivalentUnits()
+                        if (equivalentUnits.isNotEmpty()) {
+                            targetUnit = equivalentUnits.first { it != unit }
+                            convertedText = measurement.convertTo(targetUnit).toString()
+                        }
+                    }
+                }
+                ToDropdown(equivalentUnits = equivalentUnits, targetUnit = targetUnit)
             }
 
             // The display of the measurement after conversion
