@@ -5,27 +5,40 @@ import androidx.compose.material.DropdownMenu
 import androidx.compose.material.DropdownMenuItem
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import com.dcsim.youkon.Measurement
 
 @Composable
 fun FromDropdown(measurement: Measurement) {
-    var isExpanded by remember { mutableStateOf(false) }
+    val isExpanded = remember { mutableStateOf(false) }
 
-    Button(onClick = { isExpanded = !isExpanded }) {
+    Button(onClick = { isExpanded.value = !isExpanded.value }) {
         Text("From")
+        UnitDropdownMenuItems(units = measurement.allUnits, isExpanded = isExpanded)
+    }
+}
 
-        DropdownMenu(
-            expanded = isExpanded,
-            onDismissRequest = { isExpanded = false }
-        ) {
-            measurement.allUnits.forEach {  unit ->
-                DropdownMenuItem(onClick = { isExpanded = false }) {
-                    Text(unit.toString())
-                }
+@Composable
+fun ToDropdown(measurement: Measurement) {
+    val isExpanded = remember { mutableStateOf(false) }
+
+    Button(onClick = { isExpanded.value = !isExpanded.value }) {
+        Text("To")
+        UnitDropdownMenuItems(units = measurement.equivalentUnits(), isExpanded = isExpanded)
+    }
+}
+
+@Composable
+fun UnitDropdownMenuItems(units: Array<Measurement.Unit>, isExpanded: MutableState<Boolean>) {
+    DropdownMenu(
+        expanded = isExpanded.value,
+        onDismissRequest = { isExpanded.value = false }
+    ) {
+        units.forEach {  unit ->
+            DropdownMenuItem(onClick = { isExpanded.value = false }) {
+                Text(unit.toString())
             }
         }
     }
