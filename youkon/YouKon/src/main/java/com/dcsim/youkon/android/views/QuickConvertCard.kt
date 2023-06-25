@@ -26,7 +26,7 @@ import com.dcsim.youkon.testMeasurement
 
 @Composable
 fun QuickConvertCard() {
-    val measurement = testMeasurement()
+    val measurement by remember { mutableStateOf(testMeasurement()) }
     var text by remember { mutableStateOf(TextFieldValue(measurement.value.toString())) }
 
     Card(
@@ -48,6 +48,7 @@ fun QuickConvertCard() {
                 modifier = Modifier.fillMaxWidth()
             ) {
                 // The field that takes the user input on the numeric value of the measurement
+                //MeasurementTextField(measurement = measurement)
                 TextField(
                     value = text,
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
