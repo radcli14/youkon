@@ -21,8 +21,8 @@ import com.dcsim.youkon.testMeasurement
 
 @Composable
 fun QuickConvertCard() {
-    val measurement by remember { mutableStateOf(testMeasurement()) }
-    var targetUnit by remember { mutableStateOf("FEET") }
+    val measurement = testMeasurement()
+    val targetUnit by remember { mutableStateOf("FEET") }
     var convertedText by remember { mutableStateOf(measurement.convertTo(targetUnit).toString()) }
 
     Card(
