@@ -5,10 +5,17 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredHeight
 import androidx.compose.foundation.layout.requiredWidth
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.Button
 import androidx.compose.material.Card
+import androidx.compose.material.DropdownMenu
+import androidx.compose.material.DropdownMenuItem
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -26,6 +33,7 @@ import com.dcsim.youkon.testMeasurement
 fun QuickConvertCard() {
     val measurement = testMeasurement()
     var text by remember { mutableStateOf(TextFieldValue(measurement.value.toString())) }
+    //var fromIsExpanded by remember { mutableStateOf(false) }
 
     Card(
         modifier = Modifier
@@ -55,6 +63,9 @@ fun QuickConvertCard() {
                     }
                 }
             )
+
+            // Selection for which type of unit to convert from
+            FromDropdown(measurement = measurement)
 
             // The display of the measurement after conversion
             Text(measurement.convertTo("feet").toString())

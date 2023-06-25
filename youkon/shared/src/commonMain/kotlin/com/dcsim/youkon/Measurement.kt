@@ -14,6 +14,26 @@ class Measurement(
         NEWTONS, POUND_FORCE
     }
 
+    val allUnits = arrayOf(
+        Unit.KILOGRAMS, Unit.POUNDS,
+        Unit.METERS, Unit.FEET,
+        Unit.NEWTONS, Unit.POUND_FORCE
+    )
+    val massUnits = arrayOf(Unit.KILOGRAMS, Unit.POUNDS)
+    val lengthUnits = arrayOf(Unit.METERS, Unit.FEET)
+    val forceUnits = arrayOf(Unit.NEWTONS, Unit.POUND_FORCE)
+
+    /// Provide an array of units that the measurement may be converted to
+    fun equivalentUnits(): Array<Unit> {
+        return when (unit) {
+            in massUnits -> massUnits
+            in lengthUnits -> lengthUnits
+            in forceUnits -> forceUnits
+            else -> arrayOf()
+        }
+    }
+
+    /// Convert from the current measurement unit into a different unit, using the Unit type as input
     fun convertTo(targetUnit: Unit): Measurement {
         val convertedValue: Double = when (unit) {
             Unit.KILOGRAMS -> when (targetUnit) {
@@ -44,10 +64,12 @@ class Measurement(
         return Measurement(convertedValue, targetUnit)
     }
 
+    /// Convert from the current measurement unit into a different unit, using the String type as input
     fun convertTo(targetUnit: String): Measurement {
         return convertTo(conversionUnit(targetUnit))
     }
 
+    /// Convert a string name of the unit to a Unit type
     private fun conversionUnit(targetUnit: String): Unit {
         val conversionUnit: Unit = when (targetUnit.lowercase()) {
             "kilograms" -> Unit.KILOGRAMS
