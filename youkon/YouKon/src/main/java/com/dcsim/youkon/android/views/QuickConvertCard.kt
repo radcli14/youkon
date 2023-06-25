@@ -28,6 +28,7 @@ import com.dcsim.youkon.testMeasurement
 fun QuickConvertCard() {
     val measurement by remember { mutableStateOf(testMeasurement()) }
     var text by remember { mutableStateOf(TextFieldValue(measurement.value.toString())) }
+    var targetUnit by remember { mutableStateOf("FEET") }
 
     Card(
         modifier = Modifier
@@ -62,16 +63,16 @@ fun QuickConvertCard() {
                             measurement.value = 0.0
                         }
                     },
-                    modifier = Modifier.width(96.dp)
+                    modifier = Modifier.width(72.dp)
                 )
 
                 // Selection for which type of unit to convert from
                 FromDropdown(measurement = measurement)
-                ToDropdown(measurement = measurement)
+                ToDropdown(measurement = measurement, targetUnit = targetUnit)
             }
 
             // The display of the measurement after conversion
-            Text(measurement.convertTo("feet").toString())
+            Text(measurement.convertTo(targetUnit).toString())
         }
     }
 }
