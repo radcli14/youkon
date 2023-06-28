@@ -1,4 +1,5 @@
-# youkon
+# ![YouKon](assets/youkon_github_header.png)
+
 YouKon is a multiplatform mobile app used for unit conversions and projects for scientists engineers.
 It allows you to group several related parameters, and convert each to a consistent unit system, regardless of the what each system each was originally defined for.
 Examples where this may be useful:
@@ -7,9 +8,12 @@ Examples where this may be useful:
 - Measurement quantities for a recipe
 - ... and many more
 
-![App Icon](assets/icon.png)
 
 ## User Interface
+
+The main applicationv view includes the logo and header, a quick conversion card, and the projects card.
+Quick conversion includes a text field for entering numeric values, and dropdowns for selecting "from" and "to" units.
+
 
 ## Shared Architecture
 
