@@ -11,8 +11,11 @@ Examples where this may be useful:
 
 ## User Interface
 
-The main applicationv view includes the logo and header, a quick conversion card, and the projects card.
+The main applicationv view includes the logo and header, a quick conversion card, and the projects card
 Quick conversion includes a text field for entering numeric values, and dropdowns for selecting "from" and "to" units.
+Each user has a projects card, where any single project represents a grouping of measurement data that hold a common purpose.
+The projects in the card are laid out as tiles, which can be tapped to expand and show the enclosed measurements. 
+With a project file expanded, the user may then modify the measurements of that particular project.
 
 
 ## Shared Architecture
