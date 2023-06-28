@@ -13,6 +13,11 @@ Examples where this may be useful:
 
 ## Shared Architecture
 
+Kotlin Multiplatform Mobile is used to provide a set of shared data models.
+The lowest level object is a `Measurement`, which stores the numeric `value` and its `unit`, along with methods for conversion.
+A `Project` is a collection of `Measurement`s, and may include images.
+A saved set of `Project` objects that an individual user has generated is stored in the `UserData` object.
+
 ```mermaid
 classDiagram
 UserData --> Project
