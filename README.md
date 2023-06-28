@@ -1,6 +1,6 @@
 # ![YouKon](assets/youkon_github_header.png)
 
-YouKon is a multiplatform mobile app used for unit conversions and projects for scientists engineers.
+YouKon is a multiplatform mobile app used for unit conversions and projects for scientists and engineers.
 It allows you to group several related parameters, and convert each to a consistent unit system, regardless of the what each system each was originally defined for.
 Examples where this may be useful:
 - Mass properties and dimensions of an aerospace vehicle
