@@ -37,5 +37,7 @@ class Measurement {
 +String description
 +Double value
 +Measurement.Unit unit
++equivalentUnits()
++convertTo(targetUnit)
 } 
 ```
