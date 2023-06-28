@@ -8,3 +8,29 @@ Examples where this may be useful:
 - ... and many more
 
 ![App Icon](assets/icon.png)
+
+## User Interface
+
+## Shared Architecture
+
+```mermaid
+classDiagram
+UserData --> Project
+Project --> Measurement
+class UserData {
++String name
++Array~Project~ projects
+}
+class Project {
++String name
++String description
++Array~Measurement~ measurement
++Array~String~ images
+}
+class Measurement {
++String name
++String description
++Double value
++Measurement.Unit unit
+} 
+```
