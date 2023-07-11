@@ -14,22 +14,25 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.dcsim.youkon.Project
 import com.dcsim.youkon.android.views.BackgroundBox
 import com.dcsim.youkon.android.views.Header
 import com.dcsim.youkon.android.views.ProjectsCard
 import com.dcsim.youkon.android.views.QuickConvertCard
+import com.dcsim.youkon.testUser
 
 class MainActivity : ComponentActivity() {
+    val user = testUser()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            MainView()
+            MainView(user.projects)
         }
     }
 }
 
 @Composable
-fun MainView() {
+fun MainView(projects: List<Project>) {
     MyApplicationTheme {
         Surface(
             modifier = Modifier.fillMaxSize(),
@@ -43,7 +46,7 @@ fun MainView() {
                 ) {
                     Header()
                     QuickConvertCard()
-                    ProjectsCard()
+                    ProjectsCard(projects)
                 }
             }
         }
@@ -53,5 +56,5 @@ fun MainView() {
 @Preview
 @Composable
 fun DefaultPreview() {
-    MainView()
+    MainView(testUser().projects)
 }
