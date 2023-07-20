@@ -10,6 +10,7 @@ class UserData {
 fun testUser(): UserData {
     val data = UserData()
     data.name = "Eliott"
-    data.projects.add(testProject())
+    data.projects.add(wembyProject())
+    data.projects.add(spaceProject())
     return data
 }

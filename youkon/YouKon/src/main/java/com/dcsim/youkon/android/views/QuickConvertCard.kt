@@ -18,11 +18,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.dcsim.youkon.Measurement
-import com.dcsim.youkon.testMeasurement
+import com.dcsim.youkon.wembyHeight
 
 @Composable
 fun QuickConvertCard() {
-    val measurement = testMeasurement()
+    val measurement = wembyHeight
     var equivalentUnits by remember { mutableStateOf(measurement.equivalentUnits()) }
     var targetUnit by remember { mutableStateOf(Measurement.Unit.FEET) }
     var convertedText by remember { mutableStateOf(measurement.convertTo(targetUnit).toString()) }

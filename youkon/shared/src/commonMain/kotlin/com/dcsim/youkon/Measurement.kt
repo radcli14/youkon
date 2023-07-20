@@ -88,11 +88,26 @@ class Measurement(
     }
 }
 
-fun testMeasurement(): Measurement {
-    return Measurement(
-        value = 2.26,
-        unit = Measurement.Unit.METERS,
-        name = "WembyHeight",
-        description = "How tall is Victor Wembanyama in meters"
-    )
-}
+
+/// Examples used for testing
+
+var wembyHeight = Measurement(
+    value = 2.26,
+    unit = Measurement.Unit.METERS,
+    name = "Height",
+    description = "How tall is Wemby"
+)
+
+var wembyWeight = Measurement(
+    value = 95.0,
+    unit = Measurement.Unit.KILOGRAMS,
+    name = "Weight",
+    description = "How much does Wemby weigh"
+)
+
+var shuttleWeight = Measurement(
+    value = 4480000.0,
+    unit = Measurement.Unit.POUNDS,
+    name = "Weight",
+    description = "Weight of the Space Shuttle"
+)

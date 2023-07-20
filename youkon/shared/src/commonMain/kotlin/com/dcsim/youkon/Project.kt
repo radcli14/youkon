@@ -8,10 +8,19 @@ class Project {
     var images = mutableListOf<String>()
 }
 
-fun testProject() : Project {
+fun wembyProject() : Project {
     val project = Project()
-    project.name = "Test Project"
-    project.description = "A bunch of things"
-    project.measurements.add(testMeasurement())
+    project.name = "Victor Wembenyama"
+    project.description = "Stats of the craziest NBA prospect"
+    project.measurements.add(wembyHeight)
+    project.measurements.add(wembyWeight)
+    return project
+}
+
+fun spaceProject() : Project {
+    val project = Project()
+    project.name = "Space Shuttle"
+    project.description = "Mass props of the Space Shuttle"
+    project.measurements.add(shuttleWeight)
     return project
 }
