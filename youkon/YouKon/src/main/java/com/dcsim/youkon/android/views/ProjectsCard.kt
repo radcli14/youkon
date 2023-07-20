@@ -1,32 +1,16 @@
 package com.dcsim.youkon.android.views
 
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.AlertDialog
 import androidx.compose.material.Card
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
-import androidx.compose.material.TextField
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
-import com.dcsim.youkon.Measurement
 import com.dcsim.youkon.Project
 
 @Composable
@@ -48,102 +32,3 @@ fun ProjectsCard(projects: List<Project>) {
         }
     }
 }
-
-
-@Composable
-fun ProjectView(project: Project) {
-    var isExpanded by remember { mutableStateOf(false) }
-
-    Box(
-        modifier = Modifier
-            .padding(bottom = 16.dp)
-            .clickable { isExpanded = true }
-    ) {
-        Column(modifier = Modifier.padding(16.dp)) {
-            Text(
-                text = project.name,
-                style = MaterialTheme.typography.subtitle1,
-                fontWeight = FontWeight.SemiBold
-            )
-            Text(
-                text = project.description,
-                style = MaterialTheme.typography.body1,
-                modifier = Modifier.padding(top = 8.dp)
-            )
-
-            if (isExpanded) {
-                AlertDialog(
-                    onDismissRequest = { isExpanded = false },
-                    buttons = {},
-                    title = {},
-                    text = {
-                        Column {
-                            project.measurements.forEach { measurement ->
-                                MeasurementView(measurement = measurement)
-                            }
-                        }
-                    }
-                )
-            }
-
-            Text(
-                text = if (isExpanded) "Collapse" else "Expand",
-                style = MaterialTheme.typography.button,
-                color = MaterialTheme.colors.primary,
-                modifier = Modifier.padding(top = 8.dp)
-            )
-        }
-    }
-}
-
-
-@Composable
-fun MeasurementView(measurement: Measurement) {
-    var editedName by remember { mutableStateOf(measurement.name) }
-    var editedDescription by remember { mutableStateOf(measurement.description) }
-
-    Column(modifier = Modifier.padding(vertical = 8.dp)) {
-        TextField(
-            value = editedName,
-            onValueChange = { editedName = it },
-            modifier = Modifier.fillMaxWidth(),
-            textStyle = MaterialTheme.typography.subtitle1
-        )
-        TextField(
-            value = editedDescription,
-            onValueChange = { editedDescription = it },
-            modifier = Modifier.fillMaxWidth(),
-            textStyle = MaterialTheme.typography.body1
-        )
-
-        Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(top = 8.dp)) {
-            TextField(
-                value = measurement.value.toString(),
-                onValueChange = { newValue ->
-                    val parsedValue = newValue.toDoubleOrNull()
-                    if (parsedValue != null) {
-                        measurement.value = parsedValue
-                    }
-                },
-                modifier = Modifier.width(96.dp),
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
-            )
-
-            FromDropdown(measurement = measurement) { unit ->
-                if (unit != null) {
-                    measurement.unit = unit
-                }
-            }
-        }
-    }
-
-    // Update the measurement with edited name and description when focus is lost
-    DisposableEffect(Unit) {
-        onDispose {
-            measurement.name = editedName
-            measurement.description = editedDescription
-        }
-    }
-}
-
-
