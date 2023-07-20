@@ -11,10 +11,19 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.dcsim.youkon.android.R
 
+val philosopherFamily = FontFamily(
+    Font(R.font.philosopher_regular, FontWeight.Normal),
+    Font(R.font.philosopher_italic, FontWeight.Normal, FontStyle.Italic),
+    Font(R.font.philosopher_bold, FontWeight.Bold),
+    Font(R.font.philosopher_bolditalic, FontWeight.Bold, FontStyle.Italic)
+)
 
 @Composable
 fun Header() {
@@ -29,7 +38,8 @@ fun Header() {
         )
         Text("YouKon",
             fontWeight = FontWeight.Bold,
-            style = MaterialTheme.typography.h2
+            style = MaterialTheme.typography.h2,
+            fontFamily = philosopherFamily
         )
         Spacer(modifier = Modifier.width(90.dp))
     }
