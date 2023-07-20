@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.TextField
@@ -27,17 +28,21 @@ fun MeasurementView(measurement: Measurement) {
     var editedDescription by remember { mutableStateOf(measurement.description) }
 
     Column(modifier = Modifier.padding(vertical = 8.dp)) {
-        TextField(
+        BasicTextField(
             value = editedName,
             onValueChange = { editedName = it },
             modifier = Modifier.fillMaxWidth(),
-            textStyle = MaterialTheme.typography.subtitle1
+            textStyle = MaterialTheme.typography.subtitle1.copy(
+                color = MaterialTheme.colors.primary
+            ),
         )
-        TextField(
+        BasicTextField(
             value = editedDescription,
             onValueChange = { editedDescription = it },
             modifier = Modifier.fillMaxWidth(),
-            textStyle = MaterialTheme.typography.body1
+            textStyle = MaterialTheme.typography.body1.copy(
+                color = MaterialTheme.colors.onSurface
+            ),
         )
 
         Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(top = 8.dp)) {
