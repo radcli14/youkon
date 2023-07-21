@@ -7,13 +7,19 @@
 //
 
 import SwiftUI
+import shared
 
 
 struct QuickConvertCard: View {
-    @State private var measurement = testMeasurement()
-    @State private var equivalentUnits = measurement.equivalentUnits()
-    @State private var targetUnit = Measurement.Unit.FEET
-    @State private var convertedText = measurement.convertTo(targetUnit).description
+    @State private var measurement = Measurement(
+        value: 2.26,
+        unit: .meters,
+        name: "Quick Convert",
+        description: "Card on top of the screen"
+    )
+    @State private var equivalentUnits = [Measurement.Unit.feet]
+    @State private var targetUnit = Measurement.Unit.feet
+    @State private var convertedText = "7.4147"
 
     var body: some View {
         GroupBox(
@@ -23,12 +29,12 @@ struct QuickConvertCard: View {
             VStack(spacing: 8) {
                 HStack(spacing: 8) {
                     // The field that takes the user input on the numeric value of the measurement
-                    MeasurementTextField(measurement: $measurement) {
-                        convertedText = measurement.convertTo(targetUnit).description
-                    }
+                    MeasurementTextField(measurement: $measurement) /*{
+                        convertedText = measurement.convertTo(targetUnit: targetUnit).description
+                    }*/
 
                     // Selection for which type of unit to convert from
-                    FromDropdown(measurement: $measurement) { unit in
+                    FromDropdown(measurement: $measurement) /* { unit in
                         if let unit = unit {
                             measurement.unit = unit
                             equivalentUnits = measurement.equivalentUnits()
@@ -37,9 +43,9 @@ struct QuickConvertCard: View {
                                 convertedText = measurement.convertTo(targetUnit).description
                             }
                         }
-                    }
+                    } */
 
-                    ToDropdown(equivalentUnits: equivalentUnits, targetUnit: $targetUnit)
+                    ToDropdown(equivalentUnits: equivalentUnits) //, targetUnit: $targetUnit)
                 }
 
                 // The display of the measurement after conversion

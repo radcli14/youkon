@@ -1,7 +1,8 @@
 import SwiftUI
+import shared
 
 struct MeasurementTextField: View {
-    @Binding var measurement: Measurement
+    @Binding var measurement: shared.Measurement
     @State private var text = ""
 
     var body: some View {

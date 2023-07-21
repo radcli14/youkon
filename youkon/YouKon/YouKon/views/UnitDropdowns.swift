@@ -1,19 +1,23 @@
 import SwiftUI
+import shared
+
 
 struct FromDropdown: View {
-    @Binding var measurement: Measurement
+    @Binding var measurement: shared.Measurement
     @State private var isExpanded = false
 
     var body: some View {
         Button(action: { isExpanded.toggle() }) {
-            UnitDropdownButtonColumn(firstLine: "From", secondLine: measurement.unit.rawValue)
+            UnitDropdownButtonColumn(firstLine: "From", secondLine: String(describing: measurement.unit))
         }
         .buttonStyle(BorderlessButtonStyle())
         .frame(width: 112)
         .overlay(
             Group {
                 if isExpanded {
-                    UnitDropdownMenuItems(units: measurement.allUnits) { unit in
+                    UnitDropdownMenuItems(
+                        units: kotlinToSwiftArray(measurement.allUnits)
+                    ) { unit in
                         isExpanded = false
                         onClick(unit)
                     }
@@ -23,7 +27,7 @@ struct FromDropdown: View {
         )
     }
 
-    private func onClick(_ unit: Measurement.Unit?) {
+    private func onClick(_ unit: shared.Measurement.Unit?) {
         if let unit = unit {
             measurement.unit = unit
         }
@@ -31,12 +35,12 @@ struct FromDropdown: View {
 }
 
 struct ToDropdown: View {
-    var equivalentUnits: [Measurement.Unit]
+    var equivalentUnits: [shared.Measurement.Unit]
     @State private var isExpanded = false
 
     var body: some View {
         Button(action: { isExpanded.toggle() }) {
-            UnitDropdownButtonColumn(firstLine: "To", secondLine: equivalentUnits.first?.rawValue ?? "")
+            UnitDropdownButtonColumn(firstLine: "To", secondLine: String(describing: equivalentUnits.first))
         }
         .buttonStyle(BorderlessButtonStyle())
         .frame(width: 112)
@@ -68,13 +72,13 @@ struct UnitDropdownButtonColumn: View {
 }
 
 struct UnitDropdownMenuItems: View {
-    var units: [Measurement.Unit]
-    var onSelect: (Measurement.Unit) -> Void
+    var units: [shared.Measurement.Unit]
+    var onSelect: (shared.Measurement.Unit) -> Void
 
     var body: some View {
         ForEach(units, id: \.self) { unit in
             Button(action: { onSelect(unit) }) {
-                Text(unit.rawValue)
+                Text(String(describing: unit))
             }
             .buttonStyle(BorderlessButtonStyle())
         }

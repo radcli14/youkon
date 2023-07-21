@@ -14,6 +14,9 @@
 		8ABF0BF42A4293A00098B607 /* Header.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ABF0BF32A4293A00098B607 /* Header.swift */; };
 		8ABF0BF62A4295F50098B607 /* QuickConvertCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ABF0BF52A4295F50098B607 /* QuickConvertCard.swift */; };
 		8ABF0BF82A42960B0098B607 /* ProjectsCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ABF0BF72A42960B0098B607 /* ProjectsCard.swift */; };
+		8AC78B702A6A094000F5AB32 /* MeasurementTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AC78B6F2A6A094000F5AB32 /* MeasurementTextField.swift */; };
+		8AC78B722A6A095500F5AB32 /* UnitDropdowns.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AC78B712A6A095500F5AB32 /* UnitDropdowns.swift */; };
+		8AC78B752A6A0F9500F5AB32 /* KotlinArray+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AC78B742A6A0F9400F5AB32 /* KotlinArray+Extensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -39,6 +42,9 @@
 		8ABF0BF32A4293A00098B607 /* Header.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Header.swift; sourceTree = "<group>"; };
 		8ABF0BF52A4295F50098B607 /* QuickConvertCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickConvertCard.swift; sourceTree = "<group>"; };
 		8ABF0BF72A42960B0098B607 /* ProjectsCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectsCard.swift; sourceTree = "<group>"; };
+		8AC78B6F2A6A094000F5AB32 /* MeasurementTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MeasurementTextField.swift; sourceTree = "<group>"; };
+		8AC78B712A6A095500F5AB32 /* UnitDropdowns.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UnitDropdowns.swift; sourceTree = "<group>"; };
+		8AC78B742A6A0F9400F5AB32 /* KotlinArray+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "KotlinArray+Extensions.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -80,6 +86,7 @@
 		7555FF7D242A565900829871 /* YouKon */ = {
 			isa = PBXGroup;
 			children = (
+				8AC78B732A6A0F5600F5AB32 /* extensions */,
 				8ABF0BF22A4293730098B607 /* views */,
 				058557BA273AAA24004C7B11 /* Assets.xcassets */,
 				7555FF82242A565900829871 /* ContentView.swift */,
@@ -100,11 +107,21 @@
 		8ABF0BF22A4293730098B607 /* views */ = {
 			isa = PBXGroup;
 			children = (
+				8AC78B712A6A095500F5AB32 /* UnitDropdowns.swift */,
+				8AC78B6F2A6A094000F5AB32 /* MeasurementTextField.swift */,
 				8ABF0BF32A4293A00098B607 /* Header.swift */,
 				8ABF0BF52A4295F50098B607 /* QuickConvertCard.swift */,
 				8ABF0BF72A42960B0098B607 /* ProjectsCard.swift */,
 			);
 			path = views;
+			sourceTree = "<group>";
+		};
+		8AC78B732A6A0F5600F5AB32 /* extensions */ = {
+			isa = PBXGroup;
+			children = (
+				8AC78B742A6A0F9400F5AB32 /* KotlinArray+Extensions.swift */,
+			);
+			path = extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -201,8 +218,11 @@
 			files = (
 				2152FB042600AC8F00CF470E /* iOSApp.swift in Sources */,
 				8ABF0BF82A42960B0098B607 /* ProjectsCard.swift in Sources */,
+				8AC78B752A6A0F9500F5AB32 /* KotlinArray+Extensions.swift in Sources */,
 				8ABF0BF62A4295F50098B607 /* QuickConvertCard.swift in Sources */,
+				8AC78B722A6A095500F5AB32 /* UnitDropdowns.swift in Sources */,
 				8ABF0BF42A4293A00098B607 /* Header.swift in Sources */,
+				8AC78B702A6A094000F5AB32 /* MeasurementTextField.swift in Sources */,
 				7555FF83242A565900829871 /* ContentView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

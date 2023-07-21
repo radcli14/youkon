@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import shared
 
 struct ProjectsCard: View {
     var body: some View {
@@ -15,9 +16,9 @@ struct ProjectsCard: View {
         ) {
             ScrollView {
                 LazyVStack(spacing: 16) {
-                    ForEach(projects) { project in
+                    /*ForEach(projects) { project in
                         ProjectView(project: project)
-                    }
+                    }*/
                 }
                 .padding()
             }
@@ -51,9 +52,10 @@ struct ProjectView: View {
             }
             
             if isExpanded {
-                ForEach(project.measurements) { measurement in
+                /*ForEach(project.measurements) { measurement in
                     MeasurementView(measurement: measurement)
-                }
+                }*/
+                Text("TODO: BE EXPANDED")
             } else {
                 Text(project.description)
                     .font(.body)
@@ -70,9 +72,9 @@ struct MeasurementView: View {
     @State private var editedName: String
     @State private var editedDescription: String
     
-    var measurement: Measurement
+    var measurement: shared.Measurement
     
-    init(measurement: Measurement) {
+    init(measurement: shared.Measurement) {
         self.measurement = measurement
         _editedName = State(initialValue: measurement.name)
         _editedDescription = State(initialValue: measurement.description)
@@ -87,11 +89,11 @@ struct MeasurementView: View {
                 .font(.subheadline)
             
             HStack {
-                TextField("Value", value: $measurement.value, format: .number)
+                /*TextField("Value", value: $measurement.value, format: .number)
                     .textFieldStyle(.roundedBorder)
                     .frame(width: 100)
-                
-                FromDropdown(measurement: measurement)
+                */
+                //FromDropdown(measurement: measurement)
             }
         }
         .padding()
