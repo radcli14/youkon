@@ -69,6 +69,24 @@ class Measurement(
         return convertTo(conversionUnit(targetUnit))
     }
 
+    /// Converts the measurement to a consistent system of measurements, like SI (kg-m-N), Imperial (slug-ft-pound), etc
+    fun convertToSystem(targetSystem: String): Measurement {
+        return when (targetSystem) {
+            "SI" -> convertToSI()
+            else -> convertToSI()
+        }
+    }
+
+    /// Converts this measurement to SI units (kg-m-N)
+    private fun convertToSI(): Measurement {
+        return when (unit) {
+            Unit.POUNDS -> convertTo(Unit.KILOGRAMS)
+            Unit.FEET -> convertTo(Unit.METERS)
+            Unit.POUND_FORCE -> convertTo(Unit.NEWTONS)
+            else -> return this
+        }
+    }
+
     /// Convert a string name of the unit to a Unit type
     private fun conversionUnit(targetUnit: String): Unit {
         val conversionUnit: Unit = when (targetUnit.lowercase()) {
