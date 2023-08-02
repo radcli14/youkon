@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Card
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -39,6 +40,12 @@ fun ProjectView(project: Project) {
             }
 
             if (isExpanded) {
+                // Displays of the measurement after conversion to a consistent set of units
+                project.measurements.forEach { measurement ->
+                    Text(measurement.name + ": " + measurement.convertToSystem("SI").toString())
+                }
+
+                // Editable fields for each measurement and unit selection
                 project.measurements.forEach { measurement ->
                     MeasurementView(measurement = measurement)
                 }
