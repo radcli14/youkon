@@ -21,7 +21,7 @@ fun ProjectsCard(projects: List<Project>) {
                 text = "Projects",
                 style = MaterialTheme.typography.h6,
                 fontWeight = FontWeight.SemiBold,
-                modifier = Modifier.padding(bottom = 16.dp)
+                //modifier = Modifier.padding(bottom = 16.dp)
             )
 
             LazyColumn {
