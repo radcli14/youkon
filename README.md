@@ -35,13 +35,13 @@ UserData --> Project
 Project --> Measurement
 class UserData {
 +String name
-+Array~Project~ projects
++List~Project~ projects
 }
 class Project {
 +String name
 +String description
-+Array~Measurement~ measurement
-+Array~String~ images
++List~Measurement~ measurement
++List~String~ images
 }
 class Measurement {
 +String name
