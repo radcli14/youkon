@@ -14,6 +14,16 @@ class Measurement(
         NEWTONS, POUND_FORCE
     }
 
+    private val shortUnit: String
+        get() = when(unit) {
+            Unit.KILOGRAMS -> "kg"
+            Unit.POUNDS -> "lbm"
+            Unit.METERS -> "m"
+            Unit.FEET -> "ft"
+            Unit.NEWTONS -> "N"
+            Unit.POUND_FORCE -> "lbf"
+        }
+
     val allUnits = arrayOf(
         Unit.KILOGRAMS, Unit.POUNDS,
         Unit.METERS, Unit.FEET,
@@ -102,12 +112,12 @@ class Measurement(
     }
 
     override fun toString(): String {
-        return "$value $unit"
+        return "${niceNumber(value)} $shortUnit"
     }
 }
 
 
-/// Examples used for testing
+// Examples used for testing
 
 var wembyHeight = Measurement(
     value = 2.26,
