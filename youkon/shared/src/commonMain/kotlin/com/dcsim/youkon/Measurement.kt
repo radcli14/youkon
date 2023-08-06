@@ -114,6 +114,10 @@ class Measurement(
     override fun toString(): String {
         return "${niceNumber(value)} $shortUnit"
     }
+
+    fun nameAndValueInSystem(system: String): String {
+        return name + ": " + convertToSystem(system).toString()
+    }
 }
 
 
