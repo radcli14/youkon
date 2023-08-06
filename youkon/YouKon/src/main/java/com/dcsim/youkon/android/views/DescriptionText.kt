@@ -12,6 +12,6 @@ fun  DescriptionText(description: String) {
     Text(
         text = description,
         style = MaterialTheme.typography.body1,
-        modifier = Modifier.padding(top = 8.dp)
+        modifier = Modifier.padding(bottom = 4.dp)
     )
 }

@@ -33,16 +33,20 @@ fun ProjectView(project: Project) {
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                NameText(project.name)
+                Column {
+                    NameText(project.name)
+                    DescriptionText(project.description)
+                }
                 if (isExpanded) {
                     CloseButton(onClick = { isExpanded = false })
                 }
             }
 
+
             if (isExpanded) {
                 // Displays of the measurement after conversion to a consistent set of units
                 project.measurements.forEach { measurement ->
-                    Text(measurement.name + ": " + measurement.convertToSystem("SI").toString())
+                    Text(measurement.nameAndValueInSystem("SI"))
                 }
 
                 // Editable fields for each measurement and unit selection
@@ -50,7 +54,7 @@ fun ProjectView(project: Project) {
                     MeasurementView(measurement = measurement)
                 }
             } else {
-                DescriptionText(project.description)
+                //
             }
         }
     }
