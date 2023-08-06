@@ -6,15 +6,16 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.Edit
 import androidx.compose.runtime.Composable
 
 @Composable
-fun CloseButton(isExpanded: Boolean, onClick: () -> Unit) {
+fun EditButton(onClick: () -> Unit) {
     IconButton(
         onClick = onClick
     ) {
         Icon(
-            imageVector = if (isExpanded) Icons.Default.Close else Icons.Default.ArrowDropDown,
+            imageVector = Icons.Default.Edit,
             contentDescription = "Close",
             tint = MaterialTheme.colors.primary
         )

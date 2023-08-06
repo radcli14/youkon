@@ -38,20 +38,30 @@ fun ProjectView(project: Project) {
                     NameText(project.name)
                     DescriptionText(project.description)
                 }
-                if (isExpanded) {
-                    CloseButton(onClick = { isExpanded = false })
-                }
+                CloseButton(isExpanded,
+                    onClick = {
+                        isExpanded = !isExpanded
+                        isEditing = false
+                    }
+                )
             }
 
-            if (isExpanded) {
-                // Displays of the measurement after conversion to a consistent set of units
-                project.measurements.forEach { measurement ->
-                    Text(measurement.nameAndValueInSystem("SI"))
+            Row {
+                if (isExpanded) {
+                    EditButton(onClick = { isEditing = !isEditing })
                 }
-            } else if (isEditing) {
-                // Editable fields for each measurement and unit selection
-                project.measurements.forEach { measurement ->
-                    MeasurementView(measurement = measurement)
+                Column {
+                    if (isEditing) {
+                        // Editable fields for each measurement and unit selection
+                        project.measurements.forEach { measurement ->
+                            MeasurementView(measurement = measurement)
+                        }
+                    } else if (isExpanded) {
+                        // Displays of the measurement after conversion to a consistent set of units
+                        project.measurements.forEach { measurement ->
+                            Text(measurement.nameAndValueInSystem("SI"))
+                        }
+                    }
                 }
             }
         }
