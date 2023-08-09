@@ -64,7 +64,7 @@ fun ProjectTopRow(project: Project, expansion: ProjectExpansionLevel, onClick: (
             NameText(project.name)
             DescriptionText(project.description)
         }
-        CloseButton(expansion) { onClick() }
+        CloseIcon(expansion)
     }
 }
 
