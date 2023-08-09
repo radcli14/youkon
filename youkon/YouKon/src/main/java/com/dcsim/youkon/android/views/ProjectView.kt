@@ -29,39 +29,52 @@ fun ProjectView(project: Project) {
             .padding(8.dp)
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Column {
-                    NameText(project.name)
-                    DescriptionText(project.description)
-                }
-                CloseButton(isExpanded,
-                    onClick = {
-                        isExpanded = !isExpanded
-                        isEditing = false
-                    }
-                )
+            ProjectTopRow(project, isExpanded) {
+                isExpanded = !isExpanded
+                isEditing = false
             }
+            ProjectContent(project, isExpanded, isEditing) {
+                isEditing = !isEditing
+            }
+        }
+    }
+}
 
-            Row {
-                if (isExpanded) {
-                    EditButton(onClick = { isEditing = !isEditing })
+
+/// Top row with the name and description of the project, and button to expand/close
+@Composable
+fun ProjectTopRow(project: Project, isExpanded: Boolean, onClick: () -> Unit) {
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Column {
+            NameText(project.name)
+            DescriptionText(project.description)
+        }
+        CloseButton(isExpanded) { onClick() }
+    }
+}
+
+
+/// Content with either static or editable measurements
+@Composable
+fun ProjectContent(project: Project, isExpanded: Boolean, isEditing: Boolean, onClick: () -> Unit) {
+    Row {
+        if (isExpanded) {
+            EditButton { onClick() }
+        }
+        Column {
+            if (isEditing) {
+                // Editable fields for each measurement and unit selection
+                project.measurements.forEach { measurement ->
+                    MeasurementView(measurement = measurement)
                 }
-                Column {
-                    if (isEditing) {
-                        // Editable fields for each measurement and unit selection
-                        project.measurements.forEach { measurement ->
-                            MeasurementView(measurement = measurement)
-                        }
-                    } else if (isExpanded) {
-                        // Displays of the measurement after conversion to a consistent set of units
-                        project.measurements.forEach { measurement ->
-                            Text(measurement.nameAndValueInSystem("SI"))
-                        }
-                    }
+            } else if (isExpanded) {
+                // Displays of the measurement after conversion to a consistent set of units
+                project.measurements.forEach { measurement ->
+                    Text(measurement.nameAndValueInSystem("SI"))
                 }
             }
         }
