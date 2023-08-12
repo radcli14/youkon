@@ -9,19 +9,31 @@ class Measurement(
 ) {
 
     enum class Unit {
-        KILOGRAMS, POUNDS,
+        KILOGRAMS, POUNDS, SLUGS,
         METERS, FEET,
-        NEWTONS, POUND_FORCE
+        NEWTONS, POUND_FORCE,
+        WATTS, HORSEPOWER,
+        JOULES, BTU,
+        PASCALS, PSI, ATM, BARS
     }
 
     private val shortUnit: String
         get() = when(unit) {
             Unit.KILOGRAMS -> "kg"
             Unit.POUNDS -> "lbm"
+            Unit.SLUGS -> "slug"
             Unit.METERS -> "m"
             Unit.FEET -> "ft"
             Unit.NEWTONS -> "N"
             Unit.POUND_FORCE -> "lbf"
+            Unit.WATTS -> "W"
+            Unit.HORSEPOWER -> "HP"
+            Unit.JOULES -> "J"
+            Unit.BTU -> "BTU"
+            Unit.PASCALS -> "Pa"
+            Unit.PSI -> "psi"
+            Unit.ATM -> "atm"
+            Unit.BARS -> "bar"
         }
 
     val allUnits = arrayOf(
@@ -29,9 +41,12 @@ class Measurement(
         Unit.METERS, Unit.FEET,
         Unit.NEWTONS, Unit.POUND_FORCE
     )
-    val massUnits = arrayOf(Unit.KILOGRAMS, Unit.POUNDS)
-    val lengthUnits = arrayOf(Unit.METERS, Unit.FEET)
-    val forceUnits = arrayOf(Unit.NEWTONS, Unit.POUND_FORCE)
+    private val massUnits = arrayOf(Unit.KILOGRAMS, Unit.POUNDS)
+    private val lengthUnits = arrayOf(Unit.METERS, Unit.FEET)
+    private val forceUnits = arrayOf(Unit.NEWTONS, Unit.POUND_FORCE)
+    private val powerUnits = arrayOf(Unit.WATTS, Unit.HORSEPOWER)
+    private val energyUnits = arrayOf(Unit.JOULES, Unit.BTU)
+    private val pressureUnits = arrayOf(Unit.PASCALS, Unit.PSI, Unit.BARS)
 
     /// Provide an array of units that the measurement may be converted to
     fun equivalentUnits(): Array<Unit> {
@@ -39,6 +54,9 @@ class Measurement(
             in massUnits -> massUnits
             in lengthUnits -> lengthUnits
             in forceUnits -> forceUnits
+            in powerUnits -> powerUnits
+            in energyUnits -> energyUnits
+            in pressureUnits -> pressureUnits
             else -> arrayOf()
         }
     }
@@ -48,11 +66,20 @@ class Measurement(
         val convertedValue: Double = when (unit) {
             Unit.KILOGRAMS -> when (targetUnit) {
                 Unit.POUNDS -> value * 2.20462
+                Unit.SLUGS -> value * 14.5939
                 else -> value
             }
             Unit.POUNDS -> when (targetUnit) {
                 Unit.KILOGRAMS -> value / 2.20462
+                Unit.SLUGS -> value * 32.174
                 else -> value
+            }
+            Unit.SLUGS -> {
+                when (unit) {
+                    Unit.KILOGRAMS -> value * 0.0685218
+                    Unit.POUNDS -> value * 0.0310809
+                    else -> value
+                }
             }
             Unit.METERS -> when (targetUnit) {
                 Unit.FEET -> value * 3.28084
@@ -70,17 +97,68 @@ class Measurement(
                 Unit.NEWTONS -> value / 0.224809
                 else -> value
             }
+            Unit.WATTS -> {
+                when (unit) {
+                    Unit.HORSEPOWER -> value * 0.00134102
+                    else -> value
+                }
+            }
+            Unit.HORSEPOWER -> {
+                when (unit) {
+                    Unit.WATTS -> value * 745.7
+                    else -> value
+                }
+            }
+            Unit.JOULES -> {
+                when (unit) {
+                    Unit.BTU -> value * 0.00094781712
+                    else -> value
+                }
+            }
+            Unit.BTU -> {
+                when (unit) {
+                    Unit.JOULES -> value * 1055.06
+                    else -> value
+                }
+            }
+            Unit.PASCALS -> {
+                when (unit) {
+                    Unit.PSI -> value * 0.00014503773773375
+                    Unit.ATM -> value * 9.8692e-6
+                    Unit.BARS -> value * 1e-5
+                    else -> value
+                }
+            }
+            Unit.PSI -> {
+                when (unit) {
+                    Unit.PASCALS -> value * 6894.76
+                    Unit.ATM -> value * 0.068046
+                    Unit.BARS -> value * 0.0689476
+                    else -> value
+                }
+            }
+            Unit.ATM -> {
+                when (unit) {
+                    Unit.PASCALS -> value * 101325
+                    Unit.PSI -> value * 14.696
+                    Unit.BARS -> value * 1.01325
+                    else -> value
+                }
+            }
+            Unit.BARS -> {
+                when (unit) {
+                    Unit.PASCALS -> value * 100000
+                    Unit.PSI -> value * 14.5038
+                    Unit.ATM -> value * 0.986923
+                    else -> value
+                }
+            }
         }
         return Measurement(convertedValue, targetUnit)
     }
 
-    /// Convert from the current measurement unit into a different unit, using the String type as input
-    fun convertTo(targetUnit: String): Measurement {
-        return convertTo(conversionUnit(targetUnit))
-    }
-
     /// Converts the measurement to a consistent system of measurements, like SI (kg-m-N), Imperial (slug-ft-pound), etc
-    fun convertToSystem(targetSystem: String): Measurement {
+    private fun convertToSystem(targetSystem: String): Measurement {
         return when (targetSystem) {
             "SI" -> convertToSI()
             else -> convertToSI()
