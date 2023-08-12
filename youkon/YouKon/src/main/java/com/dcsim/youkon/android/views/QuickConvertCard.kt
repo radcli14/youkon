@@ -23,7 +23,7 @@ import com.dcsim.youkon.wembyHeight
 
 @Composable
 fun QuickConvertCard() {
-    val measurement = wembyHeight
+    val measurement = Measurement(2.26, MeasurementUnit.METERS)
     var equivalentUnits by remember { mutableStateOf(measurement.unit.equivalentUnits()) }
     var targetUnit by remember { mutableStateOf(MeasurementUnit.FEET) }
     var convertedText by remember { mutableStateOf(measurement.convertTo(targetUnit).toString()) }
