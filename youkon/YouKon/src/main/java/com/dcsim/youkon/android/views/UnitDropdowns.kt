@@ -18,9 +18,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.dcsim.youkon.Measurement
+import com.dcsim.youkon.MeasurementUnit
 
 @Composable
-fun FromDropdown(measurement: Measurement, onClick: (Measurement.Unit?) -> Unit) {
+fun FromDropdown(measurement: Measurement, onClick: (MeasurementUnit?) -> Unit) {
     val isExpanded = remember { mutableStateOf(false) }
     var unitText by remember { mutableStateOf(measurement.unit.toString()) }
 
@@ -30,7 +31,7 @@ fun FromDropdown(measurement: Measurement, onClick: (Measurement.Unit?) -> Unit)
     ) {
         UnitDropdownButtonColumn(firstLine = "From", secondLine = unitText)
         UnitDropdownMenuItems(
-            units = measurement.allUnits,
+            units = measurement.unit.allUnits,
             isExpanded = isExpanded
         ) { unit ->
             isExpanded.value = false
@@ -41,7 +42,7 @@ fun FromDropdown(measurement: Measurement, onClick: (Measurement.Unit?) -> Unit)
 }
 
 @Composable
-fun ToDropdown(equivalentUnits: Array<Measurement.Unit>, targetUnit: Measurement.Unit) {
+fun ToDropdown(equivalentUnits: Array<MeasurementUnit>, targetUnit: MeasurementUnit) {
     val isExpanded = remember { mutableStateOf(false) }
 
     Button(
@@ -72,7 +73,7 @@ fun UnitDropdownButtonColumn(firstLine: String, secondLine: String) {
 }
 
 @Composable
-fun UnitDropdownMenuItems(units: Array<Measurement.Unit>, isExpanded: MutableState<Boolean>, onClick: (Measurement.Unit?) -> Unit) {
+fun UnitDropdownMenuItems(units: Array<MeasurementUnit>, isExpanded: MutableState<Boolean>, onClick: (MeasurementUnit?) -> Unit) {
     DropdownMenu(
         expanded = isExpanded.value,
         onDismissRequest = { onClick(null) }

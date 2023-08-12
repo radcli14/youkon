@@ -18,13 +18,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.dcsim.youkon.Measurement
+import com.dcsim.youkon.MeasurementUnit
 import com.dcsim.youkon.wembyHeight
 
 @Composable
 fun QuickConvertCard() {
     val measurement = wembyHeight
-    var equivalentUnits by remember { mutableStateOf(measurement.equivalentUnits()) }
-    var targetUnit by remember { mutableStateOf(Measurement.Unit.FEET) }
+    var equivalentUnits by remember { mutableStateOf(measurement.unit.equivalentUnits()) }
+    var targetUnit by remember { mutableStateOf(MeasurementUnit.FEET) }
     var convertedText by remember { mutableStateOf(measurement.convertTo(targetUnit).toString()) }
 
     Card(
@@ -54,7 +55,7 @@ fun QuickConvertCard() {
                 FromDropdown(measurement = measurement) { unit ->
                     if (unit != null) {
                         measurement.unit = unit
-                        equivalentUnits = measurement.equivalentUnits()
+                        equivalentUnits = measurement.unit.equivalentUnits()
                         if (equivalentUnits.isNotEmpty()) {
                             targetUnit = equivalentUnits.first { it != unit }
                             convertedText = measurement.convertTo(targetUnit).toString()
