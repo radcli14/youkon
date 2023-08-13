@@ -2,7 +2,7 @@ package com.dcsim.youkon.android.views
 
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.TextField
+import androidx.compose.material.OutlinedTextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -18,7 +18,7 @@ import com.dcsim.youkon.Measurement
 fun MeasurementTextField(measurement: Measurement, updateMeasurement: () -> Unit) {
     var text by remember { mutableStateOf(TextFieldValue(measurement.value.toString())) }
 
-    TextField(
+    OutlinedTextField(
         value = text,
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
         singleLine = true,

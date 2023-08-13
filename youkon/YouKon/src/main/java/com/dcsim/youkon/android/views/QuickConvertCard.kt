@@ -71,7 +71,7 @@ fun QuickConvertCard() {
             // The display of the measurement after conversion
             Text("$sourceText = $convertedText",
                 style = MaterialTheme.typography.subtitle1,
-                modifier = Modifier.padding(top = 8.dp, start = 14.dp)
+                modifier = Modifier.padding(top = 8.dp, start = 16.dp)
             )
         }
     }
