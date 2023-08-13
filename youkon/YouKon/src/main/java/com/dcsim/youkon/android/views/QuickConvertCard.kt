@@ -26,6 +26,7 @@ fun QuickConvertCard() {
     val measurement = Measurement(2.26, MeasurementUnit.METERS)
     var equivalentUnits by remember { mutableStateOf(measurement.unit.equivalentUnits()) }
     var targetUnit by remember { mutableStateOf(MeasurementUnit.FEET) }
+    var sourceText by remember { mutableStateOf(measurement.toString()) }
     var convertedText by remember { mutableStateOf(measurement.convertTo(targetUnit).toString()) }
 
     Card(
@@ -48,6 +49,7 @@ fun QuickConvertCard() {
             ) {
                 // The field that takes the user input on the numeric value of the measurement
                 MeasurementTextField(measurement = measurement) {
+                    sourceText = measurement.toString()
                     convertedText = measurement.convertTo(targetUnit).toString()
                 }
 
@@ -58,6 +60,7 @@ fun QuickConvertCard() {
                         equivalentUnits = measurement.unit.equivalentUnits()
                         if (equivalentUnits.isNotEmpty()) {
                             targetUnit = equivalentUnits.first { it != unit }
+                            sourceText = measurement.toString()
                             convertedText = measurement.convertTo(targetUnit).toString()
                         }
                     }
@@ -66,7 +69,10 @@ fun QuickConvertCard() {
             }
 
             // The display of the measurement after conversion
-            Text(convertedText)
+            Text("$sourceText = $convertedText",
+                style = MaterialTheme.typography.subtitle1,
+                modifier = Modifier.padding(top = 8.dp, start = 14.dp)
+            )
         }
     }
 }
