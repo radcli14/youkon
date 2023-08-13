@@ -35,7 +35,7 @@ enum class MeasurementUnit {
     private val forceUnits get() = arrayOf(NEWTONS, POUND_FORCE)
     private val powerUnits get() = arrayOf(WATTS, HORSEPOWER)
     private val energyUnits get() = arrayOf(JOULES, BTU)
-    private val pressureUnits get() = arrayOf(PASCALS, PSI, BARS)
+    private val pressureUnits get() = arrayOf(PASCALS, PSI, ATM, BARS)
 
     /// Provide an array of units that the measurement may be converted to
     fun equivalentUnits(): Array<MeasurementUnit> {
