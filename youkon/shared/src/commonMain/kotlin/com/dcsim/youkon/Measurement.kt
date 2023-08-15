@@ -8,6 +8,12 @@ class Measurement(
     var description: String = ""
 ) {
 
+    companion object {
+        fun new(): Measurement {
+            return Measurement(1.0, MeasurementUnit.METERS, "New Measurement", "Description")
+        }
+    }
+
     /// Convert from the current measurement unit into a different unit, using the Unit type as input
     fun convertTo(targetUnit: MeasurementUnit): Measurement {
         return Measurement(value * unit.conversionFactor(targetUnit), targetUnit)
@@ -24,9 +30,12 @@ class Measurement(
     /// Converts this measurement to SI units (kg-m-N)
     private fun convertToSI(): Measurement {
         return when (unit) {
-            MeasurementUnit.POUNDS -> convertTo(MeasurementUnit.KILOGRAMS)
-            MeasurementUnit.FEET -> convertTo(MeasurementUnit.METERS)
-            MeasurementUnit.POUND_FORCE -> convertTo(MeasurementUnit.NEWTONS)
+            in unit.massUnits -> convertTo(MeasurementUnit.KILOGRAMS)
+            in unit.lengthUnits -> convertTo(MeasurementUnit.METERS)
+            in unit.forceUnits -> convertTo(MeasurementUnit.NEWTONS)
+            in unit.powerUnits -> convertTo(MeasurementUnit.WATTS)
+            in unit.energyUnits -> convertTo(MeasurementUnit.JOULES)
+            in unit.pressureUnits -> convertTo(MeasurementUnit.PASCALS)
             else -> return this
         }
     }
