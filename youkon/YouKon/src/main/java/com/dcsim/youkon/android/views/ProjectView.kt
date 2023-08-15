@@ -16,6 +16,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.dcsim.youkon.Measurement
+import com.dcsim.youkon.MeasurementUnit
 import com.dcsim.youkon.Project
 
 enum class ProjectExpansionLevel {
@@ -25,6 +27,7 @@ enum class ProjectExpansionLevel {
 @Composable
 fun ProjectView(project: Project) {
     var expansion by remember { mutableStateOf(ProjectExpansionLevel.COMPACT) }
+    var measurements by remember { mutableStateOf(project.measurements) }
 
     Card(
         modifier = Modifier
@@ -39,12 +42,22 @@ fun ProjectView(project: Project) {
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
             ProjectTopRow(project, expansion)
-            ProjectContent(project, expansion) {
-                expansion = when(expansion) {
-                    ProjectExpansionLevel.STATIC -> ProjectExpansionLevel.EDITABLE
-                    else -> ProjectExpansionLevel.STATIC
+            ProjectContent(measurements, expansion,
+                editClick = {
+                    expansion = when(expansion) {
+                        ProjectExpansionLevel.STATIC -> ProjectExpansionLevel.EDITABLE
+                        else -> ProjectExpansionLevel.STATIC
+                    }
+                },
+                addClick = {
+                    println("newNewNew")
+                    project.measurements.add(
+                        Measurement.new()
+                    )
+                    measurements = project.measurements
+                    println(measurements)
                 }
-            }
+            )
         }
     }
 }
@@ -68,17 +81,22 @@ fun ProjectTopRow(project: Project, expansion: ProjectExpansionLevel) {
 
 /// Content with either static or editable measurements
 @Composable
-fun ProjectContent(project: Project, expansion: ProjectExpansionLevel, onClick: () -> Unit) {
+fun ProjectContent(
+    measurements: List<Measurement>,
+    expansion: ProjectExpansionLevel,
+    editClick: () -> Unit,
+    addClick: () -> Unit
+) {
     Row {
         Column {
             if (expansion == ProjectExpansionLevel.EDITABLE) {
                 // Editable fields for each measurement and unit selection
-                project.measurements.forEach { measurement ->
+                measurements.forEach { measurement ->
                     MeasurementView(measurement = measurement)
                 }
             } else if (expansion == ProjectExpansionLevel.STATIC) {
                 // Displays of the measurement after conversion to a consistent set of units
-                project.measurements.forEach { measurement ->
+                measurements.forEach { measurement ->
                     Text(measurement.nameAndValueInSystem("SI"))
                 }
             }
@@ -89,11 +107,13 @@ fun ProjectContent(project: Project, expansion: ProjectExpansionLevel, onClick: 
         // Tap again to collapse to the static level, in which you see but don't modify measurements.
         if (expansion != ProjectExpansionLevel.COMPACT) {
             Spacer(Modifier.weight(1f))
-            Column {
-                EditButton { onClick() }
-                if (expansion == ProjectExpansionLevel.EDITABLE) {
-                    PlusButton { }
-                    MinusButton { }
+            Card {
+                Column {
+                    EditButton { editClick() }
+                    if (expansion == ProjectExpansionLevel.EDITABLE) {
+                        PlusButton { addClick() }
+                        MinusButton { }
+                    }
                 }
             }
         }
