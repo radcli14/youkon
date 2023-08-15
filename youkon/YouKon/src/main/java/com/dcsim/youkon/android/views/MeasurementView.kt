@@ -2,7 +2,6 @@ package com.dcsim.youkon.android.views
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.MaterialTheme
@@ -27,7 +26,6 @@ fun MeasurementView(measurement: Measurement) {
         BasicTextField(
             value = editedName,
             onValueChange = { editedName = it },
-            modifier = Modifier.fillMaxWidth(),
             textStyle = MaterialTheme.typography.subtitle1.copy(
                 color = MaterialTheme.colors.primary
             ),
@@ -35,7 +33,6 @@ fun MeasurementView(measurement: Measurement) {
         BasicTextField(
             value = editedDescription,
             onValueChange = { editedDescription = it },
-            modifier = Modifier.fillMaxWidth(),
             textStyle = MaterialTheme.typography.body1.copy(
                 color = MaterialTheme.colors.onSurface
             ),
