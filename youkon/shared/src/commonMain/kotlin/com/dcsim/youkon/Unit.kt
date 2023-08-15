@@ -30,12 +30,12 @@ enum class MeasurementUnit {
 
     val allUnits get() = MeasurementUnit.values()
 
-    private val massUnits get() = arrayOf(KILOGRAMS, POUNDS, SLUGS)
-    private val lengthUnits get() = arrayOf(METERS, FEET, INCHES)
-    private val forceUnits get() = arrayOf(NEWTONS, POUND_FORCE)
-    private val powerUnits get() = arrayOf(WATTS, HORSEPOWER)
-    private val energyUnits get() = arrayOf(JOULES, BTU)
-    private val pressureUnits get() = arrayOf(PASCALS, PSI, ATM, BARS)
+    val massUnits get() = arrayOf(KILOGRAMS, POUNDS, SLUGS)
+    val lengthUnits get() = arrayOf(METERS, FEET, INCHES)
+    val forceUnits get() = arrayOf(NEWTONS, POUND_FORCE)
+    val powerUnits get() = arrayOf(WATTS, HORSEPOWER)
+    val energyUnits get() = arrayOf(JOULES, BTU)
+    val pressureUnits get() = arrayOf(PASCALS, PSI, ATM, BARS)
 
     /// Provide an array of units that the measurement may be converted to
     fun equivalentUnits(): Array<MeasurementUnit> {
