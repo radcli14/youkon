@@ -33,6 +33,7 @@ A saved set of `Project` objects that an individual user has generated is stored
 classDiagram
 UserData --> Project
 Project --> Measurement
+Measurement --> MeasurementUnit
 class UserData {
 +String name
 +List~Project~ projects
@@ -47,8 +48,19 @@ class Measurement {
 +String name
 +String description
 +Double value
-+Measurement.Unit unit
-+equivalentUnits()
++MeasurementUnit unit
 +convertTo(targetUnit)
-} 
+}
+class MeasurementUnit {
++Array~MeasurementUnit~ allUnits
++Array~MeasurementUnit~ massUnits
++Array~MeasurementUnit~ lengthUnits
++Array~MeasurementUnit~ forceUnits
++Array~MeasurementUnit~ powerUnits
++Array~MeasurementUnit~ energyUnits
++Array~MeasurementUnit~ pressureUnits
++String shortUnit()
++Array<MeasurementUnit> equivalentUnits()
++Double conversionFactor(targetUnit)
+}
 ```
