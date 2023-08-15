@@ -1,8 +1,10 @@
 package com.dcsim.youkon.android.views
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -16,6 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.dcsim.youkon.Measurement
 
+private val measurementTextWidth = 220.dp
 
 @Composable
 fun MeasurementView(measurement: Measurement) {
@@ -25,6 +28,7 @@ fun MeasurementView(measurement: Measurement) {
     Column(modifier = Modifier.padding(vertical = 8.dp)) {
         BasicTextField(
             value = editedName,
+            modifier = Modifier.width(measurementTextWidth),
             onValueChange = { editedName = it },
             textStyle = MaterialTheme.typography.subtitle1.copy(
                 color = MaterialTheme.colors.primary
@@ -32,13 +36,18 @@ fun MeasurementView(measurement: Measurement) {
         )
         BasicTextField(
             value = editedDescription,
+            modifier = Modifier.width(measurementTextWidth),
             onValueChange = { editedDescription = it },
             textStyle = MaterialTheme.typography.body1.copy(
                 color = MaterialTheme.colors.onSurface
             ),
         )
 
-        Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(top = 8.dp)) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            modifier = Modifier.padding(top = 8.dp)
+        ) {
             MeasurementTextField(measurement = measurement) {
                 // Update the views
             }
