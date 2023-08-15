@@ -4,6 +4,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Card
@@ -13,7 +14,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.dcsim.youkon.Project
@@ -38,9 +38,7 @@ fun ProjectView(project: Project) {
             .padding(8.dp)
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
-            ProjectTopRow(project, expansion) {
-                expansion = ProjectExpansionLevel.COMPACT
-            }
+            ProjectTopRow(project, expansion)
             ProjectContent(project, expansion) {
                 expansion = when(expansion) {
                     ProjectExpansionLevel.STATIC -> ProjectExpansionLevel.EDITABLE
@@ -54,11 +52,10 @@ fun ProjectView(project: Project) {
 
 /// Top row with the name and description of the project, and button to expand/close
 @Composable
-fun ProjectTopRow(project: Project, expansion: ProjectExpansionLevel, onClick: () -> Unit) {
+fun ProjectTopRow(project: Project, expansion: ProjectExpansionLevel) {
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically
     ) {
         Column {
             NameText(project.name)
@@ -73,13 +70,6 @@ fun ProjectTopRow(project: Project, expansion: ProjectExpansionLevel, onClick: (
 @Composable
 fun ProjectContent(project: Project, expansion: ProjectExpansionLevel, onClick: () -> Unit) {
     Row {
-        // The edit button is visible when the project has been expanded beyond its compact level.
-        // When it is tapped, the value, units, name, and description fields can be edited.
-        // Tap again to collapse to the static level, in which you see but don't modify measurements.
-        if (expansion == ProjectExpansionLevel.STATIC || expansion == ProjectExpansionLevel.EDITABLE) {
-            EditButton { onClick() }
-        }
-
         Column {
             if (expansion == ProjectExpansionLevel.EDITABLE) {
                 // Editable fields for each measurement and unit selection
@@ -90,6 +80,20 @@ fun ProjectContent(project: Project, expansion: ProjectExpansionLevel, onClick: 
                 // Displays of the measurement after conversion to a consistent set of units
                 project.measurements.forEach { measurement ->
                     Text(measurement.nameAndValueInSystem("SI"))
+                }
+            }
+        }
+
+        // The edit button is visible when the project has been expanded beyond its compact level.
+        // When it is tapped, the value, units, name, and description fields can be edited.
+        // Tap again to collapse to the static level, in which you see but don't modify measurements.
+        if (expansion != ProjectExpansionLevel.COMPACT) {
+            Spacer(Modifier.weight(1f))
+            Column {
+                EditButton { onClick() }
+                if (expansion == ProjectExpansionLevel.EDITABLE) {
+                    PlusButton { }
+                    MinusButton { }
                 }
             }
         }
