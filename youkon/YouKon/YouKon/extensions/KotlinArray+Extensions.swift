@@ -13,10 +13,10 @@ import shared
 //extension KotlinArray {
 //    @objc func toSwiftArray() -> [Any] {
 func kotlinToSwiftArray(
-    _ kotlinArray: KotlinArray<shared.Measurement.Unit>
-) -> [shared.Measurement.Unit] {
+    _ kotlinArray: KotlinArray<shared.MeasurementUnit>
+) -> [shared.MeasurementUnit] {
     let n = Int(kotlinArray.size)
-    var out: [shared.Measurement.Unit] = []
+    var out: [shared.MeasurementUnit] = []
     for i in 0 ..< n {
         if let unit = kotlinArray.get(index: Int32(i)) {
             out.append(unit)

@@ -17,8 +17,8 @@ struct QuickConvertCard: View {
         name: "Quick Convert",
         description: "Card on top of the screen"
     )
-    @State private var equivalentUnits = [Measurement.Unit.feet]
-    @State private var targetUnit = Measurement.Unit.feet
+    @State private var equivalentUnits = [MeasurementUnit.feet]
+    @State private var targetUnit = MeasurementUnit.feet
     @State private var convertedText = "7.4147"
 
     var body: some View {

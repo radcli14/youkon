@@ -16,7 +16,7 @@ struct FromDropdown: View {
             Group {
                 if isExpanded {
                     UnitDropdownMenuItems(
-                        units: kotlinToSwiftArray(measurement.allUnits)
+                        units: kotlinToSwiftArray(measurement.unit.allUnits)
                     ) { unit in
                         isExpanded = false
                         onClick(unit)
@@ -27,7 +27,7 @@ struct FromDropdown: View {
         )
     }
 
-    private func onClick(_ unit: shared.Measurement.Unit?) {
+    private func onClick(_ unit: MeasurementUnit?) {
         if let unit = unit {
             measurement.unit = unit
         }
@@ -35,7 +35,7 @@ struct FromDropdown: View {
 }
 
 struct ToDropdown: View {
-    var equivalentUnits: [shared.Measurement.Unit]
+    var equivalentUnits: [MeasurementUnit]
     @State private var isExpanded = false
 
     var body: some View {
@@ -72,8 +72,8 @@ struct UnitDropdownButtonColumn: View {
 }
 
 struct UnitDropdownMenuItems: View {
-    var units: [shared.Measurement.Unit]
-    var onSelect: (shared.Measurement.Unit) -> Void
+    var units: [MeasurementUnit]
+    var onSelect: (MeasurementUnit) -> Void
 
     var body: some View {
         ForEach(units, id: \.self) { unit in
