@@ -5,26 +5,18 @@ import shared
 struct FromDropdown: View {
     @Binding var measurement: shared.Measurement
     @State private var isExpanded = false
+    @State var fieldValue: MeasurementUnit = .meters
 
     var body: some View {
-        Button(action: { isExpanded.toggle() }) {
-            UnitDropdownButtonColumn(firstLine: "From", secondLine: String(describing: measurement.unit))
-        }
-        .buttonStyle(BorderlessButtonStyle())
-        .frame(width: 112)
-        .overlay(
-            Group {
-                if isExpanded {
-                    UnitDropdownMenuItems(
-                        units: kotlinToSwiftArray(measurement.unit.allUnits)
-                    ) { unit in
-                        isExpanded = false
-                        onClick(unit)
-                    }
-                    .padding(.top, 8)
-                }
+        Picker("", selection: $fieldValue) {
+            UnitDropdownMenuItems(
+                units: kotlinToSwiftArray(measurement.unit.allUnits)
+            ) { unit in
+                isExpanded = false
+                onClick(unit)
             }
-        )
+        }
+        .frame(width: 112)
     }
 
     private func onClick(_ unit: MeasurementUnit?) {
@@ -37,23 +29,18 @@ struct FromDropdown: View {
 struct ToDropdown: View {
     var equivalentUnits: [MeasurementUnit]
     @State private var isExpanded = false
+    @State var fieldValue: MeasurementUnit = .meters
 
     var body: some View {
-        Button(action: { isExpanded.toggle() }) {
-            UnitDropdownButtonColumn(firstLine: "To", secondLine: String(describing: equivalentUnits.first))
-        }
-        .buttonStyle(BorderlessButtonStyle())
-        .frame(width: 112)
-        .overlay(
-            Group {
-                if isExpanded {
-                    UnitDropdownMenuItems(units: equivalentUnits) { _ in
-                        isExpanded = false
-                    }
-                    .padding(.top, 8)
-                }
+        Picker("", selection: $fieldValue) {
+            UnitDropdownMenuItems(
+                units: equivalentUnits
+            ) { unit in
+                isExpanded = false
+                //onClick(unit)
             }
-        )
+        }
+        .frame(width: 112)
     }
 }
 
