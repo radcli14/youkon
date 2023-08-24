@@ -15,16 +15,17 @@ struct MeasurementTextField: View {
         }, set: { newText in
             if let value = Double(newText) {
                 measurement.value = value
-            } else {
+                text = newText
+            } else if newText.isEmpty {
                 measurement.value = 0.0
+                text = newText
             }
-            text = newText
             updateMeasurement()
         })
         
         // Create the numeric text field that uses the binding
         TextField("", text: boundText)
-            .keyboardType(.numberPad)
+            .keyboardType(.decimalPad)
             .textFieldStyle(RoundedBorderTextFieldStyle())
             .frame(width: 96)
     }
