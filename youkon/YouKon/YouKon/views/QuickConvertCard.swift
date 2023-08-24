@@ -22,11 +22,10 @@ struct QuickConvertCard: View {
     @State private var convertedText = "7.4147"
 
     var body: some View {
-        GroupBox(
-            // The label at the top of the card
-            label: Text("Quick Convert")
-        ) {
-            VStack(spacing: 8) {
+        GroupBox {
+            VStack(alignment: .leading, spacing: 16) {
+                Text("Quick Convert")
+                    .font(.headline)
                 HStack(spacing: 8) {
                     // The field that takes the user input on the numeric value of the measurement
                     MeasurementTextField(measurement: $measurement, updateMeasurement: {
@@ -51,9 +50,9 @@ struct QuickConvertCard: View {
                 // The display of the measurement after conversion
                 Text(convertedText)
             }
-            .padding()
         }
         .frame(width: 360)
+        .padding(16)
     }
 }
 
