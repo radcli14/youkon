@@ -10,20 +10,16 @@ import SwiftUI
 
 struct Header: View {
     var body: some View {
-        HStack {
+        ZStack {
             Image("Icon_clearbackground")
                 .resizable()
                 .frame(width: 81, height: 81)
                 .colorInvert()
                 .colorMultiply(.primary)
-                .padding(-5)
-                
+                .offset(CGSize(width: -140, height: 0))
+
             Text("YouKon")
-                .font(.system(size: 54))
-                .fontWeight(.bold)
-            
-            Spacer()
-                .frame(width: 76)
+                .font(.custom("philosopher-bold", size: 54))
         }
     }
 }

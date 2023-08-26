@@ -24,7 +24,7 @@ struct MeasurementTextField: View {
         })
         
         // Create the numeric text field that uses the binding
-        TextField("", text: boundText)
+        TextField("Value", text: boundText)
             .keyboardType(.decimalPad)
             .textFieldStyle(RoundedBorderTextFieldStyle())
             .frame(width: 96)
