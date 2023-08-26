@@ -28,22 +28,26 @@ struct QuickConvertCard: View {
                     .font(.headline)
                 HStack(spacing: 8) {
                     // The field that takes the user input on the numeric value of the measurement
-                    MeasurementTextField(measurement: $measurement, updateMeasurement: {
-                        convertedText = measurement.convertTo(targetUnit: targetUnit).description
-                    })
+                    MeasurementTextField(
+                        measurement: $measurement,
+                        updateMeasurement: {
+                            convertedText = measurement.convertTo(targetUnit: targetUnit).description
+                        }
+                    )
 
                     // Selection for which type of unit to convert from
                     FromDropdown(measurement: $measurement) { unit in
                         measurement.unit = unit
                         equivalentUnits = kotlinToSwiftArray(unit.equivalentUnits())
-                        if let newTargetUnit = equivalentUnits.first(where: { $0 != unit }) {
+                        if targetUnit == unit, let newTargetUnit = equivalentUnits.first(where: { $0 != unit }) {
                             targetUnit = newTargetUnit
-                            convertedText = measurement.convertTo(targetUnit: targetUnit).description
                         }
+                        setConvertedText()
                     }
 
                     ToDropdown(equivalentUnits: $equivalentUnits) { unit in
-                        //
+                        targetUnit = unit
+                        setConvertedText()
                     }
                 }
 
@@ -53,6 +57,10 @@ struct QuickConvertCard: View {
         }
         .frame(width: 360)
         .padding(16)
+    }
+    
+    private func setConvertedText() {
+        convertedText = measurement.convertTo(targetUnit: targetUnit).description
     }
 }
 
