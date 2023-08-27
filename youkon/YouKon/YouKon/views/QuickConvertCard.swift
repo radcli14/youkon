@@ -17,6 +17,8 @@ struct QuickConvertCard: View {
         name: "Quick Convert",
         description: "Card on top of the screen"
     )
+    
+    @State private var allUnits = MeasurementUnit.meters.allAvailableUnits
     @State private var equivalentUnits = kotlinToSwiftArray(MeasurementUnit.meters.equivalentUnits())
     @State private var targetUnit = MeasurementUnit.feet
     @State private var convertedText = "7.4147"
@@ -36,7 +38,10 @@ struct QuickConvertCard: View {
                     )
 
                     // Selection for which type of unit to convert from
-                    FromDropdown(measurement: $measurement) { unit in
+                    UnitDropdown(
+                        availableUnits: $allUnits,
+                        headerText: "From"
+                    ) { unit in
                         measurement.unit = unit
                         equivalentUnits = kotlinToSwiftArray(unit.equivalentUnits())
                         if targetUnit == unit, let newTargetUnit = equivalentUnits.first(where: { $0 != unit }) {
@@ -45,7 +50,10 @@ struct QuickConvertCard: View {
                         setConvertedText()
                     }
 
-                    ToDropdown(equivalentUnits: $equivalentUnits) { unit in
+                    UnitDropdown(
+                        availableUnits: $equivalentUnits,
+                        headerText: "To"
+                    ) { unit in
                         targetUnit = unit
                         setConvertedText()
                     }

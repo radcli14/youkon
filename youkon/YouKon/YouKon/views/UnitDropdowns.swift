@@ -1,33 +1,10 @@
 import SwiftUI
 import shared
 
-// TODO: don't provide a measurement as an argument, handle that at a higher level, just provide the list of units
-struct FromDropdown: View {
-    @Binding var measurement: shared.Measurement
-    let onClick: (MeasurementUnit) -> Void
-    
-    @State var unit: MeasurementUnit = .meters
 
-    var body: some View {
-        Menu {
-            Picker("From", selection: $unit) {
-                UnitDropdownMenuItems(units: kotlinToSwiftArray(measurement.unit.allUnits))
-            }
-        } label: {
-            UnitDropdownMenuButton(headerText: "From", unit: $unit)
-        }
-        .id(unit)
-        .onChange(of: unit) { newUnit in
-            onClick(newUnit)
-        }
-        .frame(width: 112)
-        .background(RoundedRectangle(cornerRadius: 4).foregroundColor(.indigo))
-        .tint(.white)
-    }
-}
-
-struct ToDropdown: View {
-    @Binding var equivalentUnits: [MeasurementUnit]
+struct UnitDropdown: View {
+    @Binding var availableUnits: [MeasurementUnit]
+    var headerText = "From"
     let onClick: (MeasurementUnit) -> Void
     
     @State var unit: MeasurementUnit = .meters
@@ -35,10 +12,10 @@ struct ToDropdown: View {
     var body: some View {
         Menu {
             Picker("To", selection: $unit) {
-                UnitDropdownMenuItems(units: equivalentUnits)
+                menuItems
             }
         } label: {
-            UnitDropdownMenuButton(headerText: "To", unit: $unit)
+            menuButton
         }
         .id(unit)
         .onChange(of: unit) { newUnit in
@@ -48,14 +25,16 @@ struct ToDropdown: View {
         .background(RoundedRectangle(cornerRadius: 4).foregroundColor(.indigo))
         .tint(.white)
     }
-}
-
-
-struct UnitDropdownMenuButton: View {
-    let headerText: String
-    @Binding var unit: MeasurementUnit
     
-    var body: some View {
+    @ViewBuilder
+    var menuItems: some View {
+        ForEach(availableUnits, id: \.self) { unit in
+            Text(unit.toString)
+        }
+    }
+    
+    @ViewBuilder
+    var menuButton: some View {
         HStack {
             VStack(alignment: .leading) {
                 Text(headerText)
@@ -68,15 +47,3 @@ struct UnitDropdownMenuButton: View {
         .padding(4)
     }
 }
-
- 
-struct UnitDropdownMenuItems: View {
-    var units: [MeasurementUnit]
-
-    var body: some View {
-        ForEach(units, id: \.self) { unit in
-            Text(unit.toString)
-        }
-    }
-}
-

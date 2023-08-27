@@ -13,4 +13,8 @@ extension MeasurementUnit {
     var toString: String {
         String(describing: self).replacingOccurrences(of: "_", with: " ")
     }
+    
+    var allAvailableUnits: [MeasurementUnit] {
+        kotlinToSwiftArray(self.allUnits)
+    }
 }
