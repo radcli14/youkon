@@ -11,7 +11,7 @@ struct UnitDropdown: View {
 
     var body: some View {
         Menu {
-            Picker("To", selection: $unit) {
+            Picker(headerText, selection: $unit) {
                 menuItems
             }
         } label: {
