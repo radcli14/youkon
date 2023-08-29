@@ -5,11 +5,18 @@ struct MeasurementTextField: View {
     @Binding var measurement: shared.Measurement
     let updateMeasurement: () -> Void
     
-    @State private var text = ""
+    @State private var text: String // = ""
 
+    init(measurement: Binding<shared.Measurement>, updateMeasurement: @escaping () -> Void) {
+        self._measurement = measurement
+        self.updateMeasurement = updateMeasurement
+        _text = State(initialValue: "\(measurement.wrappedValue.value)")
+    }
+    
     var body: some View {
         
-        // Create the binding so that the updateMeasurement closure will be called whenever the text changes
+        // Create the binding so that the value is assured to be a valid number,
+        // and the updateMeasurement closure will be called whenever the text changes
         let boundText = Binding<String>(get: {
             text
         }, set: { newText in
