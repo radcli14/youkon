@@ -1,6 +1,10 @@
 import SwiftUI
 import shared
 
+
+/// A custom styled `TextField` where the text tracks with the value of a `measurement`
+/// - Parameter measurement: The `measurement` object which will have its value bound to the text
+/// - Parameter updateMeasurement: An escaping closure that will notify the upstream view to update its data
 struct MeasurementTextField: View {
     @Binding var measurement: shared.Measurement
     let updateMeasurement: () -> Void
