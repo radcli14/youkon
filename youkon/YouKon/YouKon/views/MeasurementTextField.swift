@@ -7,6 +7,7 @@ struct MeasurementTextField: View {
     
     @State private var text: String // = ""
 
+    /// Initialize with a measurement and an update method, will make the `text` state be equal to the `measurement.value` in string format
     init(measurement: Binding<shared.Measurement>, updateMeasurement: @escaping () -> Void) {
         self._measurement = measurement
         self.updateMeasurement = updateMeasurement
@@ -14,7 +15,6 @@ struct MeasurementTextField: View {
     }
     
     var body: some View {
-        
         // Create the binding so that the value is assured to be a valid number,
         // and the updateMeasurement closure will be called whenever the text changes
         let boundText = Binding<String>(get: {
