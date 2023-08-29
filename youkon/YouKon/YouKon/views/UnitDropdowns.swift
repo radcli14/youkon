@@ -5,10 +5,9 @@ import shared
 struct UnitDropdown: View {
     @Binding var availableUnits: [MeasurementUnit]
     var headerText = "From"
+    @State var unit: MeasurementUnit = .meters
     let onClick: (MeasurementUnit) -> Void
     
-    @State var unit: MeasurementUnit = .meters
-
     var body: some View {
         Menu {
             Picker(headerText, selection: $unit) {
