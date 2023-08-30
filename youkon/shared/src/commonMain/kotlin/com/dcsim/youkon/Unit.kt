@@ -54,11 +54,11 @@ enum class MeasurementUnit {
     fun conversionFactor(targetUnit: MeasurementUnit): Double {
         return when (this to targetUnit) {
             KILOGRAMS to POUNDS -> 2.20462
-            KILOGRAMS to SLUGS -> 14.5939
+            KILOGRAMS to SLUGS -> 0.0685218
             POUNDS to KILOGRAMS -> 1.0 / 2.20462
-            POUNDS to SLUGS -> 32.174
-            SLUGS to KILOGRAMS -> 0.0685218
-            SLUGS to POUNDS -> 0.0310809
+            POUNDS to SLUGS -> 0.0310809
+            SLUGS to KILOGRAMS -> 14.5939
+            SLUGS to POUNDS -> 32.174
             METERS to FEET -> 3.28084
             METERS to INCHES -> 39.3701
             FEET to METERS -> 0.3048
