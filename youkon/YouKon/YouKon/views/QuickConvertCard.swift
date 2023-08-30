@@ -26,7 +26,7 @@ struct QuickConvertCard: View {
             description: "Card on top of the screen"
         )
         self.measurement = measurement
-        convertedText = measurement.convertTo(targetUnit:  MeasurementUnit.feet).description
+        convertedText = measurement.toSwiftString(in: MeasurementUnit.feet)
     }
     
     var body: some View {
@@ -38,6 +38,8 @@ struct QuickConvertCard: View {
 
                 // The display of the measurement after conversion
                 Text(convertedText)
+                    .padding(.leading, 8)
+                    .font(.subheadline)
             }
         }
         .frame(width: 360)
@@ -97,10 +99,9 @@ struct QuickConvertCard: View {
         }
     }
     
-    
     /// When a new value is received, update the text at the bottom of the card
     private func setConvertedText() {
-        convertedText = measurement.convertTo(targetUnit: targetUnit).description
+        convertedText = measurement.toSwiftString(in: targetUnit)
     }
     
     private var newTargetUnit: MeasurementUnit? {
