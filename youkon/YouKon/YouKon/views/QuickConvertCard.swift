@@ -14,6 +14,7 @@ struct QuickConvertCard: View {
     @State private var measurement: shared.Measurement
     @State private var allUnits = MeasurementUnit.meters.allAvailableUnits
     @State private var equivalentUnits = kotlinToSwiftArray(MeasurementUnit.meters.equivalentUnits())
+    @State private var fromUnit = MeasurementUnit.meters
     @State private var targetUnit = MeasurementUnit.feet
     @State private var convertedText: String
 
@@ -68,16 +69,15 @@ struct QuickConvertCard: View {
     @ViewBuilder
     private var fromDropdown: some View {
         UnitDropdown(
+            unit: $fromUnit,
             availableUnits: $allUnits,
             headerText: "From"
         ) { unit in
             measurement.unit = unit
+            fromUnit = unit
             equivalentUnits = kotlinToSwiftArray(unit.equivalentUnits())
-            print("updating ... targetUnit = \(targetUnit), unit = \(unit), equivalentUnits = \(equivalentUnits)")
-            if targetUnit == unit || !equivalentUnits.contains(targetUnit) { //,
-                //let newTargetUnit = equivalentUnits.first(where: { $0 != unit }) {
-                
-                print("targetUnit = \(targetUnit), unit = \(unit), newTargetUnit = \(newTargetUnit)")
+            if targetUnit == unit || !equivalentUnits.contains(targetUnit),
+                let newTargetUnit {
                 targetUnit = newTargetUnit
             }
             setConvertedText()
@@ -88,9 +88,9 @@ struct QuickConvertCard: View {
     @ViewBuilder
     private var toDropdown: some View {
         UnitDropdown(
+            unit: $targetUnit,
             availableUnits: $equivalentUnits,
-            headerText: "To",
-            unit: targetUnit
+            headerText: "To"
         ) { unit in
             targetUnit = unit
             setConvertedText()
@@ -103,8 +103,8 @@ struct QuickConvertCard: View {
         convertedText = measurement.convertTo(targetUnit: targetUnit).description
     }
     
-    private var newTargetUnit: MeasurementUnit {
-        return equivalentUnits.first(where: { $0 != targetUnit }) ?? .horsepower
+    private var newTargetUnit: MeasurementUnit? {
+        return equivalentUnits.first(where: { $0 != targetUnit })
     }
 }
 

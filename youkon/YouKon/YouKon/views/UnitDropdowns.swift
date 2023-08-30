@@ -3,11 +3,11 @@ import shared
 
 
 struct UnitDropdown: View {
+    @Binding var unit: MeasurementUnit
     @Binding var availableUnits: [MeasurementUnit]
     var headerText = "From"
-    @State var unit: MeasurementUnit = .meters
     let onClick: (MeasurementUnit) -> Void
-    
+
     var body: some View {
         Menu {
             Picker(headerText, selection: $unit) {
