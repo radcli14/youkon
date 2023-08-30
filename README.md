@@ -14,7 +14,9 @@ Examples where this may be useful:
 The main application view includes the logo and header, a quick conversion card, and the projects card
 Quick conversion includes a text field for entering numeric values, and dropdowns for selecting "from" and "to" units.
 
-# ![Quick Convert Card](assets/quickConvert.png)
+| Quick Convert Card on Android                    | Quick Convert Card on iOS                            |
+|--------------------------------------------------|------------------------------------------------------|
+| <img src='assets/quickConvert.png' height='128'> | <img src='assets/quickConvert-ios.jpg' height='128'> | 
 
 Each user has a projects card, where any single project represents a grouping of measurement data that hold a common purpose.
 The projects in the card are laid out as tiles, which can be tapped to expand and show the enclosed measurements. 
