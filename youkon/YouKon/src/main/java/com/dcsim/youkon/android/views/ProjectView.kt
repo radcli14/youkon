@@ -17,7 +17,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.dcsim.youkon.Measurement
-import com.dcsim.youkon.MeasurementUnit
 import com.dcsim.youkon.Project
 
 enum class ProjectExpansionLevel {
@@ -72,7 +71,7 @@ fun ProjectTopRow(project: Project, expansion: ProjectExpansionLevel) {
     ) {
         Column {
             NameText(project.name)
-            DescriptionText(project.description)
+            DescriptionText(project.about)
         }
         CloseIcon(expansion)
     }

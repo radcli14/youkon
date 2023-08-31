@@ -3,7 +3,7 @@ package com.dcsim.youkon
 /// Hold's a user generated project containing multiple variables with units
 class Project {
     var name = "New Project"
-    var description = ""
+    var about = ""
     var measurements = mutableListOf<Measurement>()
     var images = mutableListOf<String>()
 }
@@ -11,7 +11,7 @@ class Project {
 fun wembyProject() : Project {
     val project = Project()
     project.name = "Victor Wembenyama"
-    project.description = "Stats of the craziest NBA prospect"
+    project.about = "Stats of the craziest NBA prospect"
     project.measurements.add(wembyHeight)
     project.measurements.add(wembyWeight)
     return project
@@ -20,7 +20,7 @@ fun wembyProject() : Project {
 fun spaceProject() : Project {
     val project = Project()
     project.name = "Space Shuttle"
-    project.description = "Mass props of the Space Shuttle"
+    project.about = "Mass props of the Space Shuttle"
     project.measurements.add(shuttleWeight)
     return project
 }
