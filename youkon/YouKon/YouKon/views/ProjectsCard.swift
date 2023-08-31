@@ -68,41 +68,6 @@ struct ProjectView: View {
 }
 
 
-struct MeasurementView: View {
-    @State private var editedName: String
-    @State private var editedDescription: String
-    
-    var measurement: shared.Measurement
-    
-    init(measurement: shared.Measurement) {
-        self.measurement = measurement
-        _editedName = State(initialValue: measurement.name)
-        _editedDescription = State(initialValue: measurement.description)
-    }
-    
-    var body: some View {
-        VStack(spacing: 8) {
-            TextField("Name", text: $editedName)
-                .font(.headline)
-            
-            TextField("Description", text: $editedDescription)
-                .font(.subheadline)
-            
-            HStack {
-                /*TextField("Value", value: $measurement.value, format: .number)
-                    .textFieldStyle(.roundedBorder)
-                    .frame(width: 100)
-                */
-                //FromDropdown(measurement: measurement)
-            }
-        }
-        .padding()
-        .background(Color.white)
-        .cornerRadius(8)
-    }
-}
-
-
 struct ProjectsCard_Previews: PreviewProvider {
     static var previews: some View {
         ProjectsCard()
