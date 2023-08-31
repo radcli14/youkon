@@ -31,9 +31,15 @@ struct MeasurementView: View {
         VStack(spacing: 8) {
             TextField("Name", text: $editedName)
                 .font(.headline)
+                .onChange(of: editedName) { name in
+                    measurement.name = name
+                }
             
             TextField("Description", text: $editedDescription)
                 .font(.subheadline)
+                .onChange(of: editedDescription) { description in
+                    measurement.about = description
+                }
             
             HStack {
                 MeasurementTextField(measurement: $measurement) {
