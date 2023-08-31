@@ -5,7 +5,7 @@ class Measurement(
     var value: Double,
     var unit: MeasurementUnit,
     var name: String = "New Variable",
-    var description: String = ""
+    var about: String = ""
 ) {
 
     companion object {
@@ -40,12 +40,12 @@ class Measurement(
         }
     }
 
-    override fun toString(): String {
+    fun valueString(): String {
         return "${niceNumber(value)} ${unit.shortUnit}"
     }
 
     fun nameAndValueInSystem(system: String): String {
-        return name + ": " + convertToSystem(system).toString()
+        return name + ": " + convertToSystem(system).valueString()
     }
 }
 
@@ -56,19 +56,19 @@ var wembyHeight = Measurement(
     value = 2.26,
     unit = MeasurementUnit.METERS,
     name = "Height",
-    description = "How tall is Wemby"
+    about = "How tall is Wemby"
 )
 
 var wembyWeight = Measurement(
     value = 95.0,
     unit = MeasurementUnit.KILOGRAMS,
     name = "Weight",
-    description = "How much does Wemby weigh"
+    about = "How much does Wemby weigh"
 )
 
 var shuttleWeight = Measurement(
     value = 4480000.0,
     unit = MeasurementUnit.POUNDS,
     name = "Weight",
-    description = "Weight of the Space Shuttle"
+    about = "Weight of the Space Shuttle"
 )

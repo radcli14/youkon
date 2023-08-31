@@ -24,7 +24,7 @@ struct MeasurementView: View {
         _unit = State(initialValue: measurement.unit)
         _availableUnits = State(initialValue: kotlinToSwiftArray(measurement.unit.equivalentUnits()))
         _editedName = State(initialValue: measurement.name)
-        _editedDescription = State(initialValue: measurement.description)
+        _editedDescription = State(initialValue: measurement.about)
     }
     
     var body: some View {
@@ -60,7 +60,7 @@ struct MeasurementView_Previews: PreviewProvider {
                 value: 2.26,
                 unit: .meters,
                 name: "WembyHeight",
-                description: "How tall is Wemby"
+                about: "How tall is Wemby"
             )
         )
     }

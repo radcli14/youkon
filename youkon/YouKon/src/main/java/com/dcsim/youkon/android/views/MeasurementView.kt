@@ -23,7 +23,7 @@ private val measurementTextWidth = 220.dp
 @Composable
 fun MeasurementView(measurement: Measurement) {
     var editedName by remember { mutableStateOf(measurement.name) }
-    var editedDescription by remember { mutableStateOf(measurement.description) }
+    var editedDescription by remember { mutableStateOf(measurement.about) }
 
     Column(modifier = Modifier.padding(vertical = 8.dp)) {
         BasicTextField(
@@ -64,7 +64,7 @@ fun MeasurementView(measurement: Measurement) {
     DisposableEffect(Unit) {
         onDispose {
             measurement.name = editedName
-            measurement.description = editedDescription
+            measurement.about = editedDescription
         }
     }
 }

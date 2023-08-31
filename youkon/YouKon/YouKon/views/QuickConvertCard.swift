@@ -23,7 +23,7 @@ struct QuickConvertCard: View {
             value: 2.26,
             unit: .meters,
             name: "Quick Convert",
-            description: "Card on top of the screen"
+            about: "Card on top of the screen"
         )
         self.measurement = measurement
         convertedText = measurement.toSwiftString(in: MeasurementUnit.feet)

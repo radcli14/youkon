@@ -19,15 +19,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.dcsim.youkon.Measurement
 import com.dcsim.youkon.MeasurementUnit
-import com.dcsim.youkon.wembyHeight
 
 @Composable
 fun QuickConvertCard() {
     val measurement = Measurement(2.26, MeasurementUnit.METERS)
     var equivalentUnits by remember { mutableStateOf(measurement.unit.equivalentUnits()) }
     var targetUnit by remember { mutableStateOf(MeasurementUnit.FEET) }
-    var sourceText by remember { mutableStateOf(measurement.toString()) }
-    var convertedText by remember { mutableStateOf(measurement.convertTo(targetUnit).toString()) }
+    var sourceText by remember { mutableStateOf(measurement.valueString()) }
+    var convertedText by remember { mutableStateOf(measurement.convertTo(targetUnit).valueString()) }
 
     Card(
         modifier = Modifier
@@ -49,8 +48,8 @@ fun QuickConvertCard() {
             ) {
                 // The field that takes the user input on the numeric value of the measurement
                 MeasurementTextField(measurement = measurement) {
-                    sourceText = measurement.toString()
-                    convertedText = measurement.convertTo(targetUnit).toString()
+                    sourceText = measurement.valueString()
+                    convertedText = measurement.convertTo(targetUnit).valueString()
                 }
 
                 // Selection for which type of unit to convert from
@@ -60,8 +59,8 @@ fun QuickConvertCard() {
                         equivalentUnits = measurement.unit.equivalentUnits()
                         if (equivalentUnits.isNotEmpty()) {
                             targetUnit = equivalentUnits.first { it != unit }
-                            sourceText = measurement.toString()
-                            convertedText = measurement.convertTo(targetUnit).toString()
+                            sourceText = measurement.valueString()
+                            convertedText = measurement.convertTo(targetUnit).valueString()
                         }
                     }
                 }
