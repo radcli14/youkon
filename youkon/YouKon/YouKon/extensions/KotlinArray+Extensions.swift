@@ -3,7 +3,7 @@
 //  YouKon
 //
 //  Created by Eliott Radcliffe on 7/20/23.
-//  Copyright © 2023 orgName. All rights reserved.
+//  Copyright © 2023 DC Simulation Studio. All rights reserved.
 //
 
 import Foundation

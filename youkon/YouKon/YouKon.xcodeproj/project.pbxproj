@@ -11,6 +11,8 @@
 		058557D9273AAEEB004C7B11 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 058557D8273AAEEB004C7B11 /* Preview Assets.xcassets */; };
 		2152FB042600AC8F00CF470E /* iOSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2152FB032600AC8F00CF470E /* iOSApp.swift */; };
 		7555FF83242A565900829871 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7555FF82242A565900829871 /* ContentView.swift */; };
+		8A6428F22AA023B000F57126 /* MeasurementView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A6428F12AA023B000F57126 /* MeasurementView.swift */; };
+		8A6428F42AA02F7700F57126 /* ProjectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A6428F32AA02F7700F57126 /* ProjectView.swift */; };
 		8ABF0BF42A4293A00098B607 /* Header.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ABF0BF32A4293A00098B607 /* Header.swift */; };
 		8ABF0BF62A4295F50098B607 /* QuickConvertCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ABF0BF52A4295F50098B607 /* QuickConvertCard.swift */; };
 		8ABF0BF82A42960B0098B607 /* ProjectsCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ABF0BF72A42960B0098B607 /* ProjectsCard.swift */; };
@@ -19,6 +21,8 @@
 		8AC78B752A6A0F9500F5AB32 /* KotlinArray+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AC78B742A6A0F9400F5AB32 /* KotlinArray+Extensions.swift */; };
 		8AC78B772A9995B700F5AB32 /* MeasurementUnit+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AC78B762A9995B700F5AB32 /* MeasurementUnit+Extensions.swift */; };
 		8AC78B892A999DB000F5AB32 /* philosopher-bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8AC78B872A999DAF00F5AB32 /* philosopher-bold.ttf */; };
+		8AC78B8C2A9ED66A00F5AB32 /* Measurement+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AC78B8B2A9ED66A00F5AB32 /* Measurement+Extensions.swift */; };
+		8AC78B8F2A9ED94400F5AB32 /* NiceNumber.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AC78B8E2A9ED94400F5AB32 /* NiceNumber.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -41,6 +45,8 @@
 		7555FF7B242A565900829871 /* YouKon.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YouKon.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7555FF82242A565900829871 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		7555FF8C242A565B00829871 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8A6428F12AA023B000F57126 /* MeasurementView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeasurementView.swift; sourceTree = "<group>"; };
+		8A6428F32AA02F7700F57126 /* ProjectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectView.swift; sourceTree = "<group>"; };
 		8ABF0BF32A4293A00098B607 /* Header.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Header.swift; sourceTree = "<group>"; };
 		8ABF0BF52A4295F50098B607 /* QuickConvertCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickConvertCard.swift; sourceTree = "<group>"; };
 		8ABF0BF72A42960B0098B607 /* ProjectsCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectsCard.swift; sourceTree = "<group>"; };
@@ -49,6 +55,8 @@
 		8AC78B742A6A0F9400F5AB32 /* KotlinArray+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "KotlinArray+Extensions.swift"; sourceTree = "<group>"; };
 		8AC78B762A9995B700F5AB32 /* MeasurementUnit+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MeasurementUnit+Extensions.swift"; sourceTree = "<group>"; };
 		8AC78B872A999DAF00F5AB32 /* philosopher-bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "philosopher-bold.ttf"; sourceTree = "<group>"; };
+		8AC78B8B2A9ED66A00F5AB32 /* Measurement+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Measurement+Extensions.swift"; sourceTree = "<group>"; };
+		8AC78B8E2A9ED94400F5AB32 /* NiceNumber.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NiceNumber.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -90,6 +98,7 @@
 		7555FF7D242A565900829871 /* YouKon */ = {
 			isa = PBXGroup;
 			children = (
+				8AC78B8D2A9ED93300F5AB32 /* functions */,
 				8AC78B782A9998A400F5AB32 /* fonts */,
 				8AC78B732A6A0F5600F5AB32 /* extensions */,
 				8ABF0BF22A4293730098B607 /* views */,
@@ -117,6 +126,8 @@
 				8ABF0BF32A4293A00098B607 /* Header.swift */,
 				8ABF0BF52A4295F50098B607 /* QuickConvertCard.swift */,
 				8ABF0BF72A42960B0098B607 /* ProjectsCard.swift */,
+				8A6428F12AA023B000F57126 /* MeasurementView.swift */,
+				8A6428F32AA02F7700F57126 /* ProjectView.swift */,
 			);
 			path = views;
 			sourceTree = "<group>";
@@ -126,6 +137,7 @@
 			children = (
 				8AC78B742A6A0F9400F5AB32 /* KotlinArray+Extensions.swift */,
 				8AC78B762A9995B700F5AB32 /* MeasurementUnit+Extensions.swift */,
+				8AC78B8B2A9ED66A00F5AB32 /* Measurement+Extensions.swift */,
 			);
 			path = extensions;
 			sourceTree = "<group>";
@@ -136,6 +148,14 @@
 				8AC78B872A999DAF00F5AB32 /* philosopher-bold.ttf */,
 			);
 			path = fonts;
+			sourceTree = "<group>";
+		};
+		8AC78B8D2A9ED93300F5AB32 /* functions */ = {
+			isa = PBXGroup;
+			children = (
+				8AC78B8E2A9ED94400F5AB32 /* NiceNumber.swift */,
+			);
+			path = functions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -231,15 +251,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8AC78B8C2A9ED66A00F5AB32 /* Measurement+Extensions.swift in Sources */,
 				2152FB042600AC8F00CF470E /* iOSApp.swift in Sources */,
+				8AC78B8F2A9ED94400F5AB32 /* NiceNumber.swift in Sources */,
 				8ABF0BF82A42960B0098B607 /* ProjectsCard.swift in Sources */,
 				8AC78B752A6A0F9500F5AB32 /* KotlinArray+Extensions.swift in Sources */,
+				8A6428F22AA023B000F57126 /* MeasurementView.swift in Sources */,
 				8ABF0BF62A4295F50098B607 /* QuickConvertCard.swift in Sources */,
 				8AC78B722A6A095500F5AB32 /* UnitDropdowns.swift in Sources */,
 				8ABF0BF42A4293A00098B607 /* Header.swift in Sources */,
 				8AC78B772A9995B700F5AB32 /* MeasurementUnit+Extensions.swift in Sources */,
 				8AC78B702A6A094000F5AB32 /* MeasurementTextField.swift in Sources */,
 				7555FF83242A565900829871 /* ContentView.swift in Sources */,
+				8A6428F42AA02F7700F57126 /* ProjectView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -415,7 +439,7 @@
 					"-framework",
 					shared,
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = orgIdentifier.YouKon;
+				PRODUCT_BUNDLE_IDENTIFIER = com.dcsim.YouKon;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
