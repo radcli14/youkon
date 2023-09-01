@@ -13,43 +13,65 @@ import shared
 struct ProjectView: View {
     var project: Project
     
-    @State private var isExpanded = false
+    @State private var editedName: String
+    @State private var editedDescription: String
     @State private var measurements: [shared.Measurement]
-    
+    @State private var isExpanded = false
+
     init(project: Project) {
         self.project = project
+        editedName = project.name
+        editedDescription = project.about
         measurements = project.measurements as! [shared.Measurement]
     }
     
     var body: some View {
-        VStack(spacing: 16) {
+        VStack(alignment: .leading) {
             HStack {
-                Text(project.name)
-                    .font(.title)
-                    .fontWeight(.bold)
-                
-                Spacer()
-                
-                Button(action: {
-                    isExpanded.toggle()
-                }) {
-                    Image(systemName: isExpanded ? "chevron.up" : "chevron.down")
-                }
-                .buttonStyle(PlainButtonStyle())
+                nameField
+                expandButton
             }
+            descriptionField
             
             if isExpanded {
                 ForEach(measurements, id: \.self) { measurement in
                     MeasurementView(measurement: measurement)
                 }
-            } else {
-                Text(project.about)
-                    .font(.body)
             }
         }
         .padding()
         .background(Color.gray.opacity(0.1))
         .cornerRadius(8)
+    }
+    
+    @ViewBuilder
+    private var nameField: some View {
+        TextField("Name", text: $editedName)
+            .font(.title2)
+            .fontWeight(.bold)
+            .onChange(of: editedName) { name in
+                project.name = name
+            }
+        Spacer()
+    }
+    
+    @ViewBuilder
+    private var descriptionField: some View {
+        TextField("Description", text: $editedDescription)
+            .font(.body)
+            .onChange(of: editedDescription) { description in
+                project.about = description
+            }
+    }
+    
+    @ViewBuilder
+    private var expandButton: some View {
+        Button(action: {
+            isExpanded.toggle()
+        }) {
+            Image(systemName: isExpanded ? "chevron.up" : "chevron.down")
+        }
+        .buttonStyle(PlainButtonStyle())
     }
 }
 
