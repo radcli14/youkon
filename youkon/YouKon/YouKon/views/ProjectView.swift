@@ -14,6 +14,12 @@ struct ProjectView: View {
     var project: Project
     
     @State private var isExpanded = false
+    @State private var measurements: [shared.Measurement]
+    
+    init(project: Project) {
+        self.project = project
+        measurements = project.measurements as! [shared.Measurement]
+    }
     
     var body: some View {
         VStack(spacing: 16) {
@@ -33,10 +39,9 @@ struct ProjectView: View {
             }
             
             if isExpanded {
-                /*ForEach(project.measurements) { measurement in
+                ForEach(measurements, id: \.self) { measurement in
                     MeasurementView(measurement: measurement)
-                }*/
-                Text("TODO: BE EXPANDED")
+                }
             } else {
                 Text(project.about)
                     .font(.body)
