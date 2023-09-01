@@ -3,7 +3,7 @@
 //  YouKon
 //
 //  Created by Eliott Radcliffe on 8/30/23.
-//  Copyright © 2023 orgName. All rights reserved.
+//  Copyright © 2023 DC Simulation Studio. All rights reserved.
 //
 
 import Foundation
@@ -37,36 +37,45 @@ struct ProjectView: View {
         .padding()
         .background(Color.gray.opacity(0.1))
         .cornerRadius(8)
+        .onTapGesture {
+            toggleExpansion()
+        }
     }
     
     @ViewBuilder
     private var nameField: some View {
-        TextField("Name", text: $editedName)
-            .font(.title2)
-            .fontWeight(.bold)
-            .onChange(of: editedName) { name in
-                project.name = name
-            }
+        switch (expansion) {
+        case .editable:
+            TextField("Name", text: $editedName)
+                .font(.title2)
+                .fontWeight(.bold)
+                .onChange(of: editedName) { name in
+                    project.name = name
+                }
+        default:
+            Text(editedName)
+                .font(.title2)
+                .fontWeight(.bold)
+        }
         Spacer()
     }
     
     @ViewBuilder
     private var descriptionField: some View {
-        TextField("Description", text: $editedDescription)
-            .font(.body)
-            .onChange(of: editedDescription) { description in
-                project.about = description
-            }
+        switch (expansion) {
+        case .editable:
+            TextField("Description", text: $editedDescription)
+                .onChange(of: editedDescription) { description in
+                    project.about = description
+                }
+        default:
+            Text(editedDescription)
+        }
     }
     
     @ViewBuilder
     private var expandButton: some View {
-        Button(action: {
-            toggleExpansion()
-        }) {
-            Image(systemName: expansionIcon)
-        }
-        .buttonStyle(PlainButtonStyle())
+        Image(systemName: expansionIcon)
     }
     
     @ViewBuilder
@@ -103,7 +112,8 @@ struct ProjectsView_Previews: PreviewProvider {
     
     static func testProject() -> Project {
         let project = shared.Project()
-        project.about = "Attributes of Victor"
+        project.name = "Victor Wembenyama"
+        project.about = "Attributes of an amazing prospect"
         project.measurements.add(
             shared.Measurement(
                 value: 2.26,
