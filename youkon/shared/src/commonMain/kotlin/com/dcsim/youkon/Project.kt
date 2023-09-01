@@ -8,6 +8,10 @@ class Project {
     var images = mutableListOf<String>()
 }
 
+enum class ProjectExpansionLevel {
+    COMPACT, STATIC, EDITABLE
+}
+
 fun wembyProject() : Project {
     val project = Project()
     project.name = "Victor Wembenyama"

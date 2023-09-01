@@ -18,10 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.dcsim.youkon.Measurement
 import com.dcsim.youkon.Project
-
-enum class ProjectExpansionLevel {
-    COMPACT, STATIC, EDITABLE
-}
+import com.dcsim.youkon.ProjectExpansionLevel
 
 @Composable
 fun ProjectView(project: Project) {
