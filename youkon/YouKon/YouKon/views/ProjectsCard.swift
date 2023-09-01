@@ -10,15 +10,33 @@ import SwiftUI
 import shared
 
 struct ProjectsCard: View {
+    let userData: shared.UserData
+    
+    @State private var projects: [shared.Project]
+    
+    init() {
+        userData = shared.UserData()
+        userData.projects.add(Project())
+        let project = userData.projects.firstObject
+        let measurement = shared.Measurement(
+            value: 2.26,
+            unit: .meters,
+            name: "WembyHeight",
+            about: "How tall is Wemby"
+        )
+        (project as AnyObject).measurements.add(measurement)
+        projects = userData.projects as! [Project]
+    }
+    
     var body: some View {
         GroupBox(
             label: Text("Projects")
         ) {
             ScrollView {
                 LazyVStack(spacing: 16) {
-                    /*ForEach(projects) { project in
+                    ForEach(projects, id: \.self) { project in
                         ProjectView(project: project)
-                    }*/
+                    }
                 }
                 .padding()
             }
