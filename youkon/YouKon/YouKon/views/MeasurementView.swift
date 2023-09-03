@@ -28,7 +28,7 @@ struct MeasurementView: View {
     }
     
     var body: some View {
-        VStack(spacing: 8) {
+        VStack { //}(spacing: 8) {
             TextField("Name", text: $editedName)
                 .font(.headline)
                 .onChange(of: editedName) { name in
@@ -52,9 +52,6 @@ struct MeasurementView: View {
                 Spacer()
             }
         }
-        .padding()
-        .background(Color.white)
-        .cornerRadius(8)
     }
 }
 

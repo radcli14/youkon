@@ -17,14 +17,16 @@ struct ProjectsCard: View {
     init() {
         userData = shared.UserData()
         userData.projects.add(Project())
-        let project = userData.projects.firstObject
+        let project = userData.projects.firstObject as! shared.Project
+        project.name = "Victor Wembenyama"
+        project.about = "Real Facts"
         let measurement = shared.Measurement(
             value: 2.26,
             unit: .meters,
             name: "WembyHeight",
             about: "How tall is Wemby"
         )
-        (project as AnyObject).measurements.add(measurement)
+        project.measurements.add(measurement)
         projects = userData.projects as! [Project]
     }
     

@@ -37,9 +37,6 @@ struct ProjectView: View {
         .padding()
         .background(Color.gray.opacity(0.1))
         .cornerRadius(8)
-        .onTapGesture {
-            toggleExpansion()
-        }
     }
     
     @ViewBuilder
@@ -47,17 +44,16 @@ struct ProjectView: View {
         switch (expansion) {
         case .editable:
             TextField("Name", text: $editedName)
-                .font(.title2)
+                .font(.headline)
                 .fontWeight(.bold)
                 .onChange(of: editedName) { name in
                     project.name = name
                 }
         default:
             Text(editedName)
-                .font(.title2)
+                .font(.headline)
                 .fontWeight(.bold)
         }
-        Spacer()
     }
     
     @ViewBuilder
@@ -75,12 +71,20 @@ struct ProjectView: View {
     
     @ViewBuilder
     private var expandButton: some View {
+        Spacer()
         Image(systemName: expansionIcon)
+            .onTapGesture {
+                toggleExpansion()
+            }
     }
     
     @ViewBuilder
     private var expansionView: some View {
-        if expansion == .editable || expansion == .static_ {
+        if expansion == .static_ {
+            ForEach(measurements, id: \.self) { measurement in
+                Text(measurement.nameAndValueInSystem(system: "SI"))
+            }
+        } else if expansion == .editable {
             ForEach(measurements, id: \.self) { measurement in
                 MeasurementView(measurement: measurement)
             }
