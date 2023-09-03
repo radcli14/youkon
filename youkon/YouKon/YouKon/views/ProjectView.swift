@@ -80,14 +80,13 @@ struct ProjectView: View {
     
     @ViewBuilder
     private var expansionView: some View {
-        if expansion == .static_ {
-            ForEach(measurements, id: \.self) { measurement in
-                Text(measurement.nameAndValueInSystem(system: "SI"))
+        ForEach(measurements, id: \.self) { measurement in
+            switch (expansion) {
+            case .static_: Text(measurement.nameAndValueInSystem(system: "SI"))
+            case .editable: MeasurementView(measurement: measurement)
+            default: EmptyView()
             }
-        } else if expansion == .editable {
-            ForEach(measurements, id: \.self) { measurement in
-                MeasurementView(measurement: measurement)
-            }
+            
         }
     }
     
