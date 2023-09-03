@@ -32,7 +32,11 @@ struct ProjectView: View {
                 expandButton
             }
             descriptionField
-            expansionView
+            HStack {
+                expansionView
+                Spacer()
+                expansionMenu
+            }
         }
         .padding()
         .background(Color.gray.opacity(0.1))
@@ -86,7 +90,25 @@ struct ProjectView: View {
             case .editable: MeasurementView(measurement: measurement)
             default: EmptyView()
             }
-            
+        }
+    }
+    
+    @ViewBuilder
+    private var expansionMenu: some View {
+        if expansion == .static_ || expansion == .editable {
+            VStack {
+                Button(action: {expansion = .editable}) {
+                    Image(systemName: "pencil")
+                }
+                if expansion == .editable {
+                    Button(action: {}) {
+                        Image(systemName: "plus")
+                    }
+                    Button(action: {}) {
+                        Image(systemName: "minus")
+                    }
+                }
+            }
         }
     }
     
