@@ -32,6 +32,9 @@ struct ProjectView: View {
                 expandButton
             }
             descriptionField
+            if expansion != .compact {
+                Divider()
+            }
             HStack {
                 expansionView
                 Spacer()
@@ -68,8 +71,10 @@ struct ProjectView: View {
                 .onChange(of: editedDescription) { description in
                     project.about = description
                 }
+                .font(.caption)
         default:
             Text(editedDescription)
+                .font(.caption)
         }
     }
     
@@ -96,8 +101,8 @@ struct ProjectView: View {
     @ViewBuilder
     private var expansionMenu: some View {
         if expansion == .static_ || expansion == .editable {
-            VStack {
-                Button(action: {expansion = .editable}) {
+            VStack(spacing: 16) {
+                Button(action: toggleEdit) {
                     Image(systemName: "pencil")
                 }
                 if expansion == .editable {
@@ -127,6 +132,13 @@ struct ProjectView: View {
         default: expansion = .compact
         }
     }
+    
+    private func toggleEdit() {
+        switch (expansion) {
+        case .editable: expansion = .static_
+        default: expansion = .editable
+        }
+    }
 }
 
 
@@ -143,7 +155,7 @@ struct ProjectsView_Previews: PreviewProvider {
             shared.Measurement(
                 value: 2.26,
                 unit: .meters,
-                name: "WembyHeight",
+                name: "Height",
                 about: "How tall is Wemby"
             )
         )
