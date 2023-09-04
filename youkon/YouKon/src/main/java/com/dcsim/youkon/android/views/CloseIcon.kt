@@ -7,6 +7,7 @@ import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.vector.ImageVector
+import com.dcsim.youkon.ProjectExpansionLevel
 
 @Composable
 fun CloseIcon(expansion: ProjectExpansionLevel) {
