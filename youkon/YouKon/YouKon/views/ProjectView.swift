@@ -11,18 +11,10 @@ import SwiftUI
 import shared
 
 struct ProjectView: View {
-    var project: Project
-    
-    @State private var editedName: String
-    @State private var editedDescription: String
-    @State private var measurements: [shared.Measurement]
-    @State private var expansion: ProjectExpansionLevel = .compact
+    @ObservedObject var viewController: ProjectViewController
 
     init(project: Project) {
-        self.project = project
-        editedName = project.name
-        editedDescription = project.about
-        measurements = project.measurements as! [shared.Measurement]
+        viewController = ProjectViewController(for: project)
     }
     
     var body: some View {
@@ -32,7 +24,7 @@ struct ProjectView: View {
                 expandButton
             }
             descriptionField
-            if expansion != .compact {
+            if viewController.expansion != .compact {
                 Divider()
             }
             HStack {
@@ -48,16 +40,16 @@ struct ProjectView: View {
     
     @ViewBuilder
     private var nameField: some View {
-        switch (expansion) {
+        switch (viewController.expansion) {
         case .editable:
-            TextField("Name", text: $editedName)
+            TextField("Name", text: $viewController.editedName)
                 .font(.headline)
                 .fontWeight(.bold)
-                .onChange(of: editedName) { name in
-                    project.name = name
+                .onChange(of: viewController.editedName) { name in
+                    viewController.project.name = name
                 }
         default:
-            Text(editedName)
+            Text(viewController.editedName)
                 .font(.headline)
                 .fontWeight(.bold)
         }
@@ -65,15 +57,15 @@ struct ProjectView: View {
     
     @ViewBuilder
     private var descriptionField: some View {
-        switch (expansion) {
+        switch (viewController.expansion) {
         case .editable:
-            TextField("Description", text: $editedDescription)
-                .onChange(of: editedDescription) { description in
-                    project.about = description
+            TextField("Description", text: $viewController.editedDescription)
+                .onChange(of: viewController.editedDescription) { description in
+                    viewController.project.about = description
                 }
                 .font(.caption)
         default:
-            Text(editedDescription)
+            Text(viewController.editedDescription)
                 .font(.caption)
         }
     }
@@ -81,17 +73,17 @@ struct ProjectView: View {
     @ViewBuilder
     private var expandButton: some View {
         Spacer()
-        Image(systemName: expansionIcon)
+        Image(systemName: viewController.expansionIcon)
             .onTapGesture {
-                toggleExpansion()
+                viewController.toggleExpansion()
             }
     }
     
     @ViewBuilder
     private var expansionView: some View {
         VStack(alignment: .leading) {
-            ForEach(measurements, id: \.self) { measurement in
-                switch (expansion) {
+            ForEach(viewController.measurements, id: \.self) { measurement in
+                switch (viewController.expansion) {
                 case .static_: Text(measurement.nameAndValueInSystem(system: "SI"))
                 case .editable: MeasurementView(measurement: measurement)
                 default: EmptyView()
@@ -102,59 +94,21 @@ struct ProjectView: View {
     
     @ViewBuilder
     private var expansionMenu: some View {
-        if expansion == .static_ || expansion == .editable {
+        if viewController.expansion == .static_ || viewController.expansion == .editable {
             VStack(spacing: 16) {
-                Button(action: toggleEdit) {
+                Button(action: viewController.toggleEdit) {
                     Image(systemName: "pencil")
                 }
-                if expansion == .editable {
-                    Button(action: addMeasurement) {
+                if viewController.expansion == .editable {
+                    Button(action: viewController.addMeasurement) {
                         Image(systemName: "plus")
                     }
-                    Button(action: subtractMeasurement) {
+                    Button(action: viewController.subtractMeasurement) {
                         Image(systemName: "minus")
                     }
                 }
             }
         }
-    }
-    
-    private var expansionIcon: String {
-        switch (expansion) {
-        case .compact: return "chevron.down"
-        default: return "chevron.up"
-        }
-    }
-    
-    private func toggleExpansion() {
-        switch (expansion) {
-        case .compact: expansion = .static_
-        case .static_: expansion = .compact
-        case .editable: expansion = .static_
-        default: expansion = .compact
-        }
-    }
-    
-    private func toggleEdit() {
-        switch (expansion) {
-        case .editable: expansion = .static_
-        default: expansion = .editable
-        }
-    }
-    
-    private func addMeasurement() {
-        project.addMeasurement(
-            value: 0.0,
-            unit: .meters,
-            name: "New Measurement",
-            about: ""
-        )
-        measurements = project.measurements as! [shared.Measurement]
-        print(project.measurements)
-    }
-    
-    private func subtractMeasurement() {
-        // TODO: create the subtractMeasurement method
     }
 }
 
