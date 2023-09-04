@@ -89,11 +89,13 @@ struct ProjectView: View {
     
     @ViewBuilder
     private var expansionView: some View {
-        ForEach(measurements, id: \.self) { measurement in
-            switch (expansion) {
-            case .static_: Text(measurement.nameAndValueInSystem(system: "SI"))
-            case .editable: MeasurementView(measurement: measurement)
-            default: EmptyView()
+        VStack(alignment: .leading) {
+            ForEach(measurements, id: \.self) { measurement in
+                switch (expansion) {
+                case .static_: Text(measurement.nameAndValueInSystem(system: "SI"))
+                case .editable: MeasurementView(measurement: measurement)
+                default: EmptyView()
+                }
             }
         }
     }
@@ -106,10 +108,10 @@ struct ProjectView: View {
                     Image(systemName: "pencil")
                 }
                 if expansion == .editable {
-                    Button(action: {}) {
+                    Button(action: addMeasurement) {
                         Image(systemName: "plus")
                     }
-                    Button(action: {}) {
+                    Button(action: subtractMeasurement) {
                         Image(systemName: "minus")
                     }
                 }
@@ -138,6 +140,21 @@ struct ProjectView: View {
         case .editable: expansion = .static_
         default: expansion = .editable
         }
+    }
+    
+    private func addMeasurement() {
+        project.addMeasurement(
+            value: 0.0,
+            unit: .meters,
+            name: "New Measurement",
+            about: ""
+        )
+        measurements = project.measurements as! [shared.Measurement]
+        print(project.measurements)
+    }
+    
+    private func subtractMeasurement() {
+        // TODO: create the subtractMeasurement method
     }
 }
 
