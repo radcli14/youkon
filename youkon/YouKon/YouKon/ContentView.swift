@@ -5,17 +5,15 @@ struct ContentView: View {
     @Environment(\.colorScheme) var colorScheme
     
 	var body: some View {
-        VStack(spacing: 24) {
+        VStack(spacing: 0) {
             Header()
             QuickConvertCard()
             ProjectsCard()
-            //Spacer()
         }
         .background(
             Image("Background")
                 .brightness(colorScheme == .dark ? -0.3 : 0.3)
         )
-        .padding(12)
 	}
 }
 
