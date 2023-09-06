@@ -11,15 +11,29 @@ import shared
 
 /// Controller for the `ProjectView` with methods that are invoked when editing fields or tapping buttons
 class ProjectViewController: ObservableObject {
-    let project: Project
+    var project: Project
     
     @Published var editedName: String
     @Published var editedDescription: String
     @Published var measurements: [shared.Measurement]
     @Published var expansion: ProjectExpansionLevel = .compact
 
+    init() {
+        self.project = Project()
+        editedName = project.name
+        editedDescription = project.about
+        measurements = project.measurements as! [shared.Measurement]
+    }
+    
     init(for project: Project) {
         self.project = project
+        editedName = project.name
+        editedDescription = project.about
+        measurements = project.measurements as! [shared.Measurement]
+    }
+    
+    func refresh(with viewController: ProjectViewController) {
+        self.project = viewController.project
         editedName = project.name
         editedDescription = project.about
         measurements = project.measurements as! [shared.Measurement]

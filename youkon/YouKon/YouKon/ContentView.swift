@@ -4,6 +4,8 @@ import shared
 struct ContentView: View {
     @Environment(\.colorScheme) var colorScheme
     
+    @StateObject var contentViewController = ContentViewController()
+    
 	var body: some View {
         VStack(spacing: 0) {
             Header()
@@ -14,6 +16,13 @@ struct ContentView: View {
             Image("Background")
                 .brightness(colorScheme == .dark ? -0.3 : 0.3)
         )
+        .sheet(isPresented: $contentViewController.isEditingProject) {
+            if let project = contentViewController.project {
+                ProjectView(project: project, editing: true)
+                    .padding(16)
+            }
+        }
+        .environmentObject(contentViewController)
 	}
 }
 

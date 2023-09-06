@@ -12,9 +12,13 @@ import shared
 
 struct ProjectView: View {
     @ObservedObject var vc: ProjectViewController
+    @EnvironmentObject var contentViewController: ContentViewController
 
-    init(project: Project) {
+    init(project: Project, editing: Bool = false) {
         vc = ProjectViewController(for: project)
+        if editing {
+            vc.expansion = .editable
+        }
     }
     
     var body: some View {
@@ -97,7 +101,8 @@ struct ProjectView: View {
         if vc.expansion == .static_ || vc.expansion == .editable {
             VStack(spacing: 16) {
                 Button(action: {
-                    vc.toggleEdit()
+                    //vc.toggleEdit()
+                    contentViewController.toggleEdit(to: vc.project)
                 }) {
                     Image(systemName: "pencil")
                 }
