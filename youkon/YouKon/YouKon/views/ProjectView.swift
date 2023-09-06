@@ -11,10 +11,10 @@ import SwiftUI
 import shared
 
 struct ProjectView: View {
-    @ObservedObject var viewController: ProjectViewController
+    @ObservedObject var vc: ProjectViewController
 
     init(project: Project) {
-        viewController = ProjectViewController(for: project)
+        vc = ProjectViewController(for: project)
     }
     
     var body: some View {
@@ -24,7 +24,7 @@ struct ProjectView: View {
                 expandButton
             }
             descriptionField
-            if viewController.expansion != .compact {
+            if vc.expansion != .compact {
                 Divider()
             }
             HStack {
@@ -40,16 +40,16 @@ struct ProjectView: View {
     
     @ViewBuilder
     private var nameField: some View {
-        switch (viewController.expansion) {
+        switch (vc.expansion) {
         case .editable:
-            TextField("Name", text: $viewController.editedName)
+            TextField("Name", text: $vc.editedName)
                 .font(.headline)
                 .fontWeight(.bold)
-                .onChange(of: viewController.editedName) { name in
-                    viewController.project.name = name
+                .onChange(of: vc.editedName) { name in
+                    vc.project.name = name
                 }
         default:
-            Text(viewController.editedName)
+            Text(vc.editedName)
                 .font(.headline)
                 .fontWeight(.bold)
         }
@@ -57,15 +57,15 @@ struct ProjectView: View {
     
     @ViewBuilder
     private var descriptionField: some View {
-        switch (viewController.expansion) {
+        switch (vc.expansion) {
         case .editable:
-            TextField("Description", text: $viewController.editedDescription)
-                .onChange(of: viewController.editedDescription) { description in
-                    viewController.project.about = description
+            TextField("Description", text: $vc.editedDescription)
+                .onChange(of: vc.editedDescription) { description in
+                    vc.project.about = description
                 }
                 .font(.caption)
         default:
-            Text(viewController.editedDescription)
+            Text(vc.editedDescription)
                 .font(.caption)
         }
     }
@@ -73,17 +73,17 @@ struct ProjectView: View {
     @ViewBuilder
     private var expandButton: some View {
         Spacer()
-        Image(systemName: viewController.expansionIcon)
+        Image(systemName: vc.expansionIcon)
             .onTapGesture {
-                viewController.toggleExpansion()
+                vc.toggleExpansion()
             }
     }
     
     @ViewBuilder
     private var expansionView: some View {
         VStack(alignment: .leading) {
-            ForEach(viewController.measurements, id: \.self) { measurement in
-                switch (viewController.expansion) {
+            ForEach(vc.measurements, id: \.self) { measurement in
+                switch (vc.expansion) {
                 case .static_: Text(measurement.nameAndValueInSystem(system: "SI"))
                 case .editable: MeasurementView(measurement: measurement)
                 default: EmptyView()
@@ -94,16 +94,18 @@ struct ProjectView: View {
     
     @ViewBuilder
     private var expansionMenu: some View {
-        if viewController.expansion == .static_ || viewController.expansion == .editable {
+        if vc.expansion == .static_ || vc.expansion == .editable {
             VStack(spacing: 16) {
-                Button(action: viewController.toggleEdit) {
+                Button(action: {
+                    vc.toggleEdit()
+                }) {
                     Image(systemName: "pencil")
                 }
-                if viewController.expansion == .editable {
-                    Button(action: viewController.addMeasurement) {
+                if vc.expansion == .editable {
+                    Button(action: vc.addMeasurement) {
                         Image(systemName: "plus")
                     }
-                    Button(action: viewController.subtractMeasurement) {
+                    Button(action: vc.subtractMeasurement) {
                         Image(systemName: "minus")
                     }
                 }
