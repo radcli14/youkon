@@ -11,34 +11,34 @@ import shared
 
 /// Controller for the `ProjectView` with methods that are invoked when editing fields or tapping buttons
 class ProjectViewController: ObservableObject {
-    var project: Project
+    var project: YkProject
     
     @Published var editedName: String
     @Published var editedDescription: String
     @Published var convertToSystem = "SI"
-    @Published var measurements: [shared.Measurement]
+    @Published var measurements: [YkMeasurement]
     @Published var expansion: ProjectExpansionLevel = .compact
     @Published var isExpanded = false
 
     init() {
-        self.project = Project()
+        self.project = YkProject()
         editedName = project.name
         editedDescription = project.about
-        measurements = project.measurements as! [shared.Measurement]
+        measurements = project.measurements as! [YkMeasurement]
     }
     
-    init(for project: Project) {
+    init(for project: YkProject) {
         self.project = project
         editedName = project.name
         editedDescription = project.about
-        measurements = project.measurements as! [shared.Measurement]
+        measurements = project.measurements as! [YkMeasurement]
     }
     
     func refresh(with viewController: ProjectViewController) {
         self.project = viewController.project
         editedName = project.name
         editedDescription = project.about
-        measurements = project.measurements as! [shared.Measurement]
+        measurements = project.measurements as! [YkMeasurement]
     }
     
     var expansionIcon: String {
@@ -71,7 +71,7 @@ class ProjectViewController: ObservableObject {
             name: "New Measurement",
             about: ""
         )
-        measurements = project.measurements as! [shared.Measurement]
+        measurements = project.measurements as! [YkMeasurement]
     }
     
     func subtractMeasurement() {

@@ -10,24 +10,24 @@ import SwiftUI
 import shared
 
 struct ProjectsCard: View {
-    let userData: shared.UserData
+    let userData: YkUser
     
-    @State private var projects: [shared.Project]
+    @State private var projects: [YkProject]
     
     init() {
-        userData = shared.UserData()
-        userData.projects.add(Project())
-        let project = userData.projects.firstObject as! shared.Project
+        userData = YkUser()
+        userData.projects.add(YkProject())
+        let project = userData.projects.firstObject as! YkProject
         project.name = "Victor Wembenyama"
         project.about = "Real Facts"
-        let measurement = shared.Measurement(
+        let measurement = YkMeasurement(
             value: 2.26,
             unit: .meters,
             name: "Height",
             about: "How tall is Wemby"
         )
         project.measurements.add(measurement)
-        projects = userData.projects as! [Project]
+        projects = userData.projects as! [YkProject]
     }
     
     var body: some View {

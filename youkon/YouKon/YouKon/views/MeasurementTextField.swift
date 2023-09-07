@@ -6,13 +6,13 @@ import shared
 /// - Parameter measurement: The `measurement` object which will have its value bound to the text
 /// - Parameter updateMeasurement: An escaping closure that will notify the upstream view to update its data
 struct MeasurementTextField: View {
-    @Binding var measurement: shared.Measurement
+    @Binding var measurement: YkMeasurement
     let updateMeasurement: () -> Void
     
     @State private var text: String // = ""
 
     /// Initialize with a measurement and an update method, will make the `text` state be equal to the `measurement.value` in string format
-    init(measurement: Binding<shared.Measurement>, updateMeasurement: @escaping () -> Void) {
+    init(measurement: Binding<YkMeasurement>, updateMeasurement: @escaping () -> Void) {
         self._measurement = measurement
         self.updateMeasurement = updateMeasurement
         _text = State(initialValue: "\(measurement.wrappedValue.value)")

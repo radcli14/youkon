@@ -10,10 +10,10 @@ import Foundation
 import shared
 
 class MeasurementViewController: ObservableObject {
-    @Published var measurement: shared.Measurement
-    @Published var availableUnits: [MeasurementUnit]
+    @Published var measurement: YkMeasurement
+    @Published var availableUnits: [YkUnit]
 
-    init(for measurement: shared.Measurement) {
+    init(for measurement: YkMeasurement) {
         self.measurement = measurement
         availableUnits = kotlinToSwiftArray(measurement.unit.allUnits)
     }

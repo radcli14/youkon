@@ -14,7 +14,7 @@ struct ProjectView: View {
     @ObservedObject var vc: ProjectViewController
     @EnvironmentObject var contentViewController: ContentViewController
 
-    init(project: Project, editing: Bool = false) {
+    init(project: YkProject, editing: Bool = false) {
         vc = ProjectViewController(for: project)
         if editing {
             vc.expansion = .editable
@@ -162,12 +162,12 @@ struct ProjectsView_Previews: PreviewProvider {
             .environmentObject(contentViewController)
     }
     
-    static func testProject() -> Project {
-        let project = shared.Project()
+    static func testProject() -> YkProject {
+        let project = YkProject()
         project.name = "Victor Wembenyama"
         project.about = "Attributes of an amazing prospect"
         project.measurements.add(
-            shared.Measurement(
+            YkMeasurement(
                 value: 2.26,
                 unit: .meters,
                 name: "Height",

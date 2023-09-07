@@ -14,7 +14,7 @@ import shared
 struct MeasurementView: View {
     @ObservedObject var vc: MeasurementViewController
 
-    init(measurement: shared.Measurement) {
+    init(measurement: YkMeasurement) {
         vc = MeasurementViewController(for: measurement)
     }
     
@@ -41,7 +41,7 @@ struct MeasurementView: View {
 struct MeasurementView_Previews: PreviewProvider {
     static var previews: some View {
         MeasurementView(
-            measurement: shared.Measurement(
+            measurement: YkMeasurement(
                 value: 2.26,
                 unit: .meters,
                 name: "WembyHeight",

@@ -9,12 +9,12 @@
 import Foundation
 import shared
 
-extension MeasurementUnit {
+extension YkUnit {
     var toString: String {
         String(describing: self).replacingOccurrences(of: "_", with: " ")
     }
     
-    var allAvailableUnits: [MeasurementUnit] {
+    var allAvailableUnits: [YkUnit] {
         kotlinToSwiftArray(self.allUnits)
     }
 }

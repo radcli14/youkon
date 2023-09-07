@@ -11,9 +11,9 @@ import shared
 
 class ContentViewController: ObservableObject {
     @Published var isEditingProject = false
-    var project: shared.Project? = nil
+    var project: YkProject? = nil
     
-    func toggleEdit(to project: shared.Project) {
+    func toggleEdit(to project: YkProject) {
         isEditingProject.toggle()
         self.project = isEditingProject ? project : nil
     }

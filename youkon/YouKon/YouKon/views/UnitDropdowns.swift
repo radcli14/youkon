@@ -3,10 +3,10 @@ import shared
 
 
 struct UnitDropdown: View {
-    @Binding var unit: MeasurementUnit
-    @Binding var availableUnits: [MeasurementUnit]
+    @Binding var unit: YkUnit
+    @Binding var availableUnits: [YkUnit]
     var headerText = "From"
-    let onClick: (MeasurementUnit) -> Void
+    let onClick: (YkUnit) -> Void
 
     var body: some View {
         Menu {

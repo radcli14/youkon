@@ -11,22 +11,22 @@ import shared
 
 /// The quick convert card is shown at the top of the screen, and lets the user convert a single measurement value from any unit to any equivalent unit.
 struct QuickConvertCard: View {
-    @State private var measurement: shared.Measurement
-    @State private var allUnits = MeasurementUnit.meters.allAvailableUnits
-    @State private var equivalentUnits = kotlinToSwiftArray(MeasurementUnit.meters.equivalentUnits())
-    @State private var fromUnit = MeasurementUnit.meters
-    @State private var targetUnit = MeasurementUnit.feet
+    @State private var measurement: YkMeasurement
+    @State private var allUnits = YkUnit.meters.allAvailableUnits
+    @State private var equivalentUnits = kotlinToSwiftArray(YkUnit.meters.equivalentUnits())
+    @State private var fromUnit = YkUnit.meters
+    @State private var targetUnit = YkUnit.feet
     @State private var convertedText: String
 
     init() {
-        let measurement = Measurement(
+        let measurement = YkMeasurement(
             value: 2.26,
             unit: .meters,
             name: "Quick Convert",
             about: "Card on top of the screen"
         )
         self.measurement = measurement
-        convertedText = measurement.toSwiftString(in: MeasurementUnit.feet)
+        convertedText = measurement.toSwiftString(in: YkUnit.feet)
     }
     
     var body: some View {
@@ -104,7 +104,7 @@ struct QuickConvertCard: View {
         convertedText = measurement.toSwiftString(in: targetUnit)
     }
     
-    private var newTargetUnit: MeasurementUnit? {
+    private var newTargetUnit: YkUnit? {
         return equivalentUnits.first(where: { $0 != targetUnit })
     }
 }

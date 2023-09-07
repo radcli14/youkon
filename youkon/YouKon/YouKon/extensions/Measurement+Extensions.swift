@@ -9,12 +9,12 @@
 import Foundation
 import shared
 
-extension shared.Measurement {
+extension YkMeasurement {
     func toSwiftString() -> String {
         return "\(niceNumber(self.value)) \(self.unit.shortUnit)"
     }
     
-    func toSwiftString(in targetUnit: MeasurementUnit) -> String {
+    func toSwiftString(in targetUnit: YkUnit) -> String {
         return self.toSwiftString() + " = " + self.convertTo(targetUnit: targetUnit).toSwiftString()
     }
 }
