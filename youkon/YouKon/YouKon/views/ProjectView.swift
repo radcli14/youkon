@@ -22,24 +22,52 @@ struct ProjectView: View {
     }
     
     var body: some View {
+        if vc.expansion == .editable {
+            mainStackWhenEditing
+        } else {
+            disclosureGroupWhenNotEditing
+        }
+    }
+    
+    @ViewBuilder
+    private var mainStackWhenEditing: some View {
         VStack(alignment: .leading) {
-            HStack {
-                nameField
-                expandButton
-            }
+            labelStack
+            expansionStack
+        }
+    }
+    
+    @ViewBuilder
+    private var disclosureGroupWhenNotEditing: some View {
+        DisclosureGroup(isExpanded: $vc.isExpanded) {
+            expansionStack
+        } label: {
+            labelStack
+        }
+        .padding()
+        .background(Color.gray.opacity(0.1))
+        .cornerRadius(8)
+    }
+    
+    @ViewBuilder
+    private var labelStack: some View {
+        VStack(alignment: .leading) {
+            nameField
             descriptionField
-            if vc.expansion != .compact {
-                Divider()
-            }
+        }
+        .foregroundStyle(.foreground)
+    }
+    
+    @ViewBuilder
+    private var expansionStack: some View {
+        VStack {
+            Divider()
             HStack {
                 expansionView
                 Spacer()
                 expansionMenu
             }
         }
-        .padding()
-        .background(Color.gray.opacity(0.1))
-        .cornerRadius(8)
     }
     
     @ViewBuilder
@@ -75,22 +103,15 @@ struct ProjectView: View {
     }
     
     @ViewBuilder
-    private var expandButton: some View {
-        Spacer()
-        Image(systemName: vc.expansionIcon)
-            .onTapGesture {
-                vc.toggleExpansion()
-            }
-    }
-    
-    @ViewBuilder
     private var expansionView: some View {
         VStack(alignment: .leading) {
             ForEach(vc.measurements, id: \.self) { measurement in
                 switch (vc.expansion) {
-                case .static_: Text(measurement.nameAndValueInSystem(system: "SI"))
                 case .editable: MeasurementView(measurement: measurement)
-                default: EmptyView()
+                default:
+                    Text(measurement.nameAndValueInSystem(
+                        system: vc.convertToSystem)
+                    )
                 }
             }
         }
@@ -98,24 +119,39 @@ struct ProjectView: View {
     
     @ViewBuilder
     private var expansionMenu: some View {
-        if vc.expansion == .static_ || vc.expansion == .editable {
-            VStack(spacing: 16) {
-                Button(action: {
-                    //vc.toggleEdit()
-                    contentViewController.toggleEdit(to: vc.project)
-                }) {
-                    Image(systemName: "pencil")
-                }
-                if vc.expansion == .editable {
-                    Button(action: vc.addMeasurement) {
-                        Image(systemName: "plus")
-                    }
-                    Button(action: vc.subtractMeasurement) {
-                        Image(systemName: "minus")
-                    }
-                }
+        if vc.expansion == .editable {
+            expansionPlusMinusStack
+        } else {
+            expansionEditButton
+        }
+    }
+    
+    @ViewBuilder
+    private var expansionPlusMinusStack: some View {
+        VStack {
+            Button(action: vc.addMeasurement) {
+                Image(systemName: "plus")
+                    .frame(height: 24)
+            }
+            Button(action: vc.subtractMeasurement) {
+                Image(systemName: "minus")
+                    .frame(height: 24)
             }
         }
+        .buttonStyle(.bordered)
+        .foregroundColor(.indigo)
+    }
+    
+    @ViewBuilder
+    private var expansionEditButton: some View {
+        Button(action: {
+            contentViewController.toggleEdit(to: vc.project)
+        }) {
+            Image(systemName: "pencil")
+                .frame(height: 24)
+        }
+        .buttonStyle(.bordered)
+        .foregroundColor(.indigo)
     }
 }
 
@@ -123,6 +159,7 @@ struct ProjectView: View {
 struct ProjectsView_Previews: PreviewProvider {
     static var previews: some View {
         ProjectView(project: testProject())
+            .environmentObject(contentViewController)
     }
     
     static func testProject() -> Project {
@@ -139,4 +176,6 @@ struct ProjectsView_Previews: PreviewProvider {
         )
         return project
     }
+    
+    static let contentViewController = ContentViewController()
 }
