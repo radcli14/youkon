@@ -1,6 +1,6 @@
 package com.dcsim.youkon
 
-enum class MeasurementUnit {
+enum class YkUnit {
     KILOGRAMS, POUNDS, SLUGS,
     METERS, FEET, INCHES,
     NEWTONS, POUND_FORCE,
@@ -28,7 +28,7 @@ enum class MeasurementUnit {
             BARS -> "bar"
         }
 
-    val allUnits get() = MeasurementUnit.values()
+    val allUnits get() = YkUnit.values()
 
     val massUnits get() = arrayOf(KILOGRAMS, POUNDS, SLUGS)
     val lengthUnits get() = arrayOf(METERS, FEET, INCHES)
@@ -38,7 +38,7 @@ enum class MeasurementUnit {
     val pressureUnits get() = arrayOf(PASCALS, PSI, ATM, BARS)
 
     /// Provide an array of units that the measurement may be converted to
-    fun equivalentUnits(): Array<MeasurementUnit> {
+    fun equivalentUnits(): Array<YkUnit> {
         return when (this) {
             in massUnits -> massUnits
             in lengthUnits -> lengthUnits
@@ -51,7 +51,7 @@ enum class MeasurementUnit {
     }
 
     /// Conversion factor from the current measurement unit into a different unit
-    fun conversionFactor(targetUnit: MeasurementUnit): Double {
+    fun conversionFactor(targetUnit: YkUnit): Double {
         return when (this to targetUnit) {
             KILOGRAMS to POUNDS -> 2.20462
             KILOGRAMS to SLUGS -> 0.0685218

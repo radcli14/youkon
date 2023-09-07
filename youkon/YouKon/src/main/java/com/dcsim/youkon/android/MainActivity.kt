@@ -14,7 +14,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.dcsim.youkon.Project
+import com.dcsim.youkon.YkProject
 import com.dcsim.youkon.android.views.BackgroundBox
 import com.dcsim.youkon.android.views.Header
 import com.dcsim.youkon.android.views.ProjectsCard
@@ -32,7 +32,7 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun MainView(projects: List<Project>) {
+fun MainView(projects: List<YkProject>) {
     MyApplicationTheme {
         Surface(
             modifier = Modifier.fillMaxSize(),

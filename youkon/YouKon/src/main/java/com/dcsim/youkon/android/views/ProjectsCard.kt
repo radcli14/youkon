@@ -11,10 +11,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.dcsim.youkon.Project
+import com.dcsim.youkon.YkProject
 
 @Composable
-fun ProjectsCard(projects: List<Project>) {
+fun ProjectsCard(projects: List<YkProject>) {
     Card(modifier = Modifier.padding(16.dp)) {
         Column(modifier = Modifier.padding(16.dp)) {
             Text(

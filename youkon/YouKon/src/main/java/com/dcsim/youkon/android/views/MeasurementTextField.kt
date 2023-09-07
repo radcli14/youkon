@@ -12,10 +12,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
-import com.dcsim.youkon.Measurement
+import com.dcsim.youkon.YkMeasurement
 
 @Composable
-fun MeasurementTextField(measurement: Measurement, updateMeasurement: () -> Unit) {
+fun MeasurementTextField(measurement: YkMeasurement, updateMeasurement: () -> Unit) {
     var text by remember { mutableStateOf(TextFieldValue(measurement.value.toString())) }
 
     OutlinedTextField(

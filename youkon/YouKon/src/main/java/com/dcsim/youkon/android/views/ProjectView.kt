@@ -16,12 +16,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.dcsim.youkon.Measurement
-import com.dcsim.youkon.Project
+import com.dcsim.youkon.YkMeasurement
+import com.dcsim.youkon.YkProject
 import com.dcsim.youkon.ProjectExpansionLevel
 
 @Composable
-fun ProjectView(project: Project) {
+fun ProjectView(project: YkProject) {
     var expansion by remember { mutableStateOf(ProjectExpansionLevel.COMPACT) }
     var measurements by remember { mutableStateOf(project.measurements) }
 
@@ -48,7 +48,7 @@ fun ProjectView(project: Project) {
                 addClick = {
                     println("newNewNew")
                     project.measurements.add(
-                        Measurement.new()
+                        YkMeasurement.new()
                     )
                     measurements = project.measurements
                     println(measurements)
@@ -61,7 +61,7 @@ fun ProjectView(project: Project) {
 
 /// Top row with the name and description of the project, and button to expand/close
 @Composable
-fun ProjectTopRow(project: Project, expansion: ProjectExpansionLevel) {
+fun ProjectTopRow(project: YkProject, expansion: ProjectExpansionLevel) {
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween,
@@ -78,7 +78,7 @@ fun ProjectTopRow(project: Project, expansion: ProjectExpansionLevel) {
 /// Content with either static or editable measurements
 @Composable
 fun ProjectContent(
-    measurements: List<Measurement>,
+    measurements: List<YkMeasurement>,
     expansion: ProjectExpansionLevel,
     editClick: () -> Unit,
     addClick: () -> Unit

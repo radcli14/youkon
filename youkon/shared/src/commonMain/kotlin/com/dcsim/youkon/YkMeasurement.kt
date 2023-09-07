@@ -1,26 +1,26 @@
 package com.dcsim.youkon
 
 /// Holds a variable with units assigned to it
-class Measurement(
+class YkMeasurement(
     var value: Double,
-    var unit: MeasurementUnit,
+    var unit: YkUnit,
     var name: String = "New Variable",
     var about: String = ""
 ) {
 
     companion object {
-        fun new(): Measurement {
-            return Measurement(1.0, MeasurementUnit.METERS, "New Measurement", "Description")
+        fun new(): YkMeasurement {
+            return YkMeasurement(1.0, YkUnit.METERS, "New Measurement", "Description")
         }
     }
 
     /// Convert from the current measurement unit into a different unit, using the Unit type as input
-    fun convertTo(targetUnit: MeasurementUnit): Measurement {
-        return Measurement(value * unit.conversionFactor(targetUnit), targetUnit)
+    fun convertTo(targetUnit: YkUnit): YkMeasurement {
+        return YkMeasurement(value * unit.conversionFactor(targetUnit), targetUnit)
     }
 
     /// Converts the measurement to a consistent system of measurements, like SI (kg-m-N), Imperial (slug-ft-pound), etc
-    private fun convertToSystem(targetSystem: String): Measurement {
+    private fun convertToSystem(targetSystem: String): YkMeasurement {
         return when (targetSystem) {
             "SI" -> convertToSI()
             else -> convertToSI()
@@ -28,14 +28,14 @@ class Measurement(
     }
 
     /// Converts this measurement to SI units (kg-m-N)
-    private fun convertToSI(): Measurement {
+    private fun convertToSI(): YkMeasurement {
         return when (unit) {
-            in unit.massUnits -> convertTo(MeasurementUnit.KILOGRAMS)
-            in unit.lengthUnits -> convertTo(MeasurementUnit.METERS)
-            in unit.forceUnits -> convertTo(MeasurementUnit.NEWTONS)
-            in unit.powerUnits -> convertTo(MeasurementUnit.WATTS)
-            in unit.energyUnits -> convertTo(MeasurementUnit.JOULES)
-            in unit.pressureUnits -> convertTo(MeasurementUnit.PASCALS)
+            in unit.massUnits -> convertTo(YkUnit.KILOGRAMS)
+            in unit.lengthUnits -> convertTo(YkUnit.METERS)
+            in unit.forceUnits -> convertTo(YkUnit.NEWTONS)
+            in unit.powerUnits -> convertTo(YkUnit.WATTS)
+            in unit.energyUnits -> convertTo(YkUnit.JOULES)
+            in unit.pressureUnits -> convertTo(YkUnit.PASCALS)
             else -> return this
         }
     }
@@ -52,23 +52,23 @@ class Measurement(
 
 // Examples used for testing
 
-var wembyHeight = Measurement(
+var wembyHeight = YkMeasurement(
     value = 2.26,
-    unit = MeasurementUnit.METERS,
+    unit = YkUnit.METERS,
     name = "Height",
     about = "How tall is Wemby"
 )
 
-var wembyWeight = Measurement(
+var wembyWeight = YkMeasurement(
     value = 95.0,
-    unit = MeasurementUnit.KILOGRAMS,
+    unit = YkUnit.KILOGRAMS,
     name = "Weight",
     about = "How much does Wemby weigh"
 )
 
-var shuttleWeight = Measurement(
+var shuttleWeight = YkMeasurement(
     value = 4480000.0,
-    unit = MeasurementUnit.POUNDS,
+    unit = YkUnit.POUNDS,
     name = "Weight",
     about = "Weight of the Space Shuttle"
 )

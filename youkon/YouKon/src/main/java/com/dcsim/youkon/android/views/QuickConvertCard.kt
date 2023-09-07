@@ -17,14 +17,14 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.dcsim.youkon.Measurement
-import com.dcsim.youkon.MeasurementUnit
+import com.dcsim.youkon.YkMeasurement
+import com.dcsim.youkon.YkUnit
 
 @Composable
 fun QuickConvertCard() {
-    val measurement = Measurement(2.26, MeasurementUnit.METERS)
+    val measurement = YkMeasurement(2.26, YkUnit.METERS)
     var equivalentUnits by remember { mutableStateOf(measurement.unit.equivalentUnits()) }
-    var targetUnit by remember { mutableStateOf(MeasurementUnit.FEET) }
+    var targetUnit by remember { mutableStateOf(YkUnit.FEET) }
     var sourceText by remember { mutableStateOf(measurement.valueString()) }
     var convertedText by remember { mutableStateOf(measurement.convertTo(targetUnit).valueString()) }
 

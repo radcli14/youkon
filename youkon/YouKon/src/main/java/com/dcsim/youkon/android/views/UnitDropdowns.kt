@@ -17,11 +17,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.dcsim.youkon.Measurement
-import com.dcsim.youkon.MeasurementUnit
+import com.dcsim.youkon.YkMeasurement
+import com.dcsim.youkon.YkUnit
 
 @Composable
-fun FromDropdown(measurement: Measurement, onClick: (MeasurementUnit?) -> Unit) {
+fun FromDropdown(measurement: YkMeasurement, onClick: (YkUnit?) -> Unit) {
     val isExpanded = remember { mutableStateOf(false) }
     var unitText by remember { mutableStateOf(measurement.unit.toString()) }
 
@@ -42,7 +42,7 @@ fun FromDropdown(measurement: Measurement, onClick: (MeasurementUnit?) -> Unit) 
 }
 
 @Composable
-fun ToDropdown(equivalentUnits: Array<MeasurementUnit>, targetUnit: MeasurementUnit) {
+fun ToDropdown(equivalentUnits: Array<YkUnit>, targetUnit: YkUnit) {
     val isExpanded = remember { mutableStateOf(false) }
 
     Button(
@@ -73,7 +73,7 @@ fun UnitDropdownButtonColumn(firstLine: String, secondLine: String) {
 }
 
 @Composable
-fun UnitDropdownMenuItems(units: Array<MeasurementUnit>, isExpanded: MutableState<Boolean>, onClick: (MeasurementUnit?) -> Unit) {
+fun UnitDropdownMenuItems(units: Array<YkUnit>, isExpanded: MutableState<Boolean>, onClick: (YkUnit?) -> Unit) {
     DropdownMenu(
         expanded = isExpanded.value,
         onDismissRequest = { onClick(null) }

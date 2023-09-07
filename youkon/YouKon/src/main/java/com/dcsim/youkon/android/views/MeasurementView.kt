@@ -16,12 +16,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.dcsim.youkon.Measurement
+import com.dcsim.youkon.YkMeasurement
 
 private val measurementTextWidth = 220.dp
 
 @Composable
-fun MeasurementView(measurement: Measurement) {
+fun MeasurementView(measurement: YkMeasurement) {
     var editedName by remember { mutableStateOf(measurement.name) }
     var editedDescription by remember { mutableStateOf(measurement.about) }
 
