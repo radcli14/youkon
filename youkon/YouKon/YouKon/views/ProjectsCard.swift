@@ -23,7 +23,7 @@ struct ProjectsCard: View {
         let measurement = shared.Measurement(
             value: 2.26,
             unit: .meters,
-            name: "WembyHeight",
+            name: "Height",
             about: "How tall is Wemby"
         )
         project.measurements.add(measurement)
@@ -40,7 +40,6 @@ struct ProjectsCard: View {
                         ProjectView(project: project)
                     }
                 }
-                .padding()
             }
         }
         .frame(maxHeight: .infinity)
