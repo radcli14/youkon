@@ -15,8 +15,10 @@ class ProjectViewController: ObservableObject {
     
     @Published var editedName: String
     @Published var editedDescription: String
+    @Published var convertToSystem = "SI"
     @Published var measurements: [shared.Measurement]
     @Published var expansion: ProjectExpansionLevel = .compact
+    @Published var isExpanded = false
 
     init() {
         self.project = Project()
