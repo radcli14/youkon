@@ -22,7 +22,7 @@ struct MeasurementView: View {
     init(measurement: shared.Measurement) {
         self.measurement = measurement
         _unit = State(initialValue: measurement.unit)
-        _availableUnits = State(initialValue: kotlinToSwiftArray(measurement.unit.equivalentUnits()))
+        _availableUnits = State(initialValue: kotlinToSwiftArray(measurement.unit.allUnits))
         _editedName = State(initialValue: measurement.name)
         _editedDescription = State(initialValue: measurement.about)
     }
@@ -47,7 +47,7 @@ struct MeasurementView: View {
                 }
                 UnitDropdown(unit: $unit, availableUnits: $availableUnits) { newUnit in
                     unit = newUnit
-                    availableUnits = kotlinToSwiftArray(newUnit.equivalentUnits())
+                    measurement.unit = newUnit
                 }
                 Spacer()
             }
