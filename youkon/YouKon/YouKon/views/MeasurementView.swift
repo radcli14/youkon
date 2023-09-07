@@ -12,43 +12,25 @@ import shared
 
 
 struct MeasurementView: View {
-    @State var measurement: shared.Measurement
-    
-    @State private var unit: MeasurementUnit
-    @State private var availableUnits: [MeasurementUnit]
-    @State private var editedName: String
-    @State private var editedDescription: String
-    
+    @ObservedObject var vc: MeasurementViewController
+
     init(measurement: shared.Measurement) {
-        self.measurement = measurement
-        _unit = State(initialValue: measurement.unit)
-        _availableUnits = State(initialValue: kotlinToSwiftArray(measurement.unit.allUnits))
-        _editedName = State(initialValue: measurement.name)
-        _editedDescription = State(initialValue: measurement.about)
+        vc = MeasurementViewController(for: measurement)
     }
     
     var body: some View {
         VStack {
-            TextField("Name", text: $editedName)
+            TextField("Name", text: $vc.measurement.name)
                 .font(.headline)
-                .onChange(of: editedName) { name in
-                    measurement.name = name
-                }
             
-            TextField("Description", text: $editedDescription)
+            TextField("Description", text: $vc.measurement.about)
                 .font(.subheadline)
-                .onChange(of: editedDescription) { description in
-                    measurement.about = description
-                }
             
             HStack {
-                MeasurementTextField(measurement: $measurement) {
+                MeasurementTextField(measurement: $vc.measurement) {
                     // Update the views
                 }
-                UnitDropdown(unit: $unit, availableUnits: $availableUnits) { newUnit in
-                    unit = newUnit
-                    measurement.unit = newUnit
-                }
+                UnitDropdown(unit: $vc.measurement.unit, availableUnits: $vc.availableUnits) { _ in }
                 Spacer()
             }
         }
