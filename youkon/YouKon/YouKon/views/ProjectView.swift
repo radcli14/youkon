@@ -75,7 +75,7 @@ struct ProjectView: View {
         switch (vc.expansion) {
         case .editable:
             TextField("Name", text: $vc.editedName)
-                .font(.headline)
+                .font(.title3)
                 .fontWeight(.bold)
                 .onChange(of: vc.editedName) { name in
                     vc.project.name = name
@@ -95,7 +95,7 @@ struct ProjectView: View {
                 .onChange(of: vc.editedDescription) { description in
                     vc.project.about = description
                 }
-                .font(.caption)
+                .font(.body)
         default:
             Text(vc.editedDescription)
                 .font(.caption)

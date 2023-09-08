@@ -27,10 +27,14 @@ struct ContentView: View {
                 .brightness(colorScheme == .dark ? -0.3 : 0.3)
         )
         .sheet(isPresented: $contentViewController.isEditingProject) {
-            if let project = contentViewController.project {
-                ProjectView(project: project, editing: true)
-                    .padding(16)
+            VStack {
+                if let project = contentViewController.project {
+                    ProjectView(project: project, editing: true)
+                        .padding(16)
+                }
+                Spacer()
             }
+            .presentationDetents([.medium, .large])
         }
         .environmentObject(contentViewController)
 	}
