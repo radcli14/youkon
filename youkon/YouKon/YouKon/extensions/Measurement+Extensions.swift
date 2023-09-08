@@ -10,6 +10,10 @@ import Foundation
 import shared
 
 extension YkMeasurement {
+    func nameAndValueInSystem(system: String) -> String {
+        name + ": " + self.convertToSystem(targetSystem: system).toSwiftString()
+    }
+    
     func toSwiftString() -> String {
         return "\(niceNumber(self.value)) \(self.unit.shortUnit)"
     }
