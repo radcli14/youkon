@@ -11,23 +11,7 @@ import shared
 
 /// The quick convert card is shown at the top of the screen, and lets the user convert a single measurement value from any unit to any equivalent unit.
 struct QuickConvertCard: View {
-    @State private var measurement: YkMeasurement
-    @State private var allUnits = YkUnit.meters.allAvailableUnits
-    @State private var equivalentUnits = kotlinToSwiftArray(YkUnit.meters.equivalentUnits())
-    @State private var fromUnit = YkUnit.meters
-    @State private var targetUnit = YkUnit.feet
-    @State private var convertedText: String
-
-    init() {
-        let measurement = YkMeasurement(
-            value: 2.26,
-            unit: .meters,
-            name: "Quick Convert",
-            about: "Card on top of the screen"
-        )
-        self.measurement = measurement
-        convertedText = measurement.toSwiftString(in: YkUnit.feet)
-    }
+    @ObservedObject var vc = QuickConvertCardController()
     
     var body: some View {
         GroupBox {
@@ -37,7 +21,7 @@ struct QuickConvertCard: View {
                 userInputRow
 
                 // The display of the measurement after conversion
-                Text(convertedText)
+                Text(vc.convertedText)
                     .padding(.leading, 8)
                     .font(.subheadline)
             }
@@ -60,9 +44,9 @@ struct QuickConvertCard: View {
     @ViewBuilder
     private var textField: some View {
         MeasurementTextField(
-            measurement: $measurement,
+            measurement: $vc.measurement,
             updateMeasurement: {
-                setConvertedText()
+                vc.setConvertedText()
             }
         )
     }
@@ -71,18 +55,18 @@ struct QuickConvertCard: View {
     @ViewBuilder
     private var fromDropdown: some View {
         UnitDropdown(
-            unit: $fromUnit,
-            availableUnits: $allUnits,
+            unit: $vc.fromUnit,
+            availableUnits: $vc.allUnits,
             headerText: "From"
         ) { unit in
-            measurement.unit = unit
-            fromUnit = unit
-            equivalentUnits = kotlinToSwiftArray(unit.equivalentUnits())
-            if targetUnit == unit || !equivalentUnits.contains(targetUnit),
-                let newTargetUnit {
-                targetUnit = newTargetUnit
+            vc.measurement.unit = unit
+            vc.fromUnit = unit
+            vc.equivalentUnits = kotlinToSwiftArray(unit.equivalentUnits())
+            if vc.targetUnit == unit || !vc.equivalentUnits.contains(vc.targetUnit),
+               let newUnit = vc.newTargetUnit {
+                vc.targetUnit = newUnit
             }
-            setConvertedText()
+            vc.setConvertedText()
         }
     }
     
@@ -90,23 +74,15 @@ struct QuickConvertCard: View {
     @ViewBuilder
     private var toDropdown: some View {
         UnitDropdown(
-            unit: $targetUnit,
-            availableUnits: $equivalentUnits,
+            unit: $vc.targetUnit,
+            availableUnits: $vc.equivalentUnits,
             headerText: "To"
         ) { unit in
-            targetUnit = unit
-            setConvertedText()
+            vc.targetUnit = unit
+            vc.setConvertedText()
         }
     }
     
-    /// When a new value is received, update the text at the bottom of the card
-    private func setConvertedText() {
-        convertedText = measurement.toSwiftString(in: targetUnit)
-    }
-    
-    private var newTargetUnit: YkUnit? {
-        return equivalentUnits.first(where: { $0 != targetUnit })
-    }
 }
 
 
