@@ -12,6 +12,16 @@ struct ContentView: View {
             QuickConvertCard()
             ProjectsCard()
         }
+        .onTapGesture {
+            hideKeyboard()
+        }
+        .toolbar {
+            ToolbarItem(placement: .keyboard) {
+                Button(action: hideKeyboard) {
+                    Image(systemName: "chevron.down")
+                }
+            }
+        }
         .background(
             Image("Background")
                 .brightness(colorScheme == .dark ? -0.3 : 0.3)
