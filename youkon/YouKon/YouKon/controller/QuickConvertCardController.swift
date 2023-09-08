@@ -13,7 +13,6 @@ class QuickConvertCardController: ObservableObject {
     @Published var measurement: YkMeasurement
     @Published var allUnits = YkUnit.meters.allAvailableUnits
     @Published var equivalentUnits = kotlinToSwiftArray(YkUnit.meters.equivalentUnits())
-    @Published var fromUnit = YkUnit.meters
     @Published var targetUnit = YkUnit.feet
     @Published var convertedText: String
 
@@ -31,6 +30,16 @@ class QuickConvertCardController: ObservableObject {
     /// When a new value is received, update the text at the bottom of the card
     func setConvertedText() {
         convertedText = measurement.toSwiftString(in: targetUnit)
+    }
+    
+    func updateUnit(to unit: YkUnit) {
+        measurement.unit = unit
+        equivalentUnits = kotlinToSwiftArray(unit.equivalentUnits())
+        if targetUnit == unit || !equivalentUnits.contains(targetUnit),
+           let newUnit = newTargetUnit {
+            targetUnit = newUnit
+        }
+        setConvertedText()
     }
     
     var newTargetUnit: YkUnit? {

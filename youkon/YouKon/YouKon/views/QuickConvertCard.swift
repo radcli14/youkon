@@ -55,18 +55,11 @@ struct QuickConvertCard: View {
     @ViewBuilder
     private var fromDropdown: some View {
         UnitDropdown(
-            unit: $vc.fromUnit,
+            unit: $vc.measurement.unit,
             availableUnits: $vc.allUnits,
             headerText: "From"
         ) { unit in
-            vc.measurement.unit = unit
-            vc.fromUnit = unit
-            vc.equivalentUnits = kotlinToSwiftArray(unit.equivalentUnits())
-            if vc.targetUnit == unit || !vc.equivalentUnits.contains(vc.targetUnit),
-               let newUnit = vc.newTargetUnit {
-                vc.targetUnit = newUnit
-            }
-            vc.setConvertedText()
+            vc.updateUnit(to: unit)
         }
     }
     
@@ -74,11 +67,11 @@ struct QuickConvertCard: View {
     @ViewBuilder
     private var toDropdown: some View {
         UnitDropdown(
-            unit: $vc.targetUnit,
+            unit: $vc.measurement.targetUnit,
             availableUnits: $vc.equivalentUnits,
             headerText: "To"
         ) { unit in
-            vc.targetUnit = unit
+            //vc.targetUnit = unit
             vc.setConvertedText()
         }
     }
