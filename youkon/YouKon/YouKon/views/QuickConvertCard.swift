@@ -67,11 +67,10 @@ struct QuickConvertCard: View {
     @ViewBuilder
     private var toDropdown: some View {
         UnitDropdown(
-            unit: $vc.measurement.targetUnit,
+            unit: $vc.targetUnit,
             availableUnits: $vc.equivalentUnits,
             headerText: "To"
-        ) { unit in
-            //vc.targetUnit = unit
+        ) { _ in
             vc.setConvertedText()
         }
     }
