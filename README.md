@@ -33,36 +33,36 @@ A saved set of `Project` objects that an individual user has generated is stored
 
 ```mermaid
 classDiagram
-UserData --> Project
-Project --> Measurement
-Measurement --> MeasurementUnit
-class UserData {
+YkUser --> YkProject
+YkProject --> YkMeasurement
+YkMeasurement --> YkUnit
+class YkUser {
 +String name
-+List~Project~ projects
++List~YmProject~ projects
 }
-class Project {
+class YkProject {
 +String name
-+String description
-+List~Measurement~ measurement
++String about
++List~YkMeasurement~ measurement
 +List~String~ images
 }
-class Measurement {
+class YkMeasurement {
 +String name
-+String description
++String about
 +Double value
-+MeasurementUnit unit
++YkUnit unit
 +convertTo(targetUnit)
 }
-class MeasurementUnit {
-+Array~MeasurementUnit~ allUnits
-+Array~MeasurementUnit~ massUnits
-+Array~MeasurementUnit~ lengthUnits
-+Array~MeasurementUnit~ forceUnits
-+Array~MeasurementUnit~ powerUnits
-+Array~MeasurementUnit~ energyUnits
-+Array~MeasurementUnit~ pressureUnits
+class YkUnit {
++Array~YkUnit~ allUnits
++Array~YkUnit~ massUnits
++Array~YlUnit~ lengthUnits
++Array~YkUnit~ forceUnits
++Array~YkUnit~ powerUnits
++Array~YkUnit~ energyUnits
++Array~YkUnit~ pressureUnits
 +String shortUnit()
-+Array<MeasurementUnit> equivalentUnits()
++Array<YkUnit> equivalentUnits()
 +Double conversionFactor(targetUnit)
 }
 ```
