@@ -115,14 +115,17 @@ struct ProjectView: View {
                 }
             }
         }
+        .onTapGesture {
+            if vc.expansion != .editable {
+                contentViewController.toggleEdit(to: vc.project)
+            }
+        }
     }
     
     @ViewBuilder
     private var expansionMenu: some View {
         if vc.expansion == .editable {
             expansionPlusMinusStack
-        } else {
-            expansionEditButton
         }
     }
     
@@ -137,18 +140,6 @@ struct ProjectView: View {
                 Image(systemName: "minus")
                     .frame(height: 24)
             }
-        }
-        .buttonStyle(.bordered)
-        .foregroundColor(.indigo)
-    }
-    
-    @ViewBuilder
-    private var expansionEditButton: some View {
-        Button(action: {
-            contentViewController.toggleEdit(to: vc.project)
-        }) {
-            Image(systemName: "pencil")
-                .frame(height: 24)
         }
         .buttonStyle(.bordered)
         .foregroundColor(.indigo)
