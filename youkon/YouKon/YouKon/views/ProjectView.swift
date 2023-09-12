@@ -29,6 +29,7 @@ struct ProjectView: View {
         }
     }
     
+    /// The list of editable measurements when the project is opened in a `.sheet` for editing
     @ViewBuilder
     private var mainStackWhenEditing: some View {
         VStack(alignment: .leading) {
@@ -37,6 +38,7 @@ struct ProjectView: View {
         }
     }
     
+    /// The disclosure group with static content inside, with label with name and description
     @ViewBuilder
     private var disclosureGroupWhenNotEditing: some View {
         DisclosureGroup(isExpanded: $vc.isExpanded) {
@@ -49,6 +51,7 @@ struct ProjectView: View {
         .cornerRadius(8)
     }
     
+    /// The name and description shown at the top of the project
     @ViewBuilder
     private var labelStack: some View {
         VStack(alignment: .leading) {
@@ -58,11 +61,12 @@ struct ProjectView: View {
         .foregroundStyle(.foreground)
     }
     
+    /// The content that is displayed when the `DisclosureGroup` is expanded
     @ViewBuilder
     private var expansionStack: some View {
         VStack {
             Divider()
-            HStack {
+            HStack(alignment: .top) {
                 expansionView
                 Spacer()
                 expansionMenu
@@ -70,6 +74,7 @@ struct ProjectView: View {
         }
     }
     
+    /// The title of the project, which is the `.name` field in the `YkProject`
     @ViewBuilder
     private var nameField: some View {
         switch (vc.expansion) {
@@ -87,6 +92,7 @@ struct ProjectView: View {
         }
     }
     
+    /// The subtitle of the project, which is the `.about` field in the `YkProject`
     @ViewBuilder
     private var descriptionField: some View {
         switch (vc.expansion) {
@@ -102,6 +108,7 @@ struct ProjectView: View {
         }
     }
     
+    /// When the `DisclosureGroup` is expanded, this will be inside, and will either contain the editable content when opened in a `.sheet`, or static text
     @ViewBuilder
     private var expansionView: some View {
         VStack(alignment: .leading) {
@@ -112,6 +119,7 @@ struct ProjectView: View {
                         subtractMeasurementButton(measurement)
                         MeasurementView(measurement: measurement)
                     }
+                    .animation(.easeInOut, value: vc.canSubtract)
                 default:
                     Text(measurement.nameAndValueInSystem(
                         system: vc.convertToSystem)
@@ -126,6 +134,7 @@ struct ProjectView: View {
         }
     }
     
+    /// If editable, this will display the `expansionPlusMinusStack`
     @ViewBuilder
     private var expansionMenu: some View {
         if vc.expansion == .editable {
@@ -133,6 +142,7 @@ struct ProjectView: View {
         }
     }
     
+    /// The plus and minus buttons on the right hand side when editing, to create or delete measurements
     @ViewBuilder
     private var expansionPlusMinusStack: some View {
         VStack {
@@ -149,6 +159,7 @@ struct ProjectView: View {
         .foregroundColor(.indigo)
     }
     
+    /// The red `X` that shows up to the left of a measurement when the user has enabled subtracting measurements
     @ViewBuilder
     private func subtractMeasurementButton(_ measurement: YkMeasurement) -> some View {
         if vc.canSubtract {
@@ -158,7 +169,7 @@ struct ProjectView: View {
                 }
             ) {
                 Image(systemName: "x.circle.fill")
-                    .foregroundColor(.red)
+                    .foregroundColor(.pink)
                     .font(.title2)
             }
         }
