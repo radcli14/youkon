@@ -20,7 +20,7 @@ class YkMeasurement(
     }
 
     /// Converts the measurement to a consistent system of measurements, like SI (kg-m-N), Imperial (slug-ft-pound), etc
-    private fun convertToSystem(targetSystem: String): YkMeasurement {
+    fun convertToSystem(targetSystem: String): YkMeasurement {
         return when (targetSystem) {
             "SI" -> convertToSI()
             else -> convertToSI()

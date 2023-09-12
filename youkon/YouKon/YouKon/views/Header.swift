@@ -21,7 +21,7 @@ struct Header: View {
             Text("YouKon")
                 .font(.custom("philosopher-bold", size: 54))
                 //.shadow(color: .indigo, radius: 1, x: -1, y: 1)
-                .foregroundStyle(.primary.shadow(.inner(color: .indigo, radius: 3)))
+                .foregroundStyle(.primary.shadow(.inner(color: .indigo, radius: 1)))
         }
     }
 }

@@ -107,7 +107,11 @@ struct ProjectView: View {
         VStack(alignment: .leading) {
             ForEach(vc.measurements, id: \.self) { measurement in
                 switch (vc.expansion) {
-                case .editable: MeasurementView(measurement: measurement)
+                case .editable:
+                    HStack {
+                        subtractMeasurementButton(measurement)
+                        MeasurementView(measurement: measurement)
+                    }
                 default:
                     Text(measurement.nameAndValueInSystem(
                         system: vc.convertToSystem)
@@ -143,6 +147,21 @@ struct ProjectView: View {
         }
         .buttonStyle(.bordered)
         .foregroundColor(.indigo)
+    }
+    
+    @ViewBuilder
+    private func subtractMeasurementButton(_ measurement: YkMeasurement) -> some View {
+        if vc.canSubtract {
+            Button(
+                action: {
+                    vc.subtract(measurement: measurement)
+                }
+            ) {
+                Image(systemName: "x.circle.fill")
+                    .foregroundColor(.red)
+                    .font(.title2)
+            }
+        }
     }
 }
 

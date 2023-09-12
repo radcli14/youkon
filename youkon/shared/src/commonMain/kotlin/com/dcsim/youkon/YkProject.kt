@@ -15,6 +15,14 @@ class YkProject {
     ) {
         measurements.add(YkMeasurement(value, unit, name, about))
     }
+
+    fun removeMeasurement(measurement: YkMeasurement) {
+        measurements.forEachIndexed { idx, m ->
+            if (measurement == m) {
+                measurements.removeAt(idx)
+            }
+        }
+    }
 }
 
 enum class ProjectExpansionLevel {

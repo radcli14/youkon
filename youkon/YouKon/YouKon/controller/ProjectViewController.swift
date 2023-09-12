@@ -19,6 +19,7 @@ class ProjectViewController: ObservableObject {
     @Published var measurements: [YkMeasurement]
     @Published var expansion: ProjectExpansionLevel = .compact
     @Published var isExpanded = false
+    @Published var canSubtract = false
 
     init() {
         self.project = YkProject()
@@ -75,6 +76,14 @@ class ProjectViewController: ObservableObject {
     }
     
     func subtractMeasurement() {
-        // TODO: create the subtractMeasurement method
+        canSubtract.toggle()
+    }
+    
+    func subtract(measurement: YkMeasurement) {
+        project.removeMeasurement(measurement: measurement)
+        measurements = project.measurements as! [YkMeasurement]
+        if measurements.count == 0 {
+            canSubtract = false
+        }
     }
 }
