@@ -69,7 +69,7 @@ class ProjectViewController: ObservableObject {
         project.addMeasurement(
             value: 0.0,
             unit: .meters,
-            name: "New Measurement",
+            name: "",
             about: ""
         )
         measurements = project.measurements as! [YkMeasurement]
