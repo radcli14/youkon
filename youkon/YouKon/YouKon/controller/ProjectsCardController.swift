@@ -12,26 +12,23 @@ import shared
 
 class ProjectsCardController: ObservableObject {
     var user: YkUser
-    @Published var projects: [YkProject]
+    @Published var projects: [YkProject] = []
     
     init() {
         user = YkUser()
-        user.projects.add(YkProject())
-        let project = user.projects.firstObject as! YkProject
-        project.name = "Victor Wembenyama"
-        project.about = "Real Facts"
-        let measurement = YkMeasurement(
-            value: 2.26,
-            unit: .meters,
-            name: "Height",
-            about: "How tall is Wemby"
-        )
-        project.measurements.add(measurement)
+        user.setAsTestUser()
+        updateProjects()
+    }
+    
+    func updateProjects() {
         projects = user.projects as! [YkProject]
     }
     
     func addProject() {
         print("add project")
+        user.addProject()
+        updateProjects()
+        print(projects)
     }
     
     func subtractProject() {
