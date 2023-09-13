@@ -14,20 +14,15 @@ struct QuickConvertCard: View {
     @ObservedObject var vc = QuickConvertCardController()
     
     var body: some View {
-        GroupBox {
+        GroupBox(
+            label: Text("Quick Convert")
+        ) {
             VStack(alignment: .leading, spacing: 16) {
-                Text("Quick Convert")
-                    .font(.headline)
                 userInputRow
-
-                // The display of the measurement after conversion
-                Text(vc.convertedText)
-                    .padding(.leading, 8)
-                    .font(.subheadline)
+                convertedText
             }
         }
         .frame(width: 360)
-        .padding(16)
     }
     
     /// The row with the text field on the left, and menu buttons for "From" and "To" units
@@ -75,6 +70,13 @@ struct QuickConvertCard: View {
         }
     }
     
+    /// The display of the measurement after conversion
+    @ViewBuilder
+    private var convertedText: some View {
+        Text(vc.convertedText)
+            .padding(.leading, 8)
+            .font(.subheadline)
+    }
 }
 
 
