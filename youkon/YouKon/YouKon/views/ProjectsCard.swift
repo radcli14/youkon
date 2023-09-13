@@ -36,7 +36,7 @@ struct ProjectsCard: View {
         ) {
             projectContent
         }
-        .frame(maxHeight: .infinity)
+        .backgroundStyle(Color(UIColor.systemBackground).opacity(0.5))
         .padding()
     }
     

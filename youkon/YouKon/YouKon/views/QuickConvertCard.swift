@@ -23,6 +23,7 @@ struct QuickConvertCard: View {
             }
         }
         .frame(width: 360)
+        .backgroundStyle(Color(UIColor.systemBackground).opacity(0.4))
     }
     
     /// The row with the text field on the left, and menu buttons for "From" and "To" units
