@@ -4,6 +4,23 @@ package com.dcsim.youkon
 class YkUser {
     var name = "New User"
     var projects = mutableListOf<YkProject>()
+
+    /// Add a project with `name` and `about` strings, but empty `measurements` and `image`
+    fun addProject(name: String = "", description: String = "") {
+        val project = YkProject()
+        project.name = name
+        project.about = description
+        projects.add(project)
+    }
+
+    /// Remove a project from the `projects` list
+    fun removeProject(project: YkProject) {
+        projects.forEachIndexed { idx, p ->
+            if (project == p) {
+                projects.removeAt(idx)
+            }
+        }
+    }
 }
 
 /// For testing, create a generic user
