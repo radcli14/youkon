@@ -32,18 +32,51 @@ struct ProjectsCard: View {
     
     var body: some View {
         GroupBox(
-            label: Text("Projects")
+            label: labelStack
         ) {
-            ScrollView {
-                LazyVStack(spacing: 16) {
-                    ForEach(projects, id: \.self) { project in
-                        ProjectView(project: project)
-                    }
-                }
-            }
+            projectContent
         }
         .frame(maxHeight: .infinity)
         .padding()
+    }
+    
+    @ViewBuilder
+    private var labelStack: some View {
+        HStack(spacing: 8) {
+            Text("Projects")
+            Spacer()
+            plusButton
+            minusButton
+        }
+    }
+    
+    @ViewBuilder
+    private var plusButton: some View {
+        Button(action: {}) {
+            Image(systemName: "plus")
+                .frame(height: 24)
+        }
+        .buttonStyle(.bordered)
+    }
+    
+    @ViewBuilder
+    private var minusButton: some View {
+        Button(action: {}) {
+            Image(systemName: "minus")
+                .frame(height: 24)
+        }
+        .buttonStyle(.bordered)
+    }
+    
+    @ViewBuilder
+    private var projectContent: some View {
+        ScrollView {
+            LazyVStack(spacing: 16) {
+                ForEach(projects, id: \.self) { project in
+                    ProjectView(project: project)
+                }
+            }
+        }
     }
 }
 
