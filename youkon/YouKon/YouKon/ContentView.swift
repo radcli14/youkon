@@ -12,6 +12,7 @@ struct ContentView: View {
             QuickConvertCard()
             ProjectsCard()
         }
+        .accentColor(.indigo)
         .onTapGesture {
             hideKeyboard()
         }
