@@ -10,24 +10,10 @@ import SwiftUI
 import shared
 
 struct ProjectsCard: View {
-    let userData: YkUser
-    
-    @State private var projects: [YkProject]
-    
+    let vc: ProjectsCardController
+
     init() {
-        userData = YkUser()
-        userData.projects.add(YkProject())
-        let project = userData.projects.firstObject as! YkProject
-        project.name = "Victor Wembenyama"
-        project.about = "Real Facts"
-        let measurement = YkMeasurement(
-            value: 2.26,
-            unit: .meters,
-            name: "Height",
-            about: "How tall is Wemby"
-        )
-        project.measurements.add(measurement)
-        projects = userData.projects as! [YkProject]
+        vc = ProjectsCardController()
     }
     
     var body: some View {
@@ -52,7 +38,7 @@ struct ProjectsCard: View {
     
     @ViewBuilder
     private var plusButton: some View {
-        Button(action: {}) {
+        Button(action: vc.addProject) {
             Image(systemName: "plus")
                 .frame(height: 24)
         }
@@ -61,7 +47,7 @@ struct ProjectsCard: View {
     
     @ViewBuilder
     private var minusButton: some View {
-        Button(action: {}) {
+        Button(action: vc.subtractProject) {
             Image(systemName: "minus")
                 .frame(height: 24)
         }
@@ -72,7 +58,7 @@ struct ProjectsCard: View {
     private var projectContent: some View {
         ScrollView {
             LazyVStack(spacing: 16) {
-                ForEach(projects, id: \.self) { project in
+                ForEach(vc.projects, id: \.self) { project in
                     ProjectView(project: project)
                 }
             }
