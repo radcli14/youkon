@@ -126,6 +126,9 @@ struct ProjectView: View {
                     )
                 }
             }
+            if vc.measurements.isEmpty {
+                Text("Add New Measurements")
+            }
         }
         .onTapGesture {
             if vc.expansion != .editable {
