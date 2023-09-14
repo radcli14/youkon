@@ -13,6 +13,10 @@ class YkUser {
         projects.add(project)
     }
 
+    fun addProject() {
+        addProject(name = "New Project")
+    }
+
     /// Remove a project from the `projects` list
     fun removeProject(project: YkProject) {
         projects.forEachIndexed { idx, p ->
@@ -21,13 +25,11 @@ class YkUser {
             }
         }
     }
-}
 
-/// For testing, create a generic user
-fun testUser(): YkUser {
-    val data = YkUser()
-    data.name = "Eliott"
-    data.projects.add(wembyProject())
-    data.projects.add(spaceProject())
-    return data
+    /// For testing, create a generic user
+    fun setAsTestUser() {
+        name = "Eliott"
+        projects.add(wembyProject())
+        projects.add(spaceProject())
+    }
 }
