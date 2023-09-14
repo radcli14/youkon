@@ -51,7 +51,7 @@ struct ProjectsCard: View {
     
     @ViewBuilder
     private var minusButton: some View {
-        Button(action: vc.subtractProject) {
+        Button(action: vc.onSubtractButtonTap) {
             Image(systemName: "minus")
                 .frame(height: 24)
         }
@@ -63,8 +63,28 @@ struct ProjectsCard: View {
         ScrollView {
             LazyVStack(spacing: 16) {
                 ForEach(vc.projects, id: \.self) { project in
-                    ProjectView(project: project)
+                    HStack {
+                        subtractProjectButton(project)
+                        ProjectView(project: project)
+                    }
+                    .animation(.easeInOut, value: vc.canSubtract)
                 }
+            }
+        }
+    }
+    
+    /// The red `X` that shows up to the left of a project when the user has enabled subtracting projects
+    @ViewBuilder
+    private func subtractProjectButton(_ project: YkProject) -> some View {
+        if vc.canSubtract {
+            Button(
+                action: {
+                    vc.subtract(project: project)
+                }
+            ) {
+                Image(systemName: "x.circle.fill")
+                    .foregroundColor(.pink)
+                    .font(.title2)
             }
         }
     }
