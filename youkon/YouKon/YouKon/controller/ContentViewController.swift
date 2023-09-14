@@ -12,6 +12,12 @@ import shared
 class ContentViewController: ObservableObject {
     @Published var isEditingProject = false
     var project: YkProject? = nil
+    var user: YkUser
+    
+    init() {
+        user = YkUser()
+        user.setAsTestUser()
+    }
     
     func toggleEdit(to project: YkProject) {
         isEditingProject.toggle()

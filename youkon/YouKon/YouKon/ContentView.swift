@@ -10,7 +10,7 @@ struct ContentView: View {
         VStack(spacing: 0) {
             Header()
             QuickConvertCard()
-            ProjectsCard()
+            ProjectsCard(with: contentViewController.user)
         }
         .accentColor(.indigo)
         .onTapGesture {

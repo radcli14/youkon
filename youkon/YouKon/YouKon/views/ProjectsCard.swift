@@ -10,10 +10,14 @@ import SwiftUI
 import shared
 
 struct ProjectsCard: View {
-    let vc: ProjectsCardController
+    @ObservedObject var vc: ProjectsCardController
 
     init() {
         vc = ProjectsCardController()
+    }
+    
+    init(with user: YkUser) {
+        vc = ProjectsCardController(with: user)
     }
     
     var body: some View {

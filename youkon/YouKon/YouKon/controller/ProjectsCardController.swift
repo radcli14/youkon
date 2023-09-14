@@ -16,7 +16,11 @@ class ProjectsCardController: ObservableObject {
     
     init() {
         user = YkUser()
-        user.setAsTestUser()
+        updateProjects()
+    }
+    
+    init(with user: YkUser) {
+        self.user = user
         updateProjects()
     }
     
