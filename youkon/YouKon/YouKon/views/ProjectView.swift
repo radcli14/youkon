@@ -13,7 +13,8 @@ import shared
 struct ProjectView: View {
     @ObservedObject var vc: ProjectViewController
     @EnvironmentObject var contentViewController: ContentViewController
-
+    @State private var opacity = 0.0
+    
     init(project: YkProject, editing: Bool = false) {
         vc = ProjectViewController(for: project)
         if editing {
@@ -26,6 +27,12 @@ struct ProjectView: View {
             mainStackWhenEditing
         } else {
             disclosureGroupWhenNotEditing
+                .opacity(opacity)
+                .onAppear {
+                    withAnimation {
+                        opacity = 1.0
+                    }
+                }
         }
     }
     

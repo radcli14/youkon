@@ -13,6 +13,7 @@ import shared
 
 struct MeasurementView: View {
     @ObservedObject var vc: MeasurementViewController
+    @State private var opacity = 0.0
 
     init(measurement: YkMeasurement) {
         vc = MeasurementViewController(for: measurement)
@@ -20,19 +21,39 @@ struct MeasurementView: View {
     
     var body: some View {
         VStack {
-            TextField("Name", text: $vc.measurement.name)
-                .font(.headline)
-            
-            TextField("Description", text: $vc.measurement.about)
-                .font(.subheadline)
-            
-            HStack {
-                MeasurementTextField(measurement: $vc.measurement) {
-                    // Update the views
-                }
-                UnitDropdown(unit: $vc.measurement.unit, availableUnits: $vc.availableUnits) { _ in }
-                Spacer()
+            nameField
+            descriptionField
+            valueAndUnitStack
+        }
+        .opacity(opacity)
+        .onAppear {
+            withAnimation {
+                opacity = 1.0
             }
+        }
+    }
+    
+    /// Editable field for the name of the `YkMeasurement`
+    @ViewBuilder
+    private var nameField: some View {
+        TextField("Name", text: $vc.measurement.name)
+            .font(.headline)
+    }
+    
+    /// Editable field for the `about` string of the `YkMeasurement`
+    @ViewBuilder
+    private var descriptionField: some View {
+        TextField("Description", text: $vc.measurement.about)
+            .font(.subheadline)
+    }
+    
+    /// Numeric field on the left to modify `value`, and dropdown on the right to modify `unit` of the `YkMeasurement`
+    @ViewBuilder
+    private var valueAndUnitStack: some View {
+        HStack {
+            MeasurementTextField(measurement: $vc.measurement) { }
+            UnitDropdown(unit: $vc.measurement.unit, availableUnits: $vc.availableUnits) { _ in }
+            Spacer()
         }
     }
 }
