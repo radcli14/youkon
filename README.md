@@ -14,9 +14,9 @@ Examples where this may be useful:
 The main application view includes the logo and header, a quick conversion card, and the projects card
 Quick conversion includes a text field for entering numeric values, and dropdowns for selecting "from" and "to" units.
 
-| Quick Convert Card on Android                    | Quick Convert Card on iOS                            |
-|--------------------------------------------------|------------------------------------------------------|
-| <img src='assets/quickConvert.png' height='64'> | <img src='assets/quickConvert-ios.jpg' height='64'> | 
+| Quick Convert Card on Android                     | Quick Convert Card on iOS                         |
+|---------------------------------------------------|---------------------------------------------------|
+| ![Android Quick Convert](assets/quickConvert.png) | ![iOS Quick Convert](assets/quickConvert-ios.jpg) |
 
 Each user has a projects card, where any single project represents a grouping of measurement data that hold a common purpose.
 The projects in the card are laid out as tiles, which can be tapped to expand and show the enclosed measurements. 
@@ -38,13 +38,17 @@ YkProject --> YkMeasurement
 YkMeasurement --> YkUnit
 class YkUser {
 +String name
-+List~YmProject~ projects
++List~YkProject~ projects
++addProject()
++removeProject()
 }
 class YkProject {
 +String name
 +String about
 +List~YkMeasurement~ measurement
 +List~String~ images
++addMeasurement()
++removeMeasurement()
 }
 class YkMeasurement {
 +String name
@@ -52,11 +56,14 @@ class YkMeasurement {
 +Double value
 +YkUnit unit
 +convertTo(targetUnit)
++convertToSystem(system)
++valueString()
++nameAndValueInSystem(system)
 }
 class YkUnit {
 +Array~YkUnit~ allUnits
 +Array~YkUnit~ massUnits
-+Array~YlUnit~ lengthUnits
++Array~YkUnit~ lengthUnits
 +Array~YkUnit~ forceUnits
 +Array~YkUnit~ powerUnits
 +Array~YkUnit~ energyUnits
