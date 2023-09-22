@@ -37,6 +37,9 @@ struct ContentView: View {
             }
             .presentationDetents([.medium, .large])
         }
+        .onChange(of: contentViewController.isEditingProject) { _ in
+                contentViewController.saveUserToJson()
+        }
         .environmentObject(contentViewController)
 	}
 }

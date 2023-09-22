@@ -43,6 +43,20 @@ class ContentViewController: ObservableObject {
         }
     }
     
+    /// The URL where the user data file will be stored
+    var documentsUrl: URL {
+        // find all possible documents directories for this user
+        let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+        
+        // just send back the first one, which ought to be the only one
+        return paths[0]
+    }
+    
+    /// The working file, which will be imported on startup, and saved any time the user modifies the data
+    var workingFile: URL {
+        return documentsUrl.appendingPathComponent("userdata.json")
+    }
+
     /// Save the current `YkUser` to a `.json` file
     func saveUserToJson() {
         let str = user.asJsonString()
@@ -52,21 +66,6 @@ class ContentViewController: ObservableObject {
             print(error.localizedDescription)
         }
     }
-    
-    /// The URL where the user data file will be stored
-    var documentsUrl : URL {
-        // find all possible documents directories for this user
-        let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
-        
-        // just send back the first one, which ought to be the only one
-        return paths[0]
-    }
-    
-    /// The working file, which will be imported on startup, and saved any time the user modifies the data
-    var workingFile : URL {
-        return documentsUrl.appendingPathComponent("userdata.json")
-    }
-
     
     /// The user tapped the measuments in a project's disclosure group, toggle editable measurements sheet
     func toggleEdit(to project: YkProject) {
