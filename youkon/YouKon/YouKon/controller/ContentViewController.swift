@@ -17,6 +17,7 @@ class ContentViewController: ObservableObject {
     init() {
         user = YkUser()
         user.setAsTestUser()
+        print(user.asJsonString())
     }
     
     func toggleEdit(to project: YkProject) {
