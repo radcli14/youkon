@@ -1,9 +1,16 @@
 package com.dcsim.youkon
+import kotlinx.serialization.*
+import kotlinx.serialization.json.*
 
 /// Holds the user's name and multiple projects
+@Serializable
 class YkUser {
     var name = "New User"
     var projects = mutableListOf<YkProject>()
+
+    fun asJsonString(): String {
+        return Json.encodeToString(this)
+    }
 
     /// Add a project with `name` and `about` strings, but empty `measurements` and `image`
     fun addProject(name: String = "", description: String = "") {

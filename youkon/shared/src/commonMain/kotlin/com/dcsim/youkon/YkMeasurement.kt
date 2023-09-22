@@ -1,7 +1,10 @@
 package com.dcsim.youkon
+import kotlinx.serialization.*
+import kotlinx.serialization.json.*
 
 /// Holds a variable with units assigned to it
-class YkMeasurement(
+@Serializable
+data class YkMeasurement(
     var value: Double,
     var unit: YkUnit,
     var name: String = "New Variable",
@@ -12,6 +15,10 @@ class YkMeasurement(
         fun new(): YkMeasurement {
             return YkMeasurement(1.0, YkUnit.METERS, "New Measurement", "Description")
         }
+    }
+
+    fun asJsonString(): String {
+        return Json.encodeToString(this)
     }
 
     /// Convert from the current measurement unit into a different unit, using the Unit type as input

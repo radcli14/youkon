@@ -15,16 +15,28 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.dcsim.youkon.YkProject
+import com.dcsim.youkon.YkUser
 import com.dcsim.youkon.android.views.BackgroundBox
 import com.dcsim.youkon.android.views.Header
 import com.dcsim.youkon.android.views.ProjectsCard
 import com.dcsim.youkon.android.views.QuickConvertCard
-import com.dcsim.youkon.testUser
 
 class MainActivity : ComponentActivity() {
-    val user = testUser()
+    val user = YkUser()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        user.setAsTestUser()
+        println("Set Test User")
+        println(user.asJsonString())
+        user.projects.forEach { project ->
+            println(project)
+            println(project.asJsonString())
+            project.measurements.forEach { measurement ->
+                println(measurement)
+                println(measurement.asJsonString())
+            }
+        }
+
         setContent {
             MainView(user.projects)
         }
@@ -56,5 +68,7 @@ fun MainView(projects: List<YkProject>) {
 @Preview
 @Composable
 fun DefaultPreview() {
-    MainView(testUser().projects)
+    val user = YkUser()
+    user.setAsTestUser()
+    MainView(user.projects)
 }

@@ -1,11 +1,19 @@
 package com.dcsim.youkon
+import kotlinx.serialization.*
+import kotlinx.serialization.json.*
 
 /// Hold's a user generated project containing multiple variables with units
-class YkProject {
-    var name = "New Project"
-    var about = ""
-    var measurements = mutableListOf<YkMeasurement>()
-    var images = mutableListOf<String>()
+@Serializable
+data class YkProject(
+    var name: String = "New Project",
+    var about: String = "",
+    var measurements: MutableList<YkMeasurement> = mutableListOf(),
+    var images: MutableList<String> = mutableListOf()
+) {
+
+    fun asJsonString(): String {
+        return Json.encodeToString(this)
+    }
 
     fun addMeasurement(
         value: Double = 0.0,
