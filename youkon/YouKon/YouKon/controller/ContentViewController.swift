@@ -16,7 +16,8 @@ class ContentViewController: ObservableObject {
     var user = YkUser()
     
     init() {
-        user = defaultUser
+        user = savedUser
+        saveUserToJson()
     }
     
     /// The default user for someone opening the app for the first time is stored in `resources/defaultuser.json`
@@ -30,6 +31,42 @@ class ContentViewController: ObservableObject {
             return YkUser()
         }
     }
+    
+    /// The `YkUser` that is saved from a previous session
+    var savedUser: YkUser {
+        if let contents = try? String(contentsOf: workingFile),
+            let savedUser = user.fromJsonString(jsonString: contents)  {
+            return savedUser
+        } else {
+            print("Failed to load the saved YkUser, falling back to a default user")
+            return defaultUser
+        }
+    }
+    
+    /// Save the current `YkUser` to a `.json` file
+    func saveUserToJson() {
+        let str = user.asJsonString()
+        do {
+            try str.write(to: workingFile, atomically: true, encoding: .utf8)
+        } catch {
+            print(error.localizedDescription)
+        }
+    }
+    
+    /// The URL where the user data file will be stored
+    var documentsUrl : URL {
+        // find all possible documents directories for this user
+        let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+        
+        // just send back the first one, which ought to be the only one
+        return paths[0]
+    }
+    
+    /// The working file, which will be imported on startup, and saved any time the user modifies the data
+    var workingFile : URL {
+        return documentsUrl.appendingPathComponent("userdata.json")
+    }
+
     
     /// The user tapped the measuments in a project's disclosure group, toggle editable measurements sheet
     func toggleEdit(to project: YkProject) {
