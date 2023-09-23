@@ -30,22 +30,15 @@ enum class YkUnit {
 
     val allUnits get() = YkUnit.values()
 
-    val massUnits get() = arrayOf(KILOGRAMS, POUNDS, SLUGS)
-    val lengthUnits get() = arrayOf(METERS, FEET, INCHES)
-    val forceUnits get() = arrayOf(NEWTONS, POUND_FORCE)
-    val powerUnits get() = arrayOf(WATTS, HORSEPOWER)
-    val energyUnits get() = arrayOf(JOULES, BTU)
-    val pressureUnits get() = arrayOf(PASCALS, PSI, ATM, BARS)
-
     /// Provide an array of units that the measurement may be converted to
     fun equivalentUnits(): Array<YkUnit> {
         return when (this) {
-            in massUnits -> massUnits
-            in lengthUnits -> lengthUnits
-            in forceUnits -> forceUnits
-            in powerUnits -> powerUnits
-            in energyUnits -> energyUnits
-            in pressureUnits -> pressureUnits
+            in YKType.MASS.units -> YKType.MASS.units
+            in YKType.LENGTH.units -> YKType.LENGTH.units
+            in YKType.FORCE.units -> YKType.FORCE.units
+            in YKType.POWER.units -> YKType.POWER.units
+            in YKType.ENERGY.units -> YKType.ENERGY.units
+            in YKType.PRESSURE.units -> YKType.PRESSURE.units
             else -> arrayOf()
         }
     }
