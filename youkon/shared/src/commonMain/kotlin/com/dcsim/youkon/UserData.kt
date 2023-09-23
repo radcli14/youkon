@@ -8,6 +8,10 @@ class YkUser {
     var name = "New User"
     var projects = mutableListOf<YkProject>()
 
+    fun fromJsonString(jsonString: String): YkUser? {
+        return Json.decodeFromString<YkUser>(jsonString)
+    }
+
     fun asJsonString(): String {
         return Json.encodeToString(this)
     }
