@@ -11,6 +11,13 @@ data class YkProject(
     var images: MutableList<String> = mutableListOf()
 ) {
 
+    constructor() : this(
+        name = "New Project",
+        about = "",
+        measurements = mutableListOf(),
+        images = mutableListOf()
+    )
+
     fun asJsonString(): String {
         return Json.encodeToString(this)
     }
