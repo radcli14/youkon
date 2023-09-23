@@ -27,22 +27,14 @@ data class YkMeasurement(
     }
 
     /// Converts the measurement to a consistent system of measurements, like SI (kg-m-N), Imperial (slug-ft-pound), etc
-    fun convertToSystem(targetSystem: String): YkMeasurement {
-        return when (targetSystem) {
-            "SI" -> convertToSI()
-            else -> convertToSI()
-        }
-    }
-
-    /// Converts this measurement to SI units (kg-m-N)
-    private fun convertToSI(): YkMeasurement {
+    fun convertToSystem(targetSystem: YKSystem): YkMeasurement {
         return when (unit) {
-            in YKType.MASS.units -> convertTo(YkUnit.KILOGRAMS)
-            in YKType.LENGTH.units -> convertTo(YkUnit.METERS)
-            in YKType.FORCE.units -> convertTo(YkUnit.NEWTONS)
-            in YKType.POWER.units -> convertTo(YkUnit.WATTS)
-            in YKType.ENERGY.units -> convertTo(YkUnit.JOULES)
-            in YKType.PRESSURE.units -> convertTo(YkUnit.PASCALS)
+            in YKType.MASS.units -> convertTo(targetSystem.mass)
+            in YKType.LENGTH.units -> convertTo(targetSystem.length)
+            in YKType.FORCE.units -> convertTo(targetSystem.force)
+            in YKType.POWER.units -> convertTo(targetSystem.power)
+            in YKType.ENERGY.units -> convertTo(targetSystem.energy)
+            in YKType.PRESSURE.units -> convertTo(targetSystem.pressure)
             else -> return this
         }
     }
@@ -51,7 +43,7 @@ data class YkMeasurement(
         return "${niceNumber(value)} ${unit.shortUnit}"
     }
 
-    fun nameAndValueInSystem(system: String): String {
+    fun nameAndValueInSystem(system: YKSystem): String {
         return name + ": " + convertToSystem(system).valueString()
     }
 }
