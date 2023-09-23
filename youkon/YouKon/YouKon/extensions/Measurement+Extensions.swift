@@ -10,7 +10,7 @@ import Foundation
 import shared
 
 extension YkMeasurement {
-    func nameAndValueInSystem(system: String) -> String {
+    func nameAndValueInSystem(system: shared.YKSystem) -> String {
         name + ": " + self.convertToSystem(targetSystem: system).toSwiftString()
     }
     

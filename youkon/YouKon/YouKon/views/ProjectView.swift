@@ -118,6 +118,17 @@ struct ProjectView: View {
     /// When the `DisclosureGroup` is expanded, this will be inside, and will either contain the editable content when opened in a `.sheet`, or static text
     @ViewBuilder
     private var expansionView: some View {
+        HStack {
+            expansionMeasurements
+            if vc.expansion != .editable {
+                Spacer()
+                toggleUnitSystemButton
+            }
+        }
+    }
+    
+    @ViewBuilder
+    private var expansionMeasurements: some View {
         VStack(alignment: .leading) {
             ForEach(vc.measurements, id: \.self) { measurement in
                 switch (vc.expansion) {
@@ -131,6 +142,7 @@ struct ProjectView: View {
                     Text(measurement.nameAndValueInSystem(
                         system: vc.convertToSystem)
                     )
+                    .padding(.vertical, 1)
                 }
             }
             if vc.measurements.isEmpty {
@@ -141,6 +153,13 @@ struct ProjectView: View {
             if vc.expansion != .editable {
                 contentViewController.toggleEdit(to: vc.project)
             }
+        }
+    }
+    
+    @ViewBuilder
+    private var toggleUnitSystemButton: some View {
+        Button(action: vc.toggleSystem) {
+            Image(systemName: "arrow.triangle.swap")
         }
     }
     

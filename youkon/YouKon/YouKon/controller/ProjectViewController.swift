@@ -15,7 +15,7 @@ class ProjectViewController: ObservableObject {
     
     @Published var editedName: String
     @Published var editedDescription: String
-    @Published var convertToSystem = "SI"
+    @Published var convertToSystem: YKSystem = .si
     @Published var measurements: [YkMeasurement]
     @Published var expansion: ProjectExpansionLevel = .compact
     @Published var isExpanded = false
@@ -62,6 +62,14 @@ class ProjectViewController: ObservableObject {
         switch (expansion) {
         case .editable: expansion = .static_
         default: expansion = .editable
+        }
+    }
+    
+    func toggleSystem() {
+        switch (convertToSystem) {
+        case .si: convertToSystem = .imperial
+        case .imperial: convertToSystem = .si
+        default: convertToSystem = .si
         }
     }
     
