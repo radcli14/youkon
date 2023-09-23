@@ -37,12 +37,12 @@ data class YkMeasurement(
     /// Converts this measurement to SI units (kg-m-N)
     private fun convertToSI(): YkMeasurement {
         return when (unit) {
-            in unit.massUnits -> convertTo(YkUnit.KILOGRAMS)
-            in unit.lengthUnits -> convertTo(YkUnit.METERS)
-            in unit.forceUnits -> convertTo(YkUnit.NEWTONS)
-            in unit.powerUnits -> convertTo(YkUnit.WATTS)
-            in unit.energyUnits -> convertTo(YkUnit.JOULES)
-            in unit.pressureUnits -> convertTo(YkUnit.PASCALS)
+            in YKType.MASS.units -> convertTo(YkUnit.KILOGRAMS)
+            in YKType.LENGTH.units -> convertTo(YkUnit.METERS)
+            in YKType.FORCE.units -> convertTo(YkUnit.NEWTONS)
+            in YKType.POWER.units -> convertTo(YkUnit.WATTS)
+            in YKType.ENERGY.units -> convertTo(YkUnit.JOULES)
+            in YKType.PRESSURE.units -> convertTo(YkUnit.PASCALS)
             else -> return this
         }
     }
