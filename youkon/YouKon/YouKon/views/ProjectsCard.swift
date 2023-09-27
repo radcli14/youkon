@@ -11,7 +11,7 @@ import shared
 
 struct ProjectsCard: View {
     @ObservedObject var vc: ProjectsCardController
-
+    
     init() {
         vc = ProjectsCardController()
     }
@@ -28,6 +28,13 @@ struct ProjectsCard: View {
         }
         .backgroundStyle(Color(UIColor.systemBackground).opacity(0.5))
         .padding()
+        .alert(isPresented: $vc.showSubtractAlert) {
+            SubtractAlert(
+                title: vc.projectToDelete?.name ?? "",
+                confirmAction: vc.confirmDelete,
+                cancelAction: vc.cancelDelete
+            )
+        }
     }
     
     @ViewBuilder

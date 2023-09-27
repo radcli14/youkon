@@ -14,6 +14,8 @@ class ProjectsCardController: ObservableObject {
     var user: YkUser
     @Published var projects: [YkProject] = []
     @Published var canSubtract = false
+    @Published var showSubtractAlert = false
+    @Published var projectToDelete: YkProject? = nil
 
     /// Initialize with a generic user
     init() {
@@ -46,7 +48,26 @@ class ProjectsCardController: ObservableObject {
     
     /// Remove the specified `YkProject` from the `YkUser`
     func subtract(project: YkProject) {
-        user.removeProject(project: project)
-        updateProjects()
+        projectToDelete = project
+        showSubtractAlert = true
+    }
+    
+    func confirmDelete() {
+        if let projectToDelete {
+            user.removeProject(project: projectToDelete)
+            updateProjects()
+        }
+        cleanupDelete()
+    }
+    
+    func cancelDelete() {
+        cleanupDelete()
+    }
+    
+    /// Reset the variables associated with showing an alert and subtracting a project to their defaults
+    private func cleanupDelete() {
+        showSubtractAlert = false
+        projectToDelete = nil
+        canSubtract = false
     }
 }
