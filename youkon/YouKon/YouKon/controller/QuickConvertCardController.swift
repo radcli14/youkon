@@ -24,12 +24,12 @@ class QuickConvertCardController: ObservableObject {
             about: "Card on top of the screen"
         )
         self.measurement = measurement
-        convertedText = measurement.toSwiftString(in: YkUnit.feet)
+        convertedText = measurement.valueAndConversion(targetUnit: YkUnit.feet)
     }
     
     /// When a new value is received, update the text at the bottom of the card
     func setConvertedText() {
-        convertedText = measurement.toSwiftString(in: targetUnit)
+        convertedText = measurement.valueAndConversion(targetUnit: targetUnit)
     }
     
     func updateUnit(to unit: YkUnit) {
