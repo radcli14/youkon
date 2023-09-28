@@ -29,8 +29,6 @@
 		8AC78B752A6A0F9500F5AB32 /* KotlinArray+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AC78B742A6A0F9400F5AB32 /* KotlinArray+Extensions.swift */; };
 		8AC78B772A9995B700F5AB32 /* MeasurementUnit+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AC78B762A9995B700F5AB32 /* MeasurementUnit+Extensions.swift */; };
 		8AC78B892A999DB000F5AB32 /* philosopher-bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8AC78B872A999DAF00F5AB32 /* philosopher-bold.ttf */; };
-		8AC78B8C2A9ED66A00F5AB32 /* Measurement+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AC78B8B2A9ED66A00F5AB32 /* Measurement+Extensions.swift */; };
-		8AC78B8F2A9ED94400F5AB32 /* NiceNumber.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AC78B8E2A9ED94400F5AB32 /* NiceNumber.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -71,8 +69,6 @@
 		8AC78B742A6A0F9400F5AB32 /* KotlinArray+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "KotlinArray+Extensions.swift"; sourceTree = "<group>"; };
 		8AC78B762A9995B700F5AB32 /* MeasurementUnit+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MeasurementUnit+Extensions.swift"; sourceTree = "<group>"; };
 		8AC78B872A999DAF00F5AB32 /* philosopher-bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "philosopher-bold.ttf"; sourceTree = "<group>"; };
-		8AC78B8B2A9ED66A00F5AB32 /* Measurement+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Measurement+Extensions.swift"; sourceTree = "<group>"; };
-		8AC78B8E2A9ED94400F5AB32 /* NiceNumber.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NiceNumber.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -177,7 +173,6 @@
 			children = (
 				8AC78B742A6A0F9400F5AB32 /* KotlinArray+Extensions.swift */,
 				8AC78B762A9995B700F5AB32 /* MeasurementUnit+Extensions.swift */,
-				8AC78B8B2A9ED66A00F5AB32 /* Measurement+Extensions.swift */,
 				8A6428FE2AABD9D800F57126 /* View+Extensions.swift */,
 			);
 			path = extensions;
@@ -194,7 +189,6 @@
 		8AC78B8D2A9ED93300F5AB32 /* functions */ = {
 			isa = PBXGroup;
 			children = (
-				8AC78B8E2A9ED94400F5AB32 /* NiceNumber.swift */,
 			);
 			path = functions;
 			sourceTree = "<group>";
@@ -293,9 +287,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8AC78B8C2A9ED66A00F5AB32 /* Measurement+Extensions.swift in Sources */,
 				2152FB042600AC8F00CF470E /* iOSApp.swift in Sources */,
-				8AC78B8F2A9ED94400F5AB32 /* NiceNumber.swift in Sources */,
 				8ABF0BF82A42960B0098B607 /* ProjectsCard.swift in Sources */,
 				8AC78B752A6A0F9500F5AB32 /* KotlinArray+Extensions.swift in Sources */,
 				8A6428F22AA023B000F57126 /* MeasurementView.swift in Sources */,
