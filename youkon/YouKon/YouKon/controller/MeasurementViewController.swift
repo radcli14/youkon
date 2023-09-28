@@ -3,7 +3,7 @@
 //  YouKon
 //
 //  Created by Eliott Radcliffe on 9/6/23.
-//  Copyright © 2023 orgName. All rights reserved.
+//  Copyright © 2023 DC Simulation Studio. All rights reserved.
 //
 
 import Foundation
@@ -15,6 +15,6 @@ class MeasurementViewController: ObservableObject {
 
     init(for measurement: YkMeasurement) {
         self.measurement = measurement
-        availableUnits = kotlinToSwiftArray(measurement.unit.allUnits)
+        availableUnits = measurement.unit.allUnits.asSwiftArray
     }
 }

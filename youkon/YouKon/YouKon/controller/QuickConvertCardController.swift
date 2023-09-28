@@ -3,7 +3,7 @@
 //  YouKon
 //
 //  Created by Eliott Radcliffe on 9/7/23.
-//  Copyright © 2023 orgName. All rights reserved.
+//  Copyright © 2023 DC Simulation Studio. All rights reserved.
 //
 
 import Foundation
@@ -12,7 +12,7 @@ import shared
 class QuickConvertCardController: ObservableObject {
     @Published var measurement: YkMeasurement
     @Published var allUnits = YkUnit.meters.allAvailableUnits
-    @Published var equivalentUnits = kotlinToSwiftArray(YkUnit.meters.equivalentUnits())
+    @Published var equivalentUnits = YkUnit.meters.equivalentUnits().asSwiftArray
     @Published var targetUnit = YkUnit.feet
     @Published var convertedText: String
 
@@ -34,7 +34,7 @@ class QuickConvertCardController: ObservableObject {
     
     func updateUnit(to unit: YkUnit) {
         measurement.unit = unit
-        equivalentUnits = kotlinToSwiftArray(unit.equivalentUnits())
+        equivalentUnits = unit.equivalentUnits().asSwiftArray
         if targetUnit == unit || !equivalentUnits.contains(targetUnit),
            let newUnit = newTargetUnit {
             targetUnit = newUnit

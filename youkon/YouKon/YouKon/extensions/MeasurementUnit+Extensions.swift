@@ -15,6 +15,6 @@ extension YkUnit {
     }
     
     var allAvailableUnits: [YkUnit] {
-        kotlinToSwiftArray(self.allUnits)
+        self.allUnits.asSwiftArray
     }
 }

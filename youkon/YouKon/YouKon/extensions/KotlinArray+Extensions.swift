@@ -9,18 +9,15 @@
 import Foundation
 import shared
 
-// TODO: I would prefer this as an extension
-//extension KotlinArray {
-//    @objc func toSwiftArray() -> [Any] {
-func kotlinToSwiftArray(
-    _ kotlinArray: KotlinArray<YkUnit>
-) -> [YkUnit] {
-    let n = Int(kotlinArray.size)
-    var out: [YkUnit] = []
-    for i in 0 ..< n {
-        if let unit = kotlinArray.get(index: Int32(i)) {
-            out.append(unit)
+extension KotlinArray<YkUnit> {
+    var asSwiftArray: [YkUnit] {
+        let n = Int(self.size)
+        var out: [YkUnit] = []
+        for i in 0 ..< n {
+            if let unit = self.get(index: Int32(i)) {
+                out.append(unit)
+            }
         }
+        return out
     }
-    return out
 }
