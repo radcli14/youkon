@@ -25,8 +25,7 @@ fun QuickConvertCard() {
     val measurement = YkMeasurement(2.26, YkUnit.METERS)
     var equivalentUnits by remember { mutableStateOf(measurement.unit.equivalentUnits()) }
     var targetUnit by remember { mutableStateOf(YkUnit.FEET) }
-    var sourceText by remember { mutableStateOf(measurement.valueString()) }
-    var convertedText by remember { mutableStateOf(measurement.convertTo(targetUnit).valueString()) }
+    var convertedText by remember { mutableStateOf(measurement.valueAndConversion(targetUnit)) }
 
     Card(
         modifier = Modifier
@@ -48,8 +47,7 @@ fun QuickConvertCard() {
             ) {
                 // The field that takes the user input on the numeric value of the measurement
                 MeasurementTextField(measurement = measurement) {
-                    sourceText = measurement.valueString()
-                    convertedText = measurement.convertTo(targetUnit).valueString()
+                    convertedText = measurement.valueAndConversion(targetUnit)
                 }
 
                 // Selection for which type of unit to convert from
@@ -59,8 +57,7 @@ fun QuickConvertCard() {
                         equivalentUnits = measurement.unit.equivalentUnits()
                         if (equivalentUnits.isNotEmpty()) {
                             targetUnit = equivalentUnits.first { it != unit }
-                            sourceText = measurement.valueString()
-                            convertedText = measurement.convertTo(targetUnit).valueString()
+                            convertedText = measurement.valueAndConversion(targetUnit)
                         }
                     }
                 }
@@ -68,7 +65,7 @@ fun QuickConvertCard() {
             }
 
             // The display of the measurement after conversion
-            Text("$sourceText = $convertedText",
+            Text(convertedText,
                 style = MaterialTheme.typography.subtitle1,
                 modifier = Modifier.padding(top = 8.dp, start = 16.dp)
             )
