@@ -55,19 +55,14 @@ class YkMeasurement {
 +String about
 +Double value
 +YkUnit unit
++String valueString
 +convertTo(targetUnit)
 +convertToSystem(system)
-+valueString()
++valueAndConversion(targetUnit)
 +nameAndValueInSystem(system)
 }
 class YkUnit {
 +Array~YkUnit~ allUnits
-+Array~YkUnit~ massUnits
-+Array~YkUnit~ lengthUnits
-+Array~YkUnit~ forceUnits
-+Array~YkUnit~ powerUnits
-+Array~YkUnit~ energyUnits
-+Array~YkUnit~ pressureUnits
 +String shortUnit()
 +Array<YkUnit> equivalentUnits()
 +Double conversionFactor(targetUnit)
