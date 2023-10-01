@@ -1,5 +1,12 @@
 package com.dcsim.youkon
 
+/**
+ * The `YkUnit` class defines a unit of measurement, and conversion factors from that unit to
+ * another unit representing the same type of dimension.
+ *
+ * @param toBase the conversion factor to go from this unit to the base unit, typically in SI
+ * @param shortUnit the more compact string representation of this unit
+ */
 enum class YkUnit(private val toBase: Double, val shortUnit: String) {
     KILOGRAMS(1.0, "kg"), POUNDS(0.453592, "lbm"), SLUGS(14.5939, "slug"),
     METERS(1.0, "m"), FEET(0.3048, "ft"), INCHES(0.3048, "in"),
