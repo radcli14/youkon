@@ -15,7 +15,7 @@ class ProjectViewController: ObservableObject {
     
     @Published var editedName: String
     @Published var editedDescription: String
-    @Published var convertToSystem: YKSystem = .si
+    @Published var convertToSystem: YkSystem = .si
     @Published var measurements: [YkMeasurement]
     @Published var expansion: ProjectExpansionLevel = .compact
     @Published var isExpanded = false
