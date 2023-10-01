@@ -27,7 +27,7 @@ data class YkMeasurement(
     }
 
     /// Converts the measurement to a consistent system of measurements, like SI (kg-m-N), Imperial (slug-ft-pound), etc
-    fun convertToSystem(targetSystem: YKSystem): YkMeasurement {
+    fun convertToSystem(targetSystem: YkSystem): YkMeasurement {
         return when (unit) {
             in YKType.MASS.units -> convertTo(targetSystem.mass)
             in YKType.LENGTH.units -> convertTo(targetSystem.length)
@@ -45,7 +45,7 @@ data class YkMeasurement(
         return "$valueString = ${convertTo(targetUnit).valueString}"
     }
 
-    fun nameAndValueInSystem(system: YKSystem): String {
+    fun nameAndValueInSystem(system: YkSystem): String {
         return name + ": " + convertToSystem(system).valueString
     }
 }

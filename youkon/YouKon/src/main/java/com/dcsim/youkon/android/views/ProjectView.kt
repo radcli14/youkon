@@ -19,7 +19,7 @@ import androidx.compose.ui.unit.dp
 import com.dcsim.youkon.YkMeasurement
 import com.dcsim.youkon.YkProject
 import com.dcsim.youkon.ProjectExpansionLevel
-import com.dcsim.youkon.YKSystem
+import com.dcsim.youkon.YkSystem
 
 @Composable
 fun ProjectView(project: YkProject) {
@@ -94,7 +94,7 @@ fun ProjectContent(
             } else if (expansion == ProjectExpansionLevel.STATIC) {
                 // Displays of the measurement after conversion to a consistent set of units
                 measurements.forEach { measurement ->
-                    Text(measurement.nameAndValueInSystem(YKSystem.SI))
+                    Text(measurement.nameAndValueInSystem(YkSystem.SI))
                 }
             }
         }
