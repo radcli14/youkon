@@ -14,7 +14,7 @@ package com.dcsim.youkon
  */
 enum class YkUnit(private val toBase: Double, val shortUnit: String) {
     KILOGRAMS(1.0, "kg"), POUNDS(0.453592, "lbm"), SLUGS(14.5939, "slug"),
-    METERS(1.0, "m"), FEET(0.3048, "ft"), INCHES(0.3048, "in"),
+    METERS(1.0, "m"), FEET(0.3048, "ft"), INCHES(0.0254, "in"),
     NEWTONS(1.0, "N"), POUND_FORCE(4.44822, "lbf"),
     WATTS(1.0, "W"), HORSEPOWER(745.7, "HP"),
     JOULES(1.0, "J"), BTU(1055.06, "BTU"),
