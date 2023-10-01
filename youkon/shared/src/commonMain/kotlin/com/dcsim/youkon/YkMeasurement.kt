@@ -29,12 +29,12 @@ data class YkMeasurement(
     /// Converts the measurement to a consistent system of measurements, like SI (kg-m-N), Imperial (slug-ft-pound), etc
     fun convertToSystem(targetSystem: YkSystem): YkMeasurement {
         return when (unit) {
-            in YKType.MASS.units -> convertTo(targetSystem.mass)
-            in YKType.LENGTH.units -> convertTo(targetSystem.length)
-            in YKType.FORCE.units -> convertTo(targetSystem.force)
-            in YKType.POWER.units -> convertTo(targetSystem.power)
-            in YKType.ENERGY.units -> convertTo(targetSystem.energy)
-            in YKType.PRESSURE.units -> convertTo(targetSystem.pressure)
+            in YkType.MASS.units -> convertTo(targetSystem.mass)
+            in YkType.LENGTH.units -> convertTo(targetSystem.length)
+            in YkType.FORCE.units -> convertTo(targetSystem.force)
+            in YkType.POWER.units -> convertTo(targetSystem.power)
+            in YkType.ENERGY.units -> convertTo(targetSystem.energy)
+            in YkType.PRESSURE.units -> convertTo(targetSystem.pressure)
             else -> return this
         }
     }

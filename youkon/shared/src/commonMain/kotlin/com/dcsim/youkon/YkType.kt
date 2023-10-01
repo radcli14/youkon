@@ -6,7 +6,7 @@ package com.dcsim.youkon
  *
  * @param units an array of `YkUnit` that all represent the same type of measurement
  */
-enum class YKType(val units: Array<YkUnit>) {
+enum class YkType(val units: Array<YkUnit>) {
     MASS(arrayOf(YkUnit.KILOGRAMS, YkUnit.POUNDS, YkUnit.SLUGS)),
     LENGTH(arrayOf(YkUnit.METERS, YkUnit.FEET, YkUnit.INCHES)),
     FORCE(arrayOf(YkUnit.NEWTONS, YkUnit.POUND_FORCE)),

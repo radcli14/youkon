@@ -27,12 +27,12 @@ enum class YkUnit(private val toBase: Double, val shortUnit: String) {
     /// Provide an array of units that the measurement may be converted to
     fun equivalentUnits(): Array<YkUnit> {
         return when (this) {
-            in YKType.MASS.units -> YKType.MASS.units
-            in YKType.LENGTH.units -> YKType.LENGTH.units
-            in YKType.FORCE.units -> YKType.FORCE.units
-            in YKType.POWER.units -> YKType.POWER.units
-            in YKType.ENERGY.units -> YKType.ENERGY.units
-            in YKType.PRESSURE.units -> YKType.PRESSURE.units
+            in YkType.MASS.units -> YkType.MASS.units
+            in YkType.LENGTH.units -> YkType.LENGTH.units
+            in YkType.FORCE.units -> YkType.FORCE.units
+            in YkType.POWER.units -> YkType.POWER.units
+            in YkType.ENERGY.units -> YkType.ENERGY.units
+            in YkType.PRESSURE.units -> YkType.PRESSURE.units
             else -> arrayOf()
         }
     }
