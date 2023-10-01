@@ -1,34 +1,14 @@
 package com.dcsim.youkon
 
-enum class YkUnit(val toBase: Double) {
-    KILOGRAMS(1.0), POUNDS(0.453592), SLUGS(14.5939),
-    METERS(1.0), FEET(0.3048), INCHES(0.3048),
-    NEWTONS(1.0), POUND_FORCE(4.44822),
-    WATTS(1.0), HORSEPOWER(745.7),
-    JOULES(1.0), BTU(1055.06),
-    PASCALS(1.0), PSI(6894.76), ATM(101325.0), BARS(100000.0);
+enum class YkUnit(private val toBase: Double, val shortUnit: String) {
+    KILOGRAMS(1.0, "kg"), POUNDS(0.453592, "lbm"), SLUGS(14.5939, "slug"),
+    METERS(1.0, "m"), FEET(0.3048, "ft"), INCHES(0.3048, "in"),
+    NEWTONS(1.0, "N"), POUND_FORCE(4.44822, "lbf"),
+    WATTS(1.0, "W"), HORSEPOWER(745.7, "HP"),
+    JOULES(1.0, "J"), BTU(1055.06, "BTU"),
+    PASCALS(1.0, "Pa"), PSI(6894.76, "psi"), ATM(101325.0, "atm"), BARS(100000.0, "bar");
 
-    val fromBase: Double get() = 1.0 / toBase
-
-    val shortUnit: String
-        get() = when(this) {
-            KILOGRAMS -> "kg"
-            POUNDS -> "lbm"
-            SLUGS -> "slug"
-            METERS -> "m"
-            FEET -> "ft"
-            INCHES -> "in"
-            NEWTONS -> "N"
-            POUND_FORCE -> "lbf"
-            WATTS -> "W"
-            HORSEPOWER -> "HP"
-            JOULES -> "J"
-            BTU -> "BTU"
-            PASCALS -> "Pa"
-            PSI -> "psi"
-            ATM -> "atm"
-            BARS -> "bar"
-        }
+    private val fromBase: Double get() = 1.0 / toBase
 
     val allUnits get() = YkUnit.values()
 
