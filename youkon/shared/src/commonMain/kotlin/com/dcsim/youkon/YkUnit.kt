@@ -1,7 +1,7 @@
 package com.dcsim.youkon
 
 /**
- * The `YkUnit` class defines a unit of measurement, and conversion factors from that unit to
+ * The `YkUnit` enum class defines a unit of measurement, and conversion factors from that unit to
  * another unit representing the same type of dimension. The `enum class` is initialized with
  * a `Double` value `toBase` which represents the conversion factor from this unit to a base
  * unit, with the latter generally in SI. The conversion factor is the product of this `toBase`
@@ -16,9 +16,9 @@ enum class YkUnit(private val toBase: Double, val shortUnit: String) {
     KILOGRAMS(1.0, "kg"), POUNDS(0.453592, "lbm"), SLUGS(14.5939, "slug"),
     METERS(1.0, "m"), FEET(0.3048, "ft"), INCHES(0.0254, "in"),
     NEWTONS(1.0, "N"), POUND_FORCE(4.44822, "lbf"),
-    WATTS(1.0, "W"), HORSEPOWER(745.7, "HP"),
-    JOULES(1.0, "J"), BTU(1055.06, "BTU"),
-    PASCALS(1.0, "Pa"), PSI(6894.76, "psi"), ATM(101325.0, "atm"), BARS(100000.0, "bar");
+    WATTS(1.0, "W"), FOOT_POUND_PER_SECOND(1.35582, "ft*lbf/s"), HORSEPOWER(745.7, "HP"),
+    JOULES(1.0, "J"), FOOT_POUND_ENERGY(1.35582, "ft*lbf"), BTU(1055.06, "BTU"),
+    PASCALS(1.0, "Pa"), PSF(47.8803, "psf"), PSI(6894.76, "psi"), ATM(101325.0, "atm"), BARS(100000.0, "bar");
 
     private val fromBase: Double get() = 1.0 / toBase
 
