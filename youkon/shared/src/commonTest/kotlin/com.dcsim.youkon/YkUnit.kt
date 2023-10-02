@@ -108,17 +108,32 @@ class YkUnitTest {
     fun testJoules() {
         val joules = YkUnit.JOULES
         assertContains(joules.equivalentUnits(), YkUnit.JOULES)
+        assertContains(joules.equivalentUnits(), YkUnit.FOOT_POUND_ENERGY)
         assertContains(joules.equivalentUnits(), YkUnit.BTU)
         assertEquals(1.0, joules.conversionFactor(YkUnit.JOULES), absTol)
+        assertEquals(0.737562, joules.conversionFactor(YkUnit.FOOT_POUND_ENERGY), absTol)
         assertEquals(0.000947817, joules.conversionFactor(YkUnit.BTU), absTol)
+    }
+
+    @Test
+    fun testFootPoundEnergy() {
+        val footPound = YkUnit.FOOT_POUND_ENERGY
+        assertContains(footPound.equivalentUnits(), YkUnit.JOULES)
+        assertContains(footPound.equivalentUnits(), YkUnit.BTU)
+        assertContains(footPound.equivalentUnits(), YkUnit.FOOT_POUND_ENERGY)
+        assertEquals(1.35582, footPound.conversionFactor(YkUnit.JOULES), absTol)
+        assertEquals(1.0, footPound.conversionFactor(YkUnit.FOOT_POUND_ENERGY), absTol)
+        assertEquals(0.00128507, footPound.conversionFactor(YkUnit.BTU), absTol)
     }
 
     @Test
     fun testBTU() {
         val btu = YkUnit.BTU
         assertContains(btu.equivalentUnits(), YkUnit.JOULES)
+        assertContains(btu.equivalentUnits(), YkUnit.FOOT_POUND_ENERGY)
         assertContains(btu.equivalentUnits(), YkUnit.BTU)
         assertEquals(1055.06, btu.conversionFactor(YkUnit.JOULES), absTol)
+        assertEquals(778.169, btu.conversionFactor(YkUnit.FOOT_POUND_ENERGY), absTol)
         assertEquals(1.0, btu.conversionFactor(YkUnit.BTU), absTol)
     }
 
