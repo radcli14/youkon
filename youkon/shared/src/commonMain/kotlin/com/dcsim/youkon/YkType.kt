@@ -12,5 +12,5 @@ enum class YkType(val units: Array<YkUnit>) {
     FORCE(arrayOf(YkUnit.NEWTONS, YkUnit.POUND_FORCE)),
     POWER(arrayOf(YkUnit.WATTS, YkUnit.FOOT_POUND_PER_SECOND, YkUnit.HORSEPOWER)),
     ENERGY(arrayOf(YkUnit.JOULES, YkUnit.FOOT_POUND_ENERGY, YkUnit.BTU)),
-    PRESSURE(arrayOf(YkUnit.PASCALS, YkUnit.ATM, YkUnit.BARS))
+    PRESSURE(arrayOf(YkUnit.PASCALS, YkUnit.PSF, YkUnit.PSI, YkUnit.ATM, YkUnit.BARS))
 }
