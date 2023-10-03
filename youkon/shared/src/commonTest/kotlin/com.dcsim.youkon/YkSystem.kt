@@ -25,7 +25,7 @@ class YkSystemTest {
 
     @Test
     fun testImperial() {
-        val system = YkSystem.SI
+        val system = YkSystem.IMPERIAL
         assertEquals(system.mass, YkUnit.SLUGS)
         assertEquals(system.length, YkUnit.FEET)
         assertEquals(system.force, YkUnit.POUND_FORCE)

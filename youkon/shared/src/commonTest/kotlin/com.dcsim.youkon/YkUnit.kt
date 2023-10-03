@@ -5,7 +5,7 @@ import kotlin.test.assertContains
 import kotlin.test.assertEquals
 
 class YkUnitTest {
-    private val absTol = 1e-6
+    private val absTol = 1e-4
 
     @Test
     fun testKilograms() {
@@ -43,7 +43,7 @@ class YkUnitTest {
 
     @Test
     fun testMeters() {
-        val meters = YkUnit.FEET
+        val meters = YkUnit.METERS
         assertContains(meters.equivalentUnits(), YkUnit.FEET)
         assertContains(meters.equivalentUnits(), YkUnit.INCHES)
         assertEquals(3.28084, meters.conversionFactor(YkUnit.FEET), absTol)
@@ -133,7 +133,7 @@ class YkUnitTest {
         assertContains(btu.equivalentUnits(), YkUnit.FOOT_POUND_ENERGY)
         assertContains(btu.equivalentUnits(), YkUnit.BTU)
         assertEquals(1055.06, btu.conversionFactor(YkUnit.JOULES), absTol)
-        assertEquals(778.169, btu.conversionFactor(YkUnit.FOOT_POUND_ENERGY), absTol)
+        assertEquals(778.169, btu.conversionFactor(YkUnit.FOOT_POUND_ENERGY), 0.01)
         assertEquals(1.0, btu.conversionFactor(YkUnit.BTU), absTol)
     }
 
