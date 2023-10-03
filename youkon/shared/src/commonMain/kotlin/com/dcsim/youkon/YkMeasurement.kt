@@ -8,7 +8,8 @@ data class YkMeasurement(
     var value: Double,
     var unit: YkUnit,
     var name: String = "New Variable",
-    var about: String = ""
+    var about: String = "",
+    val id: String = UUIDGenerator().generateUUID()
 ) {
 
     companion object {

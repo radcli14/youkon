@@ -8,7 +8,8 @@ data class YkProject(
     var name: String = "New Project",
     var about: String = "",
     var measurements: MutableList<YkMeasurement> = mutableListOf(),
-    var images: MutableList<String> = mutableListOf()
+    var images: MutableList<String> = mutableListOf(),
+    val id: String = UUIDGenerator().generateUUID()
 ) {
 
     constructor() : this(
