@@ -216,13 +216,11 @@ struct ProjectsView_Previews: PreviewProvider {
         let project = YkProject()
         project.name = "Victor Wembenyama"
         project.about = "Attributes of an amazing prospect"
-        project.measurements.add(
-            YkMeasurement(
-                value: 2.26,
-                unit: .meters,
-                name: "Height",
-                about: "How tall is Wemby"
-            )
+        project.addMeasurement(
+            value: 2.26,
+            unit: .meters,
+            name: "Height",
+            about: "How tall is Wemby"
         )
         return project
     }

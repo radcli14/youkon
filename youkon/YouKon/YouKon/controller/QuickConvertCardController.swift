@@ -21,7 +21,8 @@ class QuickConvertCardController: ObservableObject {
             value: 2.26,
             unit: .meters,
             name: "Quick Convert",
-            about: "Card on top of the screen"
+            about: "Card on top of the screen",
+            id: "Quick-Convert-Measurement"
         )
         self.measurement = measurement
         convertedText = measurement.valueAndConversion(targetUnit: YkUnit.feet)

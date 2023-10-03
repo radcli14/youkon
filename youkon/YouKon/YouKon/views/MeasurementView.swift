@@ -66,7 +66,8 @@ struct MeasurementView_Previews: PreviewProvider {
                 value: 2.26,
                 unit: .meters,
                 name: "WembyHeight",
-                about: "How tall is Wemby"
+                about: "How tall is Wemby",
+                id: "Preview-Measurement"
             )
         )
     }

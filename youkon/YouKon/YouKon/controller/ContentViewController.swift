@@ -18,6 +18,9 @@ class ContentViewController: ObservableObject {
     init() {
         user = savedUser
         saveUserToJson()
+        user.projects.forEach { project in
+            print(project)
+        }
     }
     
     /// The default user for someone opening the app for the first time is stored in `resources/defaultuser.json`
