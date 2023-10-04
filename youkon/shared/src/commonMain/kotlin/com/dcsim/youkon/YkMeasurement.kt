@@ -19,7 +19,7 @@ data class YkMeasurement(
     }
 
     fun asJsonString(): String {
-        return Json.encodeToString(this)
+        return Json{ prettyPrint = true }.encodeToString(this)
     }
 
     /// Convert from the current measurement unit into a different unit, using the Unit type as input

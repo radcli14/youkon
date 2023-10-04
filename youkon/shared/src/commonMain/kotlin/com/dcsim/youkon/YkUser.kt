@@ -13,7 +13,7 @@ class YkUser {
     }
 
     fun asJsonString(): String {
-        return Json.encodeToString(this)
+        return Json{ prettyPrint = true }.encodeToString(this)
     }
 
     /// Add a project with `name` and `about` strings, but empty `measurements` and `image`

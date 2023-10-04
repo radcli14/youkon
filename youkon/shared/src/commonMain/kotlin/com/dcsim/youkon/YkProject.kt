@@ -20,7 +20,7 @@ data class YkProject(
     )
 
     fun asJsonString(): String {
-        return Json.encodeToString(this)
+        return Json{ prettyPrint = true }.encodeToString(this)
     }
 
     fun addMeasurement(
