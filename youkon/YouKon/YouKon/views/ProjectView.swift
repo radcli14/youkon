@@ -130,7 +130,7 @@ struct ProjectView: View {
     @ViewBuilder
     private var expansionMeasurements: some View {
         VStack(alignment: .leading) {
-            ForEach(vc.measurements, id: \.self) { measurement in
+            ForEach(vc.measurements, id: \.id) { measurement in
                 switch (vc.expansion) {
                 case .editable:
                     HStack {

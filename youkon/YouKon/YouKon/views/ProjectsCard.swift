@@ -69,7 +69,7 @@ struct ProjectsCard: View {
     private var projectContent: some View {
         ScrollView {
             LazyVStack(spacing: 16) {
-                ForEach(vc.projects, id: \.self) { project in
+                ForEach(vc.projects, id: \.id) { project in
                     HStack {
                         subtractProjectButton(project)
                         ProjectView(project: project)
