@@ -1,28 +1,33 @@
 {
-  "name":"Guest User",
-  "projects":[
-    {
-      "name":"Victor Wembenyama",
-      "about":"Stats of the craziest NBA prospect",
-      "measurements":[
+    "name": "Guest User",
+    "projects": [
         {
-          "value":2.26,
-          "unit":"METERS",
-          "name":"Height",
-          "about":"How tall is Wemby"
-        }
-      ]
-    },{
-      "name":"Space Shuttle",
-      "about":"Mass props of the Space Shuttle",
-      "measurements":[
+            "name": "Victor Wembenyama",
+            "about": "Stats of the craziest NBA prospect",
+            "measurements": [
+                {
+                    "value": 2.26,
+                    "unit": "METERS",
+                    "name": "Height",
+                    "about": "How tall is Wemby",
+                    "id": "A309BA29-A296-4579-8990-E96CF956F23E"
+                }
+            ],
+            "id": "C3BF98B0-DB2A-433B-A117-5082AFDCE463"
+        },
         {
-          "value":4480000.0,
-          "unit":"POUNDS",
-          "name":"Weight",
-          "about":"Weight of the Space Shuttle"
+            "name": "Space Shuttle",
+            "about": "Mass props of the Space Shuttle",
+            "measurements": [
+                {
+                    "value": 4480000.0,
+                    "unit": "POUNDS",
+                    "name": "Weight",
+                    "about": "Weight of the Space Shuttle",
+                    "id": "7EEF9111-7B3E-4FDD-BE15-FBD5FA93DB71"
+                }
+            ],
+            "id": "868D6987-7FBF-465D-82B5-084BC3DF544E"
         }
-      ]
-    }
-  ]
+    ]
 }
