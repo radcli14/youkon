@@ -17,6 +17,7 @@ class ContentViewController: ObservableObject {
     
     init() {
         user = savedUser
+        print("Initial User State\n==================\n\n", user.asJsonString(), "\n\n")
         saveUserToJson()
         user.projects.forEach { project in
             print(project)

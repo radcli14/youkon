@@ -11,6 +11,7 @@ import shared
 
 struct ProjectsCard: View {
     @ObservedObject var vc: ProjectsCardController
+    @EnvironmentObject var contentViewController: ContentViewController
     
     init() {
         vc = ProjectsCardController()
@@ -31,7 +32,10 @@ struct ProjectsCard: View {
         .alert(isPresented: $vc.showSubtractAlert) {
             SubtractAlert(
                 title: vc.projectToDelete?.name ?? "",
-                confirmAction: vc.confirmDelete,
+                confirmAction: {
+                    vc.confirmDelete()
+                    contentViewController.saveUserToJson()
+                },
                 cancelAction: vc.cancelDelete
             )
         }
@@ -49,7 +53,10 @@ struct ProjectsCard: View {
     
     @ViewBuilder
     private var plusButton: some View {
-        Button(action: vc.addProject) {
+        Button(action: {
+            vc.addProject()
+            contentViewController.saveUserToJson()
+        }) {
             Image(systemName: "plus")
                 .frame(height: 24)
         }
