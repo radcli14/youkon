@@ -45,6 +45,10 @@ struct ProjectView: View {
         }
     }
     
+    private var imageSize: Double {
+        vc.expansion == .editable ? 48 : 32
+    }
+    
     /// The disclosure group with static content inside, with label with name and description
     @ViewBuilder
     private var disclosureGroupWhenNotEditing: some View {
@@ -61,11 +65,14 @@ struct ProjectView: View {
     /// The name and description shown at the top of the project
     @ViewBuilder
     private var labelStack: some View {
-        VStack(alignment: .leading) {
-            nameField
-            descriptionField
+        HStack {
+            projectImage
+            VStack(alignment: .leading) {
+                nameField
+                descriptionField
+            }
+            .foregroundStyle(.foreground)
         }
-        .foregroundStyle(.foreground)
     }
     
     /// The content that is displayed when the `DisclosureGroup` is expanded
@@ -79,6 +86,20 @@ struct ProjectView: View {
                 expansionMenu
             }
         }
+    }
+    
+    /// The image representing the project, either a generic icon, or a user-specified image
+    @ViewBuilder
+    private var projectImage: some View {
+        Image("noImageIcons\((vc.project.id.first?.wholeNumberValue ?? 0) % 7)")
+            .resizable()
+            .frame(width: imageSize, height: imageSize)
+            .padding(imageSize / 8.0)
+            .colorInvert()
+            .colorMultiply(.primary)
+            .background(.gray.opacity(0.3))
+            .clipShape(RoundedRectangle(cornerRadius: imageSize / 4))
+            .shadow(radius: 1)
     }
     
     /// The title of the project, which is the `.name` field in the `YkProject`

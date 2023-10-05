@@ -35,11 +35,13 @@ struct ContentView: View {
                 }
                 Spacer()
             }
+            .accentColor(.indigo)
             .presentationDetents([.medium, .large])
         }
         .onChange(of: contentViewController.isEditingProject) { _ in
-                contentViewController.saveUserToJson()
+            contentViewController.saveUserToJson()
         }
+        .accentColor(.indigo)
         .environmentObject(contentViewController)
 	}
 }
