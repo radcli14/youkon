@@ -38,6 +38,6 @@ struct MeasurementTextField: View {
         TextField("Value", text: boundText)
             .keyboardType(.decimalPad)
             .textFieldStyle(RoundedBorderTextFieldStyle())
-            .frame(width: 96)
+            .frame(minWidth: 96, maxWidth: 156)
     }
 }

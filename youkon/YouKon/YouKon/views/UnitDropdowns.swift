@@ -20,7 +20,7 @@ struct UnitDropdown: View {
         .onChange(of: unit) { newUnit in
             onClick(newUnit)
         }
-        .frame(width: 112)
+        .frame(minWidth: 112, maxWidth: 136)
         .background(RoundedRectangle(cornerRadius: 4).foregroundColor(.indigo))
         .tint(.white)
     }
