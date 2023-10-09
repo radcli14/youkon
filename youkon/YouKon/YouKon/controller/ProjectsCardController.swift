@@ -17,6 +17,8 @@ class ProjectsCardController: ObservableObject {
     @Published var showSubtractAlert = false
     @Published var projectToDelete: YkProject? = nil
 
+    var pvcDict: [String: ProjectViewController] = [:]
+    
     /// Initialize with a generic user
     init() {
         user = YkUser()
@@ -39,6 +41,16 @@ class ProjectsCardController: ObservableObject {
         user.addProject()
         updateProjects()
         print(projects)
+    }
+    
+    /// To persist the `ProjectViewController` inside the project card, it is retained in the `pvcDict`
+    func projectViewController(for project: YkProject) -> ProjectViewController {
+        guard let pvc = pvcDict[project.id] else {
+            let pvc = ProjectViewController(for: project)
+            pvcDict[project.id] = pvc
+            return pvc
+        }
+        return pvc
     }
     
     /// Make the button to remove any of the `YkProject`s visible

@@ -19,9 +19,6 @@ class ContentViewController: ObservableObject {
         user = savedUser
         print("Initial User State\n==================\n\n", user.asJsonString(), "\n\n")
         saveUserToJson()
-        user.projects.forEach { project in
-            print(project)
-        }
     }
     
     /// The default user for someone opening the app for the first time is stored in `resources/defaultuser.json`
@@ -76,4 +73,15 @@ class ContentViewController: ObservableObject {
         isEditingProject.toggle()
         self.project = isEditingProject ? project : nil
     }
+    
+    /// The `ProjectsCardController` is retained to persist the states of the individual projects
+    var projectsCardController: ProjectsCardController {
+        if let _projectsCardController {
+            return _projectsCardController
+        } else {
+            _projectsCardController = ProjectsCardController(with: user)
+            return self.projectsCardController
+        }
+    }
+    private var _projectsCardController: ProjectsCardController? = nil
 }

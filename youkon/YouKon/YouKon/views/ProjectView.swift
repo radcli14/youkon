@@ -22,6 +22,10 @@ struct ProjectView: View {
         }
     }
     
+    init(_ viewController: ProjectViewController) {
+        vc = viewController
+    }
+    
     var body: some View {
         if vc.expansion == .editable {
             mainStackWhenEditing

@@ -17,8 +17,8 @@ struct ProjectsCard: View {
         vc = ProjectsCardController()
     }
     
-    init(with user: YkUser) {
-        vc = ProjectsCardController(with: user)
+    init(with projectsCardController: ProjectsCardController) {
+        vc = projectsCardController
     }
     
     var body: some View {
@@ -79,7 +79,8 @@ struct ProjectsCard: View {
                 ForEach(vc.projects, id: \.id) { project in
                     HStack {
                         subtractProjectButton(project)
-                        ProjectView(project: project)
+                        let pvc = vc.projectViewController(for: project)
+                        ProjectView(pvc)
                     }
                     .animation(.easeInOut, value: vc.canSubtract)
                 }
