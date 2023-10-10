@@ -22,7 +22,8 @@ struct QuickConvertCard: View {
                 convertedText
             }
         }
-        .frame(width: 360)
+        .frame(maxWidth: 400)
+        .padding(.horizontal)
         .backgroundStyle(Color(UIColor.systemBackground).opacity(0.4))
     }
     
