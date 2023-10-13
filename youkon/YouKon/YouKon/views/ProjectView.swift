@@ -62,7 +62,7 @@ struct ProjectView: View {
             labelStack
         }
         .padding()
-        .background(Color.gray.opacity(0.1))
+        .background(Color.gray.opacity(0.2))
         .cornerRadius(8)
     }
     
