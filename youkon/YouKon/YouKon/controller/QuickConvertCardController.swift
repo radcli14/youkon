@@ -14,25 +14,25 @@ class QuickConvertCardController: ObservableObject {
     @Published var allUnits = YkUnit.meters.allAvailableUnits
     @Published var equivalentUnits = YkUnit.meters.equivalentUnits().asSwiftArray
     @Published var targetUnit = YkUnit.feet
-    @Published var convertedText: String
+    @Published var convertedText: String = ""
 
     init() {
-        let measurement = YkMeasurement(
+        measurement = YkMeasurement(
             value: 2.26,
             unit: .meters,
             name: "Quick Convert",
             about: "Card on top of the screen",
             id: "Quick-Convert-Measurement"
         )
-        self.measurement = measurement
-        convertedText = measurement.valueAndConversion(targetUnit: YkUnit.feet)
+        setConvertedText()
     }
     
     /// When a new value is received, update the text at the bottom of the card
     func setConvertedText() {
-        convertedText = measurement.valueAndConversion(targetUnit: targetUnit)
+        convertedText = "➜  \(measurement.convertTo(targetUnit: targetUnit).valueString)"
     }
     
+    /// When the user modifies the `From` dropdown, update the `measurement.unit`
     func updateUnit(to unit: YkUnit) {
         measurement.unit = unit
         equivalentUnits = unit.equivalentUnits().asSwiftArray
@@ -43,7 +43,8 @@ class QuickConvertCardController: ObservableObject {
         setConvertedText()
     }
     
-    var newTargetUnit: YkUnit? {
+    /// When the user modifies the `From` dropdown, this provides the first option for a target unit that can be converted from the `measurement.unit` but is not the same unit
+    private var newTargetUnit: YkUnit? {
         return equivalentUnits.first(where: { $0 != targetUnit })
     }
 }
