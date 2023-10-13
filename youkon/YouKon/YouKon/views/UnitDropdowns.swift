@@ -5,12 +5,12 @@ import shared
 struct UnitDropdown: View {
     @Binding var unit: YkUnit
     @Binding var availableUnits: [YkUnit]
-    var headerText = "From"
+    var headerText: String? = nil
     let onClick: (YkUnit) -> Void
 
     var body: some View {
         Menu {
-            Picker(headerText, selection: $unit) {
+            Picker(headerText ?? "From", selection: $unit) {
                 menuItems
             }
         } label: {
@@ -20,8 +20,7 @@ struct UnitDropdown: View {
         .onChange(of: unit) { newUnit in
             onClick(newUnit)
         }
-        .frame(minWidth: 112, maxWidth: 136)
-        .background(RoundedRectangle(cornerRadius: 4).foregroundColor(.indigo))
+        .background(RoundedRectangle(cornerRadius: 8).foregroundColor(.accentColor))
         .tint(.white)
     }
     
@@ -36,13 +35,15 @@ struct UnitDropdown: View {
     var menuButton: some View {
         HStack {
             VStack(alignment: .leading) {
-                Text(headerText)
-                    .font(.caption2)
+                if let headerText {
+                    Text(headerText)
+                        .font(.caption)
+                }
                 Text(unit.toString)
-                    .font(.caption)
+                    .font(.body)
             }
             Spacer()
         }
-        .padding(4)
+        .padding(8)
     }
 }
