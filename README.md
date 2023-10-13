@@ -27,9 +27,10 @@ Unlike the quick converter, the individual measurements in a project do not have
 ## Shared Architecture
 
 Kotlin Multiplatform Mobile is used to provide a set of shared data models.
-The lowest level object is a `Measurement`, which stores the numeric `value` and its `unit`, along with methods for conversion.
-A `Project` is a collection of `Measurement`s, and may include images.
-A saved set of `Project` objects that an individual user has generated is stored in the `UserData` object.
+Many of these are given the prefix `Yk` to identify that they are part of the YouKon project, and for deconfliction with built-in types.
+The lowest level object is a `YkMeasurement`, which stores the numeric `value` and its `unit`, along with methods for conversion.
+A `YkProject` is a collection of `YkMeasurement`s, and may include images.
+A saved set of `Project` objects that an individual user has generated is stored in the `YkUser` object.
 
 ```mermaid
 classDiagram
@@ -45,7 +46,7 @@ class YkUser {
 class YkProject {
 +String name
 +String about
-+List~YkMeasurement~ measurement
++List~YkMeasurement~ measurements
 +List~String~ images
 +addMeasurement()
 +removeMeasurement()
