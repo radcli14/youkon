@@ -37,7 +37,10 @@ struct MeasurementTextField: View {
         // Create the numeric text field that uses the binding
         TextField("Value", text: boundText)
             .keyboardType(.decimalPad)
-            .textFieldStyle(RoundedBorderTextFieldStyle())
-            .frame(minWidth: 96, maxWidth: 156)
+            //.textFieldStyle(RoundedBorderTextFieldStyle())
+            .padding(EdgeInsets(top: 8, leading: 8, bottom: 8, trailing: 8))
+            .background(Color.gray.opacity(0.2))
+            .cornerRadius(8)
+            .fontWeight(.bold)
     }
 }
