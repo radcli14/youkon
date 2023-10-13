@@ -17,35 +17,26 @@ struct QuickConvertCard: View {
         GroupBox(
             label: Text("Quick Convert")
         ) {
-            VStack(alignment: .leading, spacing: 16) {
-                userInputRow
-                convertedText
-            }
+            contentGrid
         }
         .frame(maxWidth: 400)
         .padding(.horizontal)
-        .backgroundStyle(Color(UIColor.systemBackground).opacity(0.4))
+        .backgroundStyle(Color(.systemBackground).opacity(0.4))
     }
-    
-    /// The row with the text field on the left, and menu buttons for "From" and "To" units
+
+    /// A 2x2 grid with the from and to dropdowns on top, text field and converted text on bottom
     @ViewBuilder
-    var userInputRow: some View {
-        HStack(spacing: 8) {
-            textField
-            fromDropdown
-            toDropdown
-        }
-    }
-    
-    /// The field that takes the user input on the numeric value of the measurement
-    @ViewBuilder
-    private var textField: some View {
-        MeasurementTextField(
-            measurement: $vc.measurement,
-            updateMeasurement: {
-                vc.setConvertedText()
+    private var contentGrid: some View {
+        Grid {
+            GridRow {
+                fromDropdown
+                toDropdown
             }
-        )
+            GridRow {
+                textField
+                convertedText
+            }
+        }
     }
     
     /// Selection for which type of unit to convert from
@@ -72,12 +63,26 @@ struct QuickConvertCard: View {
         }
     }
     
+    /// The field that takes the user input on the numeric value of the measurement
+    @ViewBuilder
+    private var textField: some View {
+        MeasurementTextField(
+            measurement: $vc.measurement,
+            updateMeasurement: {
+                vc.setConvertedText()
+            }
+        )
+    }
+    
     /// The display of the measurement after conversion
     @ViewBuilder
     private var convertedText: some View {
-        Text(vc.convertedText)
-            .padding(.leading, 8)
-            .font(.subheadline)
+        HStack {
+            Text(vc.convertedText)
+                .padding(.leading, 8)
+                .font(.headline)
+            Spacer()
+        }
     }
 }
 
