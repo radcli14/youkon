@@ -68,10 +68,9 @@ struct QuickConvertCard: View {
     private var textField: some View {
         MeasurementTextField(
             measurement: $vc.measurement,
-            updateMeasurement: {
-                vc.setConvertedText()
-            }
+            updateMeasurement: vc.setConvertedText
         )
+        .multilineTextAlignment(.trailing)
     }
     
     /// The display of the measurement after conversion
@@ -79,7 +78,7 @@ struct QuickConvertCard: View {
     private var convertedText: some View {
         HStack {
             Text(vc.convertedText)
-                .padding(.leading, 8)
+                //.padding(.leading, 8)
                 .font(.headline)
             Spacer()
         }
