@@ -114,7 +114,6 @@
 			children = (
 				8A6429022ABE3BBE00F57126 /* resources */,
 				8A6428F52AA658B600F57126 /* controller */,
-				8AC78B8D2A9ED93300F5AB32 /* functions */,
 				8AC78B782A9998A400F5AB32 /* fonts */,
 				8AC78B732A6A0F5600F5AB32 /* extensions */,
 				8ABF0BF22A4293730098B607 /* views */,
@@ -187,13 +186,6 @@
 				8AC78B872A999DAF00F5AB32 /* philosopher-bold.ttf */,
 			);
 			path = fonts;
-			sourceTree = "<group>";
-		};
-		8AC78B8D2A9ED93300F5AB32 /* functions */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = functions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

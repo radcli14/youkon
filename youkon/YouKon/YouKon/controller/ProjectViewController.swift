@@ -20,6 +20,8 @@ class ProjectViewController: ObservableObject {
     @Published var expansion: ProjectExpansionLevel = .compact
     @Published var isExpanded = false
     @Published var canSubtract = false
+    @Published var showSubtractAlert = false
+    @Published var measurementToDelete: YkMeasurement? = nil
 
     init() {
         self.project = YkProject()
@@ -35,11 +37,17 @@ class ProjectViewController: ObservableObject {
         measurements = project.measurements as! [YkMeasurement]
     }
     
+    /// Update the public list of `YkProject` items by assuring that the Kotlin version is Swift formatted
+    private func updateMeasurements() {
+        measurements = project.measurements as! [YkMeasurement]
+    }
+    
+    
     func refresh(with viewController: ProjectViewController) {
         self.project = viewController.project
         editedName = project.name
         editedDescription = project.about
-        measurements = project.measurements as! [YkMeasurement]
+        updateMeasurements()
     }
     
     var expansionIcon: String {
@@ -88,10 +96,26 @@ class ProjectViewController: ObservableObject {
     }
     
     func subtract(measurement: YkMeasurement) {
-        project.removeMeasurement(measurement: measurement)
-        measurements = project.measurements as! [YkMeasurement]
-        if measurements.count == 0 {
-            canSubtract = false
+        measurementToDelete = measurement
+        showSubtractAlert = true
+    }
+    
+    func confirmDelete() {
+        if let measurementToDelete {
+            project.removeMeasurement(measurement: measurementToDelete)
+            updateMeasurements()
         }
+        cleanupDelete()
+    }
+    
+    func cancelDelete() {
+        cleanupDelete()
+    }
+    
+    /// Reset the variables associated with showing an alert and subtracting a project to their defaults
+    private func cleanupDelete() {
+        showSubtractAlert = false
+        measurementToDelete = nil
+        canSubtract = false
     }
 }

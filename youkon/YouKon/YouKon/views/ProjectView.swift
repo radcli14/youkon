@@ -47,6 +47,16 @@ struct ProjectView: View {
             labelStack
             expansionStack
         }
+        .alert(isPresented: $vc.showSubtractAlert) {
+            SubtractAlert(
+                title: vc.measurementToDelete?.name ?? "",
+                confirmAction: {
+                    vc.confirmDelete()
+                    contentViewController.saveUserToJson()
+                },
+                cancelAction: vc.cancelDelete
+            )
+        }
     }
     
     private var imageSize: Double {
