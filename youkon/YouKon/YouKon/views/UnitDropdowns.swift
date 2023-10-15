@@ -9,6 +9,19 @@ struct UnitDropdown: View {
     let onClick: (YkUnit) -> Void
 
     var body: some View {
+        VStack(alignment: .leading, spacing: 0) {
+            if let headerText {
+                Text(headerText)
+                    .font(.caption2)
+                    .padding(.leading, 8)
+                    .foregroundColor(.accentColor)
+            }
+            menu
+        }
+    }
+    
+    @ViewBuilder
+    var menu: some View {
         Menu {
             Picker(headerText ?? "From", selection: $unit) {
                 menuItems
@@ -34,14 +47,9 @@ struct UnitDropdown: View {
     @ViewBuilder
     var menuButton: some View {
         HStack {
-            VStack(alignment: .leading) {
-                if let headerText {
-                    Text(headerText)
-                        .font(.caption)
-                }
-                Text(unit.toString)
-                    .font(.body)
-            }
+            Text(unit.toString)
+                .font(.body)
+                .multilineTextAlignment(.leading)
             Spacer()
         }
         .padding(8)
