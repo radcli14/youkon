@@ -153,7 +153,7 @@ struct ProjectView: View {
     /// When the `DisclosureGroup` is expanded, this will be inside, and will either contain the editable content when opened in a `.sheet`, or static text
     @ViewBuilder
     private var expansionView: some View {
-        HStack {
+        HStack(alignment: .top) {
             expansionMeasurements
             if vc.expansion != .editable {
                 Spacer()
@@ -168,6 +168,8 @@ struct ProjectView: View {
         Button(action: vc.toggleSystem) {
             Image(systemName: "arrow.triangle.swap")
         }
+        .buttonStyle(.bordered)
+        .padding(.top, 16)
     }
     
     @ViewBuilder
@@ -210,10 +212,17 @@ struct ProjectView: View {
     /// In the `expansionMeasurementList`, this is a single measurement that is not editable
     @ViewBuilder
     private func staticMeasurement(_ measurement: YkMeasurement) -> some View {
-        Text(measurement.nameAndValueInSystem(
-            system: vc.convertToSystem)
-        )
-        .padding(.vertical, 1)
+        VStack(alignment: .leading) {
+            Divider()
+            Text(measurement.name)
+                .font(.caption)
+                .fontWeight(.bold)
+            Text(measurement.about)
+                .font(.caption2)
+                .foregroundStyle(.secondary)
+            Text(measurement.convertToSystem(targetSystem: vc.convertToSystem).valueString)
+        }
+        .multilineTextAlignment(.leading)
     }
     
     /// If editable, this will display the `expansionPlusMinusStack`
