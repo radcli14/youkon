@@ -162,40 +162,58 @@ struct ProjectView: View {
         }
     }
     
-    @ViewBuilder
-    private var expansionMeasurements: some View {
-        VStack(alignment: .leading) {
-            ForEach(vc.measurements, id: \.id) { measurement in
-                switch (vc.expansion) {
-                case .editable:
-                    HStack {
-                        subtractMeasurementButton(measurement)
-                        MeasurementView(measurement: measurement)
-                    }
-                    .animation(.easeInOut, value: vc.canSubtract)
-                default:
-                    Text(measurement.nameAndValueInSystem(
-                        system: vc.convertToSystem)
-                    )
-                    .padding(.vertical, 1)
-                }
-            }
-            if vc.measurements.isEmpty {
-                Text("Add New Measurements")
-            }
-        }
-        .onTapGesture {
-            if vc.expansion != .editable {
-                contentViewController.toggleEdit(to: vc.project)
-            }
-        }
-    }
-    
+    /// This switches between `YkSystem`s when tapped
     @ViewBuilder
     private var toggleUnitSystemButton: some View {
         Button(action: vc.toggleSystem) {
             Image(systemName: "arrow.triangle.swap")
         }
+    }
+    
+    @ViewBuilder
+    private var expansionMeasurements: some View {
+        ScrollView {
+            VStack(alignment: .leading) {
+                expansionMeasurementsList
+            }
+            .onTapGesture {
+                if vc.expansion != .editable {
+                    contentViewController.toggleEdit(to: vc.project)
+                }
+            }
+        }
+    }
+    
+    @ViewBuilder
+    private var expansionMeasurementsList: some View {
+        ForEach(vc.measurements, id: \.id) { measurement in
+            switch (vc.expansion) {
+            case .editable: editableMeasurement(measurement)
+            default: staticMeasurement(measurement)
+            }
+        }
+        if vc.measurements.isEmpty {
+            Text("Add New Measurements")
+        }
+    }
+    
+    /// In the `expansionMeasurementList`, this is a single measurement that is editable
+    @ViewBuilder
+    private func editableMeasurement(_ measurement: YkMeasurement) -> some View {
+        HStack {
+            subtractMeasurementButton(measurement)
+            MeasurementView(measurement: measurement)
+        }
+        .animation(.easeInOut, value: vc.canSubtract)
+    }
+    
+    /// In the `expansionMeasurementList`, this is a single measurement that is not editable
+    @ViewBuilder
+    private func staticMeasurement(_ measurement: YkMeasurement) -> some View {
+        Text(measurement.nameAndValueInSystem(
+            system: vc.convertToSystem)
+        )
+        .padding(.vertical, 1)
     }
     
     /// If editable, this will display the `expansionPlusMinusStack`
