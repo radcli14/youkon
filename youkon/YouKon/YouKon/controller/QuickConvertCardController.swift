@@ -29,7 +29,9 @@ class QuickConvertCardController: ObservableObject {
     
     /// When a new value is received, update the text at the bottom of the card
     func setConvertedText() {
-        convertedText = "➜  \(measurement.convertTo(targetUnit: targetUnit).valueString)"
+        let short = measurement.unit.shortUnit
+        let converted = measurement.convertTo(targetUnit: targetUnit).valueString
+        convertedText = "\(short)   ➜   \(converted)"
     }
     
     /// When the user modifies the `From` dropdown, update the `measurement.unit`
