@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -24,6 +24,7 @@
 		8ABF0BF42A4293A00098B607 /* Header.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ABF0BF32A4293A00098B607 /* Header.swift */; };
 		8ABF0BF62A4295F50098B607 /* QuickConvertCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ABF0BF52A4295F50098B607 /* QuickConvertCard.swift */; };
 		8ABF0BF82A42960B0098B607 /* ProjectsCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ABF0BF72A42960B0098B607 /* ProjectsCard.swift */; };
+		8AC625D22AD8CBC500DD5078 /* YkUser.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 8AC625D02AD8CBC500DD5078 /* YkUser.xcdatamodeld */; };
 		8AC78B702A6A094000F5AB32 /* MeasurementTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AC78B6F2A6A094000F5AB32 /* MeasurementTextField.swift */; };
 		8AC78B722A6A095500F5AB32 /* UnitDropdowns.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AC78B712A6A095500F5AB32 /* UnitDropdowns.swift */; };
 		8AC78B752A6A0F9500F5AB32 /* KotlinArray+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AC78B742A6A0F9400F5AB32 /* KotlinArray+Extensions.swift */; };
@@ -64,6 +65,7 @@
 		8ABF0BF32A4293A00098B607 /* Header.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Header.swift; sourceTree = "<group>"; };
 		8ABF0BF52A4295F50098B607 /* QuickConvertCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickConvertCard.swift; sourceTree = "<group>"; };
 		8ABF0BF72A42960B0098B607 /* ProjectsCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectsCard.swift; sourceTree = "<group>"; };
+		8AC625D12AD8CBC500DD5078 /* YkUser.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = YkUser.xcdatamodel; sourceTree = "<group>"; };
 		8AC78B6F2A6A094000F5AB32 /* MeasurementTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MeasurementTextField.swift; sourceTree = "<group>"; };
 		8AC78B712A6A095500F5AB32 /* UnitDropdowns.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UnitDropdowns.swift; sourceTree = "<group>"; };
 		8AC78B742A6A0F9400F5AB32 /* KotlinArray+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "KotlinArray+Extensions.swift"; sourceTree = "<group>"; };
@@ -121,6 +123,7 @@
 				7555FF8C242A565B00829871 /* Info.plist */,
 				2152FB032600AC8F00CF470E /* iOSApp.swift */,
 				058557D7273AAEEB004C7B11 /* Preview Content */,
+				8AC625D02AD8CBC500DD5078 /* YkUser.xcdatamodeld */,
 			);
 			path = YouKon;
 			sourceTree = "<group>";
@@ -221,8 +224,9 @@
 		7555FF73242A565900829871 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				BuildIndependentTargetsInParallel = YES;
 				LastSwiftUpdateCheck = 1130;
-				LastUpgradeCheck = 1130;
+				LastUpgradeCheck = 1500;
 				ORGANIZATIONNAME = orgName;
 				TargetAttributes = {
 					7555FF7A242A565900829871 = {
@@ -302,6 +306,7 @@
 				8AC78B702A6A094000F5AB32 /* MeasurementTextField.swift in Sources */,
 				7555FF83242A565900829871 /* ContentView.swift in Sources */,
 				8A6428F72AA658D600F57126 /* ProjectViewController.swift in Sources */,
+				8AC625D22AD8CBC500DD5078 /* YkUser.xcdatamodeld in Sources */,
 				8A6428F42AA02F7700F57126 /* ProjectView.swift in Sources */,
 				8A6428FB2AA95F5100F57126 /* MeasurementViewController.swift in Sources */,
 				8A6428FD2AAA9B6700F57126 /* QuickConvertCardController.swift in Sources */,
@@ -348,6 +353,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -409,6 +415,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -509,6 +516,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		8AC625D02AD8CBC500DD5078 /* YkUser.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				8AC625D12AD8CBC500DD5078 /* YkUser.xcdatamodel */,
+			);
+			currentVersion = 8AC625D12AD8CBC500DD5078 /* YkUser.xcdatamodel */;
+			path = YkUser.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 7555FF73242A565900829871 /* Project object */;
 }
