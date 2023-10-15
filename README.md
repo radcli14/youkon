@@ -20,9 +20,13 @@ Quick conversion includes a text field for entering numeric values, and dropdown
 
 Each user has a projects card, where any single project represents a grouping of measurement data that hold a common purpose.
 The projects in the card are laid out as tiles, which can be tapped to expand and show the enclosed measurements. 
+
+![iOS Projects Card](assets/projectsCard-ios.jpg)
+
 With a project file expanded, the user may then modify the measurements of that particular project.
 Unlike the quick converter, the individual measurements in a project do not have a "to" unit selector, rather the entire project will have a selector for a consistent unit set (i.e. Imperial or SI), and all measurements will get converted to this unit set.
 
+![iOS Editable Project](assets/editableProject-ios.jpg)
 
 ## Shared Architecture
 
