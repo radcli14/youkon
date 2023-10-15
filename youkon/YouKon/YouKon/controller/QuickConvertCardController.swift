@@ -31,7 +31,7 @@ class QuickConvertCardController: ObservableObject {
     func setConvertedText() {
         let short = measurement.unit.shortUnit
         let converted = measurement.convertTo(targetUnit: targetUnit).valueString
-        convertedText = "\(short)   ➜   \(converted)"
+        convertedText = "\(short)  ➜  \(converted)"
     }
     
     /// When the user modifies the `From` dropdown, update the `measurement.unit`
