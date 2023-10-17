@@ -33,6 +33,7 @@ data class YkMeasurement(
             in YkType.MASS.units -> convertTo(targetSystem.mass)
             in YkType.LENGTH.units -> convertTo(targetSystem.length)
             in YkType.FORCE.units -> convertTo(targetSystem.force)
+            in YkType.DENSITY.units -> convertTo(targetSystem.density)
             in YkType.POWER.units -> convertTo(targetSystem.power)
             in YkType.ENERGY.units -> convertTo(targetSystem.energy)
             in YkType.PRESSURE.units -> convertTo(targetSystem.pressure)

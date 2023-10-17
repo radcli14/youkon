@@ -16,6 +16,7 @@ enum class YkUnit(private val toBase: Double, val shortUnit: String) {
     KILOGRAMS(1.0, "kg"), POUNDS(0.453592, "lbm"), SLUGS(14.5939, "slug"),
     METERS(1.0, "m"), FEET(0.3048, "ft"), INCHES(0.0254, "in"),
     NEWTONS(1.0, "N"), POUND_FORCE(4.44822, "lbf"),
+    KILOGRAMS_PER_METER_CUBED(1.0, "kg/m^3"), SLUGS_PER_FOOT_CUBED(515.379, "slug/ft^3"),
     WATTS(1.0, "W"), FOOT_POUND_PER_SECOND(1.35582, "ft*lbf/s"), HORSEPOWER(745.7, "HP"),
     JOULES(1.0, "J"), FOOT_POUND_ENERGY(1.35582, "ft*lbf"), BTU(1055.06, "BTU"),
     PASCALS(1.0, "Pa"), PSF(47.8803, "psf"), PSI(6894.76, "psi"), ATM(101325.0, "atm"), BARS(100000.0, "bar");
