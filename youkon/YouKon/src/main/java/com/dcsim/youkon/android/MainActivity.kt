@@ -57,7 +57,7 @@ fun MainView(projects: List<YkProject>) {
                     verticalArrangement = Arrangement.spacedBy(24.dp)
                 ) {
                     Header()
-                    QuickConvertCard()
+                    QuickConvertCard().Body()
                     ProjectsCard(projects)
                 }
             }
