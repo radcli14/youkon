@@ -14,6 +14,10 @@ class QuickConvertCardViewModel: ViewModel() {
     var targetUnit by mutableStateOf(YkUnit.FEET)
     var convertedText by mutableStateOf(measurement.valueAndConversion(targetUnit))
 
+    init {
+        setConvertedText()
+    }
+
     /// When a new value is received, update the text at the bottom of the card
     fun setConvertedText() {
         val short = measurement.unit.shortUnit
