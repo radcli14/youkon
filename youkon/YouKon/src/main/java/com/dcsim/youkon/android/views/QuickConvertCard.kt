@@ -1,7 +1,9 @@
 package com.dcsim.youkon.android.views
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredWidth
@@ -13,6 +15,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -52,11 +55,12 @@ class QuickConvertCard {
     private fun ContentGrid() {
         LazyVerticalGrid(
             columns = GridCells.Fixed(2),
+            verticalArrangement = Arrangement.Center,
             horizontalArrangement = Arrangement.spacedBy(8.dp),
             modifier = Modifier.fillMaxWidth()
         ) {
             item {
-                FromDromdown()
+                FromDropdown()
             }
             item {
                 ToDropdown()
@@ -72,7 +76,7 @@ class QuickConvertCard {
 
     /// Selection for which type of unit to convert from
     @Composable
-    private fun FromDromdown() {
+    private fun FromDropdown() {
         val unit = remember { mutableStateOf(vm.measurement.unit) }
         val availableUnits = remember { mutableStateOf(unit.value.allUnits) }
         UnitDropdown(
@@ -105,10 +109,17 @@ class QuickConvertCard {
     /// The display of the measurement after conversion
     @Composable
     private fun ConvertedText() {
-        Text(vm.convertedText,
-            style = MaterialTheme.typography.subtitle1,
-            modifier = Modifier.padding(top = 8.dp, start = 16.dp)
-        )
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(top = 15.dp)
+        ) {
+            Text(vm.convertedText,
+                style = MaterialTheme.typography.h6,
+                modifier = Modifier.align(Alignment.CenterStart)
+            )
+        }
+
     }
 }
 
