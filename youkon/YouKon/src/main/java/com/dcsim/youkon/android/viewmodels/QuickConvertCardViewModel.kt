@@ -9,7 +9,7 @@ import com.dcsim.youkon.YkUnit
 
 
 class QuickConvertCardViewModel: ViewModel() {
-    val measurement = YkMeasurement(2.26, YkUnit.METERS)
+    val measurement by mutableStateOf(YkMeasurement(2.26, YkUnit.METERS))
     var equivalentUnits by mutableStateOf(measurement.unit.equivalentUnits())
     var targetUnit by mutableStateOf(YkUnit.FEET)
     var convertedText by mutableStateOf(measurement.valueAndConversion(targetUnit))

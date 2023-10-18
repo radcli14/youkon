@@ -2,17 +2,20 @@ package com.dcsim.youkon.android.views
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredWidth
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.dcsim.youkon.android.viewmodels.QuickConvertCardViewModel
 
@@ -22,7 +25,7 @@ class QuickConvertCard {
     @Composable
     fun Body() {
         Surface(
-            color = Color.Gray.copy(alpha = 0.2f),
+            color = MaterialTheme.colors.surface.copy(alpha = 0.5f),
             modifier = Modifier
                 .requiredWidth(360.dp)
         ) {
@@ -47,32 +50,48 @@ class QuickConvertCard {
 
     @Composable
     private fun ContentGrid() {
-        Row(
+        LazyVerticalGrid(
+            columns = GridCells.Fixed(2),
             horizontalArrangement = Arrangement.spacedBy(8.dp),
             modifier = Modifier.fillMaxWidth()
         ) {
-            FromDromdown()
-            ToDropdown()
-        }
-
-        Row {
-            TextField()
-            ConvertedText()
+            item {
+                FromDromdown()
+            }
+            item {
+                ToDropdown()
+            }
+            item {
+                TextField()
+            }
+            item {
+                ConvertedText()
+            }
         }
     }
 
     /// Selection for which type of unit to convert from
     @Composable
     private fun FromDromdown() {
-        FromDropdown(measurement = vm.measurement) { unit ->
-            vm.updateUnit(unit)
-        }
+        val unit = remember { mutableStateOf(vm.measurement.unit) }
+        val availableUnits = remember { mutableStateOf(unit.value.allUnits) }
+        UnitDropdown(
+            unit = unit.value,
+            availableUnits = availableUnits.value,
+            headerText = "From"
+        ).Body()
     }
 
     /// Selection for which type of unit to convert to
     @Composable
     private fun ToDropdown() {
-        ToDropdown(equivalentUnits = vm.equivalentUnits, targetUnit = vm.targetUnit)
+        val unit = remember { mutableStateOf(vm.targetUnit) }
+        val availableUnits = remember { mutableStateOf(vm.targetUnit.equivalentUnits()) }
+        UnitDropdown(
+            unit = unit.value,
+            availableUnits = availableUnits.value,
+            headerText = "To"
+        ).Body()
     }
 
     /// The field that takes the user input on the numeric value of the measurement
@@ -91,4 +110,10 @@ class QuickConvertCard {
             modifier = Modifier.padding(top = 8.dp, start = 16.dp)
         )
     }
+}
+
+@Preview
+@Composable
+fun QuickConvertCardPreview() {
+    QuickConvertCard().Body()
 }
