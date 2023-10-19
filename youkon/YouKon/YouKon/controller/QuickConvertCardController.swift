@@ -47,6 +47,6 @@ class QuickConvertCardController: ObservableObject {
     
     /// When the user modifies the `From` dropdown, this provides the first option for a target unit that can be converted from the `measurement.unit` but is not the same unit
     private var newTargetUnit: YkUnit? {
-        return equivalentUnits.first(where: { $0 != targetUnit })
+        return equivalentUnits.first(where: { $0 != measurement.unit })
     }
 }
