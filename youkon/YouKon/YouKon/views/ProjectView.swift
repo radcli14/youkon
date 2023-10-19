@@ -94,6 +94,12 @@ struct ProjectView: View {
     private var expansionStack: some View {
         VStack {
             Divider()
+            Picker("System", selection: $vc.convertToSystem) {
+                ForEach(YkSystem.entries, id: \.self) { option in
+                    Text(String(describing: option))
+                }
+            }
+            .pickerStyle(.segmented)
             HStack(alignment: .top) {
                 expansionView
                 Spacer()
@@ -153,23 +159,7 @@ struct ProjectView: View {
     /// When the `DisclosureGroup` is expanded, this will be inside, and will either contain the editable content when opened in a `.sheet`, or static text
     @ViewBuilder
     private var expansionView: some View {
-        HStack(alignment: .top) {
-            expansionMeasurements
-            if vc.expansion != .editable {
-                Spacer()
-                toggleUnitSystemButton
-            }
-        }
-    }
-    
-    /// This switches between `YkSystem`s when tapped
-    @ViewBuilder
-    private var toggleUnitSystemButton: some View {
-        Button(action: vc.toggleSystem) {
-            Image(systemName: "arrow.triangle.swap")
-        }
-        .buttonStyle(.bordered)
-        .padding(.top, 16)
+        expansionMeasurements
     }
     
     @ViewBuilder
