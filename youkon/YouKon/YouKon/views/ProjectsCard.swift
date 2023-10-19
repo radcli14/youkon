@@ -72,10 +72,17 @@ struct ProjectsCard: View {
         .buttonStyle(.bordered)
     }
     
+    private var projectColumns: [GridItem] {
+        Array(
+            repeating: GridItem(.flexible()),
+            count: UIDevice.current.userInterfaceIdiom == .phone ? 1 : 2
+        )
+    }
+    
     @ViewBuilder
     private var projectContent: some View {
         ScrollView {
-            LazyVStack(spacing: 16) {
+            LazyVGrid(columns: projectColumns, spacing: 16) {
                 ForEach(vc.projects, id: \.id) { project in
                     HStack {
                         subtractProjectButton(project)
