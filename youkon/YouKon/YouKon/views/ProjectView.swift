@@ -10,6 +10,9 @@ import Foundation
 import SwiftUI
 import shared
 
+/// For a single project, this will be a tile in the `ProjectsCard` with its name and description, and a list representing each of its measurements.
+/// The list is presented inside a `DisclosureGroup` which shows the name,  description, and value when expanded.
+/// If the user taps a second time on a measurement, it will open an sheet with editable measurements.
 struct ProjectView: View {
     @ObservedObject var vc: ProjectViewController
     @EnvironmentObject var contentViewController: ContentViewController
@@ -94,17 +97,24 @@ struct ProjectView: View {
     private var expansionStack: some View {
         VStack {
             Divider()
+            systemPicker
+            HStack(alignment: .top) {
+                expansionView
+                Spacer()
+                expansionMenu
+            }
+        }
+    }
+    
+    @ViewBuilder
+    private var systemPicker: some View {
+        if vc.expansion != .editable {
             Picker("System", selection: $vc.convertToSystem) {
                 ForEach(YkSystem.entries, id: \.self) { option in
                     Text(String(describing: option))
                 }
             }
             .pickerStyle(.segmented)
-            HStack(alignment: .top) {
-                expansionView
-                Spacer()
-                expansionMenu
-            }
         }
     }
     
@@ -176,6 +186,7 @@ struct ProjectView: View {
         }
     }
     
+    /// A `ForEach` corresponding to each of the measurements, in either editable or static form
     @ViewBuilder
     private var expansionMeasurementsList: some View {
         ForEach(vc.measurements, id: \.id) { measurement in
