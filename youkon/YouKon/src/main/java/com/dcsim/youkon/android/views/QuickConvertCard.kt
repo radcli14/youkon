@@ -78,24 +78,31 @@ class QuickConvertCard {
     @Composable
     private fun FromDropdown() {
         val unit = remember { mutableStateOf(vm.measurement.unit) }
-        val availableUnits = remember { mutableStateOf(unit.value.allUnits) }
         UnitDropdown(
             unit = unit.value,
-            availableUnits = availableUnits.value,
+            availableUnits = vm.measurement.unit.allUnits,
             headerText = "From"
-        ).Body()
+        ) { it?.let { newUnit ->
+                unit.value = newUnit
+                vm.updateUnit(newUnit)
+            }
+        }.Body()
     }
 
     /// Selection for which type of unit to convert to
     @Composable
     private fun ToDropdown() {
         val unit = remember { mutableStateOf(vm.targetUnit) }
-        val availableUnits = remember { mutableStateOf(vm.targetUnit.equivalentUnits()) }
+        //val availableUnits = remember { mutableStateOf(vm.targetUnit.equivalentUnits()) }
         UnitDropdown(
             unit = unit.value,
-            availableUnits = availableUnits.value,
+            availableUnits = vm.equivalentUnits, //availableUnits.value,
             headerText = "To"
-        ).Body()
+        ) {it?.let { newUnit ->
+            unit.value = newUnit
+            vm.targetUnit = newUnit
+        }
+        }.Body()
     }
 
     /// The field that takes the user input on the numeric value of the measurement
