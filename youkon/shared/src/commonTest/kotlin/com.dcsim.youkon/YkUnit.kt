@@ -87,6 +87,25 @@ class YkUnitTest {
     }
 
     @Test
+    fun testKilogramsPerMeterCubed() {
+        val kgm3 = YkUnit.KILOGRAMS_PER_METER_CUBED
+        assertContains(kgm3.equivalentUnits(), YkUnit.KILOGRAMS_PER_METER_CUBED)
+        assertContains(kgm3.equivalentUnits(), YkUnit.SLUGS_PER_FOOT_CUBED)
+        assertEquals(1.0, kgm3.conversionFactor(YkUnit.KILOGRAMS_PER_METER_CUBED), absTol)
+        // TODO: Verify conversion factors for density
+        assertEquals(0.00194, kgm3.conversionFactor(YkUnit.SLUGS_PER_FOOT_CUBED), absTol)
+    }
+
+    @Test
+    fun testSlugssPerFootCubed() {
+        val slugFt3 = YkUnit.SLUGS_PER_FOOT_CUBED
+        assertContains(slugFt3.equivalentUnits(), YkUnit.KILOGRAMS_PER_METER_CUBED)
+        assertContains(slugFt3.equivalentUnits(), YkUnit.SLUGS_PER_FOOT_CUBED)
+        assertEquals(515.379, slugFt3.conversionFactor(YkUnit.KILOGRAMS_PER_METER_CUBED), absTol)
+        assertEquals(1.0, slugFt3.conversionFactor(YkUnit.SLUGS_PER_FOOT_CUBED), absTol)
+    }
+
+    @Test
     fun testWatts() {
         val watts = YkUnit.WATTS
         assertContains(watts.equivalentUnits(), YkUnit.WATTS)
