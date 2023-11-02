@@ -31,6 +31,7 @@ enum class YkUnit(private val toBase: Double, val shortUnit: String) {
             in YkType.MASS.units -> YkType.MASS.units
             in YkType.LENGTH.units -> YkType.LENGTH.units
             in YkType.FORCE.units -> YkType.FORCE.units
+            in YkType.DENSITY.units ->  YkType.DENSITY.units
             in YkType.POWER.units -> YkType.POWER.units
             in YkType.ENERGY.units -> YkType.ENERGY.units
             in YkType.PRESSURE.units -> YkType.PRESSURE.units
