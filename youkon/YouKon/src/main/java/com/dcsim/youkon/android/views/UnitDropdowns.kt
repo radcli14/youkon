@@ -29,10 +29,10 @@ class UnitDropdown(
     val headerText: String? = null,
     val onClick: (YkUnit?) -> Unit = {}
 ) {
+    private val isExpanded = mutableStateOf(false)
+
     @Composable
     fun Body() {
-        val isExpanded = remember { mutableStateOf(false) }
-
         Column(
             verticalArrangement = Arrangement.spacedBy(0.dp),
             horizontalAlignment = Alignment.Start
@@ -44,25 +44,12 @@ class UnitDropdown(
                     color = MaterialTheme.colors.primary
                 )
             }
-            Menu(isExpanded) {
-                // onClick(unit)
-            }
+            Menu()
         }
     }
 
-    /*
-      @ViewBuilder
-      .id(unit)
-      .onChange(of: unit) { newUnit in
-          onClick(newUnit)
-      }
-       */
     @Composable
-    fun Menu(
-        isExpanded: MutableState<Boolean>,
-        onClick: (YkUnit?) -> Unit
-    ) {
-
+    fun Menu() {
         Button(
             onClick = { isExpanded.value = !isExpanded.value },
         ) {
@@ -79,7 +66,10 @@ class UnitDropdown(
     @Composable
     fun MenuItems() {
         availableUnits.forEach { unit ->
-            DropdownMenuItem(onClick = { onClick(unit) }) {
+            DropdownMenuItem(onClick = {
+                isExpanded.value = false
+                onClick(unit)
+            }) {
                 Text(unit.toString())
             }
         }
