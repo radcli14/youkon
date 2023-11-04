@@ -17,7 +17,7 @@ data class YkMeasurement(
             return YkMeasurement(1.0, YkUnit.METERS, "New Measurement", "Description")
         }
     }
-
+    
     fun asJsonString(): String {
         return Json{ prettyPrint = true }.encodeToString(this)
     }
@@ -43,9 +43,13 @@ data class YkMeasurement(
 
     val valueString: String get() = "${niceNumber(value)} ${unit.shortUnit}"
 
-    fun valueAndConversion(targetUnit: YkUnit): String {
-        return "$valueString = ${convertTo(targetUnit).valueString}"
+    fun unitAndConversion(targetUnit: YkUnit): String {
+        return "${unit.shortUnit}  ➜  ${convertTo(targetUnit).valueString}"
     }
+
+    /*fun valueAndConversion(targetUnit: YkUnit): String {
+        return "$valueString = ${convertTo(targetUnit).valueString}"
+    }*/
 
     fun nameAndValueInSystem(system: YkSystem): String {
         return name + ": " + convertToSystem(system).valueString
@@ -62,12 +66,14 @@ var wembyHeight = YkMeasurement(
     about = "How tall is Wemby"
 )
 
+/*
 var wembyWeight = YkMeasurement(
     value = 95.0,
     unit = YkUnit.KILOGRAMS,
     name = "Weight",
     about = "How much does Wemby weigh"
 )
+*/
 
 var shuttleWeight = YkMeasurement(
     value = 4480000.0,
