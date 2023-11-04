@@ -17,7 +17,7 @@ data class YkMeasurement(
             return YkMeasurement(1.0, YkUnit.METERS, "New Measurement", "Description")
         }
     }
-    
+
     fun asJsonString(): String {
         return Json{ prettyPrint = true }.encodeToString(this)
     }
