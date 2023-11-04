@@ -13,8 +13,6 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
@@ -77,40 +75,32 @@ class QuickConvertCard {
     /// Selection for which type of unit to convert from
     @Composable
     private fun FromDropdown() {
-        val unit = remember { mutableStateOf(vm.measurement.unit) }
         UnitDropdown(
-            unit = unit.value,
+            unit = vm.unit,
             availableUnits = vm.measurement.unit.allUnits,
-            headerText = "From"
-        ) { it?.let { newUnit ->
-                unit.value = newUnit
-                vm.updateUnit(newUnit)
-            }
-        }.Body()
+            headerText = "From",
+            onClick = { vm.updateUnit(it) }
+        ).Body()
     }
 
     /// Selection for which type of unit to convert to
     @Composable
     private fun ToDropdown() {
-        val unit = remember { mutableStateOf(vm.targetUnit) }
-        //val availableUnits = remember { mutableStateOf(vm.targetUnit.equivalentUnits()) }
         UnitDropdown(
-            unit = unit.value,
-            availableUnits = vm.equivalentUnits, //availableUnits.value,
-            headerText = "To"
-        ) {it?.let { newUnit ->
-            unit.value = newUnit
-            vm.targetUnit = newUnit
-        }
-        }.Body()
+            unit = vm.targetUnit,
+            availableUnits = vm.equivalentUnits,
+            headerText = "To",
+            onClick = { vm.updateTargetUnit(it) }
+        ).Body()
     }
 
     /// The field that takes the user input on the numeric value of the measurement
     @Composable
     private fun TextField() {
-        MeasurementTextField(measurement = vm.measurement) {
-            vm.setConvertedText()
-        }
+        MeasurementTextField(
+            initialText = vm.value.toString(),
+            updateMeasurement = { vm.updateValue(it) }
+        )
     }
 
     /// The display of the measurement after conversion

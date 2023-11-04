@@ -48,7 +48,7 @@ fun MeasurementView(measurement: YkMeasurement) {
             horizontalArrangement = Arrangement.spacedBy(8.dp),
             modifier = Modifier.padding(top = 8.dp)
         ) {
-            MeasurementTextField(measurement = measurement) {
+            MeasurementTextField(initialText = measurement.value.toString()) {
                 // Update the views
             }
 
