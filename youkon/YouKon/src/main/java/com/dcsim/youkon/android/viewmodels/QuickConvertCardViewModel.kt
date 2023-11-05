@@ -19,8 +19,8 @@ class QuickConvertCardViewModel(
     val unit: YkUnit get() = measurement.value.unit
     private val value: Double get() = measurement.value.value
     val allUnits get() = unit.allUnits
-    var equivalentUnits by mutableStateOf(measurement.value.unit.equivalentUnits())
-    var targetUnit by mutableStateOf(newTargetUnit)
+    var equivalentUnits by mutableStateOf(unit.equivalentUnits())
+    var targetUnit by mutableStateOf(unit.newTargetUnit)
 
     var convertedText by mutableStateOf(measurement.value.unitAndConversion(targetUnit))
 
@@ -43,9 +43,7 @@ class QuickConvertCardViewModel(
                 currentMeasurement.copy(unit = it)
             }
             equivalentUnits = it.equivalentUnits()
-            if (targetUnit == it || targetUnit !in equivalentUnits) {
-                targetUnit = newTargetUnit
-            }
+            targetUnit = it.getNewTargetUnit(targetUnit)
             updateConvertedText()
         }
     }
@@ -65,7 +63,4 @@ class QuickConvertCardViewModel(
         Log.d(tag, "convertedText updated from $convertedText to $newText")
         convertedText = newText
     }
-
-    /// When the user modifies the `From` dropdown, this provides the first option for a target unit that can be converted from the `measurement.unit` but is not the same unit
-    private val newTargetUnit: YkUnit get() = equivalentUnits.first { it != unit }
 }

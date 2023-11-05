@@ -43,4 +43,14 @@ enum class YkUnit(private val toBase: Double, val shortUnit: String) {
     fun conversionFactor(targetUnit: YkUnit): Double {
         return toBase * targetUnit.fromBase
     }
+
+    /// Check that the target unit is not a duplicate of the selected unit,
+    /// and is valid as the same type of measure
+    fun getNewTargetUnit(oldTarget: YkUnit): YkUnit {
+        if (oldTarget == this || oldTarget !in equivalentUnits()) {
+            return newTargetUnit
+        }
+        return oldTarget
+    }
+    val newTargetUnit: YkUnit get() = equivalentUnits().first { it != this }
 }
