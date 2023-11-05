@@ -26,7 +26,7 @@ fun MeasurementTextField(initialText: String, updateMeasurement: (Double) -> Uni
             if (newText.text.toDoubleOrNull() != null) {
                 text = newText
                 updateMeasurement(newText.text.toDouble())
-            } else if (newText.text.isBlank()) {
+            } else if (newText.text.isBlank() || newText.text == "-") {
                 text = newText
                 updateMeasurement(0.0)
             }
