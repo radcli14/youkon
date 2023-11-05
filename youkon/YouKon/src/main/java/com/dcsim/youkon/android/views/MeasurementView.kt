@@ -52,7 +52,10 @@ fun MeasurementView(measurement: YkMeasurement) {
                 // Update the views
             }
 
-            FromDropdown(measurement = measurement) { unit ->
+            UnitDropdown(
+                unit = measurement.unit,
+                availableUnits = measurement.unit.equivalentUnits(),
+            ) { unit ->
                 if (unit != null) {
                     measurement.unit = unit
                 }
