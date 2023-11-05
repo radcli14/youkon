@@ -20,9 +20,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.dcsim.youkon.android.viewmodels.QuickConvertCardViewModel
 
-class QuickConvertCard {
-    private val vm = QuickConvertCardViewModel()
-
+class QuickConvertCard(
+    private val vm: QuickConvertCardViewModel = QuickConvertCardViewModel()
+) {
     @Composable
     fun Body() {
         Surface(
@@ -77,7 +77,7 @@ class QuickConvertCard {
     private fun FromDropdown() {
         UnitDropdown(
             unit = vm.unit,
-            availableUnits = vm.measurement.unit.allUnits,
+            availableUnits = vm.unit.allUnits,
             headerText = "From",
             onClick = { vm.updateUnit(it) }
         ).Body()

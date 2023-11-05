@@ -16,6 +16,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.dcsim.youkon.YkProject
 import com.dcsim.youkon.YkUser
+import com.dcsim.youkon.android.viewmodels.QuickConvertCardViewModel
 import com.dcsim.youkon.android.views.BackgroundBox
 import com.dcsim.youkon.android.views.Header
 import com.dcsim.youkon.android.views.ProjectsCard
@@ -23,6 +24,8 @@ import com.dcsim.youkon.android.views.QuickConvertCard
 
 class MainActivity : ComponentActivity() {
     val user = YkUser()
+    val quickConvertCardViewModel = QuickConvertCardViewModel()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         user.setAsTestUser()
@@ -38,13 +41,13 @@ class MainActivity : ComponentActivity() {
         }
 
         setContent {
-            MainView(user.projects)
+            MainView(user.projects, quickConvertCardViewModel)
         }
     }
 }
 
 @Composable
-fun MainView(projects: List<YkProject>) {
+fun MainView(projects: List<YkProject>, quickConvertCardViewModel: QuickConvertCardViewModel) {
     MyApplicationTheme {
         Surface(
             modifier = Modifier.fillMaxSize(),
@@ -57,7 +60,7 @@ fun MainView(projects: List<YkProject>) {
                     verticalArrangement = Arrangement.spacedBy(24.dp)
                 ) {
                     Header()
-                    QuickConvertCard().Body()
+                    QuickConvertCard(quickConvertCardViewModel).Body()
                     ProjectsCard(projects)
                 }
             }
@@ -70,5 +73,5 @@ fun MainView(projects: List<YkProject>) {
 fun DefaultPreview() {
     val user = YkUser()
     user.setAsTestUser()
-    MainView(user.projects)
+    MainView(user.projects, QuickConvertCardViewModel())
 }

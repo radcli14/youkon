@@ -8,25 +8,30 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import com.dcsim.youkon.YkMeasurement
 import com.dcsim.youkon.YkUnit
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.update
 
 
 class QuickConvertCardViewModel(
     initialMeasurement: YkMeasurement = YkMeasurement(2.26, YkUnit.METERS)
 ): ViewModel() {
-    var measurement by mutableStateOf(initialMeasurement)
-    var equivalentUnits by mutableStateOf(measurement.unit.equivalentUnits())
-    var unit by mutableStateOf(measurement.unit)
-    var value by mutableDoubleStateOf(measurement.value)
+    private val measurement = MutableStateFlow(initialMeasurement)
+
+    var equivalentUnits by mutableStateOf(measurement.value.unit.equivalentUnits())
+    var unit by mutableStateOf(measurement.value.unit)
+    var value by mutableDoubleStateOf(measurement.value.value)
     var targetUnit by mutableStateOf(newTargetUnit)
-    var convertedText by mutableStateOf(measurement.unitAndConversion(targetUnit))
+    var convertedText by mutableStateOf(measurement.value.unitAndConversion(targetUnit))
 
     private val tag = "QuickConvertCardViewModel"
 
     /// When the user modifies the value in the `MeasurementTextField` update the `value`
     fun updateValue(newValue: Double) {
         Log.d(tag, "value updated from $value to $newValue")
-        measurement.value = newValue
-        value = measurement.value
+        measurement.update { currentMeasurement ->
+            currentMeasurement.copy(value = newValue)
+        }
+        value = newValue
         updateConvertedText()
     }
 
@@ -34,10 +39,12 @@ class QuickConvertCardViewModel(
     fun updateUnit(newUnit: YkUnit?) {
         newUnit?.let {
             Log.d(tag, "unit updated from $unit to $it")
-            measurement.unit = it
-            unit = measurement.unit
-            equivalentUnits = measurement.unit.equivalentUnits()
-            if (targetUnit == it || it !in equivalentUnits) {
+            measurement.update { currentMeasurement ->
+                currentMeasurement.copy(unit = newUnit)
+            }
+            unit = newUnit
+            equivalentUnits = newUnit.equivalentUnits()
+            if (targetUnit == it || targetUnit !in equivalentUnits) {
                 targetUnit = newTargetUnit
             }
             updateConvertedText()
@@ -55,11 +62,11 @@ class QuickConvertCardViewModel(
 
     /// When a new value is received, update the text at the bottom of the card
     private fun updateConvertedText() {
-        val newText = measurement.unitAndConversion(targetUnit)
+        val newText = measurement.value.unitAndConversion(targetUnit)
         Log.d(tag, "convertedText updated from $convertedText to $newText")
         convertedText = newText
     }
 
     /// When the user modifies the `From` dropdown, this provides the first option for a target unit that can be converted from the `measurement.unit` but is not the same unit
-    private val newTargetUnit: YkUnit get() = equivalentUnits.first { it != measurement.unit }
+    private val newTargetUnit: YkUnit get() = equivalentUnits.first { it != unit }
 }
