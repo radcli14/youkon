@@ -52,5 +52,8 @@ enum class YkUnit(private val toBase: Double, val shortUnit: String) {
         }
         return oldTarget
     }
+
+    /// When the user modifies the `From` dropdown, this provides the first option for a target unit
+    /// that can be converted from the `measurement.unit` but is not the same unit
     val newTargetUnit: YkUnit get() = equivalentUnits().first { it != this }
 }

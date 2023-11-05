@@ -29,24 +29,14 @@ class QuickConvertCardController: ObservableObject {
     
     /// When a new value is received, update the text at the bottom of the card
     func setConvertedText() {
-        let short = measurement.unit.shortUnit
-        let converted = measurement.convertTo(targetUnit: targetUnit).valueString
-        convertedText = "\(short)  ➜  \(converted)"
+        convertedText = measurement.unitAndConversion(targetUnit: targetUnit)
     }
     
     /// When the user modifies the `From` dropdown, update the `measurement.unit`
     func updateUnit(to unit: YkUnit) {
         measurement.unit = unit
         equivalentUnits = unit.equivalentUnits().asSwiftArray
-        if targetUnit == unit || !equivalentUnits.contains(targetUnit),
-           let newUnit = newTargetUnit {
-            targetUnit = newUnit
-        }
+        targetUnit = unit.getNewTargetUnit(oldTarget: targetUnit)
         setConvertedText()
-    }
-    
-    /// When the user modifies the `From` dropdown, this provides the first option for a target unit that can be converted from the `measurement.unit` but is not the same unit
-    private var newTargetUnit: YkUnit? {
-        return equivalentUnits.first(where: { $0 != measurement.unit })
     }
 }
