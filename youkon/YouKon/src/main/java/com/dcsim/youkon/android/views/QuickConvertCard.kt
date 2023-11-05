@@ -13,6 +13,8 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
@@ -75,9 +77,10 @@ class QuickConvertCard(
     /// Selection for which type of unit to convert from
     @Composable
     private fun FromDropdown() {
+        val measurement by vm.measurement.collectAsState()
         UnitDropdown(
-            unit = vm.unit,
-            availableUnits = vm.unit.allUnits,
+            unit = measurement.unit,
+            availableUnits = vm.allUnits,
             headerText = "From",
             onClick = { vm.updateUnit(it) }
         ).Body()
@@ -97,8 +100,9 @@ class QuickConvertCard(
     /// The field that takes the user input on the numeric value of the measurement
     @Composable
     private fun TextField() {
+        val measurement = vm.measurement.collectAsState()
         MeasurementTextField(
-            initialText = vm.value.toString(),
+            initialText = measurement.value.value.toString(),
             updateMeasurement = { vm.updateValue(it) }
         )
     }
