@@ -14,8 +14,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.dcsim.youkon.YkProject
-import com.dcsim.youkon.YkUser
+import com.dcsim.youkon.android.viewmodels.MainViewModel
 import com.dcsim.youkon.android.viewmodels.QuickConvertCardViewModel
 import com.dcsim.youkon.android.views.BackgroundBox
 import com.dcsim.youkon.android.views.Header
@@ -23,31 +22,21 @@ import com.dcsim.youkon.android.views.ProjectsCard
 import com.dcsim.youkon.android.views.QuickConvertCard
 
 class MainActivity : ComponentActivity() {
-    val user = YkUser()
-    val quickConvertCardViewModel = QuickConvertCardViewModel()
+    private lateinit var mainViewModel: MainViewModel
+    private val quickConvertCardViewModel = QuickConvertCardViewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        user.setAsTestUser()
-        println("Set Test User")
-        println(user.asJsonString())
-        user.projects.forEach { project ->
-            println(project)
-            println(project.asJsonString())
-            project.measurements.forEach { measurement ->
-                println(measurement)
-                println(measurement.asJsonString())
-            }
-        }
+        mainViewModel = MainViewModel()
 
         setContent {
-            MainView(user.projects, quickConvertCardViewModel)
+            MainView(mainViewModel, quickConvertCardViewModel)
         }
     }
 }
 
 @Composable
-fun MainView(projects: List<YkProject>, quickConvertCardViewModel: QuickConvertCardViewModel) {
+fun MainView(mainViewModel: MainViewModel, quickConvertCardViewModel: QuickConvertCardViewModel) {
     MyApplicationTheme {
         Surface(
             modifier = Modifier.fillMaxSize(),
@@ -61,7 +50,7 @@ fun MainView(projects: List<YkProject>, quickConvertCardViewModel: QuickConvertC
                 ) {
                     Header()
                     QuickConvertCard(quickConvertCardViewModel).Body()
-                    ProjectsCard(projects)
+                    ProjectsCard(mainViewModel.user.projects)
                 }
             }
         }
@@ -71,7 +60,5 @@ fun MainView(projects: List<YkProject>, quickConvertCardViewModel: QuickConvertC
 @Preview
 @Composable
 fun DefaultPreview() {
-    val user = YkUser()
-    user.setAsTestUser()
-    MainView(user.projects, QuickConvertCardViewModel())
+    MainView(MainViewModel(), QuickConvertCardViewModel())
 }
