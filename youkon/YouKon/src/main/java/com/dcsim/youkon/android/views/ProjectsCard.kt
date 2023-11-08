@@ -2,25 +2,41 @@ package com.dcsim.youkon.android.views
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.Card
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Surface
 import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.dcsim.youkon.YkProject
+import com.dcsim.youkon.android.viewmodels.MainViewModel
 import com.dcsim.youkon.android.viewmodels.ProjectsCardViewModel
 
 class ProjectsCard(
-    val vm: ProjectsCardViewModel = ProjectsCardViewModel()
+    val vm: ProjectsCardViewModel = ProjectsCardViewModel(),
+    val mainViewModel: MainViewModel = MainViewModel()
 ) {
     @Composable
     fun Body() {
-        Card(modifier = Modifier.padding(16.dp)) {
+        Surface(
+            color = MaterialTheme.colors.surface.copy(alpha = 0.4f),
+            modifier = Modifier
+                .fillMaxHeight()
+        ) {
             Column(modifier = Modifier.padding(16.dp)) {
                 LabelStack()
                 ProjectContent()
@@ -30,14 +46,13 @@ class ProjectsCard(
 
     @Composable
     fun LabelStack() {
-        Row {  //(spacing: 8) {
+        Row(verticalAlignment = Alignment.CenterVertically) {  //(spacing: 8) {
             Text(
                 text = "Projects",
                 style = MaterialTheme.typography.h6,
-                fontWeight = FontWeight.SemiBold,
-                //modifier = Modifier.padding(bottom = 16.dp)
+                fontWeight = FontWeight.SemiBold
             )
-            //Spacer()
+            Spacer(Modifier.weight(1f))
             PlusButton()
             MinusButton()
         }
@@ -45,76 +60,69 @@ class ProjectsCard(
 
     @Composable
     fun PlusButton() {
-        /*
-                Button(action: {
-            vc.addProject()
-            contentViewController.saveUserToJson()
-        }) {
-            Image(systemName: "plus")
-                .frame(height: 24)
+        IconButton(
+            onClick = {
+                vm.addProject()
+                mainViewModel.saveUserToJson()
+            }
+        ) {
+            Icon(
+                imageVector = Icons.Default.Add,
+                contentDescription = "Add a new project",
+                modifier = Modifier.editButtonModifier(),
+                tint = MaterialTheme.colors.primary
+            )
         }
-        .buttonStyle(.bordered)
-         */
     }
 
     @Composable
     fun MinusButton() {
-        /*
-        Button(action: vc.onSubtractButtonTap) {
-            Image(systemName: "minus")
-            .frame(height: 24)
+        IconButton(
+            onClick = { vm.onSubtractButtonTap() }
+        ) {
+            Icon(
+                imageVector = Icons.Default.Delete,
+                contentDescription = "Allow deleting projects",
+                modifier = Modifier.editButtonModifier(),
+                tint = MaterialTheme.colors.primary
+            )
         }
-            .buttonStyle(.bordered)
-         */
     }
-
-    /*
-    private var projectColumns: [GridItem] {
-        Array(
-            repeating: GridItem(.flexible()),
-            count: UIDevice.current.userInterfaceIdiom == .phone ? 1 : 2
-        )
-    }
-     */
 
     @Composable
     fun ProjectContent() {
         LazyColumn {
             items(vm.projects.value) { project ->
-                SubtractProjectButton(project)
-                val pvm = vm.projectViewModel(project)
-                ProjectView(pvm)
-            }
-        }
-        /*
-        ScrollView {
-            LazyVGrid(columns: projectColumns, spacing: 16) {
-                ForEach(vc.projects, id: \.id) { project in
-                    HStack {
-                        subtractProjectButton(project)
-                        let pvc = vc.projectViewController(for: project)
-                        ProjectView(pvc)
-                    }
-                    .animation(.easeInOut, value: vc.canSubtract)
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    SubtractProjectButton(project)
+                    val pvm = vm.projectViewModel(project)
+                    ProjectView(pvm)
                 }
             }
         }
-         */
     }
 
     /// The red `X` that shows up to the left of a project when the user has enabled subtracting projects
     @Composable
     fun SubtractProjectButton(project: YkProject) {
-        /*if vc.canSubtract {
-            Button(
-                action: {
-                vc.subtract(project: project)
-            }
+        if (vm.canSubtract.value) {
+            IconButton(
+                onClick = { vm.subtract(project) }
             ) {
-            Image(systemName: "x.circle.fill")
-            .foregroundColor(.pink)
-            .font(.title2)
+                Icon(
+                    imageVector = Icons.Default.Close,
+                    contentDescription = "Delete ${project.name} project",
+                    modifier = Modifier.editButtonModifier(
+                        color = MaterialTheme.colors.error,
+                        alpha = 1f,
+                        width = 24.dp,
+                        height = 24.dp,
+                        padding = 4.dp,
+                        shape = CircleShape
+                    ),
+                    tint = MaterialTheme.colors.onPrimary
+                )
+            }
         }
-         */
     }
 }
