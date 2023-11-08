@@ -20,11 +20,12 @@ import com.dcsim.youkon.YkMeasurement
 import com.dcsim.youkon.YkProject
 import com.dcsim.youkon.ProjectExpansionLevel
 import com.dcsim.youkon.YkSystem
+import com.dcsim.youkon.android.viewmodels.ProjectViewModel
 
 @Composable
-fun ProjectView(project: YkProject) {
+fun ProjectView(pvc: ProjectViewModel) {
     var expansion by remember { mutableStateOf(ProjectExpansionLevel.COMPACT) }
-    var measurements by remember { mutableStateOf(project.measurements) }
+    var measurements by remember { mutableStateOf(pvc.project.measurements) }
 
     Card(
         modifier = Modifier
@@ -38,7 +39,7 @@ fun ProjectView(project: YkProject) {
             .padding(8.dp)
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
-            ProjectTopRow(project, expansion)
+            ProjectTopRow(pvc.project, expansion)
             ProjectContent(measurements, expansion,
                 editClick = {
                     expansion = when(expansion) {
@@ -48,10 +49,10 @@ fun ProjectView(project: YkProject) {
                 },
                 addClick = {
                     println("newNewNew")
-                    project.measurements.add(
+                    pvc.project.measurements.add(
                         YkMeasurement.new()
                     )
-                    measurements = project.measurements
+                    measurements = pvc.project.measurements
                     println(measurements)
                 }
             )

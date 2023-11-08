@@ -2,7 +2,6 @@ package com.dcsim.youkon.android.views
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -24,11 +23,7 @@ class ProjectsCard(
         Card(modifier = Modifier.padding(16.dp)) {
             Column(modifier = Modifier.padding(16.dp)) {
                 LabelStack()
-                LazyColumn {
-                    items(vm.projects.value) { project ->
-                        ProjectView(project = project)
-                    }
-                }
+                ProjectContent()
             }
         }
     }
@@ -84,6 +79,13 @@ class ProjectsCard(
 
     @Composable
     fun ProjectContent() {
+        LazyColumn {
+            items(vm.projects.value) { project ->
+                SubtractProjectButton(project)
+                val pvm = vm.projectViewModel(project)
+                ProjectView(pvm)
+            }
+        }
         /*
         ScrollView {
             LazyVGrid(columns: projectColumns, spacing: 16) {
@@ -98,21 +100,20 @@ class ProjectsCard(
             }
         }
          */
+    }
 
-        /// The red `X` that shows up to the left of a project when the user has enabled subtracting projects
-        /*
-        private fun subtractProjectButton(_ project: YkProject) -> some View {
-            if vc.canSubtract {
-                Button(
-                    action: {
-                    vc.subtract(project: project)
-                }
-                ) {
-                Image(systemName: "x.circle.fill")
-                .foregroundColor(.pink)
-                .font(.title2)
+    /// The red `X` that shows up to the left of a project when the user has enabled subtracting projects
+    @Composable
+    fun SubtractProjectButton(project: YkProject) {
+        /*if vc.canSubtract {
+            Button(
+                action: {
+                vc.subtract(project: project)
             }
-            }
+            ) {
+            Image(systemName: "x.circle.fill")
+            .foregroundColor(.pink)
+            .font(.title2)
         }
          */
     }
