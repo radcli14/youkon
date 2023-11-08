@@ -12,7 +12,32 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.dcsim.youkon.YkProject
+import com.dcsim.youkon.android.viewmodels.ProjectsCardViewModel
 
+class ProjectsCard(
+    val vm: ProjectsCardViewModel = ProjectsCardViewModel()
+) {
+    @Composable
+    fun Body() {
+        Card(modifier = Modifier.padding(16.dp)) {
+            Column(modifier = Modifier.padding(16.dp)) {
+                Text(
+                    text = "Projects",
+                    style = MaterialTheme.typography.h6,
+                    fontWeight = FontWeight.SemiBold,
+                    //modifier = Modifier.padding(bottom = 16.dp)
+                )
+
+                LazyColumn {
+                    items(vm.projects.value) { project ->
+                        ProjectView(project = project)
+                    }
+                }
+            }
+        }
+    }
+}
+/*
 @Composable
 fun ProjectsCard(projects: List<YkProject>) {
     Card(modifier = Modifier.padding(16.dp)) {
@@ -32,3 +57,4 @@ fun ProjectsCard(projects: List<YkProject>) {
         }
     }
 }
+*/

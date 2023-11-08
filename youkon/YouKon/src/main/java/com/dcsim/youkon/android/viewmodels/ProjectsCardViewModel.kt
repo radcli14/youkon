@@ -8,7 +8,7 @@ import com.dcsim.youkon.YkProject
 import com.dcsim.youkon.YkUser
 
 class ProjectsCardViewModel(var user: YkUser = YkUser()): ViewModel() {
-    var projects: MutableState<List<YkProject>> = mutableStateOf(mutableListOf())
+    var projects: MutableState<List<YkProject>> = mutableStateOf(user.projects)
     val canSubtract = mutableStateOf(false)
     val showSubtractAlert = mutableStateOf(false)
     val projectToDelete: MutableState<YkProject?> = mutableStateOf(null)

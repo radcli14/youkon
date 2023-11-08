@@ -15,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.dcsim.youkon.android.viewmodels.MainViewModel
+import com.dcsim.youkon.android.viewmodels.ProjectsCardViewModel
 import com.dcsim.youkon.android.viewmodels.QuickConvertCardViewModel
 import com.dcsim.youkon.android.views.BackgroundBox
 import com.dcsim.youkon.android.views.Header
@@ -24,19 +25,25 @@ import com.dcsim.youkon.android.views.QuickConvertCard
 class MainActivity : ComponentActivity() {
     private lateinit var mainViewModel: MainViewModel
     private val quickConvertCardViewModel = QuickConvertCardViewModel()
+    private lateinit var projectsCardViewModel: ProjectsCardViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mainViewModel = MainViewModel()
+        projectsCardViewModel = ProjectsCardViewModel(mainViewModel.user)
 
         setContent {
-            MainView(mainViewModel, quickConvertCardViewModel)
+            MainView(mainViewModel, quickConvertCardViewModel, projectsCardViewModel)
         }
     }
 }
 
 @Composable
-fun MainView(mainViewModel: MainViewModel, quickConvertCardViewModel: QuickConvertCardViewModel) {
+fun MainView(
+    mainViewModel: MainViewModel,
+    quickConvertCardViewModel: QuickConvertCardViewModel,
+    projectsCardViewModel: ProjectsCardViewModel
+) {
     MyApplicationTheme {
         Surface(
             modifier = Modifier.fillMaxSize(),
@@ -50,7 +57,7 @@ fun MainView(mainViewModel: MainViewModel, quickConvertCardViewModel: QuickConve
                 ) {
                     Header()
                     QuickConvertCard(quickConvertCardViewModel).Body()
-                    ProjectsCard(mainViewModel.user.projects)
+                    ProjectsCard(projectsCardViewModel).Body()
                 }
             }
         }
@@ -60,5 +67,5 @@ fun MainView(mainViewModel: MainViewModel, quickConvertCardViewModel: QuickConve
 @Preview
 @Composable
 fun DefaultPreview() {
-    MainView(MainViewModel(), QuickConvertCardViewModel())
+    MainView(MainViewModel(), QuickConvertCardViewModel(), ProjectsCardViewModel())
 }
