@@ -6,7 +6,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.requiredWidth
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material.MaterialTheme
@@ -30,7 +30,7 @@ class QuickConvertCard(
         Surface(
             color = MaterialTheme.colors.surface.copy(alpha = 0.4f),
             modifier = Modifier
-                .requiredWidth(360.dp)
+                .width(400.dp)
         ) {
             Column(
                 modifier = Modifier.padding(16.dp),
