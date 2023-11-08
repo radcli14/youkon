@@ -12,8 +12,7 @@ class ProjectsCardViewModel(var user: YkUser = YkUser()): ViewModel() {
     val canSubtract = mutableStateOf(false)
     val showSubtractAlert = mutableStateOf(false)
     val projectToDelete: MutableState<YkProject?> = mutableStateOf(null)
-
-    //var pvcDict = mutableMapOf<String, ProjectViewController>()
+    var pvcDict = mutableMapOf<String, ProjectViewModel>()
     private val tag = "ProjectsCardViewModel"
 
     /// Initialize with a generic user
@@ -30,20 +29,18 @@ class ProjectsCardViewModel(var user: YkUser = YkUser()): ViewModel() {
     fun addProject() {
         user.addProject()
         updateProjects()
-        //Log.d(tag, projects)
+        Log.d(tag, projects.toString())
     }
 
-    /// To persist the `ProjectViewController` inside the project card, it is retained in the `pvcDict`
-    /*
-    fun projectViewController(project: YkProject) -> ProjectViewController {
-        guard let pvc = pvcDict[project.id] else {
-            let pvc = ProjectViewController(for: project)
+    /// To persist the `ProjectViewModel` inside the project card, it is retained in the `pvcDict`
+    fun projectViewModel(project: YkProject): ProjectViewModel {
+        var pvc = pvcDict[project.id]
+        if (pvc == null) {
+            pvc = ProjectViewModel(project)
             pvcDict[project.id] = pvc
-            return pvc
         }
         return pvc
     }
-    */
 
     /// Make the button to remove any of the `YkProject`s visible
     fun onSubtractButtonTap() {
@@ -56,24 +53,22 @@ class ProjectsCardViewModel(var user: YkUser = YkUser()): ViewModel() {
         showSubtractAlert.value = true
     }
 
-    /*
-    func confirmDelete() {
-        if let projectToDelete {
-            user.removeProject(project: projectToDelete)
+    fun confirmDelete() {
+        projectToDelete.value?.let {
+            user.removeProject(it)
             updateProjects()
         }
         cleanupDelete()
     }
 
-    func cancelDelete() {
+    fun cancelDelete() {
         cleanupDelete()
     }
 
     /// Reset the variables associated with showing an alert and subtracting a project to their defaults
-    private func cleanupDelete() {
-        showSubtractAlert = false
-        projectToDelete = nil
-        canSubtract = false
+    private fun cleanupDelete() {
+        showSubtractAlert.value = false
+        projectToDelete.value = null
+        canSubtract.value = false
     }
-     */
 }
