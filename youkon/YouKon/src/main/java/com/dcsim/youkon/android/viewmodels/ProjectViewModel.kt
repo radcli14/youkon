@@ -13,7 +13,9 @@ class ProjectViewModel(var project: YkProject = YkProject()): ViewModel() {
     val editedName = mutableStateOf(project.name)
     val editedDescription = mutableStateOf(project.about)
     val convertToSystem = mutableStateOf(YkSystem.SI)
-    var measurements: MutableState<List<YkMeasurement>> = mutableStateOf(project.measurements)
+    var measurements: MutableState<Array<YkMeasurement>> = mutableStateOf(
+        project.measurements.toTypedArray()
+    )
     val expansion = mutableStateOf(ProjectExpansionLevel.COMPACT)
     val isExpanded = mutableStateOf(false)
     val canSubtract = mutableStateOf(false)
@@ -22,7 +24,7 @@ class ProjectViewModel(var project: YkProject = YkProject()): ViewModel() {
 
     /// Update the public list of `YkProject` items by assuring that the Kotlin version is Swift formatted
     private fun updateMeasurements() {
-        measurements.value = project.measurements
+        measurements.value = project.measurements.toTypedArray()
     }
 
     fun refresh(viewModel: ProjectViewModel) {
@@ -72,7 +74,7 @@ class ProjectViewModel(var project: YkProject = YkProject()): ViewModel() {
             name = "",
             about = ""
         )
-        measurements.value = project.measurements
+        updateMeasurements()
     }
 
     fun subtractMeasurement() {
