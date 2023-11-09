@@ -8,11 +8,12 @@ import com.dcsim.youkon.YkProject
 import com.dcsim.youkon.YkUser
 
 class ProjectsCardViewModel(var user: YkUser = YkUser()): ViewModel() {
-    var projects: MutableState<List<YkProject>> = mutableStateOf(user.projects)
+    var projects: MutableState<Array<YkProject>> = mutableStateOf(user.projects.toTypedArray())
     val canSubtract = mutableStateOf(false)
     val showSubtractAlert = mutableStateOf(false)
     val projectToDelete: MutableState<YkProject?> = mutableStateOf(null)
     var pvcDict = mutableMapOf<String, ProjectViewModel>()
+
     private val tag = "ProjectsCardViewModel"
 
     /// Initialize with a generic user
@@ -22,14 +23,14 @@ class ProjectsCardViewModel(var user: YkUser = YkUser()): ViewModel() {
 
     /// Update the public list of `YkProject` items by assuring that the Kotlin version is Swift formatted
     private fun updateProjects() {
-        projects.value = user.projects
+        projects.value = user.projects.toTypedArray()
     }
 
     /// Add a new, blank, `YkProject` to the `YkUser`
     fun addProject() {
         user.addProject()
         updateProjects()
-        Log.d(tag, projects.toString())
+        Log.d(tag, "added a new project: ${projects.value}")
     }
 
     /// To persist the `ProjectViewModel` inside the project card, it is retained in the `pvcDict`

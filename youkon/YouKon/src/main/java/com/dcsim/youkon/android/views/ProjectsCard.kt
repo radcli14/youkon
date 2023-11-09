@@ -1,5 +1,6 @@
 package com.dcsim.youkon.android.views
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -15,8 +16,10 @@ import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Remove
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -63,7 +66,7 @@ class ProjectsCard(
         IconButton(
             onClick = {
                 vm.addProject()
-                mainViewModel.saveUserToJson()
+                //mainViewModel.saveUserToJson()
             }
         ) {
             Icon(
@@ -81,7 +84,7 @@ class ProjectsCard(
             onClick = { vm.onSubtractButtonTap() }
         ) {
             Icon(
-                imageVector = Icons.Default.Delete,
+                imageVector = Icons.Default.Remove,
                 contentDescription = "Allow deleting projects",
                 modifier = Modifier.editButtonModifier(),
                 tint = MaterialTheme.colors.primary
@@ -105,12 +108,12 @@ class ProjectsCard(
     /// The red `X` that shows up to the left of a project when the user has enabled subtracting projects
     @Composable
     fun SubtractProjectButton(project: YkProject) {
-        if (vm.canSubtract.value) {
+        AnimatedVisibility(vm.canSubtract.value) {
             IconButton(
                 onClick = { vm.subtract(project) }
             ) {
                 Icon(
-                    imageVector = Icons.Default.Close,
+                    imageVector = Icons.Default.Clear,
                     contentDescription = "Delete ${project.name} project",
                     modifier = Modifier.editButtonModifier(
                         color = MaterialTheme.colors.error,
