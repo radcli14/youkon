@@ -17,8 +17,6 @@ import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Clear
-import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Remove
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -99,7 +97,7 @@ class ProjectsCard(
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     SubtractProjectButton(project)
                     val pvm = vm.projectViewModel(project)
-                    ProjectView(pvm)
+                    ProjectView(pvm).Body()
                 }
             }
         }

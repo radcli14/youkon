@@ -22,14 +22,19 @@ import com.dcsim.youkon.ProjectExpansionLevel
 import com.dcsim.youkon.YkSystem
 import com.dcsim.youkon.android.viewmodels.ProjectViewModel
 
-@Composable
-fun ProjectView(pvc: ProjectViewModel) {
-    var expansion by remember { mutableStateOf(ProjectExpansionLevel.COMPACT) }
-    var measurements by remember { mutableStateOf(pvc.project.measurements) }
+//@Composable
+class ProjectView(
+    val vm: ProjectViewModel
+) {
+    @Composable
+    fun Body() {
+        var expansion by remember { mutableStateOf(ProjectExpansionLevel.COMPACT) }
+        var measurements by remember { mutableStateOf(vm.project.measurements) }
 
-    Card(
-        modifier = Modifier
-            .clickable {
+        Card(
+            modifier = Modifier
+            .clickable
+            {
                 expansion = when (expansion) {
                     ProjectExpansionLevel.COMPACT -> ProjectExpansionLevel.STATIC
                     ProjectExpansionLevel.STATIC -> ProjectExpansionLevel.COMPACT
@@ -37,25 +42,27 @@ fun ProjectView(pvc: ProjectViewModel) {
                 }
             }
             .padding(8.dp)
-    ) {
-        Column(modifier = Modifier.padding(16.dp)) {
-            ProjectTopRow(pvc.project, expansion)
-            ProjectContent(measurements, expansion,
-                editClick = {
-                    expansion = when(expansion) {
-                        ProjectExpansionLevel.STATIC -> ProjectExpansionLevel.EDITABLE
-                        else -> ProjectExpansionLevel.STATIC
+        )
+        {
+            Column(modifier = Modifier.padding(16.dp)) {
+                ProjectTopRow(vm.project, expansion)
+                ProjectContent(measurements, expansion,
+                    editClick = {
+                        expansion = when (expansion) {
+                            ProjectExpansionLevel.STATIC -> ProjectExpansionLevel.EDITABLE
+                            else -> ProjectExpansionLevel.STATIC
+                        }
+                    },
+                    addClick = {
+                        println("newNewNew")
+                        vm.project.measurements.add(
+                            YkMeasurement.new()
+                        )
+                        measurements = vm.project.measurements
+                        println(measurements)
                     }
-                },
-                addClick = {
-                    println("newNewNew")
-                    pvc.project.measurements.add(
-                        YkMeasurement.new()
-                    )
-                    measurements = pvc.project.measurements
-                    println(measurements)
-                }
-            )
+                )
+            }
         }
     }
 }
