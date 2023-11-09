@@ -1,6 +1,7 @@
 package com.dcsim.youkon.android.views
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -9,6 +10,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
@@ -35,6 +37,7 @@ class ProjectsCard(
     fun Body() {
         Surface(
             color = MaterialTheme.colors.surface.copy(alpha = 0.4f),
+            shape = RoundedCornerShape(8.dp),
             modifier = Modifier
                 .fillMaxHeight()
         ) {
@@ -92,7 +95,9 @@ class ProjectsCard(
 
     @Composable
     fun ProjectContent() {
-        LazyColumn {
+        LazyColumn(
+            verticalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
             items(vm.projects.value) { project ->
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     SubtractProjectButton(project)
