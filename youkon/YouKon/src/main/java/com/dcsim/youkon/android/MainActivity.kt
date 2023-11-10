@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.ModalBottomSheetLayout
@@ -22,6 +23,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.dcsim.youkon.ProjectExpansionLevel
 import com.dcsim.youkon.android.viewmodels.MainViewModel
 import com.dcsim.youkon.android.viewmodels.ProjectsCardViewModel
 import com.dcsim.youkon.android.viewmodels.QuickConvertCardViewModel
@@ -83,7 +85,8 @@ class MainView(
                             }
                         }
                     },
-                    sheetState = sheetState
+                    sheetState = sheetState,
+                    sheetShape = RoundedCornerShape(topEnd = 8.dp, topStart = 8.dp)
                 ) {
                     MainContentStack()
                 }
@@ -114,7 +117,8 @@ class MainView(
         Column {
             mainViewModel.project?.let { project ->
                 val pvm = mainViewModel.projectsCardViewModel.projectViewModel(project)
-                ProjectView(pvm)
+                pvm.expansion.value = ProjectExpansionLevel.EDITABLE
+                ProjectView(pvm).Body()
             }
             Spacer(Modifier.weight(1f))
         }
