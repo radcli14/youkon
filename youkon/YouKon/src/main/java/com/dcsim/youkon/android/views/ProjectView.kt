@@ -75,14 +75,7 @@ class ProjectView(
         Surface(
             color = MaterialTheme.colors.surface.copy(alpha = 0.4f),
             shape = RoundedCornerShape(8.dp),
-            modifier = Modifier
-                .clickable {
-                    vm.expansion.value = when (vm.expansion.value) {
-                        ProjectExpansionLevel.COMPACT -> ProjectExpansionLevel.STATIC
-                        ProjectExpansionLevel.STATIC -> ProjectExpansionLevel.COMPACT
-                        ProjectExpansionLevel.EDITABLE -> ProjectExpansionLevel.STATIC
-                    }
-                }
+
         ) {
             Column(
                 modifier = Modifier.padding(16.dp)
@@ -97,7 +90,9 @@ class ProjectView(
     @Composable
     private fun LabelStack() {
         Row(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .clickable { vm.toggleExpansion() },
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -232,7 +227,12 @@ class ProjectView(
     /// A `ForEach` corresponding to each of the measurements, in either editable or static form
     @Composable
     private fun ExpansionMeasurementsList() {
-        Column {
+        Column(
+            modifier = Modifier.clickable {
+                println("clicked in the measurement list")
+                //mainViewModel.toggleEdit(vm.project)
+            }
+        ) {
             vm.measurements.value.forEach { measurement ->
                 when (vm.expansion.value) {
                     ProjectExpansionLevel.EDITABLE -> EditableMeasurement(measurement)
