@@ -65,14 +65,14 @@ class UnitDropdown(
                 isExpanded.value = false
                 onClick(unit)
             }) {
-                Text(unit.toString())
+                Text(unit.toString().replace("_", " "))
             }
         }
     }
 
     @Composable
     fun MenuButton() {
-        Text(unit.toString(),
+        Text(unit.toString().replace("_", " "),
             style = MaterialTheme.typography.body1,
             textAlign = TextAlign.Start,
             modifier = Modifier.fillMaxWidth()
