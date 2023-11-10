@@ -250,7 +250,7 @@ class ProjectView(
     private fun EditableMeasurement(measurement: YkMeasurement) {
         Row {
             SubtractMeasurementButton(measurement)
-            MeasurementView(measurement)
+            MeasurementView(measurement).Body()
         }
     }
 
