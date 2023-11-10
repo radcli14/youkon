@@ -2,16 +2,16 @@ package com.dcsim.youkon.android.viewmodels
 
 import android.os.Environment
 import android.util.Log
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.dcsim.youkon.YkProject
 import com.dcsim.youkon.YkUser
 import java.io.File
 
 class MainViewModel: ViewModel() {
-    var isEditingProject by mutableStateOf(false)
+    private val _isEditingProject = MutableLiveData(false)
+    val isEditingProject: LiveData<Boolean> = _isEditingProject
     var project: YkProject? = null
     var user = YkUser()
 
@@ -78,22 +78,27 @@ class MainViewModel: ViewModel() {
     }
 
     /// The user tapped the measurements in a project's disclosure group, toggle editable measurements sheet
-    fun toggleEdit(project: YkProject) {
+    fun toggleEdit(projectToEdit: YkProject) {
         Log.d(tag, "toggled edit to $project")
-        isEditingProject = !isEditingProject
-        this.project = if (isEditingProject) project else null
+        _isEditingProject.value = isEditingProject.value == false
+        project = if (isEditingProject.value == true) projectToEdit else null
     }
 
-    /*
-    /// The `ProjectsCardController` is retained to persist the states of the individual projects
-    var projectsCardController: ProjectsCardController {
-        if let _projectsCardController {
-            return _projectsCardController
-        } else {
-            _projectsCardController = ProjectsCardController(with: user)
-            return self.projectsCardController
-        }
+    /// The user exited the bottom sheet, stop editing the project
+    fun stopEditing() {
+        Log.d(tag, "stopped editing ${project?.name}")
+        _isEditingProject.value = false
+        project = null
     }
-    private var _projectsCardController: ProjectsCardController? = nil
-     */
+
+    /// The `ProjectsCardViewModel` is retained to persist the states of the individual projects
+    val projectsCardViewModel: ProjectsCardViewModel
+        get() {
+            _projectsCardViewModel?.let {
+                return it
+            }
+            _projectsCardViewModel = ProjectsCardViewModel(user)
+            return _projectsCardViewModel!!
+        }
+    private var _projectsCardViewModel: ProjectsCardViewModel? = null
 }
