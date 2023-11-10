@@ -3,6 +3,7 @@ package com.dcsim.youkon.android.views
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.expandVertically
 import androidx.compose.animation.shrinkVertically
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -10,8 +11,10 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.Divider
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
@@ -23,13 +26,18 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.Remove
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.dcsim.youkon.ProjectExpansionLevel
 import com.dcsim.youkon.YkMeasurement
+import com.dcsim.youkon.android.R
 import com.dcsim.youkon.android.viewmodels.MainViewModel
 import com.dcsim.youkon.android.viewmodels.ProjectViewModel
 
@@ -50,7 +58,10 @@ class ProjectView(
     /// The list of editable measurements when the project is opened in a sheet for editing
     @Composable
     fun MainStackWhenEditing() {
-        Column(horizontalAlignment = Alignment.Start) {
+        Column(
+            horizontalAlignment = Alignment.Start,
+            modifier = Modifier.padding(16.dp)
+        ) {
             LabelStack()
             ExpansionStack()
         }
@@ -69,7 +80,7 @@ class ProjectView(
     }
 
     private val imageSize: Dp
-        get() = if (vm.expansion.value == ProjectExpansionLevel.EDITABLE) 48.dp else 32.dp
+        get() = if (vm.expansion.value == ProjectExpansionLevel.EDITABLE) 72.dp else 48.dp
 
     /// The disclosure group with static content inside, with label with name and description
     @Composable
@@ -77,7 +88,6 @@ class ProjectView(
         Surface(
             color = MaterialTheme.colors.surface.copy(alpha = 0.4f),
             shape = RoundedCornerShape(8.dp),
-
         ) {
             Column(
                 modifier = Modifier.padding(16.dp)
@@ -98,11 +108,14 @@ class ProjectView(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
+            ProjectImage()
             Column {
                 NameField()
                 DescriptionField()
             }
-            CloseIcon(vm.expansion.value)
+            if (vm.expansion.value != ProjectExpansionLevel.EDITABLE) {
+                CloseIcon(vm.expansion.value)
+            }
         }
     }
 
@@ -144,36 +157,37 @@ class ProjectView(
     /// The image representing the project, either a generic icon, or a user-specified image
     @Composable
     private fun ProjectImage() {
-        /*
-        Image("noImageIcons\((vc.project.id.first?.wholeNumberValue ?? 0) % 7)")
-            .resizable()
-            .frame(width: imageSize, height: imageSize)
-            .padding(imageSize / 8.0)
-            .colorInvert()
-            .colorMultiply(.primary)
-        .background(.gray.opacity(0.3))
-        .clipShape(RoundedRectangle(cornerRadius: imageSize / 4))
-        .shadow(radius: 1)
-         */
+        Surface(
+            modifier = Modifier.padding(bottom = 8.dp, end = 8.dp),
+            color = Color.Gray.copy(alpha = 0.3f),
+            shape = RoundedCornerShape(imageSize / 4),
+            elevation = 2.dp
+        ) {
+            Image(
+                painter = painterResource(id = R.drawable.icon_clearbackground),
+                contentDescription = "Icon for ${vm.editedName.value}",
+                modifier = Modifier.size(imageSize).padding(imageSize / 16),
+                colorFilter = ColorFilter.tint(MaterialTheme.colors.onBackground)
+            )
+        }
     }
 
     /// The title of the project, which is the `.name` field in the `YkProject`
     @Composable
     private fun NameField() {
+        val project = vm.project.collectAsState()
+
         when (vm.expansion.value) {
             ProjectExpansionLevel.EDITABLE -> {
-                /*
-                TextField("Name", text: $vc.editedName)
-                    .font(.title3)
-                    .fontWeight(.bold)
-                    .onChange(of: vc.editedName) { name in
-                        vc.project.name = name
-                }
-                 */
+                BasicTextField(
+                    value = vm.editedName.value,
+                    onValueChange = { vm.updateName(it) },
+                    textStyle = MaterialTheme.typography.h6.copy(fontWeight = FontWeight.SemiBold),
+                )
             }
             else -> {
                 Text(
-                    text = vm.project.name,
+                    text = project.value.name,
                     style = MaterialTheme.typography.subtitle1,
                     fontWeight = FontWeight.SemiBold
                 )
@@ -184,18 +198,19 @@ class ProjectView(
     /// The subtitle of the project, which is the `.about` field in the `YkProject`
     @Composable
     private fun DescriptionField() {
+        val project = vm.project.collectAsState()
+
         when (vm.expansion.value) {
             ProjectExpansionLevel.EDITABLE -> {
-                /*
-                TextField("Description", text: $vc.editedDescription)
-                    .onChange(of: vc.editedDescription) { description in
-                        vc.project.about = description
-                }
-                 */
+                BasicTextField(
+                    value = vm.editedDescription.value,
+                    onValueChange = { vm.updateDescription(it) },
+                    textStyle = MaterialTheme.typography.body1
+                )
             }
             else -> {
                 Text(
-                    text = vm.editedDescription.value,
+                    text = project.value.about,
                     style = MaterialTheme.typography.body1,
                     modifier = Modifier.padding(bottom = 4.dp)
                 )
@@ -212,18 +227,6 @@ class ProjectView(
     @Composable
     private fun ExpansionMeasurements() {
         ExpansionMeasurementsList()
-        /*
-        ScrollView {
-            VStack(alignment: .leading) {
-            expansionMeasurementsList
-        }
-            .onTapGesture {
-                if vc.expansion != .editable {
-                    contentViewController.toggleEdit(to: vc.project)
-                }
-            }
-        }
-         */
     }
 
     /// A `ForEach` corresponding to each of the measurements, in either editable or static form
@@ -231,7 +234,8 @@ class ProjectView(
     private fun ExpansionMeasurementsList() {
         Column(
             modifier = Modifier.clickable {
-                mainViewModel?.toggleEdit(vm.project)
+                //vm.toggleEdit()
+                mainViewModel?.toggleEdit(vm.project.value)
             }
         ) {
             vm.measurements.value.forEach { measurement ->

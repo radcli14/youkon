@@ -8,13 +8,15 @@ import com.dcsim.youkon.YkMeasurement
 import com.dcsim.youkon.YkProject
 import com.dcsim.youkon.YkSystem
 import com.dcsim.youkon.YkUnit
+import kotlinx.coroutines.flow.MutableStateFlow
 
-class ProjectViewModel(var project: YkProject = YkProject()): ViewModel() {
-    val editedName = mutableStateOf(project.name)
-    val editedDescription = mutableStateOf(project.about)
+class ProjectViewModel(initialProject: YkProject = YkProject()): ViewModel() {
+    val project = MutableStateFlow(initialProject)
+    val editedName = mutableStateOf(initialProject.name)
+    val editedDescription = mutableStateOf(initialProject.about)
     val convertToSystem = mutableStateOf(YkSystem.SI)
     var measurements: MutableState<Array<YkMeasurement>> = mutableStateOf(
-        project.measurements.toTypedArray()
+        initialProject.measurements.toTypedArray()
     )
     val expansion = mutableStateOf(ProjectExpansionLevel.COMPACT)
     val isExpanded = mutableStateOf(false)
@@ -24,24 +26,25 @@ class ProjectViewModel(var project: YkProject = YkProject()): ViewModel() {
 
     /// Update the public list of `YkProject` items by assuring that the Kotlin version is Swift formatted
     private fun updateMeasurements() {
-        measurements.value = project.measurements.toTypedArray()
+        measurements.value = project.value.measurements.toTypedArray()
     }
 
     fun refresh(viewModel: ProjectViewModel) {
-        project = viewModel.project
-        editedName.value = project.name
-        editedDescription.value = project.about
+        project.value = viewModel.project.value
+        editedName.value = project.value.name
+        editedDescription.value = project.value.about
         updateMeasurements()
     }
 
-    /*
-    var expansionIcon: String {
-        switch (expansion) {
-            case .compact: return "chevron.down"
-            default: return "chevron.up"
-        }
+    fun updateName(name: String) {
+        project.value.name = name
+        editedName.value = name
     }
-     */
+
+    fun updateDescription(description: String) {
+        project.value.about = description
+        editedDescription.value = description
+    }
 
     fun toggleExpansion() {
         expansion.value = when(expansion.value) {
@@ -68,7 +71,7 @@ class ProjectViewModel(var project: YkProject = YkProject()): ViewModel() {
     }
 
     fun addMeasurement() {
-        project.addMeasurement(
+        project.value.addMeasurement(
             value = 0.0,
             unit = YkUnit.METERS,
             name = "",
@@ -88,7 +91,7 @@ class ProjectViewModel(var project: YkProject = YkProject()): ViewModel() {
 
     fun confirmDelete() {
         measurementToDelete.value?.let {
-            project.removeMeasurement(measurement = it)
+            project.value.removeMeasurement(measurement = it)
             updateMeasurements()
         }
         cleanupDelete()
