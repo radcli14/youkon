@@ -20,7 +20,7 @@ class MainViewModel: ViewModel() {
     init {
         user = defaultUser // savedUser
         Log.d(tag, "Initial User State\n==================\n\n" + user.asJsonString() + "\n\n")
-        saveUserToJson()
+        //saveUserToJson()
     }
 
     /// The default user for someone opening the app for the first time is stored in `resources/defaultuser.json`
@@ -79,6 +79,7 @@ class MainViewModel: ViewModel() {
 
     /// The user tapped the measurements in a project's disclosure group, toggle editable measurements sheet
     fun toggleEdit(project: YkProject) {
+        Log.d(tag, "toggled edit to $project")
         isEditingProject = !isEditingProject
         this.project = if (isEditingProject) project else null
     }

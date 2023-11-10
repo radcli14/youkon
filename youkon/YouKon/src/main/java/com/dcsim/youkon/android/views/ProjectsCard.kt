@@ -30,8 +30,8 @@ import com.dcsim.youkon.android.viewmodels.MainViewModel
 import com.dcsim.youkon.android.viewmodels.ProjectsCardViewModel
 
 class ProjectsCard(
-    val vm: ProjectsCardViewModel = ProjectsCardViewModel(),
-    val mainViewModel: MainViewModel = MainViewModel()
+    private val vm: ProjectsCardViewModel = ProjectsCardViewModel(),
+    private val mainViewModel: MainViewModel = MainViewModel()
 ) {
     @Composable
     fun Body() {
@@ -102,7 +102,7 @@ class ProjectsCard(
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     SubtractProjectButton(project)
                     val pvm = vm.projectViewModel(project)
-                    ProjectView(pvm).Body()
+                    ProjectView(pvm, mainViewModel).Body()
                 }
             }
         }

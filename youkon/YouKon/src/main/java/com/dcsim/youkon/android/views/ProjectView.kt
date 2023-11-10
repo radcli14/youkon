@@ -30,11 +30,13 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.dcsim.youkon.ProjectExpansionLevel
 import com.dcsim.youkon.YkMeasurement
+import com.dcsim.youkon.android.viewmodels.MainViewModel
 import com.dcsim.youkon.android.viewmodels.ProjectViewModel
 
 //@Composable
 class ProjectView(
-    private val vm: ProjectViewModel
+    private val vm: ProjectViewModel,
+    private val mainViewModel: MainViewModel? = null
 ) {
     @Composable
     fun Body() {
@@ -229,8 +231,7 @@ class ProjectView(
     private fun ExpansionMeasurementsList() {
         Column(
             modifier = Modifier.clickable {
-                println("clicked in the measurement list")
-                //mainViewModel.toggleEdit(vm.project)
+                mainViewModel?.toggleEdit(vm.project)
             }
         ) {
             vm.measurements.value.forEach { measurement ->
@@ -292,7 +293,7 @@ class ProjectView(
         IconButton(
             onClick = {
                 vm.addMeasurement()
-                //mainViewModel.saveUserToJson()
+                //mainViewModel?.saveUserToJson()
             }
         ) {
             Icon(
