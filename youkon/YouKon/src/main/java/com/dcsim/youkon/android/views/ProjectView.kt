@@ -241,7 +241,7 @@ class ProjectView(
             }
         }
         if (vm.measurements.value.isEmpty()) {
-            Text("Add New Measuremenbts")
+            Text("Add New Measurements")
         }
     }
 
