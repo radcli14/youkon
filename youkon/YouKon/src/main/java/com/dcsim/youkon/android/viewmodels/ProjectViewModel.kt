@@ -2,6 +2,8 @@ package com.dcsim.youkon.android.viewmodels
 
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModel
 import com.dcsim.youkon.ProjectExpansionLevel
 import com.dcsim.youkon.YkMeasurement
@@ -23,6 +25,12 @@ class ProjectViewModel(initialProject: YkProject = YkProject()): ViewModel() {
     val canSubtract = mutableStateOf(false)
     val showSubtractAlert = mutableStateOf(false)
     val measurementToDelete: MutableState<YkMeasurement?> = mutableStateOf(null)
+
+    val imageSize: Dp
+        get() = if (expansion.value == ProjectExpansionLevel.EDITABLE) 48.dp else 36.dp
+
+    val divTopPadding
+        get() = if (expansion.value == ProjectExpansionLevel.STATIC) 0.dp else 16.dp
 
     /// Update the public list of `YkProject` items by assuring that the Kotlin version is Swift formatted
     private fun updateMeasurements() {

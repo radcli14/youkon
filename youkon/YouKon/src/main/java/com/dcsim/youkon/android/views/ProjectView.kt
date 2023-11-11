@@ -4,6 +4,7 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.expandVertically
 import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -33,7 +34,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.dcsim.youkon.ProjectExpansionLevel
 import com.dcsim.youkon.YkMeasurement
@@ -79,9 +79,6 @@ class ProjectView(
          */
     }
 
-    private val imageSize: Dp
-        get() = if (vm.expansion.value == ProjectExpansionLevel.EDITABLE) 72.dp else 48.dp
-
     /// The disclosure group with static content inside, with label with name and description
     @Composable
     private fun DisclosureGroupWhenNotEditing() {
@@ -105,7 +102,7 @@ class ProjectView(
             modifier = Modifier
                 .fillMaxWidth()
                 .clickable { vm.toggleExpansion() },
-            horizontalArrangement = Arrangement.SpaceBetween,
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             ProjectImage()
@@ -114,6 +111,7 @@ class ProjectView(
                 DescriptionField()
             }
             if (vm.expansion.value != ProjectExpansionLevel.EDITABLE) {
+                Spacer(Modifier.weight(1f))
                 CloseIcon(vm.expansion.value)
             }
         }
@@ -127,9 +125,9 @@ class ProjectView(
             enter = expandVertically(),
             exit = shrinkVertically()
         ) {
-            Divider()
+            //Divider()
             Column {
-                Divider()
+                Divider(Modifier.padding(top = vm.divTopPadding))
                 SystemPicker()
                 Row(verticalAlignment = Alignment.Top) {
                     ExpansionView()
@@ -158,15 +156,17 @@ class ProjectView(
     @Composable
     private fun ProjectImage() {
         Surface(
-            modifier = Modifier.padding(bottom = 8.dp, end = 8.dp),
-            color = Color.Gray.copy(alpha = 0.3f),
-            shape = RoundedCornerShape(imageSize / 4),
+            shape = RoundedCornerShape(vm.imageSize / 4),
             elevation = 2.dp
         ) {
             Image(
-                painter = painterResource(id = R.drawable.icon_clearbackground),
+                painter = painterResource(id = R.drawable.noimageicons0),
                 contentDescription = "Icon for ${vm.editedName.value}",
-                modifier = Modifier.size(imageSize).padding(imageSize / 16),
+                modifier = Modifier
+                    .size(vm.imageSize)
+                    //.padding(vm.imageSize / 8)
+                    .background(Color.Gray.copy(alpha = 0.3f))
+                ,
                 colorFilter = ColorFilter.tint(MaterialTheme.colors.onBackground)
             )
         }
