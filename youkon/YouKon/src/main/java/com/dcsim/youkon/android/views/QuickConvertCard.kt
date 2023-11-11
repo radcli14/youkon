@@ -32,7 +32,7 @@ class QuickConvertCard(
             color = MaterialTheme.colors.surface.copy(alpha = 0.4f),
             shape = RoundedCornerShape(8.dp),
             modifier = Modifier
-                .width(400.dp)
+                .width(420.dp)
         ) {
             Column(
                 modifier = Modifier.padding(16.dp),
@@ -115,14 +115,13 @@ class QuickConvertCard(
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(top = 15.dp)
+                .padding(top = 5.dp),
+            contentAlignment = Alignment.CenterStart
         ) {
             Text(vm.convertedText,
-                style = MaterialTheme.typography.h6,
-                modifier = Modifier.align(Alignment.CenterStart)
+                style = MaterialTheme.typography.h6
             )
         }
-
     }
 }
 
