@@ -6,7 +6,6 @@ import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -173,19 +172,6 @@ class ProjectView(
             }
         }
     }
-
-    @Composable
-    private fun pickerColor(isSelected: Boolean): Color {
-        return if (isSelected) pickerSelectedColor else grayBackground
-    }
-
-    private val pickerSelectedColor: Color
-        @Composable
-        get() = if (isSystemInDarkTheme()) MaterialTheme.colors.onSurface else MaterialTheme.colors.surface
-
-    private val pickerTextColor: Color
-        @Composable
-        get() = if (isSystemInDarkTheme()) MaterialTheme.colors.surface else MaterialTheme.colors.onSurface
 
     /// Selects which icon to use when no image was provided in the project based on the project id,
     /// selecting from one of the 7 `noImageIcon` resources

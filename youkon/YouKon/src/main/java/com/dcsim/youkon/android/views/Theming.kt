@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
@@ -39,3 +40,16 @@ fun Modifier.editButtonModifier(
         .padding(padding)
 }
 
+
+@Composable
+fun pickerColor(isSelected: Boolean): Color {
+    return if (isSelected) pickerSelectedColor else grayBackground
+}
+
+val pickerSelectedColor: Color
+    @Composable
+    get() = if (isSystemInDarkTheme()) MaterialTheme.colors.onSurface else MaterialTheme.colors.surface
+
+val pickerTextColor: Color
+    @Composable
+    get() = if (isSystemInDarkTheme()) MaterialTheme.colors.surface else MaterialTheme.colors.onSurface
