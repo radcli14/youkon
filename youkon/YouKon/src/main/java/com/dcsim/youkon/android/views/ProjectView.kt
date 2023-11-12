@@ -152,20 +152,36 @@ class ProjectView(
          */
     }
 
+    /// Selects which icon to use when no image was provided in the project based on the project id,
+    /// selecting from one of the 7 `noImageIcon` resources
+    private val noImageIconResource: Int
+        get() {
+            return when(vm.project.value.id.first().code % 7) {
+                1 -> R.drawable.noimageicons1
+                2 -> R.drawable.noimageicons2
+                3 -> R.drawable.noimageicons3
+                4 -> R.drawable.noimageicons4
+                5 -> R.drawable.noimageicons5
+                6 -> R.drawable.noimageicons6
+                else -> R.drawable.noimageicons0
+            }
+        }
+
     /// The image representing the project, either a generic icon, or a user-specified image
     @Composable
     private fun ProjectImage() {
         Surface(
             shape = RoundedCornerShape(vm.imageSize / 4),
-            elevation = 2.dp
+            elevation = 2.dp,
+            color = Color.Gray
         ) {
             Image(
-                painter = painterResource(id = R.drawable.noimageicons0),
+                painter = painterResource(id = noImageIconResource),
                 contentDescription = "Icon for ${vm.editedName.value}",
                 modifier = Modifier
                     .size(vm.imageSize)
-                    //.padding(vm.imageSize / 8)
-                    .background(Color.Gray.copy(alpha = 0.3f))
+                    .padding(vm.imageSize / 8)
+                    .background(Color.Transparent)
                 ,
                 colorFilter = ColorFilter.tint(MaterialTheme.colors.onBackground)
             )
