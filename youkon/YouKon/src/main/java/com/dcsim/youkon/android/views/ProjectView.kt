@@ -84,7 +84,7 @@ class ProjectView(
     private fun DisclosureGroupWhenNotEditing() {
         Surface(
             color = grayBackground.copy(alpha = 0.4f),
-            shape = RoundedCornerShape(8.dp),
+            shape = RoundedCornerShape(roundedRadius),
         ) {
             Column(
                 modifier = Modifier.padding(16.dp)
@@ -173,7 +173,7 @@ class ProjectView(
         Surface(
             shape = RoundedCornerShape(vm.imageSize / 4),
             elevation = 2.dp,
-            color = Color.Gray
+            color = grayBackground
         ) {
             Image(
                 painter = painterResource(id = noImageIconResource),

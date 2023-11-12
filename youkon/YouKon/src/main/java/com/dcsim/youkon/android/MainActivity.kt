@@ -32,6 +32,7 @@ import com.dcsim.youkon.android.views.Header
 import com.dcsim.youkon.android.views.ProjectView
 import com.dcsim.youkon.android.views.ProjectsCard
 import com.dcsim.youkon.android.views.QuickConvertCard
+import com.dcsim.youkon.android.views.roundedRadius
 
 class MainActivity : ComponentActivity() {
     private lateinit var mainViewModel: MainViewModel
@@ -86,7 +87,7 @@ class MainView(
                         }
                     },
                     sheetState = sheetState,
-                    sheetShape = RoundedCornerShape(topEnd = 8.dp, topStart = 8.dp)
+                    sheetShape = RoundedCornerShape(topEnd = roundedRadius, topStart = roundedRadius)
                 ) {
                     MainContentStack()
                 }

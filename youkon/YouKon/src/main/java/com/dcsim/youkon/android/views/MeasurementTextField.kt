@@ -27,11 +27,11 @@ fun MeasurementTextField(
     Surface(
         modifier = modifier.height(40.dp),
         color = grayBackground,
-        shape = RoundedCornerShape(8.dp)
+        shape = RoundedCornerShape(roundedRadius)
     ) {
         BasicTextField(
             value = text,
-            modifier = Modifier.padding(8.dp),
+            modifier = Modifier.padding(5.dp),
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
             singleLine = true,
             onValueChange = { newText ->

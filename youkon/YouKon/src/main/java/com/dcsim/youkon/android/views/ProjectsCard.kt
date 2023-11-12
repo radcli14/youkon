@@ -37,7 +37,7 @@ class ProjectsCard(
     fun Body() {
         Surface(
             color = MaterialTheme.colors.surface.copy(alpha = 0.4f),
-            shape = RoundedCornerShape(8.dp),
+            shape = RoundedCornerShape(roundedRadius),
             modifier = Modifier
                 .fillMaxHeight()
         ) {
