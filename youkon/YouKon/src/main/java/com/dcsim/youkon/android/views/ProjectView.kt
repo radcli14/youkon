@@ -101,17 +101,18 @@ class ProjectView(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .clickable { vm.toggleExpansion() },
+                .clickable {
+                    if (vm.expansion.value != ProjectExpansionLevel.EDITABLE) vm.toggleExpansion()
+                },
             horizontalArrangement = Arrangement.spacedBy(8.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             ProjectImage()
-            Column {
+            Column(modifier = Modifier.weight(1f)) {
                 NameField()
                 DescriptionField()
             }
             if (vm.expansion.value != ProjectExpansionLevel.EDITABLE) {
-                Spacer(Modifier.weight(1f))
                 CloseIcon(vm.expansion.value)
             }
         }
