@@ -49,6 +49,14 @@ class ProjectsCard(
                 ProjectContent()
             }
         }
+
+        if (vm.showSubtractAlert.value) {
+            SubtractAlert(
+                title = vm.projectToDelete.value?.name ?: "",
+                confirmAction = { vm.confirmDelete() },
+                cancelAction = { vm.cancelDelete() }
+            )
+        }
     }
 
     @Composable
