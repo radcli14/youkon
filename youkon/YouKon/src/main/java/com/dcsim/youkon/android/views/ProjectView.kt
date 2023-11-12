@@ -83,7 +83,7 @@ class ProjectView(
     @Composable
     private fun DisclosureGroupWhenNotEditing() {
         Surface(
-            color = MaterialTheme.colors.surface.copy(alpha = 0.4f),
+            color = grayBackground.copy(alpha = 0.4f),
             shape = RoundedCornerShape(8.dp),
         ) {
             Column(
