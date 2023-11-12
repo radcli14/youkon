@@ -9,6 +9,7 @@
 import Foundation
 import SwiftUI
 
+/// Dialog that is shown when the user taps the `X` button to the left of a project or measurement
 func SubtractAlert(
     title: String,
     confirmAction: @escaping () -> Void,
