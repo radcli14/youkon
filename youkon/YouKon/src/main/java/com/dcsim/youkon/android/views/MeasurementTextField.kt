@@ -13,7 +13,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
@@ -24,7 +23,7 @@ fun MeasurementTextField(initialText: String, updateMeasurement: (Double) -> Uni
     var text by remember { mutableStateOf(TextFieldValue(initialText)) }
     Surface(
         modifier = Modifier.height(40.dp),
-        color = Color.Gray.copy(alpha=0.3f),
+        color = grayBackground,
         shape = RoundedCornerShape(8.dp)
     ) {
         BasicTextField(
@@ -42,15 +41,9 @@ fun MeasurementTextField(initialText: String, updateMeasurement: (Double) -> Uni
                 }
             },
             textStyle = MaterialTheme.typography.h6.copy(
+                color = MaterialTheme.colors.onSurface,
                 textAlign = TextAlign.End
             ),
-            /*
-            colors = TextFieldDefaults.outlinedTextFieldColors(
-                cursorColor = MaterialTheme.colors.primary,
-                focusedBorderColor = Color.Transparent,
-                unfocusedBorderColor = Color.Transparent,
-                backgroundColor = Color.Gray.copy(alpha=0.3f)
-            )*/
         )
     }
 

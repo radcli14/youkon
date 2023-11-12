@@ -1,6 +1,7 @@
 package com.dcsim.youkon.android.views
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -20,9 +21,13 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
+val grayBackground: Color
+    @Composable
+    get() = if (isSystemInDarkTheme()) Color.DarkGray else Color.LightGray
+
 @Composable
 fun Modifier.editButtonModifier(
-    color: Color = MaterialTheme.colors.surface,
+    color: Color = grayBackground,
     alpha: Float = 0.7f,
     width: Dp = 42.dp,
     height: Dp = 36.dp,
