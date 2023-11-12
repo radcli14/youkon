@@ -6,6 +6,7 @@ import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -149,7 +150,9 @@ class ProjectView(
         if (vm.expansion.value != ProjectExpansionLevel.EDITABLE) {
             Row(
                 horizontalArrangement = Arrangement.SpaceEvenly,
-                modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp)
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 8.dp)
             ) {
                 YkSystem.entries.forEach { system ->
                     val isSelected = vm.convertToSystem.value == system
@@ -160,8 +163,8 @@ class ProjectView(
                             .height(36.dp)
                         ,
                         colors = ButtonDefaults.buttonColors(
-                            backgroundColor = if (isSelected) MaterialTheme.colors.surface else grayBackground,
-                            contentColor = MaterialTheme.colors.onSurface
+                            backgroundColor = pickerColor(isSelected),
+                            contentColor = pickerTextColor
                         )
                     ) {
                         Text(text = system.toString())
@@ -170,6 +173,19 @@ class ProjectView(
             }
         }
     }
+
+    @Composable
+    private fun pickerColor(isSelected: Boolean): Color {
+        return if (isSelected) pickerSelectedColor else grayBackground
+    }
+
+    private val pickerSelectedColor: Color
+        @Composable
+        get() = if (isSystemInDarkTheme()) MaterialTheme.colors.onSurface else MaterialTheme.colors.surface
+
+    private val pickerTextColor: Color
+        @Composable
+        get() = if (isSystemInDarkTheme()) MaterialTheme.colors.surface else MaterialTheme.colors.onSurface
 
     /// Selects which icon to use when no image was provided in the project based on the project id,
     /// selecting from one of the 7 `noImageIcon` resources
