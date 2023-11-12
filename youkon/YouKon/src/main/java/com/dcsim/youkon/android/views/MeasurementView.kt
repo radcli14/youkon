@@ -32,7 +32,6 @@ class MeasurementView(measurement: YkMeasurement) {
         val measurement = vm.measurement.collectAsState()
         BasicTextField(
             value = measurement.value.name,
-            //modifier = Modifier.width(measurementTextWidth),
             onValueChange = { vm.updateName(it) },
             textStyle = MaterialTheme.typography.subtitle1.copy(
                 color = MaterialTheme.colors.primary
@@ -46,7 +45,6 @@ class MeasurementView(measurement: YkMeasurement) {
         val measurement = vm.measurement.collectAsState()
         BasicTextField(
             value = measurement.value.about,
-            //modifier = Modifier.width(measurementTextWidth),
             onValueChange = { vm.updateDescription(it) },
             textStyle = MaterialTheme.typography.body1.copy(
                 color = MaterialTheme.colors.onSurface
@@ -69,7 +67,7 @@ class MeasurementView(measurement: YkMeasurement) {
             )
             UnitDropdown(
                 unit = measurement.value.unit,
-                availableUnits = vm.equivalentUnits,
+                availableUnits = measurement.value.unit.allUnits,
                 modifier = Modifier.weight(1f),
                 onClick = { vm.updateUnit(it) }
             ).Body()
