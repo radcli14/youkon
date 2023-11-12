@@ -11,11 +11,14 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.material.Button
+import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Divider
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
@@ -37,6 +40,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.dcsim.youkon.ProjectExpansionLevel
 import com.dcsim.youkon.YkMeasurement
+import com.dcsim.youkon.YkSystem
 import com.dcsim.youkon.android.R
 import com.dcsim.youkon.android.viewmodels.MainViewModel
 import com.dcsim.youkon.android.viewmodels.ProjectViewModel
@@ -139,18 +143,32 @@ class ProjectView(
         }
     }
 
+    /// Selection control between `YkSystem` variations, such as SI or IMPERIAL
     @Composable
     private fun SystemPicker() {
-        /*
-        if vc.expansion != .editable {
-            Picker("System", selection: $vc.convertToSystem) {
-            ForEach(YkSystem.entries, id: \.self) { option in
-                Text(String(describing: option))
+        if (vm.expansion.value != ProjectExpansionLevel.EDITABLE) {
+            Row(
+                horizontalArrangement = Arrangement.SpaceEvenly,
+                modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp)
+            ) {
+                YkSystem.entries.forEach { system ->
+                    val isSelected = vm.convertToSystem.value == system
+                    Button(
+                        onClick = { vm.toggleSystem(system) },
+                        modifier = Modifier
+                            .weight(1f)
+                            .height(36.dp)
+                        ,
+                        colors = ButtonDefaults.buttonColors(
+                            backgroundColor = if (isSelected) MaterialTheme.colors.surface else grayBackground,
+                            contentColor = MaterialTheme.colors.onSurface
+                        )
+                    ) {
+                        Text(text = system.toString())
+                    }
+                }
+            }
         }
-        }
-            .pickerStyle(.segmented)
-        }
-         */
     }
 
     /// Selects which icon to use when no image was provided in the project based on the project id,

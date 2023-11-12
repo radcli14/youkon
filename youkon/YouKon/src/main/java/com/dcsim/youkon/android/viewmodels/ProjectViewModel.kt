@@ -78,6 +78,10 @@ class ProjectViewModel(initialProject: YkProject = YkProject()): ViewModel() {
         }
     }
 
+    fun toggleSystem(toSystem: YkSystem) {
+        convertToSystem.value = toSystem
+    }
+
     fun addMeasurement() {
         project.value.addMeasurement(
             value = 0.0,

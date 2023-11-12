@@ -106,6 +106,7 @@ struct ProjectView: View {
         }
     }
     
+    /// Selection control between `YkSystem` variations, such as SI or IMPERIAL
     @ViewBuilder
     private var systemPicker: some View {
         if vc.expansion != .editable {
