@@ -22,6 +22,7 @@ class UnitDropdown(
     val unit: YkUnit,
     val availableUnits: Array<YkUnit>,
     val headerText: String? = null,
+    val modifier: Modifier = Modifier,
     val onClick: (YkUnit?) -> Unit = {}
 ) {
     private val isExpanded = mutableStateOf(false)
@@ -30,7 +31,8 @@ class UnitDropdown(
     fun Body() {
         Column(
             verticalArrangement = Arrangement.spacedBy(0.dp),
-            horizontalAlignment = Alignment.Start
+            horizontalAlignment = Alignment.Start,
+            modifier = modifier
         ) {
             headerText?.let {header ->
                 Text(header,

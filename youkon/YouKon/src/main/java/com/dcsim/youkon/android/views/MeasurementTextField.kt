@@ -19,10 +19,13 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun MeasurementTextField(initialText: String, updateMeasurement: (Double) -> Unit) {
+fun MeasurementTextField(
+    initialText: String, updateMeasurement: (Double) -> Unit,
+    modifier: Modifier = Modifier
+) {
     var text by remember { mutableStateOf(TextFieldValue(initialText)) }
     Surface(
-        modifier = Modifier.height(40.dp),
+        modifier = modifier.height(40.dp),
         color = grayBackground,
         shape = RoundedCornerShape(8.dp)
     ) {

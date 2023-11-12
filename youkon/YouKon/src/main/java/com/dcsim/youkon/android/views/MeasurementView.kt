@@ -1,5 +1,6 @@
 package com.dcsim.youkon.android.views
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
@@ -7,6 +8,7 @@ import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.dcsim.youkon.YkMeasurement
@@ -56,14 +58,19 @@ class MeasurementView(measurement: YkMeasurement) {
     @Composable
     private fun ValueAndUnitStack() {
         val measurement = vm.measurement.collectAsState()
-        Row {
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
             MeasurementTextField(
                 initialText = measurement.value.value.toString(),
+                modifier = Modifier.weight(1f),
                 updateMeasurement = { vm.updateValue(it) }
             )
             UnitDropdown(
                 unit = measurement.value.unit,
                 availableUnits = vm.equivalentUnits,
+                modifier = Modifier.weight(1f),
                 onClick = { vm.updateUnit(it) }
             ).Body()
         }
