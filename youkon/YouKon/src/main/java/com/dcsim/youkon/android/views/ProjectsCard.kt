@@ -41,7 +41,10 @@ class ProjectsCard(
             modifier = Modifier
                 .fillMaxHeight()
         ) {
-            Column(modifier = Modifier.padding(16.dp)) {
+            Column(
+                modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
+                verticalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
                 LabelStack()
                 ProjectContent()
             }
