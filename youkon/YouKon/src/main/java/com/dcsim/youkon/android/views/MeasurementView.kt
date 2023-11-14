@@ -4,7 +4,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -30,8 +29,9 @@ class MeasurementView(measurement: YkMeasurement) {
     @Composable
     private fun NameField() {
         val measurement = vm.measurement.collectAsState()
-        BasicTextField(
+        BasicTextFieldWithHint(
             value = measurement.value.name,
+            hint = "name",
             onValueChange = { vm.updateName(it) },
             textStyle = MaterialTheme.typography.subtitle1.copy(
                 color = MaterialTheme.colors.primary
@@ -43,8 +43,9 @@ class MeasurementView(measurement: YkMeasurement) {
     @Composable
     private fun DescriptionField() {
         val measurement = vm.measurement.collectAsState()
-        BasicTextField(
+        BasicTextFieldWithHint(
             value = measurement.value.about,
+            hint = "description",
             onValueChange = { vm.updateDescription(it) },
             textStyle = MaterialTheme.typography.body1.copy(
                 color = MaterialTheme.colors.onSurface

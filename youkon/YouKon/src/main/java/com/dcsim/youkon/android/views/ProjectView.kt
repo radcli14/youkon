@@ -16,7 +16,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Divider
@@ -69,18 +68,14 @@ class ProjectView(
             LabelStack()
             ExpansionStack()
         }
-        /*
-        .alert(isPresented: $vc.showSubtractAlert) {
+
+        if (vm.showSubtractAlert.value) {
             SubtractAlert(
-                title: vc.measurementToDelete?.name ?? "",
-                confirmAction: {
-                    vc.confirmDelete()
-                    contentViewController.saveUserToJson()
-                },
-                cancelAction: vc.cancelDelete
+                title = vm.measurementToDelete.value?.name ?: "",
+                confirmAction = { vm.confirmDelete() },
+                cancelAction = { vm.cancelDelete() }
             )
         }
-         */
     }
 
     /// The disclosure group with static content inside, with label with name and description
@@ -134,10 +129,11 @@ class ProjectView(
             Column {
                 Divider(Modifier.padding(top = vm.divTopPadding))
                 SystemPicker()
+                ExpansionMenu()
                 Row(verticalAlignment = Alignment.Top) {
                     ExpansionView()
                     Spacer(Modifier.weight(1f))
-                    ExpansionMenu()
+                    // ExpansionMenu()
                 }
             }
         }
@@ -216,10 +212,11 @@ class ProjectView(
 
         when (vm.expansion.value) {
             ProjectExpansionLevel.EDITABLE -> {
-                BasicTextField(
+                BasicTextFieldWithHint(
                     value = vm.editedName.value,
-                    onValueChange = { vm.updateName(it) },
+                    hint = "name",
                     textStyle = MaterialTheme.typography.h6.copy(fontWeight = FontWeight.SemiBold),
+                    onValueChange = { vm.updateName(it) }
                 )
             }
             else -> {
@@ -239,10 +236,11 @@ class ProjectView(
 
         when (vm.expansion.value) {
             ProjectExpansionLevel.EDITABLE -> {
-                BasicTextField(
+                BasicTextFieldWithHint(
                     value = vm.editedDescription.value,
+                    hint = "description",
+                    textStyle = MaterialTheme.typography.body1,
                     onValueChange = { vm.updateDescription(it) },
-                    textStyle = MaterialTheme.typography.body1
                 )
             }
             else -> {
@@ -323,7 +321,12 @@ class ProjectView(
     /// The plus and minus buttons on the right hand side when editing, to create or delete measurements
     @Composable
     private fun ExpansionPlusMinusStack() {
-        Column {
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Text("Edit Measurements",
+                color = MaterialTheme.colors.primaryVariant,
+                style = MaterialTheme.typography.h6
+            )
+            Spacer(Modifier.weight(1f))
             PlusButton()
             MinusButton()
         }
@@ -353,7 +356,7 @@ class ProjectView(
         ) {
             Icon(
                 imageVector = Icons.Default.Remove,
-                contentDescription = "Allow deleting projects",
+                contentDescription = "Allow deleting measurements",
                 modifier = Modifier.editButtonModifier(),
                 tint = MaterialTheme.colors.primary
             )
