@@ -337,7 +337,7 @@ class ProjectView(
         IconButton(
             onClick = {
                 vm.addMeasurement()
-                //mainViewModel?.saveUserToJson()
+                mainViewModel?.saveUserToJson()
             }
         ) {
             Icon(

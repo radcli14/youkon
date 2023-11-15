@@ -78,7 +78,7 @@ class ProjectsCard(
         IconButton(
             onClick = {
                 vm.addProject()
-                //mainViewModel.saveUserToJson()
+                mainViewModel.saveUserToJson()
             }
         ) {
             Icon(
