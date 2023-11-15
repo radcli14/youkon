@@ -18,9 +18,9 @@ class MainViewModel: ViewModel() {
     private val tag = "MainViewModel"
 
     init {
-        user = defaultUser // savedUser
+        user = savedUser
         Log.d(tag, "Initial User State\n==================\n\n" + user.asJsonString() + "\n\n")
-        //saveUserToJson()
+        saveUserToJson()
     }
 
     /// The default user for someone opening the app for the first time is stored in `resources/defaultuser.json`
@@ -70,6 +70,11 @@ class MainViewModel: ViewModel() {
     fun saveUserToJson() {
         val jsonString = user.asJsonString()
         try {
+            if (!workingFile.exists()) {
+                // If the file doesn't exist, try creating it along with the necessary directories
+                workingFile.parentFile?.mkdirs()
+                workingFile.createNewFile()
+            }
             workingFile.writeText(jsonString)
         } catch(exception: Exception) {
             Log.d(tag,"Save failed because $exception")
