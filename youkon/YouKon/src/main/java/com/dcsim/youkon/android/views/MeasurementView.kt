@@ -12,6 +12,8 @@ import androidx.compose.ui.unit.dp
 import com.dcsim.youkon.YkMeasurement
 import com.dcsim.youkon.android.viewmodels.MeasurementViewModel
 
+/// The editable form of a single measurement, with a name, description, value, and unit. Name and
+/// description are editable text fields, value is a numeric field, and unit is a dropdown.
 class MeasurementView(measurement: YkMeasurement) {
     private val vm = MeasurementViewModel(measurement)
 
@@ -40,7 +42,6 @@ class MeasurementView(measurement: YkMeasurement) {
     /// Editable field for the `about` string of the `YkMeasurement
     @Composable
     private fun DescriptionField() {
-        //val measurement = vm.measurement.collectAsState()
         BasicTextFieldWithHint(
             value = vm.measurementDescription,
             hint = "description",
