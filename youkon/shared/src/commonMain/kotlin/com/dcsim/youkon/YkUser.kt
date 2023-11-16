@@ -30,10 +30,8 @@ class YkUser {
 
     /// Remove a project from the `projects` list
     fun removeProject(project: YkProject) {
-        projects.forEachIndexed { idx, p ->
-            if (project == p) {
-                projects.removeAt(idx)
-            }
+        projects.indexOfFirst { project == it }.let { idx ->
+            projects.removeAt(idx)
         }
     }
 

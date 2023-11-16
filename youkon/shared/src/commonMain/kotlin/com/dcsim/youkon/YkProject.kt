@@ -32,11 +32,10 @@ data class YkProject(
         measurements.add(YkMeasurement(value, unit, name, about))
     }
 
+    /// Remove the specified `YkMeasurement`, if it exits in the `measurements` list
     fun removeMeasurement(measurement: YkMeasurement) {
-        measurements.forEachIndexed { idx, m ->
-            if (measurement == m) {
-                measurements.removeAt(idx)
-            }
+        measurements.indexOfFirst { measurement == it }.let { idx ->
+            measurements.removeAt(idx)
         }
     }
 }
