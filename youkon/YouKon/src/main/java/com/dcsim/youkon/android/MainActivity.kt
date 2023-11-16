@@ -3,6 +3,7 @@ package com.dcsim.youkon.android
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -35,14 +36,21 @@ import com.dcsim.youkon.android.views.QuickConvertCard
 import com.dcsim.youkon.android.views.roundedRadius
 
 class MainActivity : ComponentActivity() {
-    private lateinit var mainViewModel: MainViewModel
-    private val quickConvertCardViewModel = QuickConvertCardViewModel()
+    private val mainViewModel: MainViewModel by viewModels()
+    private val quickConvertCardViewModel: QuickConvertCardViewModel by viewModels()
     private lateinit var projectsCardViewModel: ProjectsCardViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        mainViewModel = MainViewModel()
+        // The Projects card are dependent on user data that is contained in the `mainViewModel`
         projectsCardViewModel = ProjectsCardViewModel(mainViewModel.user)
+
+        // Any time the user closes an editing dialog, save the user data to a json file
+        mainViewModel.isEditingProject.observe(this) { isEditing ->
+            if (!isEditing) {
+                mainViewModel.saveUserToJson()
+            }
+        }
 
         setContent {
             MainView(
