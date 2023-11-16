@@ -45,11 +45,14 @@ class MainViewModel: ViewModel() {
     /// The `YkUser` that is saved from a previous session
     val savedUser: YkUser
         get() {
-            val contents = workingFile.readText()
-            YkUser().fromJsonString(contents)?.let { savedUser ->
-                return savedUser
+            try {
+                val contents = workingFile.readText()
+                YkUser().fromJsonString(contents)?.let { savedUser ->
+                    return savedUser
+                }
+            } catch (err: Exception) {
+                Log.d(tag, "Failed to load the saved YkUser, falling back to a default user")
             }
-            Log.d(tag, "Failed to load the saved YkUser, falling back to a default user")
             return defaultUser
         }
 
