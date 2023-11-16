@@ -72,7 +72,10 @@ class ProjectView(
         if (vm.showSubtractAlert.value) {
             SubtractAlert(
                 title = vm.measurementToDelete.value?.name ?: "",
-                confirmAction = { vm.confirmDelete() },
+                confirmAction = {
+                    vm.confirmDelete()
+                    mainViewModel?.saveUserToJson()
+                },
                 cancelAction = { vm.cancelDelete() }
             )
         }

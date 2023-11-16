@@ -53,7 +53,10 @@ class ProjectsCard(
         if (vm.showSubtractAlert.value) {
             SubtractAlert(
                 title = vm.projectToDelete.value?.name ?: "",
-                confirmAction = { vm.confirmDelete() },
+                confirmAction = {
+                    vm.confirmDelete()
+                    mainViewModel.saveUserToJson()
+                },
                 cancelAction = { vm.cancelDelete() }
             )
         }
