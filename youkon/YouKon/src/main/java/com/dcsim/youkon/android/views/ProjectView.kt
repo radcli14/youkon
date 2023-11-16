@@ -218,7 +218,10 @@ class ProjectView(
                 BasicTextFieldWithHint(
                     value = vm.editedName.value,
                     hint = "name",
-                    textStyle = MaterialTheme.typography.h6.copy(fontWeight = FontWeight.SemiBold),
+                    textStyle = MaterialTheme.typography.h6.copy(
+                        color = MaterialTheme.colors.onSurface,
+                        fontWeight = FontWeight.SemiBold
+                    ),
                     onValueChange = { vm.updateName(it) }
                 )
             }
@@ -242,7 +245,9 @@ class ProjectView(
                 BasicTextFieldWithHint(
                     value = vm.editedDescription.value,
                     hint = "description",
-                    textStyle = MaterialTheme.typography.body1,
+                    textStyle = MaterialTheme.typography.body1.copy(
+                        color = MaterialTheme.colors.onSurface
+                    ),
                     onValueChange = { vm.updateDescription(it) },
                 )
             }
