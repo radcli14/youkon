@@ -267,28 +267,29 @@ class ProjectView(
     /// A `ForEach` corresponding to each of the measurements, in either editable or static form
     @Composable
     private fun ExpansionMeasurementsList() {
+        val project = vm.project.collectAsState()
         Column(
             modifier = Modifier.clickable {
                 //vm.toggleEdit()
                 mainViewModel?.toggleEdit(vm.project.value)
             }
         ) {
-            vm.measurements.value.forEach { measurement ->
+            project.value.measurements.forEach { measurement ->
                 when (vm.expansion.value) {
                     ProjectExpansionLevel.EDITABLE -> EditableMeasurement(measurement)
                     else -> StaticMeasurement(measurement)
                 }
             }
-        }
-        if (vm.measurements.value.isEmpty()) {
-            Text("Add New Measurements")
+            if (project.value.measurements.isEmpty()) {
+                Text("Add New Measurements")
+            }
         }
     }
 
     /// In the `expansionMeasurementList`, this is a single measurement that is editable
     @Composable
     private fun EditableMeasurement(measurement: YkMeasurement) {
-        Row {
+        Row(verticalAlignment = Alignment.CenterVertically) {
             SubtractMeasurementButton(measurement)
             MeasurementView(measurement).Body()
         }
