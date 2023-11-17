@@ -10,9 +10,9 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -29,7 +29,7 @@ class QuickConvertCard(
     @Composable
     fun Body() {
         Surface(
-            color = MaterialTheme.colors.surface.copy(alpha = 0.4f),
+            color = MaterialTheme.colorScheme.surface.copy(alpha = 0.4f),
             shape = RoundedCornerShape(roundedRadius),
             modifier = Modifier
                 .width(420.dp)
@@ -49,7 +49,7 @@ class QuickConvertCard(
     private fun CardLabel() {
         Text("Quick Convert",
             fontWeight = FontWeight.SemiBold,
-            style = MaterialTheme.typography.h6
+            style = MaterialTheme.typography.titleLarge
         )
     }
 
@@ -115,11 +115,11 @@ class QuickConvertCard(
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(top = 5.dp),
+                .padding(top = 3.dp),
             contentAlignment = Alignment.CenterStart
         ) {
             Text(vm.convertedText,
-                style = MaterialTheme.typography.h6
+                style = MaterialTheme.typography.titleLarge
             )
         }
     }

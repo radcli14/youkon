@@ -5,8 +5,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -26,7 +26,7 @@ fun MeasurementTextField(
     var text by remember { mutableStateOf(TextFieldValue(initialText)) }
     Surface(
         modifier = modifier.height(40.dp),
-        color = grayBackground,
+        color = MaterialTheme.colorScheme.inverseOnSurface, // grayBackground,
         shape = RoundedCornerShape(roundedRadius)
     ) {
         BasicTextField(
@@ -43,8 +43,8 @@ fun MeasurementTextField(
                     updateMeasurement(0.0)
                 }
             },
-            textStyle = MaterialTheme.typography.h6.copy(
-                color = MaterialTheme.colors.onSurface,
+            textStyle = MaterialTheme.typography.titleLarge.copy(
+                color = MaterialTheme.colorScheme.onSurface,
                 textAlign = TextAlign.End
             ),
         )
