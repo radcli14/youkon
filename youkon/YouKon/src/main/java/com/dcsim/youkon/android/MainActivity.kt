@@ -11,10 +11,10 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.MaterialTheme
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material.ModalBottomSheetLayout
 import androidx.compose.material.ModalBottomSheetValue
-import androidx.compose.material.Surface
+import androidx.compose.material3.Surface
 import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -42,6 +42,7 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         // The Projects card are dependent on user data that is contained in the `mainViewModel`
         projectsCardViewModel = ProjectsCardViewModel(mainViewModel.user)
 
@@ -80,10 +81,10 @@ class MainView(
             }
         }
 
-        MyApplicationTheme {
+        YoukonTheme {
             Surface(
                 modifier = Modifier.fillMaxSize(),
-                color = MaterialTheme.colors.background
+                color = MaterialTheme.colorScheme.background
             ) {
                 ModalBottomSheetLayout(
                     sheetContent = {
@@ -94,6 +95,7 @@ class MainView(
                             }
                         }
                     },
+                    sheetBackgroundColor = MaterialTheme.colorScheme.surface,
                     sheetState = sheetState,
                     sheetShape = RoundedCornerShape(topEnd = roundedRadius, topStart = roundedRadius)
                 ) {

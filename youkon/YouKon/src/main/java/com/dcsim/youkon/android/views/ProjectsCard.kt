@@ -11,11 +11,11 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Clear
@@ -36,7 +36,7 @@ class ProjectsCard(
     @Composable
     fun Body() {
         Surface(
-            color = MaterialTheme.colors.surface.copy(alpha = 0.4f),
+            color = MaterialTheme.colorScheme.surface.copy(alpha = 0.4f),
             shape = RoundedCornerShape(roundedRadius),
             modifier = Modifier
                 .fillMaxHeight()
@@ -67,7 +67,8 @@ class ProjectsCard(
         Row(verticalAlignment = Alignment.CenterVertically) {  //(spacing: 8) {
             Text(
                 text = "Projects",
-                style = MaterialTheme.typography.h6,
+                style = MaterialTheme.typography.titleLarge,
+                color = MaterialTheme.colorScheme.onSurface,
                 fontWeight = FontWeight.SemiBold
             )
             Spacer(Modifier.weight(1f))
@@ -88,7 +89,7 @@ class ProjectsCard(
                 imageVector = Icons.Default.Add,
                 contentDescription = "Add a new project",
                 modifier = Modifier.editButtonModifier(),
-                tint = MaterialTheme.colors.primary
+                tint = MaterialTheme.colorScheme.primary
             )
         }
     }
@@ -102,7 +103,7 @@ class ProjectsCard(
                 imageVector = Icons.Default.Remove,
                 contentDescription = "Allow deleting projects",
                 modifier = Modifier.editButtonModifier(),
-                tint = MaterialTheme.colors.primary
+                tint = MaterialTheme.colorScheme.primary
             )
         }
     }
@@ -133,14 +134,14 @@ class ProjectsCard(
                     imageVector = Icons.Default.Clear,
                     contentDescription = "Delete ${project.name} project",
                     modifier = Modifier.editButtonModifier(
-                        color = MaterialTheme.colors.error,
+                        color = MaterialTheme.colorScheme.error,
                         alpha = 1f,
                         width = 24.dp,
                         height = 24.dp,
                         padding = 4.dp,
                         shape = CircleShape
                     ),
-                    tint = MaterialTheme.colors.onPrimary
+                    tint = MaterialTheme.colorScheme.onPrimary
                 )
             }
         }

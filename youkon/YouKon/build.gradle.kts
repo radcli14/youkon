@@ -50,4 +50,5 @@ dependencies {
     implementation("androidx.compose.ui:ui-text-google-fonts:1.5.4")
     implementation("androidx.compose.material:material-icons-extended:1.5.4")
     implementation("androidx.compose.runtime:runtime-livedata:1.5.4")
+    implementation("androidx.palette:palette:1.0.0")
 }

@@ -4,7 +4,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.MaterialTheme
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -33,8 +33,8 @@ class MeasurementView(measurement: YkMeasurement) {
             value = vm.measurementName,
             hint = "name",
             onValueChange = { vm.updateName(it) },
-            textStyle = MaterialTheme.typography.subtitle1.copy(
-                color = MaterialTheme.colors.primary
+            textStyle = MaterialTheme.typography.titleSmall.copy(
+                color = MaterialTheme.colorScheme.primary
             ),
         )
     }
@@ -46,8 +46,8 @@ class MeasurementView(measurement: YkMeasurement) {
             value = vm.measurementDescription,
             hint = "description",
             onValueChange = { vm.updateDescription(it) },
-            textStyle = MaterialTheme.typography.body1.copy(
-                color = MaterialTheme.colors.onSurface
+            textStyle = MaterialTheme.typography.bodyLarge.copy(
+                color = MaterialTheme.colorScheme.onSurface
             ),
         )
     }

@@ -3,12 +3,9 @@ package com.dcsim.youkon.android.views
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -36,7 +33,7 @@ class QuickConvertCard(
         ) {
             Column(
                 modifier = Modifier.padding(16.dp),
-                verticalArrangement = Arrangement.spacedBy(8.dp)
+                verticalArrangement = Arrangement.spacedBy(4.dp)
             ) {
                 CardLabel()
                 ContentGrid()
@@ -49,13 +46,25 @@ class QuickConvertCard(
     private fun CardLabel() {
         Text("Quick Convert",
             fontWeight = FontWeight.SemiBold,
+            color = MaterialTheme.colorScheme.onSurface,
             style = MaterialTheme.typography.titleLarge
         )
     }
 
     @Composable
     private fun ContentGrid() {
-        LazyVerticalGrid(
+        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+            FromDropdown(Modifier.weight(1f))
+            ToDropdown(Modifier.weight(1f))
+        }
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            TextField(Modifier.weight(1f))
+            ConvertedText(Modifier.weight(1f))
+        }
+        /*LazyVerticalGrid(
             columns = GridCells.Fixed(2),
             verticalArrangement = Arrangement.Center,
             horizontalArrangement = Arrangement.spacedBy(8.dp),
@@ -73,53 +82,57 @@ class QuickConvertCard(
             item {
                 ConvertedText()
             }
-        }
+        }*/
     }
 
     /// Selection for which type of unit to convert from
     @Composable
-    private fun FromDropdown() {
+    private fun FromDropdown(modifier: Modifier) {
         val measurement by vm.measurement.collectAsState()
         UnitDropdown(
             unit = measurement.unit,
             availableUnits = vm.allUnits,
             headerText = "From",
+            modifier = modifier,
             onClick = { vm.updateUnit(it) }
         ).Body()
     }
 
     /// Selection for which type of unit to convert to
     @Composable
-    private fun ToDropdown() {
+    private fun ToDropdown(modifier: Modifier) {
         UnitDropdown(
             unit = vm.targetUnit,
             availableUnits = vm.equivalentUnits,
             headerText = "To",
+            modifier = modifier,
             onClick = { vm.updateTargetUnit(it) }
         ).Body()
     }
 
     /// The field that takes the user input on the numeric value of the measurement
     @Composable
-    private fun TextField() {
+    private fun TextField(modifier: Modifier) {
         val measurement = vm.measurement.collectAsState()
         MeasurementTextField(
             initialText = measurement.value.value.toString(),
+            modifier = modifier,
             updateMeasurement = { vm.updateValue(it) }
         )
     }
 
     /// The display of the measurement after conversion
     @Composable
-    private fun ConvertedText() {
+    private fun ConvertedText(modifier: Modifier) {
         Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(top = 3.dp),
+            modifier = modifier,
+                //.fillMaxSize()
+                //.padding(top = 3.dp),
             contentAlignment = Alignment.CenterStart
         ) {
             Text(vm.convertedText,
-                style = MaterialTheme.typography.titleLarge
+                style = MaterialTheme.typography.titleLarge,
+                color = MaterialTheme.colorScheme.onSurface
             )
         }
     }

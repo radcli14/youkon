@@ -16,14 +16,14 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Button
-import androidx.compose.material.ButtonDefaults
-import androidx.compose.material.Divider
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Divider
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Clear
@@ -161,7 +161,7 @@ class ProjectView(
                             .height(36.dp)
                         ,
                         colors = ButtonDefaults.buttonColors(
-                            backgroundColor = pickerColor(isSelected),
+                            //backgroundColor = pickerColor(isSelected),
                             contentColor = pickerTextColor
                         )
                     ) {
@@ -192,7 +192,7 @@ class ProjectView(
     private fun ProjectImage() {
         Surface(
             shape = RoundedCornerShape(vm.imageSize / 4),
-            elevation = 2.dp,
+            shadowElevation = 2.dp,
             color = grayBackground
         ) {
             Image(
@@ -203,7 +203,7 @@ class ProjectView(
                     .padding(vm.imageSize / 8)
                     .background(Color.Transparent)
                 ,
-                colorFilter = ColorFilter.tint(MaterialTheme.colors.onBackground)
+                colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground)
             )
         }
     }
@@ -218,8 +218,8 @@ class ProjectView(
                 BasicTextFieldWithHint(
                     value = vm.editedName.value,
                     hint = "name",
-                    textStyle = MaterialTheme.typography.h6.copy(
-                        color = MaterialTheme.colors.onSurface,
+                    textStyle = MaterialTheme.typography.titleLarge.copy(
+                        color = MaterialTheme.colorScheme.onSurface,
                         fontWeight = FontWeight.SemiBold
                     ),
                     onValueChange = { vm.updateName(it) }
@@ -228,7 +228,8 @@ class ProjectView(
             else -> {
                 Text(
                     text = project.value.name,
-                    style = MaterialTheme.typography.subtitle1,
+                    style = MaterialTheme.typography.titleMedium,
+                    color = MaterialTheme.colorScheme.onSurface,
                     fontWeight = FontWeight.SemiBold
                 )
             }
@@ -245,8 +246,8 @@ class ProjectView(
                 BasicTextFieldWithHint(
                     value = vm.editedDescription.value,
                     hint = "description",
-                    textStyle = MaterialTheme.typography.body1.copy(
-                        color = MaterialTheme.colors.onSurface
+                    textStyle = MaterialTheme.typography.bodyLarge.copy(
+                        color = MaterialTheme.colorScheme.onSurface
                     ),
                     onValueChange = { vm.updateDescription(it) },
                 )
@@ -254,7 +255,8 @@ class ProjectView(
             else -> {
                 Text(
                     text = project.value.about,
-                    style = MaterialTheme.typography.body1,
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurface,
                     modifier = Modifier.padding(bottom = 4.dp)
                 )
             }
@@ -309,11 +311,11 @@ class ProjectView(
         Column(horizontalAlignment = Alignment.Start) {
             Divider()
             Text(measurement.name,
-                style = MaterialTheme.typography.body2,
+                style = MaterialTheme.typography.bodyMedium,
                 fontWeight = FontWeight.Bold
             )
             Text(measurement.about,
-                style = MaterialTheme.typography.caption
+                style = MaterialTheme.typography.labelLarge
             )
             Text(measurement.convertToSystem(vm.convertToSystem.value).valueString)
         }
@@ -332,8 +334,8 @@ class ProjectView(
     private fun ExpansionPlusMinusStack() {
         Row(verticalAlignment = Alignment.CenterVertically) {
             Text("Edit Measurements",
-                color = MaterialTheme.colors.primaryVariant,
-                style = MaterialTheme.typography.h6
+                color = MaterialTheme.colorScheme.secondary,
+                style = MaterialTheme.typography.titleLarge
             )
             Spacer(Modifier.weight(1f))
             PlusButton()
@@ -353,7 +355,7 @@ class ProjectView(
                 imageVector = Icons.Default.Add,
                 contentDescription = "Add a new measurement",
                 modifier = Modifier.editButtonModifier(),
-                tint = MaterialTheme.colors.primary
+                tint = MaterialTheme.colorScheme.primary
             )
         }
     }
@@ -367,7 +369,7 @@ class ProjectView(
                 imageVector = Icons.Default.Remove,
                 contentDescription = "Allow deleting measurements",
                 modifier = Modifier.editButtonModifier(),
-                tint = MaterialTheme.colors.primary
+                tint = MaterialTheme.colorScheme.primary
             )
         }
     }
@@ -383,14 +385,14 @@ class ProjectView(
                     imageVector = Icons.Default.Clear,
                     contentDescription = "Delete ${measurement.name} measurement",
                     modifier = Modifier.editButtonModifier(
-                        color = MaterialTheme.colors.error,
+                        color = MaterialTheme.colorScheme.error,
                         alpha = 1f,
                         width = 24.dp,
                         height = 24.dp,
                         padding = 4.dp,
                         shape = CircleShape
                     ),
-                    tint = MaterialTheme.colors.onPrimary
+                    tint = MaterialTheme.colorScheme.onPrimary
                 )
             }
         }

@@ -2,8 +2,8 @@ package com.dcsim.youkon.android.views
 
 import androidx.compose.animation.core.Animatable
 import androidx.compose.foundation.layout.size
-import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.runtime.Composable
@@ -38,6 +38,6 @@ fun CloseIcon(
         imageVector = Icons.Default.KeyboardArrowRight,
         contentDescription = "Close",
         modifier = Modifier.rotate(rotation.value).size(24.dp),
-        tint = MaterialTheme.colors.primary
+        tint = MaterialTheme.colorScheme.primary
     )
 }

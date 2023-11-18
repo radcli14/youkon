@@ -1,12 +1,12 @@
 package com.dcsim.youkon.android.views
 
+import android.graphics.Bitmap
 import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.MaterialTheme
+import androidx.compose.foundation.layout.width
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
@@ -14,8 +14,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.palette.graphics.Palette
 
 val roundedRadius = 8.dp
+
+fun createPaletteSync(bitmap: Bitmap): Palette = Palette.from(bitmap).generate()
 
 val grayBackground: Color
     @Composable
@@ -25,10 +28,10 @@ val grayBackground: Color
 fun Modifier.editButtonModifier(
     color: Color = grayBackground,
     alpha: Float = 0.7f,
-    width: Dp = 42.dp,
+    width: Dp = 36.dp,
     height: Dp = 36.dp,
     padding: Dp = 8.dp,
-    shape: Shape = RoundedCornerShape(roundedRadius)
+    shape: Shape = MaterialTheme.shapes.medium
 ) = composed {
     Modifier
         .background(
@@ -48,8 +51,8 @@ fun pickerColor(isSelected: Boolean): Color {
 
 val pickerSelectedColor: Color
     @Composable
-    get() = if (isSystemInDarkTheme()) MaterialTheme.colors.onSurface else MaterialTheme.colors.surface
+    get() = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.onSurface else MaterialTheme.colorScheme.surface
 
 val pickerTextColor: Color
     @Composable
-    get() = if (isSystemInDarkTheme()) MaterialTheme.colors.surface else MaterialTheme.colors.onSurface
+    get() = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.surface else MaterialTheme.colorScheme.onSurface

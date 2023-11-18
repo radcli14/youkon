@@ -31,7 +31,7 @@ fun MeasurementTextField(
     ) {
         BasicTextField(
             value = text,
-            modifier = Modifier.padding(5.dp),
+            modifier = Modifier.padding(6.dp),
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
             singleLine = true,
             onValueChange = { newText ->
