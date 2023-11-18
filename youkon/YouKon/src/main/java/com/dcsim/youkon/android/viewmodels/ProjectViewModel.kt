@@ -11,6 +11,7 @@ import com.dcsim.youkon.YkProject
 import com.dcsim.youkon.YkSystem
 import com.dcsim.youkon.YkUnit
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.update
 
 class ProjectViewModel(initialProject: YkProject = YkProject()): ViewModel() {
     val project = MutableStateFlow(initialProject)
@@ -83,12 +84,18 @@ class ProjectViewModel(initialProject: YkProject = YkProject()): ViewModel() {
     }
 
     fun addMeasurement() {
-        project.value.addMeasurement(
+        /*project.update { currentProject ->
+            currentProject.addMeasurement()
+            project.value = currentProject.copy()
+            return
+        }*/
+        project.value.addMeasurement()
+        /*
             value = 0.0,
             unit = YkUnit.METERS,
             name = "",
             about = ""
-        )
+        )*/
         updateMeasurements()
     }
 

@@ -27,7 +27,7 @@ data class YkProject(
         value: Double = 0.0,
         unit: YkUnit = YkUnit.METERS,
         name: String = "New Measurement",
-        about: String = ""
+        about: String = "Description"
     ) {
         measurements.add(YkMeasurement(value, unit, name, about))
     }
