@@ -33,8 +33,8 @@ class MeasurementView(measurement: YkMeasurement) {
             value = vm.measurementName,
             hint = "name",
             onValueChange = { vm.updateName(it) },
-            textStyle = MaterialTheme.typography.titleSmall.copy(
-                color = MaterialTheme.colorScheme.primary
+            textStyle = MaterialTheme.typography.titleMedium.copy(
+                color = MaterialTheme.colorScheme.secondary
             ),
         )
     }
@@ -46,7 +46,7 @@ class MeasurementView(measurement: YkMeasurement) {
             value = vm.measurementDescription,
             hint = "description",
             onValueChange = { vm.updateDescription(it) },
-            textStyle = MaterialTheme.typography.bodyLarge.copy(
+            textStyle = MaterialTheme.typography.bodyMedium.copy(
                 color = MaterialTheme.colorScheme.onSurface
             ),
         )

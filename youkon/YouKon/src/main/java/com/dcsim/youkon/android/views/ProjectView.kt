@@ -15,7 +15,11 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.shape.CornerBasedShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Clear
+import androidx.compose.material.icons.filled.Remove
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Divider
@@ -24,10 +28,6 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Clear
-import androidx.compose.material.icons.filled.Remove
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
@@ -44,7 +44,10 @@ import com.dcsim.youkon.android.R
 import com.dcsim.youkon.android.viewmodels.MainViewModel
 import com.dcsim.youkon.android.viewmodels.ProjectViewModel
 
-//@Composable
+/// The `ProjectView` displays the data from a `YkProject`.
+/// Initially shown with an icon, name, and description, in "Compact" mode.
+/// When tapped, the view will expand similar to show the measurements in "Static" mode.
+/// Upon tapping on the measurements, a bottom sheet will open into "Editable" mode.
 class ProjectView(
     private val vm: ProjectViewModel,
     private val mainViewModel: MainViewModel? = null
@@ -86,7 +89,7 @@ class ProjectView(
     private fun DisclosureGroupWhenNotEditing() {
         Surface(
             color = grayBackground.copy(alpha = 0.4f),
-            shape = RoundedCornerShape(roundedRadius),
+            shape = MaterialTheme.shapes.medium
         ) {
             Column(
                 modifier = Modifier.padding(16.dp)
@@ -160,8 +163,9 @@ class ProjectView(
                             .weight(1f)
                             .height(36.dp)
                         ,
+                        shape = MaterialTheme.shapes.medium,
                         colors = ButtonDefaults.buttonColors(
-                            //backgroundColor = pickerColor(isSelected),
+                            containerColor = pickerColor(isSelected),
                             contentColor = pickerTextColor
                         )
                     ) {
@@ -191,7 +195,7 @@ class ProjectView(
     @Composable
     private fun ProjectImage() {
         Surface(
-            shape = RoundedCornerShape(vm.imageSize / 4),
+            shape = imageShape,
             shadowElevation = 2.dp,
             color = grayBackground
         ) {
@@ -207,6 +211,15 @@ class ProjectView(
             )
         }
     }
+
+    private val imageShape: CornerBasedShape
+        @Composable
+        get() {
+            return if (vm.expansion.value == ProjectExpansionLevel.EDITABLE)
+                MaterialTheme.shapes.large
+            else
+                MaterialTheme.shapes.medium
+        }
 
     /// The title of the project, which is the `.name` field in the `YkProject`
     @Composable
@@ -308,14 +321,17 @@ class ProjectView(
     /// In the `expansionMeasurementList`, this is a single measurement that is not editable
     @Composable
     private fun StaticMeasurement(measurement: YkMeasurement) {
-        Column(horizontalAlignment = Alignment.Start) {
+        Column(
+            horizontalAlignment = Alignment.Start,
+            modifier = Modifier.padding(2.dp)
+        ) {
             Divider()
             Text(measurement.name,
                 style = MaterialTheme.typography.bodyMedium,
                 fontWeight = FontWeight.Bold
             )
             Text(measurement.about,
-                style = MaterialTheme.typography.labelLarge
+                style = MaterialTheme.typography.labelMedium
             )
             Text(measurement.convertToSystem(vm.convertToSystem.value).valueString)
         }
@@ -334,7 +350,7 @@ class ProjectView(
     private fun ExpansionPlusMinusStack() {
         Row(verticalAlignment = Alignment.CenterVertically) {
             Text("Edit Measurements",
-                color = MaterialTheme.colorScheme.secondary,
+                color = MaterialTheme.colorScheme.primary,
                 style = MaterialTheme.typography.titleLarge
             )
             Spacer(Modifier.weight(1f))
