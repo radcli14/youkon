@@ -116,6 +116,7 @@ class QuickConvertCard(
         val measurement = vm.measurement.collectAsState()
         MeasurementTextField(
             initialText = measurement.value.value.toString(),
+            unitText = measurement.value.unit.shortUnit,
             modifier = modifier,
             updateMeasurement = { vm.updateValue(it) }
         )
@@ -126,8 +127,6 @@ class QuickConvertCard(
     private fun ConvertedText(modifier: Modifier) {
         Box(
             modifier = modifier,
-                //.fillMaxSize()
-                //.padding(top = 3.dp),
             contentAlignment = Alignment.CenterStart
         ) {
             Text(vm.convertedText,

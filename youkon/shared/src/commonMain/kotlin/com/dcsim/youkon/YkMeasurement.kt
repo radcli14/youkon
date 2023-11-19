@@ -44,12 +44,8 @@ data class YkMeasurement(
     val valueString: String get() = "${niceNumber(value)} ${unit.shortUnit}"
 
     fun unitAndConversion(targetUnit: YkUnit): String {
-        return "${unit.shortUnit}  ➜  ${convertTo(targetUnit).valueString}"
+        return "➜  ${convertTo(targetUnit).valueString}"
     }
-
-    /*fun valueAndConversion(targetUnit: YkUnit): String {
-        return "$valueString = ${convertTo(targetUnit).valueString}"
-    }*/
 
     fun nameAndValueInSystem(system: YkSystem): String {
         return name + ": " + convertToSystem(system).valueString
