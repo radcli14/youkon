@@ -14,7 +14,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -56,7 +55,7 @@ class UnitDropdown(
             MenuButton()
             DropdownMenu(
                 expanded = isExpanded.value,
-                onDismissRequest = { onClick(null) }
+                onDismissRequest = { isExpanded.value = false }
             ) {
                 MenuItems()
             }
@@ -69,7 +68,7 @@ class UnitDropdown(
             DropdownMenuItem(
                 text = {
                     Text(unit.toString().replace("_", " "),
-                        color = MaterialTheme.colorScheme.primary
+                        color = MaterialTheme.colorScheme.onSurface
                     )
                 },
                 onClick = {
@@ -84,7 +83,7 @@ class UnitDropdown(
     fun MenuButton() {
         Text(unit.toString().replace("_", " "),
             style = MaterialTheme.typography.titleMedium,
-            color = Color.White, // MaterialTheme.colorScheme.onPrimary,
+            color = MaterialTheme.colorScheme.surface,
             textAlign = TextAlign.Start,
             modifier = Modifier.fillMaxWidth()
         )
