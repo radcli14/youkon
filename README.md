@@ -21,7 +21,7 @@ Quick conversion includes a text field for entering numeric values, and dropdown
 Each user has a projects card, where any single project represents a grouping of measurement data that hold a common purpose.
 The projects in the card are laid out as tiles, which can be tapped to expand and show the enclosed measurements. 
 
-| Projects Card Project on Android                            | Editable Project  on iOS                                |
+| Projects Card Project on Android                            | Projects Card on iOS                                |
 |-------------------------------------------------------------|---------------------------------------------------------|
 |  ![Android Projects Card](assets/projectsCard-android.jpg) | ![iOS Projects Card](assets/projectsCard-ios.jpg)       |
 
