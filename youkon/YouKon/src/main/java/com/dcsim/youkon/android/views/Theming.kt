@@ -1,11 +1,11 @@
 package com.dcsim.youkon.android.views
 
-import android.graphics.Bitmap
 import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -14,11 +14,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import androidx.palette.graphics.Palette
 
 val roundedRadius = 8.dp
-
-fun createPaletteSync(bitmap: Bitmap): Palette = Palette.from(bitmap).generate()
 
 val grayBackground: Color
     @Composable
@@ -31,7 +28,7 @@ fun Modifier.editButtonModifier(
     width: Dp = 36.dp,
     height: Dp = 36.dp,
     padding: Dp = 8.dp,
-    shape: Shape = MaterialTheme.shapes.medium
+    shape: Shape = CircleShape
 ) = composed {
     Modifier
         .background(
