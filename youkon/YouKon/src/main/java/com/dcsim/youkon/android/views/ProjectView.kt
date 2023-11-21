@@ -30,6 +30,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -290,20 +291,19 @@ class ProjectView(
     /// A `ForEach` corresponding to each of the measurements, in either editable or static form
     @Composable
     private fun ExpansionMeasurementsList() {
-        val project = vm.project.collectAsState()
+        val viewModel = remember { vm }
         Column(
             modifier = Modifier.clickable {
-                //vm.toggleEdit()
                 mainViewModel?.toggleEdit(vm.project.value)
             }
         ) {
-            project.value.measurements.forEach { measurement ->
+            viewModel.measurements.value.forEach { measurement ->
                 when (vm.expansion.value) {
                     ProjectExpansionLevel.EDITABLE -> EditableMeasurement(measurement)
                     else -> StaticMeasurement(measurement)
                 }
             }
-            if (project.value.measurements.isEmpty()) {
+            if (viewModel.measurements.value.isEmpty()) {
                 Text("Add New Measurements")
             }
         }
