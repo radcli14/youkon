@@ -9,13 +9,13 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material.ModalBottomSheetLayout
 import androidx.compose.material.ModalBottomSheetValue
-import androidx.compose.material3.Surface
 import androidx.compose.material.rememberModalBottomSheetState
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -33,7 +33,6 @@ import com.dcsim.youkon.android.views.Header
 import com.dcsim.youkon.android.views.ProjectView
 import com.dcsim.youkon.android.views.ProjectsCard
 import com.dcsim.youkon.android.views.QuickConvertCard
-import com.dcsim.youkon.android.views.roundedRadius
 
 class MainActivity : ComponentActivity() {
     private val mainViewModel: MainViewModel by viewModels()
@@ -97,7 +96,10 @@ class MainView(
                     },
                     sheetBackgroundColor = MaterialTheme.colorScheme.surface,
                     sheetState = sheetState,
-                    sheetShape = RoundedCornerShape(topEnd = roundedRadius, topStart = roundedRadius)
+                    sheetShape = MaterialTheme.shapes.large.copy(
+                        bottomStart = CornerSize(0.dp),
+                        bottomEnd = CornerSize(0.dp)
+                    )  //RoundedCornerShape(topEnd = roundedRadius, topStart = roundedRadius)
                 ) {
                     MainContentStack()
                 }

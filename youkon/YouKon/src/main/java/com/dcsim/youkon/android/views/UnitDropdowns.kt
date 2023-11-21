@@ -4,7 +4,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
@@ -49,7 +48,7 @@ class UnitDropdown(
     @Composable
     fun Menu() {
         Button(
-            shape = RoundedCornerShape(roundedRadius),
+            shape = MaterialTheme.shapes.medium,
             onClick = { isExpanded.value = !isExpanded.value },
         ) {
             MenuButton()

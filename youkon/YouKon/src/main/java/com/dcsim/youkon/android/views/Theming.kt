@@ -15,8 +15,6 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
-val roundedRadius = 8.dp
-
 val grayBackground: Color
     @Composable
     get() = if (isSystemInDarkTheme()) Color.DarkGray else Color.LightGray

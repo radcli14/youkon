@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -27,7 +26,7 @@ class QuickConvertCard(
     fun Body() {
         Surface(
             color = MaterialTheme.colorScheme.surface.copy(alpha = 0.4f),
-            shape = RoundedCornerShape(roundedRadius),
+            shape = MaterialTheme.shapes.medium,
             modifier = Modifier
                 .width(420.dp)
         ) {
