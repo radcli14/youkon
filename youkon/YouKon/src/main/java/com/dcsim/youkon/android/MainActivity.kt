@@ -99,7 +99,7 @@ class MainView(
                     sheetShape = MaterialTheme.shapes.large.copy(
                         bottomStart = CornerSize(0.dp),
                         bottomEnd = CornerSize(0.dp)
-                    )  //RoundedCornerShape(topEnd = roundedRadius, topStart = roundedRadius)
+                    )
                 ) {
                     MainContentStack()
                 }
