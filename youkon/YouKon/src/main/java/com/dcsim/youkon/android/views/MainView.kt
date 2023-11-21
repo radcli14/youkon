@@ -80,7 +80,7 @@ class MainView(
             Column(
                 modifier = Modifier.padding(16.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.spacedBy(24.dp)
+                verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
                 Header()
                 QuickConvertCard(quickConvertCardViewModel).Body()
