@@ -17,7 +17,7 @@ class QuickConvertCardViewModel(
     val measurement = MutableStateFlow(initialMeasurement)
 
     val unit: YkUnit get() = measurement.value.unit
-    private val value: Double get() = measurement.value.value
+    val value: Double get() = measurement.value.value
     val allUnits get() = unit.allUnits
     var equivalentUnits by mutableStateOf(unit.equivalentUnits())
     var targetUnit by mutableStateOf(unit.newTargetUnit)

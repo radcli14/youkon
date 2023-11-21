@@ -63,25 +63,6 @@ class QuickConvertCard(
             TextField(Modifier.weight(1f))
             ConvertedText(Modifier.weight(1f))
         }
-        /*LazyVerticalGrid(
-            columns = GridCells.Fixed(2),
-            verticalArrangement = Arrangement.Center,
-            horizontalArrangement = Arrangement.spacedBy(8.dp),
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            item {
-                FromDropdown()
-            }
-            item {
-                ToDropdown()
-            }
-            item {
-                TextField()
-            }
-            item {
-                ConvertedText()
-            }
-        }*/
     }
 
     /// Selection for which type of unit to convert from
