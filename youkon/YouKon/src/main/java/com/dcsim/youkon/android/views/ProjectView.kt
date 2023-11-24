@@ -105,11 +105,15 @@ class ProjectView(
     @Composable
     private fun LabelStack() {
         Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .clickable {
-                    if (vm.expansion.value != ProjectExpansionLevel.EDITABLE) vm.toggleExpansion()
-                },
+            modifier = if (vm.expansion.value != ProjectExpansionLevel.EDITABLE) {
+                Modifier
+                    .fillMaxWidth()
+                    .clickable {
+                        if (vm.expansion.value != ProjectExpansionLevel.EDITABLE) vm.toggleExpansion()
+                    }
+            } else {
+               Modifier.fillMaxWidth()
+            },
             horizontalArrangement = Arrangement.spacedBy(8.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -293,8 +297,12 @@ class ProjectView(
     private fun ExpansionMeasurementsList() {
         val viewModel = remember { vm }
         Column(
-            modifier = Modifier.clickable {
-                mainViewModel?.toggleEdit(vm.project.value)
+            modifier = if (vm.expansion.value == ProjectExpansionLevel.STATIC) {
+                Modifier.clickable {
+                    mainViewModel?.toggleEdit(vm.project.value)
+                    }
+            } else {
+                Modifier
             }
         ) {
             viewModel.measurements.value.forEach { measurement ->
