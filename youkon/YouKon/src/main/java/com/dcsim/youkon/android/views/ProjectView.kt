@@ -136,16 +136,11 @@ class ProjectView(
             enter = expandVertically(),
             exit = shrinkVertically()
         ) {
-            //Divider()
             Column {
                 Divider(Modifier.padding(top = vm.divTopPadding))
                 SystemPicker()
                 ExpansionMenu()
-                Row(verticalAlignment = Alignment.Top) {
-                    ExpansionView()
-                    Spacer(Modifier.weight(1f))
-                    // ExpansionMenu()
-                }
+                ExpansionView()
             }
         }
     }
