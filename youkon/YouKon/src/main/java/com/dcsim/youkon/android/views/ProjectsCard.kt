@@ -3,12 +3,14 @@ package com.dcsim.youkon.android.views
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -39,6 +41,7 @@ class ProjectsCard(
             shape = MaterialTheme.shapes.medium,
             modifier = Modifier
                 .fillMaxHeight()
+                .width(760.dp)
         ) {
             Column(
                 modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
@@ -63,7 +66,7 @@ class ProjectsCard(
 
     @Composable
     fun LabelStack() {
-        Row(verticalAlignment = Alignment.CenterVertically) {  //(spacing: 8) {
+        Row(verticalAlignment = Alignment.CenterVertically) {
             Text(
                 text = "Projects",
                 style = MaterialTheme.typography.titleLarge,
@@ -107,13 +110,19 @@ class ProjectsCard(
         }
     }
 
+    @OptIn(ExperimentalLayoutApi::class)
     @Composable
     fun ProjectContent() {
-        LazyColumn(
+        FlowRow(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            items(vm.projects.value) { project ->
-                Row(verticalAlignment = Alignment.CenterVertically) {
+            vm.projects.value.forEach { project ->
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier.width(360.dp)
+                ) {
                     SubtractProjectButton(project)
                     val pvm = vm.projectViewModel(project)
                     ProjectView(pvm, mainViewModel).Body()
