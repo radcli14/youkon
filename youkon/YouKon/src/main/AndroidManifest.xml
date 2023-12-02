@@ -3,6 +3,7 @@
 
     <application
         android:icon="@mipmap/ic_launcher"
+        android:label="YouKon"
         android:allowBackup="false"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
