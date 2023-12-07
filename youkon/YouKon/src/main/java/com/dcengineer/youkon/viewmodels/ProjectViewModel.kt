@@ -1,4 +1,4 @@
-package com.dcsim.youkon.android.viewmodels
+package com.dcengineer.youkon.viewmodels
 
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
@@ -8,10 +8,8 @@ import androidx.lifecycle.ViewModel
 import com.dcsim.youkon.ProjectExpansionLevel
 import com.dcsim.youkon.YkMeasurement
 import com.dcsim.youkon.YkProject
-import com.dcsim.youkon.YkSystem
-import com.dcsim.youkon.YkUnit
+import com.dcengineer.youkon.YkSystem
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.update
 
 class ProjectViewModel(initialProject: YkProject = YkProject()): ViewModel() {
     val project = MutableStateFlow(initialProject)

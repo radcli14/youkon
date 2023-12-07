@@ -1,4 +1,4 @@
-package com.dcsim.youkon.android.viewmodels
+package com.dcengineer.youkon.viewmodels
 
 import android.os.Environment
 import android.util.Log

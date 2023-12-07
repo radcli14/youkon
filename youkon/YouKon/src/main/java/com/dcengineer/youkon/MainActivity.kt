@@ -7,9 +7,9 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import com.dcengineer.youkon.views.MainView
-import com.dcsim.youkon.youkon.viewmodels.MainViewModel
-import com.dcsim.youkon.youkon.viewmodels.ProjectsCardViewModel
-import com.dcsim.youkon.youkon.viewmodels.QuickConvertCardViewModel
+import com.dcengineer.youkon.viewmodels.MainViewModel
+import com.dcengineer.youkon.viewmodels.ProjectsCardViewModel
+import com.dcengineer.youkon.viewmodels.QuickConvertCardViewModel
 
 class MainActivity : ComponentActivity() {
     private val mainViewModel: MainViewModel by viewModels()

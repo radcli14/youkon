@@ -1,4 +1,4 @@
-package com.dcsim.youkon.android.viewmodels
+package com.dcengineer.youkon.viewmodels
 
 import android.util.Log
 import androidx.compose.runtime.getValue
@@ -7,7 +7,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import com.dcsim.youkon.YkMeasurement
-import com.dcsim.youkon.YkUnit
+import com.dcengineer.youkon.YkUnit
 import kotlinx.coroutines.flow.MutableStateFlow
 
 class MeasurementViewModel(initialMeasurement: YkMeasurement): ViewModel() {

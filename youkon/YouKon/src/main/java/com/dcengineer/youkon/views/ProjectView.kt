@@ -42,8 +42,8 @@ import com.dcengineer.youkon.R
 import com.dcengineer.youkon.YkSystem
 import com.dcsim.youkon.ProjectExpansionLevel
 import com.dcsim.youkon.YkMeasurement
-import com.dcsim.youkon.youkon.viewmodels.MainViewModel
-import com.dcsim.youkon.youkon.viewmodels.ProjectViewModel
+import com.dcengineer.youkon.viewmodels.MainViewModel
+import com.dcengineer.youkon.viewmodels.ProjectViewModel
 
 /// The `ProjectView` displays the data from a `YkProject`.
 /// Initially shown with an icon, name, and description, in "Compact" mode.

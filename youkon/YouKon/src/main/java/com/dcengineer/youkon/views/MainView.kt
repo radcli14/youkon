@@ -22,9 +22,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.dcsim.youkon.ProjectExpansionLevel
 import com.dcengineer.youkon.YoukonTheme
-import com.dcsim.youkon.youkon.viewmodels.MainViewModel
-import com.dcsim.youkon.youkon.viewmodels.ProjectsCardViewModel
-import com.dcsim.youkon.youkon.viewmodels.QuickConvertCardViewModel
+import com.dcengineer.youkon.viewmodels.MainViewModel
+import com.dcengineer.youkon.viewmodels.ProjectsCardViewModel
+import com.dcengineer.youkon.viewmodels.QuickConvertCardViewModel
 
 
 class MainView(
