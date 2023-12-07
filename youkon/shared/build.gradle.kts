@@ -8,7 +8,7 @@ plugins {
 kotlin {
     targetHierarchy.default()
 
-    android {
+    androidTarget {
         compilations.all {
             kotlinOptions {
                 jvmTarget = "1.8"
@@ -43,7 +43,7 @@ kotlin {
 }
 
 android {
-    namespace = "com.dcsim.youkon"
+    namespace = "com.dcengineer.youkon"
     compileSdk = 33
     defaultConfig {
         minSdk = 26

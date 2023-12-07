@@ -4,10 +4,10 @@ plugins {
 }
 
 android {
-    namespace = "com.dcsim.youkon.android"
+    namespace = "com.dcengineer.youkon"
     compileSdk = 34
     defaultConfig {
-        applicationId = "com.dcsim.youkon.android"
+        applicationId = "com.dcengineer.youkon"
         minSdk = 26
         targetSdk = 34
         versionCode = 1
@@ -17,7 +17,7 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.3"
+        kotlinCompilerExtensionVersion = "1.5.5"
     }
     packaging {
         resources {
