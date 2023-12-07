@@ -1,4 +1,4 @@
-package com.dcsim.youkon.android
+package com.dcengineer.youkon
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -9,7 +9,6 @@ import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.dcsim.youkon.YkColors
 
 @Composable
 fun YoukonTheme(

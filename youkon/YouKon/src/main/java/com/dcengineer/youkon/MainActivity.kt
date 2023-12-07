@@ -1,4 +1,4 @@
-package com.dcsim.youkon.android
+package com.dcengineer.youkon
 
 import android.content.Context
 import android.os.Bundle
@@ -6,11 +6,10 @@ import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
-import com.dcsim.youkon.YkUnit
-import com.dcsim.youkon.android.viewmodels.MainViewModel
-import com.dcsim.youkon.android.viewmodels.ProjectsCardViewModel
-import com.dcsim.youkon.android.viewmodels.QuickConvertCardViewModel
-import com.dcsim.youkon.android.views.MainView
+import com.dcengineer.youkon.views.MainView
+import com.dcsim.youkon.youkon.viewmodels.MainViewModel
+import com.dcsim.youkon.youkon.viewmodels.ProjectsCardViewModel
+import com.dcsim.youkon.youkon.viewmodels.QuickConvertCardViewModel
 
 class MainActivity : ComponentActivity() {
     private val mainViewModel: MainViewModel by viewModels()
