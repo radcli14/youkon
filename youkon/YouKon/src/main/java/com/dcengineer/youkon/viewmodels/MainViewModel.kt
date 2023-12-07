@@ -5,8 +5,8 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.dcsim.youkon.YkProject
-import com.dcsim.youkon.YkUser
+import com.dcengineer.youkon.YkProject
+import com.dcengineer.youkon.YkUser
 import java.io.File
 
 class MainViewModel: ViewModel() {

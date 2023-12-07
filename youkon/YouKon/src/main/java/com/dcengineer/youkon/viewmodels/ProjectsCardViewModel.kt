@@ -4,8 +4,8 @@ import android.util.Log
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
-import com.dcsim.youkon.YkProject
-import com.dcsim.youkon.YkUser
+import com.dcengineer.youkon.YkProject
+import com.dcengineer.youkon.YkUser
 
 class ProjectsCardViewModel(var user: YkUser = YkUser()): ViewModel() {
     var projects: MutableState<Array<YkProject>> = mutableStateOf(user.projects.toTypedArray())

@@ -1,4 +1,4 @@
-package com.dcsim.youkon
+package com.dcengineer.youkon
 
 /**
  * Defines a consistent system of units, such as SI (kg, m, N), imperial (slug, ft, lbf), etc.
@@ -9,7 +9,8 @@ package com.dcsim.youkon
  */
 enum class YkSystem(private val units: Array<YkUnit>) {
     SI(arrayOf
-        (YkUnit.KILOGRAMS,
+        (
+        YkUnit.KILOGRAMS,
         YkUnit.METERS,
         YkUnit.NEWTONS,
         YkUnit.KILOGRAMS_PER_METER_CUBED,

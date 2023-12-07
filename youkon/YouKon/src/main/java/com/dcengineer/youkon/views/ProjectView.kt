@@ -40,8 +40,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.dcengineer.youkon.R
 import com.dcengineer.youkon.YkSystem
-import com.dcsim.youkon.ProjectExpansionLevel
-import com.dcsim.youkon.YkMeasurement
+import com.dcengineer.youkon.ProjectExpansionLevel
+import com.dcengineer.youkon.YkMeasurement
 import com.dcengineer.youkon.viewmodels.MainViewModel
 import com.dcengineer.youkon.viewmodels.ProjectViewModel
 

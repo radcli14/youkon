@@ -9,7 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.dcsim.youkon.YkMeasurement
+import com.dcengineer.youkon.YkMeasurement
 import com.dcengineer.youkon.viewmodels.MeasurementViewModel
 
 /// The editable form of a single measurement, with a name, description, value, and unit. Name and

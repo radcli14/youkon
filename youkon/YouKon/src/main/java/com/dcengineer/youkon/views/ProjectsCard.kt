@@ -26,7 +26,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.dcsim.youkon.YkProject
+import com.dcengineer.youkon.YkProject
 import com.dcengineer.youkon.viewmodels.MainViewModel
 import com.dcengineer.youkon.viewmodels.ProjectsCardViewModel
 
