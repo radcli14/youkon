@@ -1,4 +1,4 @@
-package com.dcsim.youkon.android.views
+package com.dcengineer.youkon.views
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -11,7 +11,7 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.ColorMatrix
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import com.dcsim.youkon.android.R
+import com.dcengineer.youkon.R
 
 /// Holds the background image, content overlaid on top of it
 @Composable

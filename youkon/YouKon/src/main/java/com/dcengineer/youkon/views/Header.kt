@@ -1,4 +1,4 @@
-package com.dcsim.youkon.android.views
+package com.dcengineer.youkon.views
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Row
@@ -16,7 +16,7 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.dcsim.youkon.android.R
+import com.dcengineer.youkon.R
 
 val philosopherFamily = FontFamily(
     Font(R.font.philosopher_regular, FontWeight.Normal),

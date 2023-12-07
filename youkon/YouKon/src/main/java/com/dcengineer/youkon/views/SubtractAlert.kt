@@ -1,4 +1,4 @@
-package com.dcsim.youkon.android.views
+package com.dcengineer.youkon.views
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DeleteForever

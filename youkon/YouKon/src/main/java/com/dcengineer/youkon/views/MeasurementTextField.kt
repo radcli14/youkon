@@ -1,4 +1,4 @@
-package com.dcsim.youkon.android.views
+package com.dcengineer.youkon.views
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row

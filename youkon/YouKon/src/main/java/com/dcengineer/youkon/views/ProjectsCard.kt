@@ -1,4 +1,4 @@
-package com.dcsim.youkon.android.views
+package com.dcengineer.youkon.views
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Arrangement
@@ -27,8 +27,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.dcsim.youkon.YkProject
-import com.dcsim.youkon.android.viewmodels.MainViewModel
-import com.dcsim.youkon.android.viewmodels.ProjectsCardViewModel
+import com.dcsim.youkon.youkon.viewmodels.MainViewModel
+import com.dcsim.youkon.youkon.viewmodels.ProjectsCardViewModel
 
 class ProjectsCard(
     private val vm: ProjectsCardViewModel = ProjectsCardViewModel(),

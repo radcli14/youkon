@@ -1,4 +1,4 @@
-package com.dcsim.youkon.android.views
+package com.dcengineer.youkon.views
 
 import androidx.compose.animation.core.Animatable
 import androidx.compose.foundation.layout.size

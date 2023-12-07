@@ -1,4 +1,4 @@
-package com.dcsim.youkon.android.views
+package com.dcengineer.youkon.views
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -21,10 +21,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.dcsim.youkon.ProjectExpansionLevel
-import com.dcsim.youkon.android.YoukonTheme
-import com.dcsim.youkon.android.viewmodels.MainViewModel
-import com.dcsim.youkon.android.viewmodels.ProjectsCardViewModel
-import com.dcsim.youkon.android.viewmodels.QuickConvertCardViewModel
+import com.dcsim.youkon.youkon.YoukonTheme
+import com.dcsim.youkon.youkon.viewmodels.MainViewModel
+import com.dcsim.youkon.youkon.viewmodels.ProjectsCardViewModel
+import com.dcsim.youkon.youkon.viewmodels.QuickConvertCardViewModel
 
 
 class MainView(

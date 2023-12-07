@@ -1,4 +1,4 @@
-package com.dcsim.youkon.android.views
+package com.dcengineer.youkon.views
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.expandVertically
@@ -38,12 +38,12 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.dcengineer.youkon.R
+import com.dcengineer.youkon.YkSystem
 import com.dcsim.youkon.ProjectExpansionLevel
 import com.dcsim.youkon.YkMeasurement
-import com.dcsim.youkon.YkSystem
-import com.dcsim.youkon.android.R
-import com.dcsim.youkon.android.viewmodels.MainViewModel
-import com.dcsim.youkon.android.viewmodels.ProjectViewModel
+import com.dcsim.youkon.youkon.viewmodels.MainViewModel
+import com.dcsim.youkon.youkon.viewmodels.ProjectViewModel
 
 /// The `ProjectView` displays the data from a `YkProject`.
 /// Initially shown with an icon, name, and description, in "Compact" mode.

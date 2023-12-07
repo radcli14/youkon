@@ -1,4 +1,4 @@
-package com.dcsim.youkon.android.views
+package com.dcengineer.youkon.views
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -10,7 +10,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.dcsim.youkon.YkMeasurement
-import com.dcsim.youkon.android.viewmodels.MeasurementViewModel
+import com.dcsim.youkon.youkon.viewmodels.MeasurementViewModel
 
 /// The editable form of a single measurement, with a name, description, value, and unit. Name and
 /// description are editable text fields, value is a numeric field, and unit is a dropdown.
