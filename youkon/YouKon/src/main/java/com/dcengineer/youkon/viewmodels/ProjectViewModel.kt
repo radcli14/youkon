@@ -9,6 +9,7 @@ import com.dcengineer.youkon.ProjectExpansionLevel
 import com.dcengineer.youkon.YkMeasurement
 import com.dcengineer.youkon.YkProject
 import com.dcengineer.youkon.YkSystem
+import com.dcengineer.youkon.YkUnit
 import kotlinx.coroutines.flow.MutableStateFlow
 
 class ProjectViewModel(initialProject: YkProject = YkProject()): ViewModel() {
@@ -20,7 +21,6 @@ class ProjectViewModel(initialProject: YkProject = YkProject()): ViewModel() {
         initialProject.measurements.toTypedArray()
     )
     val expansion = mutableStateOf(ProjectExpansionLevel.COMPACT)
-    val isExpanded = mutableStateOf(false)
     val canSubtract = mutableStateOf(false)
     val showSubtractAlert = mutableStateOf(false)
     val measurementToDelete: MutableState<YkMeasurement?> = mutableStateOf(null)
@@ -34,13 +34,6 @@ class ProjectViewModel(initialProject: YkProject = YkProject()): ViewModel() {
     /// Update the public list of `YkProject` items by assuring that the Kotlin version is Swift formatted
     private fun updateMeasurements() {
         measurements.value = project.value.measurements.toTypedArray()
-    }
-
-    fun refresh(viewModel: ProjectViewModel) {
-        project.value = viewModel.project.value
-        editedName.value = project.value.name
-        editedDescription.value = project.value.about
-        updateMeasurements()
     }
 
     fun updateName(name: String) {
@@ -62,38 +55,17 @@ class ProjectViewModel(initialProject: YkProject = YkProject()): ViewModel() {
         }
     }
 
-    fun toggleEdit() {
-        expansion.value = when(expansion.value) {
-            ProjectExpansionLevel.EDITABLE -> ProjectExpansionLevel.STATIC
-            else -> ProjectExpansionLevel.EDITABLE
-        }
-    }
-
-    fun toggleSystem() {
-        convertToSystem.value = when(convertToSystem.value) {
-            YkSystem.SI -> YkSystem.IMPERIAL
-            YkSystem.IMPERIAL -> YkSystem.SI
-            else -> YkSystem.SI
-        }
-    }
-
     fun toggleSystem(toSystem: YkSystem) {
         convertToSystem.value = toSystem
     }
 
     fun addMeasurement() {
-        /*project.update { currentProject ->
-            currentProject.addMeasurement()
-            project.value = currentProject.copy()
-            return
-        }*/
-        project.value.addMeasurement()
-        /*
+        project.value.addMeasurement(
             value = 0.0,
             unit = YkUnit.METERS,
             name = "",
             about = ""
-        )*/
+        )
         updateMeasurements()
     }
 

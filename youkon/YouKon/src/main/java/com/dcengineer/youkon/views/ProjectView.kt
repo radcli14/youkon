@@ -30,7 +30,6 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -38,10 +37,10 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.dcengineer.youkon.R
-import com.dcengineer.youkon.YkSystem
 import com.dcengineer.youkon.ProjectExpansionLevel
+import com.dcengineer.youkon.R
 import com.dcengineer.youkon.YkMeasurement
+import com.dcengineer.youkon.YkSystem
 import com.dcengineer.youkon.viewmodels.MainViewModel
 import com.dcengineer.youkon.viewmodels.ProjectViewModel
 
@@ -290,7 +289,8 @@ class ProjectView(
     /// A `ForEach` corresponding to each of the measurements, in either editable or static form
     @Composable
     private fun ExpansionMeasurementsList() {
-        val viewModel = remember { vm }
+        val project = vm.project.collectAsState()
+
         Column(
             modifier = if (vm.expansion.value == ProjectExpansionLevel.STATIC) {
                 Modifier.clickable {
@@ -300,14 +300,23 @@ class ProjectView(
                 Modifier
             }
         ) {
-            viewModel.measurements.value.forEach { measurement ->
+            project.value.measurements.forEach { measurement ->
                 when (vm.expansion.value) {
                     ProjectExpansionLevel.EDITABLE -> EditableMeasurement(measurement)
                     else -> StaticMeasurement(measurement)
                 }
             }
-            if (viewModel.measurements.value.isEmpty()) {
-                Text("Add New Measurements")
+
+            // I had a confusing issue where the two conditional state updates would fire
+            // at different times, and would end up with either a situation where the message below
+            // would go away from going from empty to adding one measurement, or when adding one
+            // new measurement the editable form would not update. Adding multiple conditionals
+            // seems to make sure they both fire on state updates, though its real ugly code given
+            // that both states are supposed to mean the same thing. Someone please fix.
+            if (vm.measurements.value.isEmpty()) {
+                if (project.value.measurements.isEmpty()) {
+                    Text("Add New Measurements")
+                }
             }
         }
     }
