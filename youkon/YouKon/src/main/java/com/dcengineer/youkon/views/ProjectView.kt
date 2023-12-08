@@ -338,11 +338,13 @@ class ProjectView(
             modifier = Modifier.padding(2.dp)
         ) {
             Divider()
-            Text(measurement.name,
+            Text(
+                measurement.name.ifBlank { "New Measurement" },
                 style = MaterialTheme.typography.bodyMedium,
                 fontWeight = FontWeight.Bold
             )
-            Text(measurement.about,
+            Text(
+                measurement.about.ifBlank { "With Description" },
                 style = MaterialTheme.typography.labelMedium
             )
             Text(measurement.convertToSystem(vm.convertToSystem.value).valueString)
