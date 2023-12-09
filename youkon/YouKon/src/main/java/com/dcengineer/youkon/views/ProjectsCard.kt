@@ -11,7 +11,9 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Clear
@@ -113,8 +115,12 @@ class ProjectsCard(
     @OptIn(ExperimentalLayoutApi::class)
     @Composable
     fun ProjectContent() {
+        val vertScrollState = rememberScrollState()
+
         FlowRow(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .verticalScroll(vertScrollState)
+                .fillMaxWidth(),
             horizontalArrangement = Arrangement.spacedBy(8.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
