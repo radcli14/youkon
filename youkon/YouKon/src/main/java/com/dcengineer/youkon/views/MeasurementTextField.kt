@@ -61,7 +61,10 @@ fun MeasurementTextField(
                 ),
             )
             unitText?.let {
-                Text(it, style = textStyle)
+                Text(it,
+                    style = textStyle,
+                    color = MaterialTheme.colorScheme.onSurface
+                )
             }
         }
     }
