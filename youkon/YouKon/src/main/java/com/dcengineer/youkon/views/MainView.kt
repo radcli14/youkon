@@ -1,6 +1,8 @@
 package com.dcengineer.youkon.views
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -9,9 +11,12 @@ import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.ModalBottomSheetLayout
 import androidx.compose.material.ModalBottomSheetValue
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.rememberModalBottomSheetState
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -32,9 +37,21 @@ class MainView(
     private val quickConvertCardViewModel: QuickConvertCardViewModel,
     private val projectsCardViewModel: ProjectsCardViewModel
 ) {
-    @OptIn(ExperimentalMaterialApi::class)
     @Composable
     fun Body() {
+        YoukonTheme {
+            Box(
+                modifier = Modifier.fillMaxSize(),
+            ) {
+                BottomSheetLayout()
+                CloseButton(Modifier.align(Alignment.BottomEnd))
+            }
+        }
+    }
+
+    @OptIn(ExperimentalMaterialApi::class)
+    @Composable
+    private fun BottomSheetLayout() {
         val sheetState = rememberModalBottomSheetState(ModalBottomSheetValue.Hidden)
         val isBottomSheetExpanded by mainViewModel.isEditingProject.observeAsState()
         LaunchedEffect(isBottomSheetExpanded) {
@@ -45,31 +62,23 @@ class MainView(
             }
         }
 
-        YoukonTheme {
-            Surface(
-                modifier = Modifier.fillMaxSize(),
-                color = MaterialTheme.colorScheme.background
-            ) {
-                ModalBottomSheetLayout(
-                    sheetContent = {
-                        ProjectEditingSheet()
-                        LaunchedEffect(sheetState.currentValue) {
-                            if (sheetState.currentValue == ModalBottomSheetValue.Hidden) {
-                                mainViewModel.stopEditing()
-                            }
-                        }
-                    },
-                    sheetBackgroundColor = MaterialTheme.colorScheme.surface,
-                    sheetState = sheetState,
-                    sheetShape = MaterialTheme.shapes.large.copy(
-                        bottomStart = CornerSize(0.dp),
-                        bottomEnd = CornerSize(0.dp)
-                    )
-                ) {
-                    MainContentStack()
+        ModalBottomSheetLayout(
+            sheetContent = {
+                ProjectEditingSheet()
+                LaunchedEffect(sheetState.currentValue) {
+                    if (sheetState.currentValue == ModalBottomSheetValue.Hidden) {
+                        mainViewModel.stopEditing()
+                    }
                 }
-
-            }
+            },
+            sheetBackgroundColor = MaterialTheme.colorScheme.surface,
+            sheetState = sheetState,
+            sheetShape = MaterialTheme.shapes.large.copy(
+                bottomStart = CornerSize(0.dp),
+                bottomEnd = CornerSize(0.dp)
+            )
+        ) {
+            MainContentStack()
         }
     }
 
@@ -99,6 +108,22 @@ class MainView(
                 ProjectView(pvm).Body()
             }
             Spacer(Modifier.weight(1f))
+        }
+    }
+
+    /// A floating action button that will close the sheet to conclude editing a project
+    @Composable
+    private fun CloseButton(modifier: Modifier = Modifier) {
+        val isBottomSheetExpanded by mainViewModel.isEditingProject.observeAsState()
+        AnimatedVisibility(isBottomSheetExpanded == true,
+            modifier = modifier.padding(16.dp)
+        ) {
+            FloatingActionButton(
+                onClick = { mainViewModel.stopEditing() },
+                containerColor = MaterialTheme.colorScheme.secondary
+            ) {
+                Icon(Icons.Filled.Check, "Confirm and close the edit dialog.")
+            }
         }
     }
 }
