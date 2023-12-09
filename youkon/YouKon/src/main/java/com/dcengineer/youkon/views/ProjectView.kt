@@ -269,7 +269,7 @@ class ProjectView(
                     text = project.value.about,
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurface,
-                    modifier = Modifier.padding(bottom = 4.dp)
+                    modifier = Modifier.padding(bottom = 4.dp),
                 )
             }
         }
@@ -341,13 +341,17 @@ class ProjectView(
             Text(
                 measurement.name.ifBlank { "New Measurement" },
                 style = MaterialTheme.typography.bodyMedium,
-                fontWeight = FontWeight.Bold
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.primary
             )
             Text(
                 measurement.about.ifBlank { "With Description" },
-                style = MaterialTheme.typography.labelMedium
+                style = MaterialTheme.typography.labelMedium,
+                color = MaterialTheme.colorScheme.onSurface
             )
-            Text(measurement.convertToSystem(vm.convertToSystem.value).valueString)
+            Text(measurement.convertToSystem(vm.convertToSystem.value).valueString,
+                color = MaterialTheme.colorScheme.onSurface
+            )
         }
     }
 
