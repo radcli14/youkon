@@ -25,7 +25,8 @@ fun BasicTextFieldWithHint(
         BasicTextField(
             value = value,
             onValueChange = { onValueChange(it) },
-            textStyle = textStyle
+            textStyle = textStyle,
+            singleLine = true
         )
     }
 }
