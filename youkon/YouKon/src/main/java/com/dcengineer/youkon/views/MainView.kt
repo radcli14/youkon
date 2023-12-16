@@ -39,9 +39,9 @@ import kotlinx.coroutines.launch
 
 
 class MainView(
-    private val mainViewModel: MainViewModel,
-    private val quickConvertCardViewModel: QuickConvertCardViewModel,
-    private val projectsCardViewModel: ProjectsCardViewModel
+    private var mainViewModel: MainViewModel = MainViewModel(),
+    private var quickConvertCardViewModel: QuickConvertCardViewModel = QuickConvertCardViewModel(),
+    private var projectsCardViewModel: ProjectsCardViewModel = ProjectsCardViewModel()
 ) {
     @Composable
     fun Body() {
@@ -107,7 +107,7 @@ class MainView(
 
     /// The stack of a `Header`, `QuickConvertCard`, and `ProjectsCard`
     @Composable
-    private fun MainContentStack() {
+    fun MainContentStack() {
         BackgroundBox {
             Column(
                 modifier = Modifier.padding(16.dp),
@@ -154,5 +154,5 @@ class MainView(
 @Preview
 @Composable
 fun DefaultPreview() {
-    MainView(MainViewModel(), QuickConvertCardViewModel(), ProjectsCardViewModel()).Body()
+    MainView().Body()
 }
