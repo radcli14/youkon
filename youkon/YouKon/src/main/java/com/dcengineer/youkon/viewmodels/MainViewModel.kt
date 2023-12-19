@@ -104,7 +104,7 @@ class MainViewModel: ViewModel() {
     /// Open the dialog containing the onboarding screen
     fun openOnboarding() {
         Log.d(tag, "open onboarding screen")
-        showOnboarding.value = false
+        showOnboarding.value = true
     }
 
     /// Close the dialog containing the onboarding screen
