@@ -13,7 +13,7 @@ import java.io.File
 class MainViewModel: ViewModel() {
     private val _isEditingProject = MutableLiveData(false)
     val isEditingProject: LiveData<Boolean> = _isEditingProject
-    val showOnboarding = mutableStateOf(true)
+    val showOnboarding = mutableStateOf(false)
     var project: YkProject? = null
     var user = YkUser()
 
