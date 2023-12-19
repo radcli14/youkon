@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.NavigateNext
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
@@ -27,11 +28,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 
-class OnboardingScreen {
+class OnboardingScreen(
+    val onDismissRequest: () -> Unit = {}
+) {
     private val helps = arrayOf(
         "Welcome" to
             "Thank you for trying the unit converter app designed for engineers",
@@ -66,12 +70,20 @@ class OnboardingScreen {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Box(
-                modifier = Modifier .fillMaxHeight(0.9f)
+                modifier = Modifier.fillMaxHeight(0.9f)
             ) {
                 OnboardText(currentPage, Modifier.align(Alignment.TopStart))
                 ScaledMainView()
-                NavButton(Modifier.align(Alignment.BottomEnd)) {
-                    currentPage = if (currentPage < 4) currentPage + 1 else 0
+                NavButton(
+                    Modifier.align(Alignment.BottomEnd),
+                    currentPage
+                ) {
+                    if (currentPage < helps.count() - 1) {
+                        currentPage += 1
+                    } else {
+                        currentPage = 0
+                        onDismissRequest()
+                    }
                 }
             }
 
@@ -81,7 +93,7 @@ class OnboardingScreen {
 
     @Composable
     fun AsDialog() {
-        Dialog(onDismissRequest = {}) {
+        Dialog(onDismissRequest = { onDismissRequest() }) {
             Body()
         }
     }
@@ -156,14 +168,22 @@ class OnboardingScreen {
 
     /// The button to navigate to the next onboarding screen
     @Composable
-    fun NavButton(modifier: Modifier = Modifier, onClick: () -> Unit) {
+    fun NavButton(
+        modifier: Modifier = Modifier,
+        currentPage: Int = 0,
+        onClick: () -> Unit
+    ) {
         FloatingActionButton(
-            modifier = modifier
-                .padding(16.dp),
+            modifier = modifier.padding(16.dp),
             onClick = { onClick() }
         ) {
-            Icon(Icons.Default.NavigateNext, "Move to the next item.")
+            Icon(navButtonIcon(currentPage), "Move to the next item.")
         }
+    }
+
+    @Composable
+    fun navButtonIcon(currentPage: Int): ImageVector {
+        return if (currentPage < helps.count() - 1) Icons.Default.NavigateNext else Icons.Default.Check
     }
 }
 

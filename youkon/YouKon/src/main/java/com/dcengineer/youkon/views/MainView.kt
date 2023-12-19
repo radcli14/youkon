@@ -51,7 +51,9 @@ class MainView(
             ) {
                 BottomSheetLayout()
                 CloseButton(Modifier.align(Alignment.BottomEnd))
-                //OnboardingScreen().AsDialog()
+                if (mainViewModel.showOnboarding.value) {
+                    OnboardingScreen(onDismissRequest = { mainViewModel.closeOnboarding() }).AsDialog()
+                }
             }
         }
     }
