@@ -17,6 +17,7 @@ class MainActivity : ComponentActivity() {
     private lateinit var projectsCardViewModel: ProjectsCardViewModel
 
     private val tag = "MainViewModel"
+    private val showOnboardingKey = "showOnboarding"
     private val quickConvertUnitKey = "quickConvertUnit"
     private val quickConvertTargetKey = "quickConvertTarget"
     private val quickConvertValueKey = "quickConvertValue"
@@ -27,6 +28,9 @@ class MainActivity : ComponentActivity() {
         // Get saved state of the quick convert card from last time the app was open
         val sharedPref = getPreferences(Context.MODE_PRIVATE) ?: return
         Log.d(tag, "Loaded shared preferences: ${sharedPref.all}")
+        if (sharedPref.getBoolean(showOnboardingKey, true)) {
+            mainViewModel.openOnboarding()
+        }
         quickConvertCardViewModel.updateUnit(
             YkUnit.valueOf(sharedPref.getString(quickConvertUnitKey, "METERS") ?: "METERS")
         )
@@ -61,6 +65,7 @@ class MainActivity : ComponentActivity() {
         // Save state of the quick convert card for next time the app is opened
         val sharedPref = getPreferences(Context.MODE_PRIVATE) ?: return
         with (sharedPref.edit()) {
+            putBoolean(showOnboardingKey, false)
             putString(quickConvertUnitKey, quickConvertCardViewModel.unit.toString())
             putString(quickConvertTargetKey, quickConvertCardViewModel.targetUnit.toString())
             putString(quickConvertValueKey, quickConvertCardViewModel.value.toString())
