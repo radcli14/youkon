@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.rounded.QuestionMark
 import androidx.compose.material3.BottomSheetScaffold
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
@@ -23,10 +24,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -50,14 +53,24 @@ class MainView(
                 modifier = Modifier.fillMaxSize(),
             ) {
                 BottomSheetLayout()
-                CloseButton(Modifier.align(Alignment.BottomEnd))
-                if (mainViewModel.showOnboarding.value) {
-                    OnboardingScreen(onDismissRequest = { mainViewModel.closeOnboarding() }).AsDialog()
-                }
+                ActionButton(Modifier.align(Alignment.BottomEnd))
+                Onboarding()
             }
         }
     }
 
+    /// The onboarding screen will be shown on first app startup, or when user taps the help button
+    @Composable
+    fun Onboarding() {
+        if (mainViewModel.showOnboarding.value) {
+            OnboardingScreen(
+                onDismissRequest = { mainViewModel.closeOnboarding() }
+            ).AsDialog()
+        }
+    }
+
+    /// Holds state and the bottom sheet scaffold to allow the editing screen to appear
+    /// as a sheet from the bottom of the screen.
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     private fun BottomSheetLayout() {
@@ -137,20 +150,36 @@ class MainView(
         }
     }
 
-    /// A floating action button that will close the sheet to conclude editing a project
+    /// A floating action button that will open the onboarding screen,
+    /// or close the sheet to conclude editing a project
     @Composable
-    private fun CloseButton(modifier: Modifier = Modifier) {
+    private fun ActionButton(modifier: Modifier = Modifier) {
         val isBottomSheetExpanded by mainViewModel.isEditingProject.observeAsState()
-        AnimatedVisibility(isBottomSheetExpanded == true,
+        val showOnboarding by remember { mainViewModel.showOnboarding }
+        AnimatedVisibility(!showOnboarding,
             modifier = modifier.padding(16.dp)
         ) {
             FloatingActionButton(
-                onClick = { mainViewModel.stopEditing() },
-                containerColor = MaterialTheme.colorScheme.secondary
+                onClick = {
+                    if (isBottomSheetExpanded == true) {
+                        mainViewModel.stopEditing()
+                    } else {
+                        mainViewModel.openOnboarding()
+                    }
+              },
+                containerColor = MaterialTheme.colorScheme.primaryContainer
             ) {
-                Icon(Icons.Filled.Check, "Confirm and close the edit dialog.")
+                Icon(
+                    closeButtonIcon(isBottomSheetExpanded),
+                    contentDescription = "Open a help dialog, or confirm and close the edit dialog."
+                )
             }
         }
+    }
+
+    @Composable
+    private fun closeButtonIcon(isBottomSheetExpanded: Boolean?): ImageVector {
+        return if (isBottomSheetExpanded == true) Icons.Filled.Check else Icons.Rounded.QuestionMark
     }
 }
 
