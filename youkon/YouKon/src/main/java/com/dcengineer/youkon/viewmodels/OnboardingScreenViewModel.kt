@@ -42,12 +42,15 @@ class OnboardingScreenViewModel: ViewModel() {
     var currentPage = mutableIntStateOf(0)
     fun incrementPage() {
         Log.d(tag, "Incrementing onboarding page\n  From: ${currentPage.intValue}")
-        if (currentPage.intValue < lastHelpIndex) {
-            currentPage.intValue += 1
-        } else {
+        if (onLastPage()) {
             currentPage.intValue = 0
+        } else {
+            currentPage.intValue += 1
         }
         Log.d(tag, "  To: ${currentPage.intValue}")
+    }
+    fun onLastPage(): Boolean {
+        return currentPage.intValue >= lastHelpIndex
     }
 
     private val helpTextOffsets = arrayOf(0.dp, 0.dp, 360.dp, 360.dp, 360.dp)
@@ -60,4 +63,8 @@ class OnboardingScreenViewModel: ViewModel() {
         return mainScreenOffsets[currentPage.intValue]
     }
 
+    // TODO set up dimensions for tablets
+    val scale = 0.69f
+    val width = 420.dp
+    val height = 720.dp
 }

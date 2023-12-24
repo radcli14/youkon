@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.requiredSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -151,7 +152,9 @@ class OnboardingScreen(
     @Composable
     fun ScaledMainView(modifier: Modifier = Modifier) {
         Surface(
-            modifier = modifier.scale(0.69f),
+            modifier = modifier
+                .scale(viewModel.scale)
+                .requiredSize(viewModel.width, viewModel.height),
             shape = MaterialTheme.shapes.medium,
             shadowElevation = 8.dp,
             border = BorderStroke(4.dp, MaterialTheme.colorScheme.primaryContainer)
@@ -176,7 +179,7 @@ class OnboardingScreen(
 
     @Composable
     fun navButtonIcon(): ImageVector {
-        return if (viewModel.currentPage.intValue < viewModel.lastHelpIndex) Icons.Default.NavigateNext else Icons.Default.Check
+        return if (viewModel.onLastPage()) Icons.Default.Check else Icons.Default.NavigateNext
     }
 }
 
