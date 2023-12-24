@@ -1,11 +1,13 @@
 package com.dcengineer.youkon.views
 
+import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -26,6 +28,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -59,9 +62,18 @@ class OnboardingScreen(
             "4. Number value and a unit may be selected for each measurement"
     )
 
+    private var helpTextOffsets = arrayOf(0.dp, 0.dp, 360.dp, 360.dp, 360.dp)
+    private var mainScreenOffsets = arrayOf(0.dp, 128.dp, (-256).dp, (-256).dp, (-256).dp)
+
     @Composable
     fun Body() {
         var currentPage by remember { mutableIntStateOf(0) }
+        val helpTextOffset by animateDpAsState(
+            targetValue = helpTextOffsets[currentPage]
+        )
+        val mainScreenOffset by animateDpAsState(
+            targetValue = mainScreenOffsets[currentPage]
+        )
         Column(
             modifier = Modifier.background(
                 color = MaterialTheme.colorScheme.surface,
@@ -70,10 +82,21 @@ class OnboardingScreen(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Box(
-                modifier = Modifier.fillMaxHeight(0.9f)
+                modifier = Modifier
+                    .fillMaxHeight(0.9f)
+                    .padding(16.dp)
+                    .clipToBounds()
             ) {
-                OnboardText(currentPage, Modifier.align(Alignment.TopStart))
-                ScaledMainView()
+                OnboardText(currentPage,
+                    modifier = Modifier
+                        .align(Alignment.TopStart)
+                        .offset(y = helpTextOffset)
+                )
+                ScaledMainView(
+                    modifier = Modifier
+                        .align(Alignment.TopStart)
+                        .offset(y = mainScreenOffset)
+                )
                 NavButton(
                     Modifier.align(Alignment.BottomEnd),
                     currentPage
@@ -87,7 +110,9 @@ class OnboardingScreen(
                 }
             }
 
-            Tabs(currentPage) { currentPage = it }
+            Tabs(currentPage) {
+                currentPage = it
+            }
         }
     }
 
@@ -155,9 +180,9 @@ class OnboardingScreen(
 
     /// The entire app screen, scaled down to fit in a onboarding dialog
     @Composable
-    fun ScaledMainView() {
+    fun ScaledMainView(modifier: Modifier = Modifier) {
         Surface(
-            modifier = Modifier.scale(0.69f),
+            modifier = modifier.scale(0.69f),
             shape = MaterialTheme.shapes.medium,
             shadowElevation = 8.dp,
             border = BorderStroke(4.dp, MaterialTheme.colorScheme.primaryContainer)
