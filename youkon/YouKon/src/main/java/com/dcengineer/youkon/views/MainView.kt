@@ -36,6 +36,7 @@ import androidx.compose.ui.unit.dp
 import com.dcengineer.youkon.ProjectExpansionLevel
 import com.dcengineer.youkon.YoukonTheme
 import com.dcengineer.youkon.viewmodels.MainViewModel
+import com.dcengineer.youkon.viewmodels.OnboardingScreenViewModel
 import com.dcengineer.youkon.viewmodels.ProjectsCardViewModel
 import com.dcengineer.youkon.viewmodels.QuickConvertCardViewModel
 import kotlinx.coroutines.launch
@@ -44,7 +45,8 @@ import kotlinx.coroutines.launch
 class MainView(
     private var mainViewModel: MainViewModel = MainViewModel(),
     private var quickConvertCardViewModel: QuickConvertCardViewModel = QuickConvertCardViewModel(),
-    private var projectsCardViewModel: ProjectsCardViewModel = ProjectsCardViewModel()
+    private var projectsCardViewModel: ProjectsCardViewModel = ProjectsCardViewModel(),
+    private var onboardingScreenViewModel: OnboardingScreenViewModel = OnboardingScreenViewModel()
 ) {
     @Composable
     fun Body() {
@@ -64,6 +66,7 @@ class MainView(
     fun Onboarding() {
         if (mainViewModel.showOnboarding.value) {
             OnboardingScreen(
+                viewModel = onboardingScreenViewModel,
                 onDismissRequest = { mainViewModel.closeOnboarding() }
             ).AsDialog()
         }

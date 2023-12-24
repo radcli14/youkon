@@ -8,6 +8,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import com.dcengineer.youkon.views.MainView
 import com.dcengineer.youkon.viewmodels.MainViewModel
+import com.dcengineer.youkon.viewmodels.OnboardingScreenViewModel
 import com.dcengineer.youkon.viewmodels.ProjectsCardViewModel
 import com.dcengineer.youkon.viewmodels.QuickConvertCardViewModel
 
@@ -15,6 +16,7 @@ class MainActivity : ComponentActivity() {
     private val mainViewModel: MainViewModel by viewModels()
     private val quickConvertCardViewModel: QuickConvertCardViewModel by viewModels()
     private lateinit var projectsCardViewModel: ProjectsCardViewModel
+    private val onboardingScreenViewModel: OnboardingScreenViewModel by viewModels()
 
     private val tag = "MainViewModel"
     private val showOnboardingKey = "showOnboarding"
@@ -55,7 +57,8 @@ class MainActivity : ComponentActivity() {
             MainView(
                 mainViewModel,
                 quickConvertCardViewModel,
-                projectsCardViewModel
+                projectsCardViewModel,
+                onboardingScreenViewModel
             ).Body()
         }
     }
