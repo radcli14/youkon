@@ -53,6 +53,12 @@ class OnboardingScreenViewModel: ViewModel() {
         return currentPage.intValue >= lastHelpIndex
     }
 
+    var isWide = true
+    val scale = if (isWide) 0.6f else 0.69f
+    val width = if (isWide) 880.dp else 400.dp
+    val height = 720.dp
+    val dialogFillRatio = if (isWide) 0.75f else 0.9f
+
     private val helpTextOffsets = arrayOf(0.dp, 0.dp, 360.dp, 360.dp, 360.dp)
     fun helpTextOffset(): Dp {
         return helpTextOffsets[currentPage.intValue]
@@ -62,9 +68,4 @@ class OnboardingScreenViewModel: ViewModel() {
     fun mainScreenOffset(): Dp {
         return mainScreenOffsets[currentPage.intValue]
     }
-
-    // TODO set up dimensions for tablets
-    val scale = 0.69f
-    val width = 420.dp
-    val height = 720.dp
 }

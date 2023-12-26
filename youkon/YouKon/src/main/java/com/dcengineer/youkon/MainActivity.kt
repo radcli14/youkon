@@ -1,6 +1,7 @@
 package com.dcengineer.youkon
 
 import android.content.Context
+import android.content.res.Configuration
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
@@ -42,6 +43,10 @@ class MainActivity : ComponentActivity() {
         quickConvertCardViewModel.updateValue(
             sharedPref.getString(quickConvertValueKey, "2.26")?.toDouble() ?: 2.26
         )
+
+        val isWide = resources.configuration.screenLayout and
+                Configuration.SCREENLAYOUT_SIZE_MASK >= Configuration.SCREENLAYOUT_SIZE_LARGE
+        onboardingScreenViewModel.isWide = isWide
 
         // The Projects card are dependent on user data that is contained in the `mainViewModel`
         projectsCardViewModel = ProjectsCardViewModel(mainViewModel.user)

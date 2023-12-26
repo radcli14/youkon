@@ -56,7 +56,7 @@ class OnboardingScreen(
         ) {
             Box(
                 modifier = Modifier
-                    .fillMaxHeight(0.9f)
+                    .fillMaxHeight(viewModel.dialogFillRatio)
                     .padding(16.dp)
                     .clipToBounds()
             ) {
