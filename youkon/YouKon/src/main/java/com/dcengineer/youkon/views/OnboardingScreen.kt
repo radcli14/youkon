@@ -1,13 +1,11 @@
 package com.dcengineer.youkon.views
 
-import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredSize
 import androidx.compose.foundation.layout.size
@@ -23,7 +21,6 @@ import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clipToBounds
@@ -33,6 +30,8 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
+import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.constraintlayout.compose.layoutId
 import com.dcengineer.youkon.viewmodels.OnboardingScreenViewModel
 
 class OnboardingScreen(
@@ -41,12 +40,6 @@ class OnboardingScreen(
 ) {
     @Composable
     fun Body() {
-        val helpTextOffset by animateDpAsState(
-            targetValue = viewModel.helpTextOffset()
-        )
-        val mainScreenOffset by animateDpAsState(
-            targetValue = viewModel.mainScreenOffset()
-        )
         Column(
             modifier = Modifier.background(
                 color = MaterialTheme.colorScheme.surface,
@@ -54,30 +47,17 @@ class OnboardingScreen(
             ),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Box(
+            ConstraintLayout(
+                viewModel.constraints(),
                 modifier = Modifier
                     .fillMaxHeight(viewModel.dialogFillRatio)
                     .padding(16.dp)
-                    .clipToBounds()
+                    .clipToBounds(),
+                animateChanges = true
             ) {
-                OnboardText(
-                    modifier = Modifier
-                        .align(Alignment.TopStart)
-                        .offset(y = helpTextOffset)
-                )
-                ScaledMainView(
-                    modifier = Modifier
-                        .align(Alignment.TopStart)
-                        .offset(y = mainScreenOffset)
-                )
-                NavButton(
-                    Modifier.align(Alignment.BottomEnd),
-                ) {
-                    viewModel.incrementPage()
-                    if (viewModel.currentPage.intValue == 0) {
-                        onDismissRequest()
-                    }
-                }
+                OnboardText(Modifier.layoutId("text"))
+                ScaledMainView(Modifier.layoutId("main"))
+                NavButton(Modifier.layoutId("nav"))
             }
 
             Tabs {
@@ -159,21 +139,27 @@ class OnboardingScreen(
             shadowElevation = 8.dp,
             border = BorderStroke(4.dp, MaterialTheme.colorScheme.primaryContainer)
         ) {
-            MainView().MainContentStack()
+            MainView().BottomSheetLayout()
         }
     }
 
     /// The button to navigate to the next onboarding screen
     @Composable
     fun NavButton(
-        modifier: Modifier = Modifier,
-        onClick: () -> Unit
+        modifier: Modifier = Modifier
     ) {
         FloatingActionButton(
             modifier = modifier.padding(16.dp),
-            onClick = { onClick() }
+            onClick = { navButtonClick() }
         ) {
-            Icon(navButtonIcon(), "Move to the next item.")
+            Icon(navButtonIcon(), viewModel.navButtonDescription())
+        }
+    }
+
+    private fun navButtonClick() {
+        viewModel.incrementPage()
+        if (viewModel.currentPage.intValue == 0) {
+            onDismissRequest()
         }
     }
 
@@ -181,6 +167,7 @@ class OnboardingScreen(
     fun navButtonIcon(): ImageVector {
         return if (viewModel.onLastPage()) Icons.Default.Check else Icons.Default.NavigateNext
     }
+
 }
 
 @Preview

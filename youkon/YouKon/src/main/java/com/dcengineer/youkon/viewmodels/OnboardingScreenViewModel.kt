@@ -2,8 +2,8 @@ package com.dcengineer.youkon.viewmodels
 
 import android.util.Log
 import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.constraintlayout.compose.ConstraintSet
 import androidx.lifecycle.ViewModel
 
 class OnboardingScreenViewModel: ViewModel() {
@@ -53,19 +53,59 @@ class OnboardingScreenViewModel: ViewModel() {
         return currentPage.intValue >= lastHelpIndex
     }
 
+    fun navButtonDescription(): String {
+        return when (onLastPage()) {
+            false -> "Move to the next item"
+            true -> "Exit the onboarding screen"
+        }
+    }
+
     var isWide = true
     val scale = if (isWide) 0.6f else 0.69f
     val width = if (isWide) 880.dp else 400.dp
     val height = 720.dp
     val dialogFillRatio = if (isWide) 0.75f else 0.9f
 
-    private val helpTextOffsets = arrayOf(0.dp, 0.dp, 360.dp, 360.dp, 360.dp)
-    fun helpTextOffset(): Dp {
-        return helpTextOffsets[currentPage.intValue]
-    }
+    private val constraintChangeIndex = 1
+    fun constraints(): ConstraintSet {
+        return if (currentPage.intValue <= constraintChangeIndex) {
+            ConstraintSet {
+                val text = createRefFor("text")
+                val main = createRefFor("main")
+                val nav = createRefFor("nav")
 
-    private val mainScreenOffsets = arrayOf(0.dp, 128.dp, (-256).dp, (-256).dp, (-256).dp)
-    fun mainScreenOffset(): Dp {
-        return mainScreenOffsets[currentPage.intValue]
+                constrain(text) {
+                    top.linkTo(parent.top)
+                }
+
+                constrain(main) {
+                    top.linkTo(text.bottom, (-64).dp)
+                }
+
+                constrain(nav) {
+                    end.linkTo(parent.end)
+                    bottom.linkTo(parent.bottom)
+                }
+            }
+        } else {
+             ConstraintSet {
+                 val text = createRefFor("text")
+                 val main = createRefFor("main")
+                 val nav = createRefFor("nav")
+
+                 constrain(text) {
+                     bottom.linkTo(parent.bottom)
+                 }
+
+                 constrain(main) {
+                     bottom.linkTo(text.top, (-64).dp)
+                 }
+
+                 constrain(nav) {
+                     end.linkTo(parent.end)
+                     bottom.linkTo(parent.bottom)
+                 }
+             }
+        }
     }
 }
