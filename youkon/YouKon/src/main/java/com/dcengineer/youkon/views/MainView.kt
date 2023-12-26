@@ -64,12 +64,7 @@ class MainView(
     /// The onboarding screen will be shown on first app startup, or when user taps the help button
     @Composable
     fun Onboarding() {
-        if (mainViewModel.showOnboarding.value) {
-            OnboardingScreen(
-                viewModel = onboardingScreenViewModel,
-                onDismissRequest = { mainViewModel.closeOnboarding() }
-            ).AsDialog()
-        }
+        OnboardingScreen(onboardingScreenViewModel).AsDialog()
     }
 
     /// Holds state and the bottom sheet scaffold to allow the editing screen to appear
@@ -158,7 +153,7 @@ class MainView(
     @Composable
     private fun ActionButton(modifier: Modifier = Modifier) {
         val isBottomSheetExpanded by mainViewModel.isEditingProject.observeAsState()
-        val showOnboarding by remember { mainViewModel.showOnboarding }
+        val showOnboarding by remember { onboardingScreenViewModel.showOnboarding }
         AnimatedVisibility(!showOnboarding,
             modifier = modifier.padding(16.dp)
         ) {
@@ -167,7 +162,7 @@ class MainView(
                     if (isBottomSheetExpanded == true) {
                         mainViewModel.stopEditing()
                     } else {
-                        mainViewModel.openOnboarding()
+                        onboardingScreenViewModel.openOnboarding()
                     }
               },
                 containerColor = MaterialTheme.colorScheme.primaryContainer

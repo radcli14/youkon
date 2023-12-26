@@ -33,7 +33,7 @@ class MainActivity : ComponentActivity() {
         val sharedPref = getPreferences(Context.MODE_PRIVATE) ?: return
         Log.d(tag, "Loaded shared preferences: ${sharedPref.all}")
         if (sharedPref.getBoolean(showOnboardingKey, true)) {
-            mainViewModel.openOnboarding()
+            onboardingScreenViewModel.openOnboarding()
         }
         quickConvertCardViewModel.updateUnit(
             YkUnit.valueOf(sharedPref.getString(quickConvertUnitKey, "METERS") ?: "METERS")

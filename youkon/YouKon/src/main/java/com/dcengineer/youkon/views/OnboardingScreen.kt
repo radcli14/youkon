@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredSize
 import androidx.compose.foundation.layout.size
@@ -35,8 +36,7 @@ import androidx.constraintlayout.compose.layoutId
 import com.dcengineer.youkon.viewmodels.OnboardingScreenViewModel
 
 class OnboardingScreen(
-    val viewModel: OnboardingScreenViewModel = OnboardingScreenViewModel(),
-    val onDismissRequest: () -> Unit = {}
+    private val viewModel: OnboardingScreenViewModel = OnboardingScreenViewModel(),
 ) {
     @Composable
     fun Body() {
@@ -60,30 +60,30 @@ class OnboardingScreen(
                 NavButton(Modifier.layoutId("nav"))
             }
 
-            Tabs {
-                viewModel.currentPage.intValue = it
-            }
+            Tabs()
         }
     }
 
     @Composable
     fun AsDialog() {
-        Dialog(onDismissRequest = { onDismissRequest() }) {
-            Body()
+        if (viewModel.showOnboarding.value) {
+            Dialog(onDismissRequest = { viewModel.closeOnboarding() }) {
+                Body()
+            }
         }
     }
 
     /// Shows two lines of text at the top, with the title of the current screen, and some helpful text
     @Composable
     fun OnboardText(modifier: Modifier = Modifier) {
-        Column(modifier = modifier.padding(16.dp)) {
-            Text(
-                viewModel.helpHeader(),
+        Column(
+            modifier = modifier.padding(16.dp).height(96.dp)
+        ) {
+            Text(viewModel.helpHeader,
                 style = MaterialTheme.typography.titleLarge,
                 color = MaterialTheme.colorScheme.onSurface
             )
-            Text(
-                viewModel.helpContent(),
+            Text(viewModel.helpText,
                 style = MaterialTheme.typography.bodyLarge,
                 color = MaterialTheme.colorScheme.onSurface
             )
@@ -92,14 +92,15 @@ class OnboardingScreen(
 
     /// A row of tabs at the bottom of the screen
     @Composable
-    fun Tabs(onTabSelected: (Int) -> Unit) {
+    fun Tabs() {
         TabRow(
             modifier = Modifier.fillMaxWidth(0.7f),
             selectedTabIndex = viewModel.currentPage.intValue,
         ) {
             for (index in 0 .. viewModel.lastHelpIndex) {
                 Tab(selected = index == viewModel.currentPage.intValue, onClick = {
-                    onTabSelected(index)
+                    viewModel.currentPage.intValue = index
+                    viewModel.currentText.intValue = 0
                 }, modifier = Modifier.padding(16.dp)) {
                     TabIcon(index == viewModel.currentPage.intValue)
                 }
@@ -152,22 +153,15 @@ class OnboardingScreen(
     ) {
         FloatingActionButton(
             modifier = modifier.padding(16.dp),
-            onClick = { navButtonClick() }
+            onClick = { viewModel.incrementPage() }
         ) {
-            Icon(navButtonIcon(), viewModel.navButtonDescription())
-        }
-    }
-
-    private fun navButtonClick() {
-        viewModel.incrementPage()
-        if (viewModel.currentPage.intValue == 0) {
-            onDismissRequest()
+            Icon(navButtonIcon(), viewModel.navButtonDescription)
         }
     }
 
     @Composable
     fun navButtonIcon(): ImageVector {
-        return if (viewModel.onLastPage()) Icons.Default.Check else Icons.Default.NavigateNext
+        return if (viewModel.onLastBeforeExit) Icons.Default.Check else Icons.Default.NavigateNext
     }
 
 }
@@ -175,5 +169,7 @@ class OnboardingScreen(
 @Preview
 @Composable
 fun OnboardingPreview() {
-    OnboardingScreen().Body()
+    val viewModel = OnboardingScreenViewModel()
+    viewModel.isWide = false
+    OnboardingScreen(viewModel).Body()
 }

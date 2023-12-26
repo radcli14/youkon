@@ -2,7 +2,6 @@ package com.dcengineer.youkon.viewmodels
 
 import android.os.Environment
 import android.util.Log
-import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -13,7 +12,6 @@ import java.io.File
 class MainViewModel: ViewModel() {
     private val _isEditingProject = MutableLiveData(false)
     val isEditingProject: LiveData<Boolean> = _isEditingProject
-    val showOnboarding = mutableStateOf(false)
     var project: YkProject? = null
     var user = YkUser()
 
@@ -99,18 +97,6 @@ class MainViewModel: ViewModel() {
         Log.d(tag, "stopped editing ${project?.name}")
         _isEditingProject.value = false
         project = null
-    }
-
-    /// Open the dialog containing the onboarding screen
-    fun openOnboarding() {
-        Log.d(tag, "open onboarding screen")
-        showOnboarding.value = true
-    }
-
-    /// Close the dialog containing the onboarding screen
-    fun closeOnboarding() {
-        Log.d(tag, "closed onboarding screen")
-        showOnboarding.value = false
     }
 
     /// The `ProjectsCardViewModel` is retained to persist the states of the individual projects
