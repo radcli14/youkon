@@ -87,6 +87,8 @@ class OnboardingScreenViewModel: ViewModel() {
             }
         }
 
+    val navTransitionTime = 250
+
     var isWide = true
     val scale: Float get() = if (isWide) 0.6f else 0.69f
     val width: Dp get() = if (isWide) 880.dp else 400.dp

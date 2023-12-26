@@ -1,5 +1,8 @@
 package com.dcengineer.youkon.views
 
+import android.annotation.SuppressLint
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -22,8 +25,14 @@ import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
@@ -34,6 +43,7 @@ import androidx.compose.ui.window.Dialog
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.layoutId
 import com.dcengineer.youkon.viewmodels.OnboardingScreenViewModel
+import kotlinx.coroutines.delay
 
 class OnboardingScreen(
     private val viewModel: OnboardingScreenViewModel = OnboardingScreenViewModel(),
@@ -74,18 +84,51 @@ class OnboardingScreen(
     }
 
     /// Shows two lines of text at the top, with the title of the current screen, and some helpful text
+    @SuppressLint("UnusedContentLambdaTargetStateParameter")
     @Composable
     fun OnboardText(modifier: Modifier = Modifier) {
+        // The header text shows up at the top, and updates when the currentPage changes
+        var helpHeader by remember { mutableStateOf(viewModel.helpHeader) }
+        var helpHeaderVisible by remember { mutableStateOf(true) }
+        val helpHeaderAlpha by animateFloatAsState(
+            targetValue = if (helpHeaderVisible) 1f else 0f,
+            animationSpec = tween(durationMillis = viewModel.navTransitionTime)
+        )
+        LaunchedEffect(viewModel.helpHeader) {
+            helpHeaderVisible = false
+            delay(viewModel.navTransitionTime.toLong())
+            helpHeader = viewModel.helpHeader
+            helpHeaderVisible = true
+        }
+
+        // The help text is the secondary text, and updates when the currentPage or currentText changes
+        var helpText by remember { mutableStateOf(viewModel.helpText) }
+        var helpTextVisible by remember { mutableStateOf(true) }
+        val helpTextAlpha by animateFloatAsState(
+            targetValue = if (helpTextVisible) 1f else 0f,
+            animationSpec = tween(durationMillis = 100 + viewModel.navTransitionTime)
+        )
+        LaunchedEffect(viewModel.helpText) {
+            helpTextVisible = false
+            delay(100 + viewModel.navTransitionTime.toLong())
+            helpText = viewModel.helpText
+            helpTextVisible = true
+        }
+
         Column(
-            modifier = modifier.padding(16.dp).height(96.dp)
+            modifier = modifier
+                .padding(16.dp)
+                .height(96.dp)
         ) {
-            Text(viewModel.helpHeader,
+            Text(helpHeader,
                 style = MaterialTheme.typography.titleLarge,
-                color = MaterialTheme.colorScheme.onSurface
+                color = MaterialTheme.colorScheme.onSurface,
+                modifier = Modifier.alpha(helpHeaderAlpha)
             )
-            Text(viewModel.helpText,
+            Text(helpText,
                 style = MaterialTheme.typography.bodyLarge,
-                color = MaterialTheme.colorScheme.onSurface
+                color = MaterialTheme.colorScheme.onSurface,
+                modifier = Modifier.alpha(helpTextAlpha)
             )
         }
     }
