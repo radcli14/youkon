@@ -51,7 +51,7 @@ class OnboardingScreen(
                 viewModel.constraints(),
                 modifier = Modifier
                     .fillMaxHeight(viewModel.dialogFillRatio)
-                    .padding(16.dp)
+                    .padding(viewModel.constraintPadding)
                     .clipToBounds(),
                 animateChanges = true
             ) {
@@ -77,11 +77,13 @@ class OnboardingScreen(
     @Composable
     fun OnboardText(modifier: Modifier = Modifier) {
         Column(modifier = modifier.padding(16.dp)) {
-            Text(viewModel.helpHeader(),
+            Text(
+                viewModel.helpHeader(),
                 style = MaterialTheme.typography.titleLarge,
                 color = MaterialTheme.colorScheme.onSurface
             )
-            Text(viewModel.helpContent(),
+            Text(
+                viewModel.helpContent(),
                 style = MaterialTheme.typography.bodyLarge,
                 color = MaterialTheme.colorScheme.onSurface
             )

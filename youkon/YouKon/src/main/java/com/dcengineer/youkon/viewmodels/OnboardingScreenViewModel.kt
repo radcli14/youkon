@@ -2,6 +2,7 @@ package com.dcengineer.youkon.viewmodels
 
 import android.util.Log
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintSet
 import androidx.lifecycle.ViewModel
@@ -61,10 +62,12 @@ class OnboardingScreenViewModel: ViewModel() {
     }
 
     var isWide = true
-    val scale = if (isWide) 0.6f else 0.69f
-    val width = if (isWide) 880.dp else 400.dp
+    val scale: Float get() = if (isWide) 0.6f else 0.69f
+    val width: Dp get() = if (isWide) 880.dp else 400.dp
     val height = 720.dp
-    val dialogFillRatio = if (isWide) 0.75f else 0.9f
+    val dialogFillRatio: Float get() = if (isWide) 0.75f else 0.9f
+    val constraintPadding: Dp get() = if (isWide) 16.dp else 0.dp
+
 
     private val constraintChangeIndex = 1
     fun constraints(): ConstraintSet {
@@ -79,7 +82,7 @@ class OnboardingScreenViewModel: ViewModel() {
                 }
 
                 constrain(main) {
-                    top.linkTo(text.bottom, (-64).dp)
+                    top.linkTo(text.bottom, (-96).dp)
                 }
 
                 constrain(nav) {
@@ -94,11 +97,11 @@ class OnboardingScreenViewModel: ViewModel() {
                  val nav = createRefFor("nav")
 
                  constrain(text) {
-                     bottom.linkTo(parent.bottom)
+                     bottom.linkTo(nav.top)
                  }
 
                  constrain(main) {
-                     bottom.linkTo(text.top, (-64).dp)
+                     bottom.linkTo(text.top, (-96).dp)
                  }
 
                  constrain(nav) {
