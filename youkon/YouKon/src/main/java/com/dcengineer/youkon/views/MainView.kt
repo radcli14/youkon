@@ -76,7 +76,7 @@ class MainView(
     /// as a sheet from the bottom of the screen.
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
-    private fun BottomSheetLayout() {
+    fun BottomSheetLayout() {
         // Set up the scaffold state such that it clears the project being edited from the
         // view model if the user drags the sheet downward. Will do the same if the user taps
         // the floating action button in the lower right.
