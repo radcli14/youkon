@@ -118,7 +118,7 @@ class OnboardingScreen(
         Column(
             modifier = modifier
                 .padding(16.dp)
-                .height(96.dp)
+                .height(128.dp)
         ) {
             Text(helpHeader,
                 style = MaterialTheme.typography.titleLarge,
@@ -185,7 +185,11 @@ class OnboardingScreen(
             shadowElevation = 8.dp,
             border = BorderStroke(4.dp, MaterialTheme.colorScheme.primaryContainer)
         ) {
-            MainView().BottomSheetLayout()
+            MainView(
+                viewModel.mainViewModel,
+                viewModel.quickConvertCardViewModel,
+                viewModel.projectsCardViewModel
+            ).BottomSheetLayout()
         }
     }
 

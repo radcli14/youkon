@@ -12,6 +12,10 @@ class OnboardingScreenViewModel: ViewModel() {
     private val tag = "OnboardingScreenViewModel"
     val showOnboarding = mutableStateOf(false)
 
+    val mainViewModel = MainViewModel()
+    val projectsCardViewModel = ProjectsCardViewModel(mainViewModel.defaultUser)
+    val quickConvertCardViewModel = QuickConvertCardViewModel()
+
     /// Open the dialog containing the onboarding screen
     fun openOnboarding() {
         Log.d(tag, "open onboarding screen")
@@ -51,11 +55,11 @@ class OnboardingScreenViewModel: ViewModel() {
     )
     val helpHeader: String get() = helps[currentPage.intValue].first
 
-    val helpContent: Array<String> get() = helps[currentPage.intValue].second
+    private val helpContent: Array<String> get() = helps[currentPage.intValue].second
     val helpText: String get() = helpContent[currentText.intValue]
 
     val lastHelpIndex = helps.count() - 1
-    val lastTextIndex: Int get() = helpContent.count() - 1
+    private val lastTextIndex: Int get() = helpContent.count() - 1
 
     var currentPage = mutableIntStateOf(0)
     var currentText = mutableIntStateOf(0)
@@ -73,9 +77,9 @@ class OnboardingScreenViewModel: ViewModel() {
         }
         Log.d(tag, "  To: ${currentPage.intValue}-${currentText.intValue}")
     }
-    val onLastPage: Boolean get() = currentPage.intValue >= lastHelpIndex
+    private val onLastPage: Boolean get() = currentPage.intValue >= lastHelpIndex
 
-    val onLastText: Boolean get() = currentText.intValue >= lastTextIndex
+    private val onLastText: Boolean get() = currentText.intValue >= lastTextIndex
 
     val onLastBeforeExit: Boolean get() = onLastPage && onLastText
 
@@ -128,7 +132,7 @@ class OnboardingScreenViewModel: ViewModel() {
                  }
 
                  constrain(main) {
-                     bottom.linkTo(text.top, (-96).dp)
+                     bottom.linkTo(text.top, (-56).dp)
                  }
 
                  constrain(nav) {

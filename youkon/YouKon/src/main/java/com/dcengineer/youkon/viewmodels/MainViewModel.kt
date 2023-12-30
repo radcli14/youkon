@@ -69,6 +69,10 @@ class MainViewModel: ViewModel() {
     val workingFile: File
         get() = File("${documentsUrl.absolutePath}/userdata.json")
 
+    fun setAsDefaultUser() {
+        user = defaultUser
+    }
+
     /// Save the current `YkUser` to a `.json` file
     fun saveUserToJson() {
         val jsonString = user.asJsonString()
