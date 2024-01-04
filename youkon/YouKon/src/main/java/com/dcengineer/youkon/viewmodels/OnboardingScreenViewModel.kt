@@ -12,8 +12,8 @@ class OnboardingScreenViewModel: ViewModel() {
     private val tag = "OnboardingScreenViewModel"
     val showOnboarding = mutableStateOf(false)
 
-    val mainViewModel = MainViewModel()
-    val projectsCardViewModel = ProjectsCardViewModel(mainViewModel.defaultUser)
+    val mainViewModel = MainViewModel(loadDefault = true)
+    val projectsCardViewModel = ProjectsCardViewModel(mainViewModel.user)
     val quickConvertCardViewModel = QuickConvertCardViewModel()
 
     /// Open the dialog containing the onboarding screen

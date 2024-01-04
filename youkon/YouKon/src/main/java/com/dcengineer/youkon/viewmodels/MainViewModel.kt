@@ -9,7 +9,7 @@ import com.dcengineer.youkon.YkProject
 import com.dcengineer.youkon.YkUser
 import java.io.File
 
-class MainViewModel: ViewModel() {
+class MainViewModel(loadDefault: Boolean = false): ViewModel() {
     private val _isEditingProject = MutableLiveData(false)
     val isEditingProject: LiveData<Boolean> = _isEditingProject
     var project: YkProject? = null
@@ -18,7 +18,7 @@ class MainViewModel: ViewModel() {
     private val tag = "MainViewModel"
 
     init {
-        user = savedUser
+        user = if (loadDefault) defaultUser else savedUser
         Log.d(tag, "Initial User State\n==================\n\n" + user.asJsonString() + "\n\n")
         saveUserToJson()
     }
