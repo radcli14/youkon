@@ -51,14 +51,14 @@ fun Modifier.editButtonModifier(
 
 fun Modifier.coloredShadow(
     color: Color,
-    alpha: Float = 0.5f,
-    borderRadius: Dp = 0.dp,
-    shadowRadius: Dp = 20.dp,
+    alpha: Float = 0.75f,
+    borderRadius: Dp = 8.dp,
+    shadowRadius: Dp = 36.dp,
     offsetY: Dp = 0.dp,
     offsetX: Dp = 0.dp
 ) = composed {
     val shadowColor = color.copy(alpha = alpha).toArgb()
-    val transparent = color.copy(alpha= 0f).toArgb()
+    val transparent = color.copy(alpha = 0f).toArgb()
     this.drawBehind {
         this.drawIntoCanvas {
             val paint = Paint()

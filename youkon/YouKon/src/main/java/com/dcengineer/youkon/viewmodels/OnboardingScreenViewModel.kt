@@ -43,8 +43,10 @@ class OnboardingScreenViewModel: ViewModel() {
             "2. Tap the `Minus` (-) button to enable subtracting a project, then tap the `X` button alongside to delete that project"
         ),
     "Project View" to arrayOf(
+            "Here you will view the name, description, and measurements for an individual project",
             "1. Tap once on a project to expand it to show its list of measurements, and select a system of units",
-            "2. Tap on the list of measurements to open the editing screen for that project"
+            "2. Use the picker to toggle between multiple systems of units",
+            "3. Tap on the list of measurements to open the editing screen for that project"
         ),
     "Editable Project" to arrayOf(
             "The bottom sheet expands to show a menu where you may modify data in this project",
@@ -83,6 +85,8 @@ class OnboardingScreenViewModel: ViewModel() {
     fun updateHighlight() {
         quickConvertCardViewModel.highlight(if (currentPage.intValue == 1) currentText.intValue else null)
         projectsCardViewModel.highlight(if (currentPage.intValue == 2) currentText.intValue else null)
+        val projectViewModel = projectsCardViewModel.projectViewModel()
+        projectViewModel.highlight(if (currentPage.intValue == 3) currentText.intValue else null)
     }
 
     private val onLastPage: Boolean get() = currentPage.intValue >= lastHelpIndex

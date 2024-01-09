@@ -32,6 +32,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.composed
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
@@ -43,6 +44,8 @@ import com.dcengineer.youkon.YkMeasurement
 import com.dcengineer.youkon.YkSystem
 import com.dcengineer.youkon.viewmodels.MainViewModel
 import com.dcengineer.youkon.viewmodels.ProjectViewModel
+import com.dcengineer.youkon.viewmodels.ProjectViewViews
+import com.dcengineer.youkon.viewmodels.ProjectsCardViews
 
 /// The `ProjectView` displays the data from a `YkProject`.
 /// Initially shown with an icon, name, and description, in "Compact" mode.
@@ -59,6 +62,11 @@ class ProjectView(
         } else {
             DisclosureGroupWhenNotEditing()
         }
+    }
+
+    /// Provides a view modifier for a colored shadow if the selected view is highlighted in the onboarding screen
+    private fun Modifier.onboardingModifier(view: ProjectViewViews): Modifier = composed {
+        this.onboardingModifier(vm.highlightedView.value == view)
     }
 
     /// The list of editable measurements when the project is opened in a sheet for editing
@@ -89,7 +97,8 @@ class ProjectView(
     private fun DisclosureGroupWhenNotEditing() {
         Surface(
             color = grayBackground.copy(alpha = 0.4f),
-            shape = MaterialTheme.shapes.medium
+            shape = MaterialTheme.shapes.medium,
+            modifier = Modifier.onboardingModifier(ProjectViewViews.COMPACT)
         ) {
             Column(
                 modifier = Modifier.padding(16.dp)
@@ -153,6 +162,7 @@ class ProjectView(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(vertical = 8.dp)
+                    .onboardingModifier(ProjectViewViews.SYSTEM_PICKER)
             ) {
                 YkSystem.entries.forEach { system ->
                     val isSelected = vm.convertToSystem.value == system

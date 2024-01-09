@@ -12,6 +12,10 @@ import com.dcengineer.youkon.YkSystem
 import com.dcengineer.youkon.YkUnit
 import kotlinx.coroutines.flow.MutableStateFlow
 
+enum class ProjectViewViews {
+    COMPACT, STATIC, SYSTEM_PICKER, EDITABLE, PLUS, MINUS, LABEL_STACK
+}
+
 class ProjectViewModel(initialProject: YkProject = YkProject()): ViewModel() {
     val project = MutableStateFlow(initialProject)
     val editedName = mutableStateOf(initialProject.name)
@@ -95,5 +99,26 @@ class ProjectViewModel(initialProject: YkProject = YkProject()): ViewModel() {
         showSubtractAlert.value = false
         measurementToDelete.value = null
         canSubtract.value = false
+    }
+
+    /// When viewing the onboard screen, this modifies which view is highlighted
+    var highlightedView: MutableState<ProjectViewViews?> = mutableStateOf(null)
+    fun highlight(view: ProjectViewViews?) {
+        highlightedView.value = view
+    }
+    fun highlight(viewInt: Int?) {
+        when (viewInt) {
+            0 -> highlight(ProjectViewViews.COMPACT)
+            1 -> {
+                highlight(ProjectViewViews.STATIC)
+                expansion.value = ProjectExpansionLevel.STATIC
+            }
+            2 -> highlight(ProjectViewViews.SYSTEM_PICKER)
+            3 -> highlight(ProjectViewViews.EDITABLE)
+            else -> {
+                highlight(view = null)
+                expansion.value = ProjectExpansionLevel.COMPACT
+            }
+        }
     }
 }

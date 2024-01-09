@@ -16,7 +16,7 @@ class ProjectsCardViewModel(var user: YkUser = YkUser()): ViewModel() {
     val canSubtract = mutableStateOf(false)
     val showSubtractAlert = mutableStateOf(false)
     val projectToDelete: MutableState<YkProject?> = mutableStateOf(null)
-    var pvcDict = mutableMapOf<String, ProjectViewModel>()
+    private var pvcDict = mutableMapOf<String, ProjectViewModel>()
 
     private val tag = "ProjectsCardViewModel"
 
@@ -45,6 +45,12 @@ class ProjectsCardViewModel(var user: YkUser = YkUser()): ViewModel() {
             pvcDict[project.id] = pvc
         }
         return pvc
+    }
+
+    fun projectViewModel(): ProjectViewModel {
+        return if (projects.value.isNotEmpty()) {
+            projectViewModel(projects.value.first())
+        } else ProjectViewModel()
     }
 
     /// Make the button to remove any of the `YkProject`s visible
