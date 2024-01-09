@@ -31,6 +31,7 @@ class OnboardingScreenViewModel: ViewModel() {
     private val helps = arrayOf(
     "Welcome" to arrayOf("Thank you for trying the unit converter app designed for engineers"),
     "Quick Convert Card" to arrayOf(
+            "Here you may instantly convert a single measurement to an equivalent unit",
             "1. Tap the `From` button in the upper left to select from a list of all available units in the app",
             "2. Tap the `To` button in the upper right to select from a list of units that may be converted given the `From` unit",
             "3. Enter a number in the lower left for a value in the `From` unit",
@@ -75,8 +76,18 @@ class OnboardingScreenViewModel: ViewModel() {
         } else {
             currentText.intValue += 1
         }
+        updateHighlight()
         Log.d(tag, "  To: ${currentPage.intValue}-${currentText.intValue}")
     }
+
+    private fun updateHighlight() {
+        if (currentPage.intValue == 1) {
+            quickConvertCardViewModel.highlight(currentText.intValue)
+        } else {
+            quickConvertCardViewModel.highlight(null)
+        }
+    }
+
     private val onLastPage: Boolean get() = currentPage.intValue >= lastHelpIndex
 
     private val onLastText: Boolean get() = currentText.intValue >= lastTextIndex

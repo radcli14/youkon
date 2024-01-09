@@ -18,6 +18,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.dcengineer.youkon.viewmodels.QuickConvertCardViewModel
+import com.dcengineer.youkon.viewmodels.QuickConvertViews
 
 class QuickConvertCard(
     private val vm: QuickConvertCardViewModel = QuickConvertCardViewModel()
@@ -27,7 +28,7 @@ class QuickConvertCard(
         Surface(
             color = MaterialTheme.colorScheme.surface.copy(alpha = 0.4f),
             shape = MaterialTheme.shapes.medium,
-            modifier = Modifier
+            modifier = OnboardingModifier(QuickConvertViews.SURFACE)
                 .width(420.dp)
         ) {
             Column(
@@ -38,6 +39,15 @@ class QuickConvertCard(
                 ContentGrid()
             }
         }
+    }
+
+    /// Provides a view modifier for a colored shadow if the selected view is highlighted in the onboarding screen
+    @Composable
+    fun OnboardingModifier(view: QuickConvertViews): Modifier {
+        return if (vm.highlightedView.value == view)
+            Modifier.coloredShadow(animatedColor)
+        else
+            Modifier
     }
 
     /// The label at the top of the card
