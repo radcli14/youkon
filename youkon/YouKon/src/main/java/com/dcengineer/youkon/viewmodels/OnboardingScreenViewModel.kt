@@ -80,12 +80,9 @@ class OnboardingScreenViewModel: ViewModel() {
         Log.d(tag, "  To: ${currentPage.intValue}-${currentText.intValue}")
     }
 
-    private fun updateHighlight() {
-        if (currentPage.intValue == 1) {
-            quickConvertCardViewModel.highlight(currentText.intValue)
-        } else {
-            quickConvertCardViewModel.highlight(null)
-        }
+    fun updateHighlight() {
+        quickConvertCardViewModel.highlight(if (currentPage.intValue == 1) currentText.intValue else null)
+        projectsCardViewModel.highlight(if (currentPage.intValue == 2) currentText.intValue else null)
     }
 
     private val onLastPage: Boolean get() = currentPage.intValue >= lastHelpIndex
