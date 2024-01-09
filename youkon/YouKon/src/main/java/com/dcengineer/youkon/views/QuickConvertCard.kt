@@ -60,18 +60,19 @@ class QuickConvertCard(
         )
     }
 
+    /// A 2x2 grid with from dropdown in the upper left, to dropdown in the upper right, editable value in the lower left, and converted value in the lower right
     @Composable
     private fun ContentGrid() {
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-            FromDropdown(Modifier.weight(1f))
-            ToDropdown(Modifier.weight(1f))
+            FromDropdown(OnboardingModifier(QuickConvertViews.FROM).weight(1f))
+            ToDropdown(OnboardingModifier(QuickConvertViews.TO).weight(1f))
         }
         Row(
             horizontalArrangement = Arrangement.spacedBy(8.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            TextField(Modifier.weight(1f))
-            ConvertedText(Modifier.weight(1f))
+            TextField(OnboardingModifier(QuickConvertViews.VALUE).weight(1f))
+            ConvertedText(OnboardingModifier(QuickConvertViews.CONVERTED).weight(1f))
         }
     }
 
