@@ -74,14 +74,14 @@ class QuickConvertCardViewModel(
     fun highlight(view: QuickConvertViews?) {
         highlightedView.value = view
     }
-    fun highlight(view: Int) {
-        when (view) {
+    fun highlight(viewInt: Int?) {
+        when (viewInt) {
             0 -> highlight(QuickConvertViews.SURFACE)
             1 -> highlight(QuickConvertViews.FROM)
             2 -> highlight(QuickConvertViews.TO)
             3 -> highlight(QuickConvertViews.VALUE)
             4 -> highlight(QuickConvertViews.CONVERTED)
-            else -> highlight(null)
+            else -> highlight(view = null)
         }
     }
 }

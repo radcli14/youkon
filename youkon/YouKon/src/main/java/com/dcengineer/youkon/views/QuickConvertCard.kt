@@ -44,7 +44,7 @@ class QuickConvertCard(
     }
 
     /// Provides a view modifier for a colored shadow if the selected view is highlighted in the onboarding screen
-    private fun <E : Enum<E>> Modifier.onboardingModifier(view: E): Modifier = composed {
+    private fun Modifier.onboardingModifier(view: QuickConvertViews): Modifier = composed {
         this.onboardingModifier(vm.highlightedView.value == view)
     }
 
