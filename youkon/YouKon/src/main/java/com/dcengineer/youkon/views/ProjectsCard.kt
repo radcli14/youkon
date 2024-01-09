@@ -26,11 +26,13 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.composed
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.dcengineer.youkon.YkProject
 import com.dcengineer.youkon.viewmodels.MainViewModel
 import com.dcengineer.youkon.viewmodels.ProjectsCardViewModel
+import com.dcengineer.youkon.viewmodels.ProjectsCardViews
 
 class ProjectsCard(
     private val vm: ProjectsCardViewModel = ProjectsCardViewModel(),
@@ -42,6 +44,7 @@ class ProjectsCard(
             color = MaterialTheme.colorScheme.surface.copy(alpha = 0.4f),
             shape = MaterialTheme.shapes.medium,
             modifier = Modifier
+                .onboardingModifier(ProjectsCardViews.SURFACE)
                 .fillMaxHeight()
                 .width(760.dp)
         ) {
@@ -64,6 +67,11 @@ class ProjectsCard(
                 cancelAction = { vm.cancelDelete() }
             )
         }
+    }
+
+    /// Provides a view modifier for a colored shadow if the selected view is highlighted in the onboarding screen
+    private fun Modifier.onboardingModifier(view: ProjectsCardViews): Modifier = composed {
+        this.onboardingModifier(vm.highlightedView.value == view)
     }
 
     @Composable
@@ -92,7 +100,7 @@ class ProjectsCard(
             Icon(
                 imageVector = Icons.Default.Add,
                 contentDescription = "Add a new project",
-                modifier = Modifier.editButtonModifier(),
+                modifier = Modifier.editButtonModifier().onboardingModifier(ProjectsCardViews.PLUS),
                 tint = MaterialTheme.colorScheme.primary
             )
         }
@@ -106,7 +114,7 @@ class ProjectsCard(
             Icon(
                 imageVector = Icons.Default.Remove,
                 contentDescription = "Allow deleting projects",
-                modifier = Modifier.editButtonModifier(),
+                modifier = Modifier.editButtonModifier().onboardingModifier(ProjectsCardViews.MINUS),
                 tint = MaterialTheme.colorScheme.primary
             )
         }

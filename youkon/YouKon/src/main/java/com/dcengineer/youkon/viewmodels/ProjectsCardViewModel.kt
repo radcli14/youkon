@@ -7,6 +7,10 @@ import androidx.lifecycle.ViewModel
 import com.dcengineer.youkon.YkProject
 import com.dcengineer.youkon.YkUser
 
+enum class ProjectsCardViews {
+    SURFACE, PLUS, MINUS, PROJECT
+}
+
 class ProjectsCardViewModel(var user: YkUser = YkUser()): ViewModel() {
     var projects: MutableState<Array<YkProject>> = mutableStateOf(user.projects.toTypedArray())
     val canSubtract = mutableStateOf(false)
@@ -71,5 +75,20 @@ class ProjectsCardViewModel(var user: YkUser = YkUser()): ViewModel() {
         showSubtractAlert.value = false
         projectToDelete.value = null
         canSubtract.value = false
+    }
+
+    /// When viewing the onboard screen, this modifies which view is highlighted
+    var highlightedView: MutableState<ProjectsCardViews?> = mutableStateOf(null)
+    fun highlight(view: ProjectsCardViews?) {
+        highlightedView.value = view
+    }
+    fun highlight(viewInt: Int?) {
+        when (viewInt) {
+            0 -> highlight(ProjectsCardViews.SURFACE)
+            1 -> highlight(ProjectsCardViews.PLUS)
+            2 -> highlight(ProjectsCardViews.MINUS)
+            3 -> highlight(ProjectsCardViews.PROJECT)
+            else -> highlight(view = null)
+        }
     }
 }
