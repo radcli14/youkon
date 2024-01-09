@@ -111,3 +111,11 @@ val animatedColor: Color
         )
         return color
     }
+
+/// Provides a view modifier for a colored shadow if the selected view is highlighted in the onboarding screen
+fun Modifier.onboardingModifier(isHighlighted: Boolean): Modifier = composed {
+    if (isHighlighted)
+        this.coloredShadow(animatedColor)
+    else
+        this
+}

@@ -14,6 +14,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.composed
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -28,7 +29,8 @@ class QuickConvertCard(
         Surface(
             color = MaterialTheme.colorScheme.surface.copy(alpha = 0.4f),
             shape = MaterialTheme.shapes.medium,
-            modifier = OnboardingModifier(QuickConvertViews.SURFACE)
+            modifier = Modifier
+                .onboardingModifier(QuickConvertViews.SURFACE)
                 .width(420.dp)
         ) {
             Column(
@@ -42,12 +44,8 @@ class QuickConvertCard(
     }
 
     /// Provides a view modifier for a colored shadow if the selected view is highlighted in the onboarding screen
-    @Composable
-    fun OnboardingModifier(view: QuickConvertViews): Modifier {
-        return if (vm.highlightedView.value == view)
-            Modifier.coloredShadow(animatedColor)
-        else
-            Modifier
+    private fun <E : Enum<E>> Modifier.onboardingModifier(view: E): Modifier = composed {
+        this.onboardingModifier(vm.highlightedView.value == view)
     }
 
     /// The label at the top of the card
@@ -64,15 +62,31 @@ class QuickConvertCard(
     @Composable
     private fun ContentGrid() {
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-            FromDropdown(OnboardingModifier(QuickConvertViews.FROM).weight(1f))
-            ToDropdown(OnboardingModifier(QuickConvertViews.TO).weight(1f))
+            FromDropdown(
+                modifier = Modifier
+                    .onboardingModifier(QuickConvertViews.FROM)
+                    .weight(1f)
+            )
+            ToDropdown(
+                modifier = Modifier
+                    .onboardingModifier(QuickConvertViews.TO)
+                    .weight(1f)
+            )
         }
         Row(
             horizontalArrangement = Arrangement.spacedBy(8.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            TextField(OnboardingModifier(QuickConvertViews.VALUE).weight(1f))
-            ConvertedText(OnboardingModifier(QuickConvertViews.CONVERTED).weight(1f))
+            TextField(
+                modifier = Modifier
+                    .onboardingModifier(QuickConvertViews.VALUE)
+                    .weight(1f)
+            )
+            ConvertedText(
+                modifier = Modifier
+                    .onboardingModifier(QuickConvertViews.CONVERTED)
+                    .weight(1f)
+            )
         }
     }
 
