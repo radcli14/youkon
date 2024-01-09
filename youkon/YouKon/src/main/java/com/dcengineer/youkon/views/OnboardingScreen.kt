@@ -146,6 +146,7 @@ class OnboardingScreen(
                 Tab(selected = index == viewModel.currentPage.intValue, onClick = {
                     viewModel.currentPage.intValue = index
                     viewModel.currentText.intValue = 0
+                    viewModel.updateHighlight()
                 }, modifier = Modifier.padding(16.dp)) {
                     TabIcon(index == viewModel.currentPage.intValue)
                 }
