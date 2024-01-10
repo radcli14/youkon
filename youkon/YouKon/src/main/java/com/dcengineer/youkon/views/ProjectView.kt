@@ -37,6 +37,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.dcengineer.youkon.ProjectExpansionLevel
 import com.dcengineer.youkon.R
@@ -46,6 +47,7 @@ import com.dcengineer.youkon.viewmodels.MainViewModel
 import com.dcengineer.youkon.viewmodels.ProjectViewModel
 import com.dcengineer.youkon.viewmodels.ProjectViewViews
 import com.dcengineer.youkon.viewmodels.ProjectsCardViews
+import com.dcengineer.youkon.wembyProject
 
 /// The `ProjectView` displays the data from a `YkProject`.
 /// Initially shown with an icon, name, and description, in "Compact" mode.
@@ -441,4 +443,12 @@ class ProjectView(
             }
         }
     }
+}
+
+@Preview
+@Composable
+fun ProjectViewPreview() {
+    val viewModel = ProjectViewModel(wembyProject())
+    viewModel.toggleExpansion()
+    ProjectView(viewModel).Body()
 }
