@@ -47,6 +47,7 @@ class ProjectsCardViewModel(var user: YkUser = YkUser()): ViewModel() {
         return pvc
     }
 
+    /// Used in the onboarding screen, requesting `projectViewModel()` without arguments gives the first as a default
     fun projectViewModel(): ProjectViewModel {
         return if (projects.value.isNotEmpty()) {
             projectViewModel(projects.value.first())
