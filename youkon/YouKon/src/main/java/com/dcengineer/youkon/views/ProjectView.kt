@@ -118,6 +118,7 @@ class ProjectView(
             modifier = if (vm.expansion.value != ProjectExpansionLevel.EDITABLE) {
                 Modifier
                     .fillMaxWidth()
+                    .onboardingModifier(ProjectViewViews.STATIC)
                     .clickable {
                         if (vm.expansion.value != ProjectExpansionLevel.EDITABLE) vm.toggleExpansion()
                     }
@@ -150,7 +151,7 @@ class ProjectView(
                 Divider(Modifier.padding(top = vm.divTopPadding))
                 SystemPicker()
                 ExpansionMenu()
-                ExpansionView()
+                ExpansionMeasurementsList()
             }
         }
     }
@@ -288,7 +289,7 @@ class ProjectView(
     }
 
     /// When the `DisclosureGroup` is expanded, this will be inside, and will either contain the editable content when opened in a `.sheet`, or static text
-    @Composable
+    /*@Composable
     private fun ExpansionView() {
         ExpansionMeasurements()
     }
@@ -296,7 +297,7 @@ class ProjectView(
     @Composable
     private fun ExpansionMeasurements() {
         ExpansionMeasurementsList()
-    }
+    }*/
 
     /// A `ForEach` corresponding to each of the measurements, in either editable or static form
     @Composable
@@ -305,8 +306,10 @@ class ProjectView(
 
         Column(
             modifier = if (vm.expansion.value == ProjectExpansionLevel.STATIC) {
-                Modifier.clickable {
-                    mainViewModel?.toggleEdit(vm.project.value)
+                Modifier
+                    .onboardingModifier(ProjectViewViews.STATIC_MEASUREMENTS)
+                    .clickable {
+                        mainViewModel?.toggleEdit(vm.project.value)
                     }
             } else {
                 Modifier

@@ -48,6 +48,15 @@ class MainView(
     private var projectsCardViewModel: ProjectsCardViewModel = ProjectsCardViewModel(),
     private var onboardingScreenViewModel: OnboardingScreenViewModel = OnboardingScreenViewModel()
 ) {
+
+    /// Initialize using the fake view models inside the onboarding screen
+    constructor(onboardingScreenViewModel: OnboardingScreenViewModel): this(
+        onboardingScreenViewModel.mainViewModel,
+        onboardingScreenViewModel.quickConvertCardViewModel,
+        onboardingScreenViewModel.projectsCardViewModel,
+        onboardingScreenViewModel
+    )
+
     @Composable
     fun Body() {
         YoukonTheme {

@@ -94,7 +94,8 @@ class OnboardingScreen(
         var helpHeaderVisible by remember { mutableStateOf(true) }
         val helpHeaderAlpha by animateFloatAsState(
             targetValue = if (helpHeaderVisible) 1f else 0f,
-            animationSpec = tween(durationMillis = viewModel.navTransitionTime)
+            animationSpec = tween(durationMillis = viewModel.navTransitionTime),
+            label = ""
         )
         LaunchedEffect(viewModel.helpHeader) {
             helpHeaderVisible = false
@@ -108,7 +109,8 @@ class OnboardingScreen(
         var helpTextVisible by remember { mutableStateOf(true) }
         val helpTextAlpha by animateFloatAsState(
             targetValue = if (helpTextVisible) 1f else 0f,
-            animationSpec = tween(durationMillis = 100 + viewModel.navTransitionTime)
+            animationSpec = tween(durationMillis = 100 + viewModel.navTransitionTime),
+            label = ""
         )
         LaunchedEffect(viewModel.helpText) {
             helpTextVisible = false
@@ -188,11 +190,7 @@ class OnboardingScreen(
             shadowElevation = 8.dp,
             border = BorderStroke(4.dp, MaterialTheme.colorScheme.primaryContainer)
         ) {
-            MainView(
-                viewModel.mainViewModel,
-                viewModel.quickConvertCardViewModel,
-                viewModel.projectsCardViewModel
-            ).BottomSheetLayout()
+            MainView(onboardingScreenViewModel = viewModel).BottomSheetLayout()
 
             // This box sits on top of the view, and is here to disable user input
             Box(Modifier.fillMaxSize().pointerInput(Unit) {})

@@ -16,6 +16,10 @@ class OnboardingScreenViewModel: ViewModel() {
     val projectsCardViewModel = ProjectsCardViewModel(mainViewModel.user)
     val quickConvertCardViewModel = QuickConvertCardViewModel()
 
+    init {
+        Log.d(tag, "initialized an OnboardingScreenViewModel")
+    }
+
     /// Open the dialog containing the onboarding screen
     fun openOnboarding() {
         Log.d(tag, "open onboarding screen")
@@ -29,26 +33,26 @@ class OnboardingScreenViewModel: ViewModel() {
     }
 
     private val helps = arrayOf(
-    "Welcome" to arrayOf("Thank you for trying the unit converter app designed for engineers"),
-    "Quick Convert Card" to arrayOf(
+        "Welcome" to arrayOf("Thank you for trying the unit converter app designed for engineers"),
+        "Quick Convert Card" to arrayOf(
             "Here you may instantly convert a single measurement to an equivalent unit",
             "1. Tap the `From` button in the upper left to select from a list of all available units in the app",
             "2. Tap the `To` button in the upper right to select from a list of units that may be converted given the `From` unit",
             "3. Enter a number in the lower left for a value in the `From` unit",
             "4. The converted value and unit are displayed in the lower right"
         ),
-    "Projects Card" to arrayOf(
+        "Projects Card" to arrayOf(
             "Here you may store all of your projects, each with multiple measurements, all converted to a consistent system of units",
             "1. Tap the `Plus` (+) button to add a new project",
             "2. Tap the `Minus` (-) button to enable subtracting a project, then tap the `X` button alongside to delete that project"
         ),
-    "Project View" to arrayOf(
+        "Project View" to arrayOf(
             "Here you will view the name, description, and measurements for an individual project",
             "1. Tap once on a project to expand it to show its list of measurements, and select a system of units",
             "2. Use the picker to toggle between multiple systems of units",
             "3. Tap on the list of measurements to open the editing screen for that project"
         ),
-    "Editable Project" to arrayOf(
+        "Editable Project" to arrayOf(
             "The bottom sheet expands to show a menu where you may modify data in this project",
             "1. Name and description fields for this project are at the top",
             "2. `Plus` (+) and `Minus` (-) are used to add and subtract measurements",
@@ -86,7 +90,19 @@ class OnboardingScreenViewModel: ViewModel() {
         quickConvertCardViewModel.highlight(if (currentPage.intValue == 1) currentText.intValue else null)
         projectsCardViewModel.highlight(if (currentPage.intValue == 2) currentText.intValue else null)
         val projectViewModel = projectsCardViewModel.projectViewModel()
-        projectViewModel.highlight(if (currentPage.intValue == 3) currentText.intValue else null)
+        when(currentPage.intValue) {
+            3 -> projectViewModel.highlightInProjectView(currentText.intValue)
+            4 -> {
+                Log.d(tag, "got to the editing page, mainViewModel.isEditingProject = ${mainViewModel.isEditingProject.value}")
+                if (mainViewModel.isEditingProject.value != true) {
+                    mainViewModel.toggleEdit(projectViewModel.project.value)
+                }
+                Log.d(tag, "  ${mainViewModel.isEditingProject.value}")
+                projectViewModel.highlightInEditableView(currentText.intValue)
+            }
+            else -> projectViewModel.highlight(null)
+        }
+
     }
 
     private val onLastPage: Boolean get() = currentPage.intValue >= lastHelpIndex

@@ -45,12 +45,12 @@ class MainActivity : ComponentActivity() {
             sharedPref.getString(quickConvertValueKey, "2.26")?.toDouble() ?: 2.26
         )
 
+        // The Projects card are dependent on user data that is contained in the `mainViewModel`
+        projectsCardViewModel = ProjectsCardViewModel(mainViewModel.user)
+
         // Specify whether the onboarding screen displays in wide (tablet) or narrow form (phones)
         val manager = getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
         onboardingScreenViewModel.isWide = manager.phoneType == TelephonyManager.PHONE_TYPE_NONE
-
-        // The Projects card are dependent on user data that is contained in the `mainViewModel`
-        projectsCardViewModel = ProjectsCardViewModel(mainViewModel.user)
 
         // Any time the user closes an editing dialog, save the user data to a json file
         mainViewModel.isEditingProject.observe(this) { isEditing ->
