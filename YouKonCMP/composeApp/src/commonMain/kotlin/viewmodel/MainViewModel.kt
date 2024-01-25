@@ -1,12 +1,12 @@
-package com.dcengineer.youkon.viewmodels
+package viewmodel
 
 import android.os.Environment
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.dcengineer.youkon.YkProject
-import com.dcengineer.youkon.YkUser
+import model.YkProject
+import model.YkUser
 import java.io.File
 
 class MainViewModel(loadDefault: Boolean = false): ViewModel() {
