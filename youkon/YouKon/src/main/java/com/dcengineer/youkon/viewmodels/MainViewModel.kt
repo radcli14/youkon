@@ -87,9 +87,9 @@ class MainViewModel(loadDefault: Boolean = false): ViewModel() {
 
     /// The user tapped the measurements in a project's disclosure group, toggle editable measurements sheet
     fun toggleEdit(projectToEdit: YkProject) {
-        Log.d(tag, "toggled edit to $project")
         _isEditingProject.value = isEditingProject.value == false
         project = if (isEditingProject.value == true) projectToEdit else null
+        Log.d(tag, "toggled edit to $project")
     }
 
     /// The user exited the bottom sheet, stop editing the project
