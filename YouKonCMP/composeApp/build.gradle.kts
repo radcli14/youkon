@@ -102,3 +102,9 @@ compose.desktop {
         }
     }
 }
+
+allprojects {
+    repositories {
+        mavenCentral()
+    }
+}

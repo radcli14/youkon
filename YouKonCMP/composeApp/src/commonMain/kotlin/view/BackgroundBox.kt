@@ -10,10 +10,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.ColorMatrix
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
-import com.dcengineer.youkon.R
+import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.painterResource
 
 /// Holds the background image, content overlaid on top of it
+@OptIn(ExperimentalResourceApi::class)
 @Composable
 fun BackgroundBox(content: @Composable () -> Unit) {
     Box(
@@ -21,7 +22,7 @@ fun BackgroundBox(content: @Composable () -> Unit) {
         contentAlignment = Alignment.TopCenter
     ) {
         Image(
-            painter = painterResource(id = R.drawable.background),
+            painter = painterResource("background.png"),
             contentDescription = "Background image of mountains",
             modifier = Modifier.fillMaxSize(),
             contentScale = ContentScale.Crop,
