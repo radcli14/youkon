@@ -1,6 +1,6 @@
 package view
 
-import android.annotation.SuppressLint
+//import android.annotation.SuppressLint
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.BorderStroke
@@ -43,8 +43,9 @@ import androidx.compose.ui.input.pointer.pointerInput
 //import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
-import androidx.constraintlayout.compose.ConstraintLayout
-import androidx.constraintlayout.compose.layoutId
+//import androidx.constraintlayout.compose.ConstraintLayout
+//import androidx.constraintlayout.compose.layoutId
+//import androidx.constraintlayout.widget.ConstraintLayout
 import viewmodel.OnboardingScreenViewModel
 import kotlinx.coroutines.delay
 
@@ -60,7 +61,7 @@ class OnboardingScreen(
             ),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            ConstraintLayout(
+            /*ConstraintLayout(
                 viewModel.constraints(),
                 modifier = Modifier
                     .fillMaxHeight(viewModel.dialogFillRatio)
@@ -71,7 +72,7 @@ class OnboardingScreen(
                 OnboardText(Modifier.layoutId("text"))
                 ScaledMainView(Modifier.layoutId("main"))
                 NavButton(Modifier.layoutId("nav"))
-            }
+            }*/
 
             Tabs()
         }
@@ -87,7 +88,7 @@ class OnboardingScreen(
     }
 
     /// Shows two lines of text at the top, with the title of the current screen, and some helpful text
-    @SuppressLint("UnusedContentLambdaTargetStateParameter")
+    //@SuppressLint("UnusedContentLambdaTargetStateParameter")
     @Composable
     fun OnboardText(modifier: Modifier = Modifier) {
         // The header text shows up at the top, and updates when the currentPage changes

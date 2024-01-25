@@ -88,6 +88,7 @@ android {
 }
 dependencies {
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
+    implementation(libs.androidx.constraintlayout)
     //implementation(compose.material3)
 }
 
