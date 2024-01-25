@@ -36,13 +36,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.res.painterResource
+//import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import model.ProjectExpansionLevel
 //import com.dcengineer.youkon.R
 import model.YkMeasurement
 import model.YkSystem
+import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.painterResource
 import viewmodel.MainViewModel
 import viewmodel.ProjectViewModel
 import viewmodel.ProjectViewViews
@@ -188,9 +190,10 @@ class ProjectView(
 
     /// Selects which icon to use when no image was provided in the project based on the project id,
     /// selecting from one of the 7 `noImageIcon` resources
-    private val noImageIconResource: Int
+    private val noImageIconResource: String // Int
         get() {
-            return when(vm.project.value.id.first().code % 7) {
+            return "noimageicons${vm.project.value.id.first().code}.png"
+            /*return when(vm.project.vanlue.id.first().code % 7) {
                 1 -> R.drawable.noimageicons1
                 2 -> R.drawable.noimageicons2
                 3 -> R.drawable.noimageicons3
@@ -198,10 +201,11 @@ class ProjectView(
                 5 -> R.drawable.noimageicons5
                 6 -> R.drawable.noimageicons6
                 else -> R.drawable.noimageicons0
-            }
+            }*/
         }
 
     /// The image representing the project, either a generic icon, or a user-specified image
+    @OptIn(ExperimentalResourceApi::class)
     @Composable
     private fun ProjectImage() {
         Surface(
@@ -210,7 +214,7 @@ class ProjectView(
             color = grayBackground
         ) {
             Image(
-                painter = painterResource(id = noImageIconResource),
+                painter = painterResource(noImageIconResource),
                 contentDescription = "Icon for ${vm.editedName.value}",
                 modifier = Modifier
                     .size(vm.imageSize)
