@@ -17,6 +17,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Clear
+import androidx.compose.material.icons.filled.Delete
 //import androidx.compose.material.icons.filled.Remove
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -112,7 +113,7 @@ class ProjectsCard(
             onClick = { vm.onSubtractButtonTap() }
         ) {
             Icon(
-                imageVector = Icons.Default.Remove,
+                imageVector = Icons.Default.Delete, // .Remove,
                 contentDescription = "Allow deleting projects",
                 modifier = Modifier.editButtonModifier().onboardingModifier(ProjectsCardViews.MINUS),
                 tint = MaterialTheme.colorScheme.primary
