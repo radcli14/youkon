@@ -1,4 +1,4 @@
-package com.dcengineer.youkon
+package model
 
 enum class YkColors(val hex: Long) {
     //BLACK(0xFF263238),

@@ -1,4 +1,4 @@
-package com.dcengineer.youkon
+package model
 
 /**
  * Defines a consistent system of units, such as SI (kg, m, N), imperial (slug, ft, lbf), etc.

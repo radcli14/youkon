@@ -1,4 +1,4 @@
-package com.dcengineer.youkon
+package model
 
 expect class UUIDGenerator()  {
     fun generateUUID(): String

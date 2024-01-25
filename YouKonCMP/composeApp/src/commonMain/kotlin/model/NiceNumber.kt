@@ -1,4 +1,4 @@
-package com.dcengineer.youkon
+package model
 
 import kotlin.math.abs
 import kotlin.math.round

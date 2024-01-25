@@ -1,4 +1,4 @@
-package com.dcengineer.youkon
+package model
 
 /**
  * The `YkType` enum class defines groupings of `YkUnit` types that represent that same form

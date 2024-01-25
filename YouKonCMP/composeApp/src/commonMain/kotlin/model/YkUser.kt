@@ -1,4 +1,4 @@
-package com.dcengineer.youkon
+package model
 import kotlinx.serialization.*
 import kotlinx.serialization.json.*
 
