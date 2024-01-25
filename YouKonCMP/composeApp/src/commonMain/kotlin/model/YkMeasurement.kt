@@ -1,4 +1,5 @@
 package model
+import UUIDGenerator
 import kotlinx.serialization.*
 import kotlinx.serialization.json.*
 
