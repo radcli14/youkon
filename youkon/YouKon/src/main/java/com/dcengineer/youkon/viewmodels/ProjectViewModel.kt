@@ -13,7 +13,7 @@ import com.dcengineer.youkon.YkUnit
 import kotlinx.coroutines.flow.MutableStateFlow
 
 enum class ProjectViewViews {
-    COMPACT, STATIC, SYSTEM_PICKER, STATIC_MEASUREMENTS, EDITABLE, PLUS, MINUS, LABEL_STACK
+    COMPACT, STATIC, SYSTEM_PICKER, STATIC_MEASUREMENTS, EDITABLE, LABEL_STACK, PLUS_MINUS
 }
 
 class ProjectViewModel(initialProject: YkProject = YkProject()): ViewModel() {
@@ -123,7 +123,9 @@ class ProjectViewModel(initialProject: YkProject = YkProject()): ViewModel() {
     }
     fun highlightInEditableView(viewInt: Int?) {
         when (viewInt) {
-            0 -> {}
+            0 -> highlight(ProjectViewViews.EDITABLE)
+            1 -> highlight(ProjectViewViews.LABEL_STACK)
+            2 -> highlight(ProjectViewViews.PLUS_MINUS)
             else -> highlight(null)
         }
     }
