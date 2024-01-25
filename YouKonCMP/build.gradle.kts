@@ -6,10 +6,3 @@ plugins {
     alias(libs.plugins.jetbrainsCompose) apply false
     alias(libs.plugins.kotlinMultiplatform) apply false
 }
-
-task("sharedCopy") {
-    copy {
-        from("../youkon/youkon/shared/src/commonMain/kotlin/com/dcengineer/youkon")
-        into("./composeApp/commonMain/kotlin/model")
-    }
-}

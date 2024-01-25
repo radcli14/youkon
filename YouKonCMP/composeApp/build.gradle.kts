@@ -5,6 +5,7 @@ plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsCompose)
+    kotlin("plugin.serialization") version "1.9.22"
 }
 
 kotlin {
@@ -43,6 +44,7 @@ kotlin {
             implementation(compose.ui)
             @OptIn(ExperimentalComposeLibrary::class)
             implementation(compose.components.resources)
+            implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0")
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
