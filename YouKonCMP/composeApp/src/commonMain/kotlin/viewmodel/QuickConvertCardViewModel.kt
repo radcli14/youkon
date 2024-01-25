@@ -1,4 +1,4 @@
-package com.dcengineer.youkon.viewmodels
+package viewmodel
 
 import android.util.Log
 import androidx.compose.runtime.MutableState
@@ -6,8 +6,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
-import com.dcengineer.youkon.YkMeasurement
-import com.dcengineer.youkon.YkUnit
+import model.YkMeasurement
+import model.YkUnit
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
 

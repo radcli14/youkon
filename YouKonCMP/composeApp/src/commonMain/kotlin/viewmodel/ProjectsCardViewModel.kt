@@ -1,11 +1,11 @@
-package com.dcengineer.youkon.viewmodels
+package viewmodel
 
 import android.util.Log
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
-import com.dcengineer.youkon.YkProject
-import com.dcengineer.youkon.YkUser
+import model.YkProject
+import model.YkUser
 
 enum class ProjectsCardViews {
     SURFACE, PLUS, MINUS, PROJECT

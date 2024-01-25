@@ -1,4 +1,4 @@
-package com.dcengineer.youkon.views
+package view
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -16,10 +16,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.dcengineer.youkon.viewmodels.QuickConvertCardViewModel
-import com.dcengineer.youkon.viewmodels.QuickConvertViews
+import viewmodel.QuickConvertCardViewModel
+import viewmodel.QuickConvertViews
 
 class QuickConvertCard(
     private val vm: QuickConvertCardViewModel = QuickConvertCardViewModel()
@@ -142,8 +141,10 @@ class QuickConvertCard(
     }
 }
 
+/*
 @Preview
 @Composable
 fun QuickConvertCardPreview() {
     QuickConvertCard().Body()
 }
+ */

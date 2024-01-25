@@ -1,4 +1,4 @@
-package com.dcengineer.youkon.viewmodels
+package viewmodel
 
 import android.util.Log
 import androidx.compose.runtime.mutableIntStateOf

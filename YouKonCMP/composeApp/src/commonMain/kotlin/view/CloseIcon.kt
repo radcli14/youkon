@@ -1,4 +1,4 @@
-package com.dcengineer.youkon.views
+package view
 
 import androidx.compose.animation.core.Animatable
 import androidx.compose.foundation.layout.size
@@ -12,7 +12,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.unit.dp
-import com.dcengineer.youkon.ProjectExpansionLevel
+import model.ProjectExpansionLevel
 
 /// A right arrow icon that rotates 90 deg when the project is expanded, to achieve an effect
 /// similar to a `DisclosureGroup` in iOS

@@ -40,11 +40,12 @@ kotlin {
         commonMain.dependencies {
             implementation(compose.runtime)
             implementation(compose.foundation)
-            implementation(compose.material)
+            implementation(compose.material3)
             implementation(compose.ui)
             @OptIn(ExperimentalComposeLibrary::class)
             implementation(compose.components.resources)
             implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0")
+            //implementation("androidx.compose.material:material-icons-extended:1.5.4")
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
@@ -87,6 +88,7 @@ android {
 }
 dependencies {
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
+    //implementation(compose.material3)
 }
 
 compose.desktop {

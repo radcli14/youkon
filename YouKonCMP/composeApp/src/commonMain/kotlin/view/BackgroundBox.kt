@@ -1,4 +1,4 @@
-package com.dcengineer.youkon.views
+package view
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.isSystemInDarkTheme

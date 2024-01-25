@@ -1,4 +1,4 @@
-package com.dcengineer.youkon.views
+package view
 
 import androidx.compose.animation.animateColor
 import androidx.compose.animation.core.LinearEasing
@@ -64,12 +64,12 @@ fun Modifier.coloredShadow(
             val paint = Paint()
             val frameworkPaint = paint.asFrameworkPaint()
             frameworkPaint.color = transparent
-            frameworkPaint.setShadowLayer(
+            /*frameworkPaint.setShadowLayer(
                 shadowRadius.toPx(),
                 offsetX.toPx(),
                 offsetY.toPx(),
                 shadowColor
-            )
+            )*/
             it.drawRoundRect(
                 0f,
                 0f,

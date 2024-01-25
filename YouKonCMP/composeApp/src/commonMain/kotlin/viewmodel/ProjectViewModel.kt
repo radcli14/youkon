@@ -1,15 +1,15 @@
-package com.dcengineer.youkon.viewmodels
+package viewmodel
 
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModel
-import com.dcengineer.youkon.ProjectExpansionLevel
-import com.dcengineer.youkon.YkMeasurement
-import com.dcengineer.youkon.YkProject
-import com.dcengineer.youkon.YkSystem
-import com.dcengineer.youkon.YkUnit
+import model.ProjectExpansionLevel
+import model.YkMeasurement
+import model.YkProject
+import model.YkSystem
+import model.YkUnit
 import kotlinx.coroutines.flow.MutableStateFlow
 
 enum class ProjectViewViews {

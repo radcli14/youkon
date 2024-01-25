@@ -1,6 +1,5 @@
-package com.dcengineer.youkon.views
+package view
 
-import android.annotation.SuppressLint
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
@@ -11,7 +10,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
-import androidx.compose.material.icons.rounded.QuestionMark
+//import androidx.compose.material.icons.rounded.QuestionMark
 import androidx.compose.material3.BottomSheetScaffold
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
@@ -31,14 +30,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.tooling.preview.Preview
+//import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.dcengineer.youkon.ProjectExpansionLevel
-import com.dcengineer.youkon.YoukonTheme
-import com.dcengineer.youkon.viewmodels.MainViewModel
-import com.dcengineer.youkon.viewmodels.OnboardingScreenViewModel
-import com.dcengineer.youkon.viewmodels.ProjectsCardViewModel
-import com.dcengineer.youkon.viewmodels.QuickConvertCardViewModel
+import model.ProjectExpansionLevel
+import YoukonTheme
+import androidx.compose.material.icons.rounded.Info
+import viewmodel.MainViewModel
+import viewmodel.OnboardingScreenViewModel
+import viewmodel.ProjectsCardViewModel
+import viewmodel.QuickConvertCardViewModel
 import kotlinx.coroutines.launch
 
 
@@ -119,7 +119,6 @@ class MainView(
     }
 
     /// Modifier used to close the bottom sheet when tapping outside of it
-    @SuppressLint("UnnecessaryComposedModifier")
     private fun Modifier.tapOutside() = composed {
         Modifier.pointerInput(Unit) {
             detectTapGestures(
@@ -186,12 +185,14 @@ class MainView(
 
     @Composable
     private fun closeButtonIcon(isBottomSheetExpanded: Boolean?): ImageVector {
-        return if (isBottomSheetExpanded == true) Icons.Filled.Check else Icons.Rounded.QuestionMark
+        return if (isBottomSheetExpanded == true) Icons.Filled.Check else Icons.Rounded.Info
     }
 }
 
+/*
 @Preview
 @Composable
 fun DefaultPreview() {
     MainView().Body()
 }
+ */

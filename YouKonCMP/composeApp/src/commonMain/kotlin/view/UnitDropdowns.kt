@@ -1,4 +1,4 @@
-package com.dcengineer.youkon.views
+package view
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -14,9 +14,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.dcengineer.youkon.YkUnit
+import model.YkUnit
 
 class UnitDropdown(
     val unit: YkUnit,
@@ -89,8 +88,10 @@ class UnitDropdown(
     }
 }
 
+/*
 @Preview
 @Composable
 fun UnitDropdownPreview() {
     UnitDropdown(YkUnit.METERS, YkUnit.METERS.allUnits).Body()
 }
+ */

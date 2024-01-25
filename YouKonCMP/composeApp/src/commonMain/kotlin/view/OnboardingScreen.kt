@@ -1,4 +1,4 @@
-package com.dcengineer.youkon.views
+package view
 
 import android.annotation.SuppressLint
 import androidx.compose.animation.core.animateFloatAsState
@@ -16,8 +16,9 @@ import androidx.compose.foundation.layout.requiredSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material.icons.filled.Check
-import androidx.compose.material.icons.filled.NavigateNext
+//import androidx.compose.material.icons.filled.NavigateNext
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -39,12 +40,12 @@ import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.tooling.preview.Preview
+//import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.layoutId
-import com.dcengineer.youkon.viewmodels.OnboardingScreenViewModel
+import viewmodel.OnboardingScreenViewModel
 import kotlinx.coroutines.delay
 
 class OnboardingScreen(
@@ -212,11 +213,12 @@ class OnboardingScreen(
 
     @Composable
     fun navButtonIcon(): ImageVector {
-        return if (viewModel.onLastBeforeExit) Icons.Default.Check else Icons.Default.NavigateNext
+        return if (viewModel.onLastBeforeExit) Icons.Default.Check else Icons.Default.ArrowForward
     }
 
 }
 
+/*
 @Preview
 @Composable
 fun OnboardingPreview() {
@@ -224,3 +226,4 @@ fun OnboardingPreview() {
     viewModel.isWide = false
     OnboardingScreen(viewModel).Body()
 }
+*/

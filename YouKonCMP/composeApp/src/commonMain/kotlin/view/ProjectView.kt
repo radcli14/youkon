@@ -1,4 +1,4 @@
-package com.dcengineer.youkon.views
+package view
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.expandVertically
@@ -19,7 +19,8 @@ import androidx.compose.foundation.shape.CornerBasedShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Clear
-import androidx.compose.material.icons.filled.Remove
+import androidx.compose.material.icons.filled.Delete
+//import androidx.compose.material.icons.filled.Remove
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Divider
@@ -37,17 +38,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.dcengineer.youkon.ProjectExpansionLevel
-import com.dcengineer.youkon.R
-import com.dcengineer.youkon.YkMeasurement
-import com.dcengineer.youkon.YkSystem
-import com.dcengineer.youkon.viewmodels.MainViewModel
-import com.dcengineer.youkon.viewmodels.ProjectViewModel
-import com.dcengineer.youkon.viewmodels.ProjectViewViews
-import com.dcengineer.youkon.viewmodels.ProjectsCardViews
-import com.dcengineer.youkon.wembyProject
+import model.ProjectExpansionLevel
+//import com.dcengineer.youkon.R
+import model.YkMeasurement
+import model.YkSystem
+import viewmodel.MainViewModel
+import viewmodel.ProjectViewModel
+import viewmodel.ProjectViewViews
 
 /// The `ProjectView` displays the data from a `YkProject`.
 /// Initially shown with an icon, name, and description, in "Compact" mode.
@@ -415,7 +413,7 @@ class ProjectView(
             onClick = { vm.subtractMeasurement() }
         ) {
             Icon(
-                imageVector = Icons.Default.Remove,
+                imageVector = Icons.Default.Delete, // .Remove,
                 contentDescription = "Allow deleting measurements",
                 modifier = Modifier.editButtonModifier(),
                 tint = MaterialTheme.colorScheme.primary
@@ -448,6 +446,7 @@ class ProjectView(
     }
 }
 
+/*
 @Preview
 @Composable
 fun ProjectViewPreview() {
@@ -455,3 +454,5 @@ fun ProjectViewPreview() {
     viewModel.toggleExpansion()
     ProjectView(viewModel).Body()
 }
+
+ */

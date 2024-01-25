@@ -1,4 +1,4 @@
-package com.dcengineer.youkon.views
+package view
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Arrangement
@@ -17,7 +17,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Clear
-import androidx.compose.material.icons.filled.Remove
+//import androidx.compose.material.icons.filled.Remove
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -29,10 +29,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.dcengineer.youkon.YkProject
-import com.dcengineer.youkon.viewmodels.MainViewModel
-import com.dcengineer.youkon.viewmodels.ProjectsCardViewModel
-import com.dcengineer.youkon.viewmodels.ProjectsCardViews
+import model.YkProject
+import viewmodel.MainViewModel
+import viewmodel.ProjectsCardViewModel
+import viewmodel.ProjectsCardViews
 
 class ProjectsCard(
     private val vm: ProjectsCardViewModel = ProjectsCardViewModel(),

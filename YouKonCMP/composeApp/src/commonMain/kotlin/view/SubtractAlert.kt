@@ -1,7 +1,7 @@
-package com.dcengineer.youkon.views
+package view
 
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.DeleteForever
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -17,7 +17,7 @@ fun SubtractAlert(
     cancelAction: () -> Unit
 ) {
     AlertDialog(
-        icon = { Icon(Icons.Default.DeleteForever, contentDescription = "Delete Icon") },
+        icon = { Icon(Icons.Default.Delete, contentDescription = "Delete Icon") },
         title = { Text("Delete $title") },
         text = { Text("Are you sure?") },
         onDismissRequest = { cancelAction() },
