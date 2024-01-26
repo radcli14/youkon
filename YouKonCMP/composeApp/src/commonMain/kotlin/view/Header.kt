@@ -35,7 +35,7 @@ fun Header() {
         verticalAlignment = Alignment.CenterVertically
     ) {
         Image(
-            painter = painterResource("res/drawable/icon_clearbackground.png"), //(id = R.drawable.icon_clearbackground),
+            painter = painterResource("icon_clearbackground.png"), //(id = R.drawable.icon_clearbackground),
             contentDescription = "App icon",
             modifier = Modifier.width(90.dp),
             colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground)

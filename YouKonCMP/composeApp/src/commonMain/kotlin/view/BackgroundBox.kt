@@ -22,7 +22,7 @@ fun BackgroundBox(content: @Composable () -> Unit) {
         contentAlignment = Alignment.TopCenter
     ) {
         Image(
-            painter = painterResource("res/drawable/background.png"),
+            painter = painterResource("background.png"),
             contentDescription = "Background image of mountains",
             modifier = Modifier.fillMaxSize(),
             contentScale = ContentScale.Crop,

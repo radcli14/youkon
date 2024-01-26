@@ -192,7 +192,7 @@ class ProjectView(
     /// selecting from one of the 7 `noImageIcon` resources
     private val noImageIconResource: String // Int
         get() {
-            return "res/drawable/noimageicons${vm.project.value.id.first().code % 7}.png"
+            return "noimageicons${vm.project.value.id.first().code % 7}.png"
             /*return when(vm.project.value.id.first().code % 7) {
                 1 -> R.drawable.noimageicons1
                 2 -> R.drawable.noimageicons2
