@@ -4,7 +4,7 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.ViewModel
+//import androidx.lifecycle.ViewModel
 import model.ProjectExpansionLevel
 import model.YkMeasurement
 import model.YkProject
@@ -16,7 +16,7 @@ enum class ProjectViewViews {
     COMPACT, STATIC, SYSTEM_PICKER, STATIC_MEASUREMENTS, EDITABLE, LABEL_STACK, PLUS_MINUS
 }
 
-class ProjectViewModel(initialProject: YkProject = YkProject()): ViewModel() {
+class ProjectViewModel(initialProject: YkProject = YkProject()) { //: ViewModel() {
     val project = MutableStateFlow(initialProject)
     val editedName = mutableStateOf(initialProject.name)
     val editedDescription = mutableStateOf(initialProject.about)

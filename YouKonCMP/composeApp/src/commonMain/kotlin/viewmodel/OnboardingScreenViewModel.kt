@@ -1,14 +1,14 @@
 package viewmodel
 
-import android.util.Log
+//import android.util.Log
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import androidx.constraintlayout.compose.ConstraintSet
-import androidx.lifecycle.ViewModel
+//import androidx.constraintlayout.compose.ConstraintSet
+//import androidx.lifecycle.ViewModel
 
-class OnboardingScreenViewModel: ViewModel() {
+class OnboardingScreenViewModel { //: ViewModel() {
     private val tag = "OnboardingScreenViewModel"
     val showOnboarding = mutableStateOf(false)
 
@@ -16,19 +16,21 @@ class OnboardingScreenViewModel: ViewModel() {
     val projectsCardViewModel = ProjectsCardViewModel(mainViewModel.user)
     val quickConvertCardViewModel = QuickConvertCardViewModel()
 
+    /*
     init {
         Log.d(tag, "initialized an OnboardingScreenViewModel")
     }
+     */
 
     /// Open the dialog containing the onboarding screen
     fun openOnboarding() {
-        Log.d(tag, "open onboarding screen")
+        //Log.d(tag, "open onboarding screen")
         showOnboarding.value = true
     }
 
     /// Close the dialog containing the onboarding screen
     fun closeOnboarding() {
-        Log.d(tag, "closed onboarding screen")
+        //Log.d(tag, "closed onboarding screen")
         showOnboarding.value = false
     }
 
@@ -71,7 +73,7 @@ class OnboardingScreenViewModel: ViewModel() {
     var currentPage = mutableIntStateOf(0)
     var currentText = mutableIntStateOf(0)
     fun incrementPage() {
-        Log.d(tag, "Incrementing onboarding page\n  From: ${currentPage.intValue}-${currentText.intValue}")
+        //Log.d(tag, "Incrementing onboarding page\n  From: ${currentPage.intValue}-${currentText.intValue}")
         if (onLastBeforeExit) {
             currentPage.intValue = 0
             currentText.intValue = 0
@@ -83,7 +85,7 @@ class OnboardingScreenViewModel: ViewModel() {
             currentText.intValue += 1
         }
         updateHighlight()
-        Log.d(tag, "  To: ${currentPage.intValue}-${currentText.intValue}")
+        //Log.d(tag, "  To: ${currentPage.intValue}-${currentText.intValue}")
     }
 
     fun updateHighlight() {
@@ -93,11 +95,13 @@ class OnboardingScreenViewModel: ViewModel() {
         when(currentPage.intValue) {
             3 -> projectViewModel.highlightInProjectView(currentText.intValue)
             4 -> {
+                /*
                 Log.d(tag, "got to the editing page, mainViewModel.isEditingProject = ${mainViewModel.isEditingProject.value}")
                 if (mainViewModel.isEditingProject.value != true) {
                     mainViewModel.toggleEdit(projectViewModel.project.value)
                 }
                 Log.d(tag, "  ${mainViewModel.isEditingProject.value}")
+                */
                 projectViewModel.highlightInEditableView(currentText.intValue)
             }
             else -> projectViewModel.highlight(null)
@@ -129,6 +133,7 @@ class OnboardingScreenViewModel: ViewModel() {
     val constraintPadding: Dp get() = if (isWide) 16.dp else 0.dp
 
     private val constraintChangeIndex = 1
+    /*
     fun constraints(): ConstraintSet {
         return if (currentPage.intValue <= constraintChangeIndex) {
             ConstraintSet {
@@ -170,4 +175,5 @@ class OnboardingScreenViewModel: ViewModel() {
              }
         }
     }
+     */
 }

@@ -34,7 +34,7 @@ kotlin {
         val desktopMain by getting
         
         androidMain.dependencies {
-            implementation(libs.compose.ui.tooling.preview)
+            //implementation(libs.compose.ui.tooling.preview)
             implementation(libs.androidx.activity.compose)
         }
         commonMain.dependencies {
@@ -45,7 +45,7 @@ kotlin {
             @OptIn(ExperimentalComposeLibrary::class)
             implementation(compose.components.resources)
             implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0")
-            //implementation("androidx.compose.material:material-icons-extended:1.5.4")
+            //implementation("androidx.compose.material:material-icons-extended:1.6.0")
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
@@ -89,7 +89,8 @@ android {
 dependencies {
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.constraintlayout)
-    //implementation(compose.material3)
+    implementation(libs.androidx.lifecycle.livedata.core.ktx)
+    implementation(compose.material3)
 }
 
 compose.desktop {
@@ -106,6 +107,7 @@ compose.desktop {
 
 allprojects {
     repositories {
+        google()
         mavenCentral()
     }
 }

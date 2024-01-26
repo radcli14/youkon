@@ -1,11 +1,11 @@
 package viewmodel
 
-import android.util.Log
+//import android.util.Log
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import androidx.lifecycle.ViewModel
+//import androidx.lifecycle.ViewModel
 import model.YkMeasurement
 import model.YkUnit
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -18,7 +18,7 @@ enum class QuickConvertViews {
 
 class QuickConvertCardViewModel(
     initialMeasurement: YkMeasurement = YkMeasurement(2.26, YkUnit.METERS)
-): ViewModel() {
+) {//: ViewModel() {
     val measurement = MutableStateFlow(initialMeasurement)
 
     val unit: YkUnit get() = measurement.value.unit
@@ -33,7 +33,7 @@ class QuickConvertCardViewModel(
 
     /// When the user modifies the value in the `MeasurementTextField` update the `value`
     fun updateValue(newValue: Double) {
-        Log.d(tag, "value updated from $value to $newValue")
+        //Log.d(tag, "value updated from $value to $newValue")
         measurement.update { currentMeasurement ->
             currentMeasurement.copy(value = newValue)
         }
@@ -43,7 +43,7 @@ class QuickConvertCardViewModel(
     /// When the user modifies the `From` dropdown, update the `measurement.unit`
     fun updateUnit(newUnit: YkUnit?) {
         newUnit?.let {
-            Log.d(tag, "unit updated from $unit to $it")
+            //Log.d(tag, "unit updated from $unit to $it")
             measurement.update { currentMeasurement ->
                 currentMeasurement.copy(unit = it)
             }
@@ -56,7 +56,7 @@ class QuickConvertCardViewModel(
     /// When the user modifies the `To` dropdown, update the `targetUnit`
     fun updateTargetUnit(newUnit: YkUnit?) {
         newUnit?.let {
-            Log.d(tag, "targetUnit updated from $targetUnit to $it")
+            //Log.d(tag, "targetUnit updated from $targetUnit to $it")
             targetUnit = it
             updateConvertedText()
         }
@@ -65,7 +65,7 @@ class QuickConvertCardViewModel(
     /// When a new value is received, update the text at the bottom of the card
     private fun updateConvertedText() {
         val newText = measurement.value.unitAndConversion(targetUnit)
-        Log.d(tag, "convertedText updated from $convertedText to $newText")
+        //Log.d(tag, "convertedText updated from $convertedText to $newText")
         convertedText = newText
     }
 

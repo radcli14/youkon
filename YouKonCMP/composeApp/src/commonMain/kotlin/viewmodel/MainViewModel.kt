@@ -1,17 +1,17 @@
 package viewmodel
 
-import android.os.Environment
-import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+//import android.os.Environment
+//import android.util.Log
+//import androidx.lifecycle.LiveData
+//import androidx.lifecycle.MutableLiveData
+//import androidx.lifecycle.ViewModel
 import model.YkProject
 import model.YkUser
-import java.io.File
+//import java.io.File
 
-class MainViewModel(loadDefault: Boolean = false): ViewModel() {
-    private val _isEditingProject = MutableLiveData(false)
-    val isEditingProject: LiveData<Boolean> = _isEditingProject
+class MainViewModel(loadDefault: Boolean = false) {//: ViewModel() {
+    //private val _isEditingProject = MutableLiveData(false)
+    //val isEditingProject: LiveData<Boolean> = _isEditingProject
     var project: YkProject? = null
     var user = YkUser()
 
@@ -19,7 +19,7 @@ class MainViewModel(loadDefault: Boolean = false): ViewModel() {
 
     init {
         user = if (loadDefault) defaultUser else savedUser
-        Log.d(tag, "Initial User State\n==================\n\n" + user.asJsonString() + "\n\n")
+        //Log.d(tag, "Initial User State\n==================\n\n" + user.asJsonString() + "\n\n")
         saveUserToJson()
     }
 
@@ -46,17 +46,20 @@ class MainViewModel(loadDefault: Boolean = false): ViewModel() {
     val savedUser: YkUser
         get() {
             try {
+                /*
                 val contents = workingFile.readText()
                 YkUser().fromJsonString(contents)?.let { savedUser ->
                     return savedUser
                 }
+                 */
             } catch (err: Exception) {
-                Log.d(tag, "Failed to load the saved YkUser, falling back to a default user")
+                //Log.d(tag, "Failed to load the saved YkUser, falling back to a default user")
             }
             return defaultUser
         }
 
     /// The URL where the user data file will be stored
+    /*
     val documentsUrl: File
         get() {
             return File(
@@ -64,14 +67,18 @@ class MainViewModel(loadDefault: Boolean = false): ViewModel() {
                 "YouKon"
             )
         }
+     */
 
+    /*
     /// The working file, which will be imported on startup, and saved any time the user modifies the data
     val workingFile: File
         get() = File("${documentsUrl.absolutePath}/userdata.json")
+    */
 
     /// Save the current `YkUser` to a `.json` file
     fun saveUserToJson() {
         val jsonString = user.asJsonString()
+        /*
         try {
             if (!workingFile.exists()) {
                 // If the file doesn't exist, try creating it along with the necessary directories
@@ -83,19 +90,24 @@ class MainViewModel(loadDefault: Boolean = false): ViewModel() {
             Log.d(tag,"Save failed because $exception")
             exception.printStackTrace()
         }
+         */
     }
 
     /// The user tapped the measurements in a project's disclosure group, toggle editable measurements sheet
     fun toggleEdit(projectToEdit: YkProject) {
+        /*
         _isEditingProject.value = isEditingProject.value == false
         project = if (isEditingProject.value == true) projectToEdit else null
         Log.d(tag, "toggled edit to $project")
+         */
     }
 
     /// The user exited the bottom sheet, stop editing the project
     fun stopEditing() {
+        /*
         Log.d(tag, "stopped editing ${project?.name}")
         _isEditingProject.value = false
+         */
         project = null
     }
 

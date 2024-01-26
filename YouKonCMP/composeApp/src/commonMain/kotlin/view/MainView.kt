@@ -97,6 +97,7 @@ class MainView(
 
         // React to changes in mainViewModel.isEditingProject by expanding or collapsing
         val scope = rememberCoroutineScope()
+        /*
         val isBottomSheetExpanded by mainViewModel.isEditingProject.observeAsState()
         LaunchedEffect(isBottomSheetExpanded) {
             if (isBottomSheetExpanded == true) {
@@ -105,6 +106,7 @@ class MainView(
                 scope.launch { scaffoldState.bottomSheetState.hide() }
             }
         }
+         */
 
         BottomSheetScaffold(
             scaffoldState = scaffoldState,
@@ -160,25 +162,31 @@ class MainView(
     /// or close the sheet to conclude editing a project
     @Composable
     private fun ActionButton(modifier: Modifier = Modifier) {
+        /*
         val isBottomSheetExpanded by mainViewModel.isEditingProject.observeAsState()
+         */
         val showOnboarding by remember { onboardingScreenViewModel.showOnboarding }
         AnimatedVisibility(!showOnboarding,
             modifier = modifier.padding(16.dp)
         ) {
             FloatingActionButton(
                 onClick = {
+                    /*
                     if (isBottomSheetExpanded == true) {
                         mainViewModel.stopEditing()
                     } else {
                         onboardingScreenViewModel.openOnboarding()
                     }
+                     */
               },
                 containerColor = MaterialTheme.colorScheme.primaryContainer
             ) {
+                /*
                 Icon(
                     closeButtonIcon(isBottomSheetExpanded),
                     contentDescription = "Open a help dialog, or confirm and close the edit dialog."
                 )
+                 */
             }
         }
     }
