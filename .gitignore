@@ -1,6 +1,9 @@
 # My additions
 .DS_Store
 *.xcf
+assets/storemedia
+key/
+youkon/YouKon/release/
 
 # Gradle files
 .gradle/
