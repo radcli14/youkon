@@ -1,9 +1,9 @@
 import SwiftUI
-import shared
+import ComposeApp
 
 /// The main app content includingm a `Header`, `QuickConvertCard`, and `ProjectsCard`.
 /// Includes a background image, a sheet for editing a project, gestures, and toolbar itesms.
-struct ContentView: View {
+struct YouKonView: View {
     @Environment(\.colorScheme) var colorScheme
     
     @StateObject var contentViewController = ContentViewController()
