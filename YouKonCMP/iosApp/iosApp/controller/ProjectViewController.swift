@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import shared
+import ComposeApp
 
 /// Controller for the `ProjectView` with methods that are invoked when editing fields or tapping buttons
 class ProjectViewController: ObservableObject {

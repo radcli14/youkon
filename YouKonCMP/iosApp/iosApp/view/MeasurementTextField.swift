@@ -1,5 +1,5 @@
 import SwiftUI
-import shared
+import ComposeApp
 
 
 /// A custom styled `TextField` where the text tracks with the value of a `measurement`

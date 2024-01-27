@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import shared
+import ComposeApp
 
 extension YkUnit {
     var toString: String {

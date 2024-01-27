@@ -7,7 +7,7 @@
 //
 
 import SwiftUI
-import shared
+import ComposeApp
 
 /// The quick convert card is shown at the top of the screen, and lets the user convert a single measurement value from any unit to any equivalent unit.
 struct QuickConvertCard: View {

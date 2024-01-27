@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import shared
+import ComposeApp
 
 extension KotlinArray<YkUnit> {
     var asSwiftArray: [YkUnit] {

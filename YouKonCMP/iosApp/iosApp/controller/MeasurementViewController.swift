@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import shared
+import ComposeApp
 
 class MeasurementViewController: ObservableObject {
     @Published var measurement: YkMeasurement

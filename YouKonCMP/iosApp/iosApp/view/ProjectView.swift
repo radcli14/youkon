@@ -8,7 +8,7 @@
 
 import Foundation
 import SwiftUI
-import shared
+import ComposeApp
 
 /// For a single project, this will be a tile in the `ProjectsCard` with its name and description, and a list representing each of its measurements.
 /// The list is presented inside a `DisclosureGroup` which shows the name,  description, and value when expanded.

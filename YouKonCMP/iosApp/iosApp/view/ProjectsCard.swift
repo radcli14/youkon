@@ -7,7 +7,7 @@
 //
 
 import SwiftUI
-import shared
+import ComposeApp
 
 struct ProjectsCard: View {
     @ObservedObject var vc: ProjectsCardController

@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import shared
+import ComposeApp
 
 /// The `ContentViewController` is instantiated inside the primary `ContentView`, and provides the `YkUser` data to lower level controllers. Also, if a call is received to toggle editing, this will trigger opening the bottom sheet.
 class ContentViewController: ObservableObject {
