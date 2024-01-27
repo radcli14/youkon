@@ -2,24 +2,19 @@ package com.dcengineer.youkon
 
 import android.content.Context
 import android.os.Bundle
-import android.telephony.TelephonyManager
 import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.viewModels
-import com.dcengineer.youkon.viewmodels.MainViewModel
-import com.dcengineer.youkon.viewmodels.OnboardingScreenViewModel
-import com.dcengineer.youkon.viewmodels.ProjectsCardViewModel
-import com.dcengineer.youkon.viewmodels.QuickConvertCardViewModel
-import com.dcengineer.youkon.views.MainView
+import view.MainView
 
 
 class MainActivity : ComponentActivity() {
+    /*
     private val mainViewModel: MainViewModel by viewModels()
     private val quickConvertCardViewModel: QuickConvertCardViewModel by viewModels()
     private lateinit var projectsCardViewModel: ProjectsCardViewModel
     private val onboardingScreenViewModel: OnboardingScreenViewModel by viewModels()
-
+    */
     private val tag = "MainViewModel"
     private val showOnboardingKey = "showOnboarding"
     private val quickConvertUnitKey = "quickConvertUnit"
@@ -32,9 +27,11 @@ class MainActivity : ComponentActivity() {
         // Get saved state of the quick convert card from last time the app was open
         val sharedPref = getPreferences(Context.MODE_PRIVATE) ?: return
         Log.d(tag, "Loaded shared preferences: ${sharedPref.all}")
+        /*
         if (sharedPref.getBoolean(showOnboardingKey, true)) {
             onboardingScreenViewModel.openOnboarding()
         }
+
         quickConvertCardViewModel.updateUnit(
             YkUnit.valueOf(sharedPref.getString(quickConvertUnitKey, "METERS") ?: "METERS")
         )
@@ -58,13 +55,13 @@ class MainActivity : ComponentActivity() {
                 mainViewModel.saveUserToJson()
             }
         }
-
+        */
         setContent {
             MainView(
-                mainViewModel,
-                quickConvertCardViewModel,
-                projectsCardViewModel,
-                onboardingScreenViewModel
+                //mainViewModel,
+                //quickConvertCardViewModel,
+                //projectsCardViewModel,
+                //onboardingScreenViewModel
             ).Body()
         }
     }
@@ -75,9 +72,11 @@ class MainActivity : ComponentActivity() {
         val sharedPref = getPreferences(Context.MODE_PRIVATE) ?: return
         with (sharedPref.edit()) {
             putBoolean(showOnboardingKey, false)
+            /*
             putString(quickConvertUnitKey, quickConvertCardViewModel.unit.toString())
             putString(quickConvertTargetKey, quickConvertCardViewModel.targetUnit.toString())
             putString(quickConvertValueKey, quickConvertCardViewModel.value.toString())
+            */
             apply()
             commit()
         }
@@ -85,3 +84,11 @@ class MainActivity : ComponentActivity() {
         Log.d(tag, "Destroyed the main activity")
     }
 }
+
+/*
+@Preview
+@Composable
+fun AppAndroidPreview() {
+    App()
+}
+ */
