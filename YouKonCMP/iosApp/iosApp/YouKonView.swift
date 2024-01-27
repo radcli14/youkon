@@ -80,8 +80,8 @@ struct YouKonView: View {
     }
 }
 
-struct ContentView_Previews: PreviewProvider {
+struct YoukonView_Previews: PreviewProvider {
 	static var previews: some View {
-		ContentView()
+		YouKonView()
 	}
 }
