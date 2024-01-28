@@ -1,9 +1,8 @@
 package viewmodel
 
-//import android.util.Log
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
-//import androidx.lifecycle.ViewModel
+import dev.icerock.moko.mvvm.viewmodel.ViewModel
 import model.YkProject
 import model.YkUser
 
@@ -11,7 +10,7 @@ enum class ProjectsCardViews {
     SURFACE, PLUS, MINUS, PROJECT
 }
 
-class ProjectsCardViewModel(var user: YkUser = YkUser()) {//: ViewModel() {
+class ProjectsCardViewModel(var user: YkUser = YkUser()) : ViewModel() {
     var projects: MutableState<Array<YkProject>> = mutableStateOf(user.projects.toTypedArray())
     val canSubtract = mutableStateOf(false)
     val showSubtractAlert = mutableStateOf(false)
@@ -34,7 +33,7 @@ class ProjectsCardViewModel(var user: YkUser = YkUser()) {//: ViewModel() {
     fun addProject() {
         user.addProject()
         updateProjects()
-        //Log.d(tag, "added a new project: ${projects.value}")
+        Log.d(tag, "added a new project: ${projects.value}")
     }
 
     /// To persist the `ProjectViewModel` inside the project card, it is retained in the `pvcDict`

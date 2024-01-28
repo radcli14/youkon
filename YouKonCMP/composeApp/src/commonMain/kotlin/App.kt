@@ -9,13 +9,11 @@ import viewmodel.QuickConvertCardViewModel
 fun App(
     mainViewModel: MainViewModel = MainViewModel(),
     quickConvertCardViewModel: QuickConvertCardViewModel = QuickConvertCardViewModel(),
-    projectsCardViewModel: ProjectsCardViewModel = ProjectsCardViewModel(),
     onboardingScreenViewModel: OnboardingScreenViewModel = OnboardingScreenViewModel()
 ) {
     MainView(
         mainViewModel,
         quickConvertCardViewModel,
-        projectsCardViewModel,
         onboardingScreenViewModel
     ).Body()
 }

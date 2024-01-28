@@ -2,21 +2,22 @@ package com.dcengineer.youkon
 
 import android.content.Context
 import android.os.Bundle
+import android.telephony.TelephonyManager
 import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import model.YkUnit
 import view.MainView
+import viewmodel.MainViewModel
+import viewmodel.OnboardingScreenViewModel
+import viewmodel.ProjectsCardViewModel
 import viewmodel.QuickConvertCardViewModel
 
 
 class MainActivity : ComponentActivity() {
-    /*
     private val mainViewModel: MainViewModel by viewModels()
-    private lateinit var projectsCardViewModel: ProjectsCardViewModel
     private val onboardingScreenViewModel: OnboardingScreenViewModel by viewModels()
-    */
     private val quickConvertCardViewModel: QuickConvertCardViewModel by viewModels()
 
     private val tag = "MainViewModel"
@@ -32,6 +33,10 @@ class MainActivity : ComponentActivity() {
         val sharedPref = getPreferences(Context.MODE_PRIVATE) ?: return
         Log.d(tag, "Loaded shared preferences: ${sharedPref.all}")
 
+        if (sharedPref.getBoolean(showOnboardingKey, true)) {
+            onboardingScreenViewModel.openOnboarding()
+        }
+
         quickConvertCardViewModel.updateUnit(
             YkUnit.valueOf(sharedPref.getString(quickConvertUnitKey, "METERS") ?: "METERS")
         )
@@ -42,31 +47,22 @@ class MainActivity : ComponentActivity() {
             sharedPref.getString(quickConvertValueKey, "2.26")?.toDouble() ?: 2.26
         )
 
-        /*
-        if (sharedPref.getBoolean(showOnboardingKey, true)) {
-            onboardingScreenViewModel.openOnboarding()
-        }
-
-        // The Projects card are dependent on user data that is contained in the `mainViewModel`
-        projectsCardViewModel = ProjectsCardViewModel(mainViewModel.user)
-
         // Specify whether the onboarding screen displays in wide (tablet) or narrow form (phones)
         val manager = getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
         onboardingScreenViewModel.isWide = manager.phoneType == TelephonyManager.PHONE_TYPE_NONE
 
         // Any time the user closes an editing dialog, save the user data to a json file
-        mainViewModel.isEditingProject.observe(this) { isEditing ->
+        /*mainViewModel.isEditingProject.observe(this) { isEditing ->
             if (!isEditing) {
                 mainViewModel.saveUserToJson()
             }
-        }
-        */
+        }*/
+
         setContent {
             MainView(
-                //mainViewModel,
-                quickConvertCardViewModel = quickConvertCardViewModel,
-                //projectsCardViewModel,
-                //onboardingScreenViewModel
+                mainViewModel,
+                quickConvertCardViewModel,
+                onboardingScreenViewModel
             ).Body()
         }
     }

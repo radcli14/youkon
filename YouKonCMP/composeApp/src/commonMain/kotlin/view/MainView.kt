@@ -35,6 +35,7 @@ import androidx.compose.ui.unit.dp
 import model.ProjectExpansionLevel
 import YoukonTheme
 import androidx.compose.material.icons.rounded.Info
+import dev.icerock.moko.mvvm.livedata.compose.observeAsState
 import viewmodel.MainViewModel
 import viewmodel.OnboardingScreenViewModel
 import viewmodel.ProjectsCardViewModel
@@ -45,15 +46,14 @@ import kotlinx.coroutines.launch
 class MainView(
     private var mainViewModel: MainViewModel = MainViewModel(),
     private var quickConvertCardViewModel: QuickConvertCardViewModel = QuickConvertCardViewModel(),
-    private var projectsCardViewModel: ProjectsCardViewModel = ProjectsCardViewModel(),
     private var onboardingScreenViewModel: OnboardingScreenViewModel = OnboardingScreenViewModel()
 ) {
+    private var projectsCardViewModel = mainViewModel.projectsCardViewModel
 
     /// Initialize using the fake view models inside the onboarding screen
     constructor(onboardingScreenViewModel: OnboardingScreenViewModel): this(
         onboardingScreenViewModel.mainViewModel,
         onboardingScreenViewModel.quickConvertCardViewModel,
-        onboardingScreenViewModel.projectsCardViewModel,
         onboardingScreenViewModel
     )
 
@@ -97,16 +97,14 @@ class MainView(
 
         // React to changes in mainViewModel.isEditingProject by expanding or collapsing
         val scope = rememberCoroutineScope()
-        /*
         val isBottomSheetExpanded by mainViewModel.isEditingProject.observeAsState()
         LaunchedEffect(isBottomSheetExpanded) {
-            if (isBottomSheetExpanded == true) {
+            if (isBottomSheetExpanded) {
                 scope.launch { scaffoldState.bottomSheetState.expand() }
             } else {
                 scope.launch { scaffoldState.bottomSheetState.hide() }
             }
         }
-         */
 
         BottomSheetScaffold(
             scaffoldState = scaffoldState,
@@ -140,7 +138,7 @@ class MainView(
             ) {
                 Header()
                 QuickConvertCard(quickConvertCardViewModel).Body()
-                ProjectsCard(projectsCardViewModel, mainViewModel).Body()
+                ProjectsCard(mainViewModel).Body()
             }
         }
     }
@@ -162,31 +160,25 @@ class MainView(
     /// or close the sheet to conclude editing a project
     @Composable
     private fun ActionButton(modifier: Modifier = Modifier) {
-        /*
         val isBottomSheetExpanded by mainViewModel.isEditingProject.observeAsState()
-         */
         val showOnboarding by remember { onboardingScreenViewModel.showOnboarding }
         AnimatedVisibility(!showOnboarding,
             modifier = modifier.padding(16.dp)
         ) {
             FloatingActionButton(
                 onClick = {
-                    /*
-                    if (isBottomSheetExpanded == true) {
+                    if (isBottomSheetExpanded) {
                         mainViewModel.stopEditing()
                     } else {
                         onboardingScreenViewModel.openOnboarding()
                     }
-                     */
               },
                 containerColor = MaterialTheme.colorScheme.primaryContainer
             ) {
-                /*
                 Icon(
                     closeButtonIcon(isBottomSheetExpanded),
                     contentDescription = "Open a help dialog, or confirm and close the edit dialog."
                 )
-                 */
             }
         }
     }

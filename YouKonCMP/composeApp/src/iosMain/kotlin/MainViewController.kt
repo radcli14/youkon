@@ -6,11 +6,11 @@ import viewmodel.QuickConvertCardViewModel
 
 fun MainViewController() = ComposeUIViewController {
     val mainViewModel = MainViewModel()
-    val projectsCardViewModel = ProjectsCardViewModel(user = mainViewModel.user)
+    val quickConvertCardViewModel = QuickConvertCardViewModel()
+    val onboardingScreenViewModel = OnboardingScreenViewModel()
     App(
         mainViewModel,
-        QuickConvertCardViewModel(),
-        projectsCardViewModel,
-        OnboardingScreenViewModel()
+        quickConvertCardViewModel,
+        onboardingScreenViewModel
     )
 }

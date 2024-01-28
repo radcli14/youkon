@@ -36,9 +36,9 @@ import viewmodel.ProjectsCardViewModel
 import viewmodel.ProjectsCardViews
 
 class ProjectsCard(
-    private val vm: ProjectsCardViewModel = ProjectsCardViewModel(),
     private val mainViewModel: MainViewModel = MainViewModel()
 ) {
+    private val vm = mainViewModel.projectsCardViewModel
     @Composable
     fun Body() {
         Surface(
