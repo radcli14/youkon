@@ -17,6 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import dev.icerock.moko.mvvm.asState
 import viewmodel.QuickConvertCardViewModel
 import viewmodel.QuickConvertViews
 

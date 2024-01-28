@@ -5,16 +5,20 @@ import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
+import model.YkUnit
 import view.MainView
+import viewmodel.QuickConvertCardViewModel
 
 
 class MainActivity : ComponentActivity() {
     /*
     private val mainViewModel: MainViewModel by viewModels()
-    private val quickConvertCardViewModel: QuickConvertCardViewModel by viewModels()
     private lateinit var projectsCardViewModel: ProjectsCardViewModel
     private val onboardingScreenViewModel: OnboardingScreenViewModel by viewModels()
     */
+    private val quickConvertCardViewModel: QuickConvertCardViewModel by viewModels()
+
     private val tag = "MainViewModel"
     private val showOnboardingKey = "showOnboarding"
     private val quickConvertUnitKey = "quickConvertUnit"
@@ -27,10 +31,6 @@ class MainActivity : ComponentActivity() {
         // Get saved state of the quick convert card from last time the app was open
         val sharedPref = getPreferences(Context.MODE_PRIVATE) ?: return
         Log.d(tag, "Loaded shared preferences: ${sharedPref.all}")
-        /*
-        if (sharedPref.getBoolean(showOnboardingKey, true)) {
-            onboardingScreenViewModel.openOnboarding()
-        }
 
         quickConvertCardViewModel.updateUnit(
             YkUnit.valueOf(sharedPref.getString(quickConvertUnitKey, "METERS") ?: "METERS")
@@ -41,6 +41,11 @@ class MainActivity : ComponentActivity() {
         quickConvertCardViewModel.updateValue(
             sharedPref.getString(quickConvertValueKey, "2.26")?.toDouble() ?: 2.26
         )
+
+        /*
+        if (sharedPref.getBoolean(showOnboardingKey, true)) {
+            onboardingScreenViewModel.openOnboarding()
+        }
 
         // The Projects card are dependent on user data that is contained in the `mainViewModel`
         projectsCardViewModel = ProjectsCardViewModel(mainViewModel.user)
@@ -59,7 +64,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             MainView(
                 //mainViewModel,
-                //quickConvertCardViewModel,
+                quickConvertCardViewModel = quickConvertCardViewModel,
                 //projectsCardViewModel,
                 //onboardingScreenViewModel
             ).Body()
@@ -72,11 +77,9 @@ class MainActivity : ComponentActivity() {
         val sharedPref = getPreferences(Context.MODE_PRIVATE) ?: return
         with (sharedPref.edit()) {
             putBoolean(showOnboardingKey, false)
-            /*
             putString(quickConvertUnitKey, quickConvertCardViewModel.unit.toString())
             putString(quickConvertTargetKey, quickConvertCardViewModel.targetUnit.toString())
             putString(quickConvertValueKey, quickConvertCardViewModel.value.toString())
-            */
             apply()
             commit()
         }
