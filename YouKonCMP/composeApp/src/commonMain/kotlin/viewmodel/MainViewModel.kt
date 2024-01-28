@@ -7,7 +7,7 @@ import dev.icerock.moko.mvvm.viewmodel.ViewModel
 import model.YkProject
 import model.YkUser
 
-class MainViewModel(loadDefault: Boolean = false) : ViewModel() {
+class MainViewModel(loadDefault: Boolean = false, verbose: Boolean = false) : ViewModel() {
     private val _isEditingProject = MutableLiveData(false)
     val isEditingProject: LiveData<Boolean> = _isEditingProject
     var project: YkProject? = null
@@ -17,7 +17,11 @@ class MainViewModel(loadDefault: Boolean = false) : ViewModel() {
 
     init {
         user = if (loadDefault) defaultUser else savedUser
-        Log.d(tag, "Initial User State\n==================\n\n" + user.asJsonString() + "\n\n")
+        if (verbose) {
+            Log.d(tag, "Initial User State\n==================\n\n${user.asJsonString()}\n\n")
+        } else {
+            Log.d(tag, "Initialized ViewModel for User: ${user.name}")
+        }
         saveUserToJson()
     }
 
