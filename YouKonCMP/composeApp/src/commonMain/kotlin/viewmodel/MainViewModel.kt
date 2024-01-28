@@ -1,13 +1,11 @@
 package viewmodel
 
-//import android.os.Environment
 import Storage
 import dev.icerock.moko.mvvm.livedata.LiveData
 import dev.icerock.moko.mvvm.livedata.MutableLiveData
 import dev.icerock.moko.mvvm.viewmodel.ViewModel
 import model.YkProject
 import model.YkUser
-//import java.io.File
 
 class MainViewModel(loadDefault: Boolean = false) : ViewModel() {
     private val _isEditingProject = MutableLiveData(false)
