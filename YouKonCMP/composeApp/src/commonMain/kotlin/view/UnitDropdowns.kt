@@ -2,6 +2,7 @@ package view
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
@@ -25,6 +26,8 @@ class UnitDropdown(
     val onClick: (YkUnit?) -> Unit = {}
 ) {
     private val isExpanded = mutableStateOf(false)
+    private val headerPadding = 8.dp
+    private val contentPadding = 12.dp
 
     @Composable
     fun Body() {
@@ -36,7 +39,7 @@ class UnitDropdown(
             headerText?.let {header ->
                 Text(header,
                     style = MaterialTheme.typography.labelMedium,
-                    modifier = Modifier.padding(start = 16.dp),
+                    modifier = Modifier.padding(start = headerPadding),
                     color = MaterialTheme.colorScheme.secondary
                 )
             }
@@ -49,6 +52,7 @@ class UnitDropdown(
         Button(
             shape = MaterialTheme.shapes.medium,
             onClick = { isExpanded.value = !isExpanded.value },
+            contentPadding = PaddingValues(horizontal = contentPadding)
         ) {
             MenuButton()
             DropdownMenu(
@@ -65,7 +69,7 @@ class UnitDropdown(
         availableUnits.forEach { unit ->
             DropdownMenuItem(
                 text = {
-                    Text(unit.toString().replace("_", " "),
+                    Text(unit.toString().replace("_", " ").lowercase().capitalize(),
                         color = MaterialTheme.colorScheme.onSurface
                     )
                 },
@@ -79,7 +83,7 @@ class UnitDropdown(
 
     @Composable
     fun MenuButton() {
-        Text(unit.toString().replace("_", " "),
+        Text(unit.toString().replace("_", " ").lowercase().capitalize(),
             style = MaterialTheme.typography.titleMedium,
             color = MaterialTheme.colorScheme.surface,
             textAlign = TextAlign.Start,
