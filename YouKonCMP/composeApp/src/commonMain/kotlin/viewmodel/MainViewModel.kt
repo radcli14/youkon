@@ -1,6 +1,7 @@
 package viewmodel
 
 //import android.os.Environment
+import Storage
 import dev.icerock.moko.mvvm.livedata.LiveData
 import dev.icerock.moko.mvvm.livedata.MutableLiveData
 import dev.icerock.moko.mvvm.viewmodel.ViewModel
@@ -22,74 +23,10 @@ class MainViewModel(loadDefault: Boolean = false) : ViewModel() {
         saveUserToJson()
     }
 
-    /// The default user for someone opening the app for the first time is stored in `resources/defaultuser.json`
-    val defaultUser: YkUser
-        get() {
-            // TODO: load from JSON file in resources directory
-            /*
-            if let path = Bundle.main.path(forResource: "defaultuser", ofType: "json"),
-                let contents = try? String(contentsOfFile: path),
-                let defaultUser = user.fromJsonString(jsonString: contents) {
-                return defaultUser
-            } else {
-                print("Failed to load the default YkUser, falling back to an empty YkUser()")
-                return YkUser()
-            }
-            */
-            val defaultUser = YkUser()
-            defaultUser.setAsTestUser()
-            return defaultUser
-        }
-
-    /// The `YkUser` that is saved from a previous session
-    val savedUser: YkUser
-        get() {
-            try {
-                /*
-                val contents = workingFile.readText()
-                YkUser().fromJsonString(contents)?.let { savedUser ->
-                    return savedUser
-                }
-                 */
-            } catch (err: Exception) {
-                //Log.d(tag, "Failed to load the saved YkUser, falling back to a default user")
-            }
-            return defaultUser
-        }
-
-    /// The URL where the user data file will be stored
-    /*
-    val documentsUrl: File
-        get() {
-            return File(
-                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS),
-                "YouKon"
-            )
-        }
-     */
-
-    /*
-    /// The working file, which will be imported on startup, and saved any time the user modifies the data
-    val workingFile: File
-        get() = File("${documentsUrl.absolutePath}/userdata.json")
-    */
-
-    /// Save the current `YkUser` to a `.json` file
+    private val defaultUser: YkUser get() = Storage.defaultUser
+    private val savedUser: YkUser get() = Storage.savedUser
     fun saveUserToJson() {
-        val jsonString = user.asJsonString()
-        /*
-        try {
-            if (!workingFile.exists()) {
-                // If the file doesn't exist, try creating it along with the necessary directories
-                workingFile.parentFile?.mkdirs()
-                workingFile.createNewFile()
-            }
-            workingFile.writeText(jsonString)
-        } catch(exception: Exception) {
-            Log.d(tag,"Save failed because $exception")
-            exception.printStackTrace()
-        }
-         */
+        Storage.saveUserToJson(user)
     }
 
     /// The user tapped the measurements in a project's disclosure group, toggle editable measurements sheet

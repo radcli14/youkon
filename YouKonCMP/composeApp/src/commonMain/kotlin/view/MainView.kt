@@ -48,8 +48,6 @@ class MainView(
     private var quickConvertCardViewModel: QuickConvertCardViewModel = QuickConvertCardViewModel(),
     private var onboardingScreenViewModel: OnboardingScreenViewModel = OnboardingScreenViewModel()
 ) {
-    private var projectsCardViewModel = mainViewModel.projectsCardViewModel
-
     /// Initialize using the fake view models inside the onboarding screen
     constructor(onboardingScreenViewModel: OnboardingScreenViewModel): this(
         onboardingScreenViewModel.mainViewModel,
