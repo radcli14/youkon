@@ -69,7 +69,8 @@ class UnitDropdown(
         availableUnits.forEach { unit ->
             DropdownMenuItem(
                 text = {
-                    Text(unit.toString().replace("_", " ").lowercase().capitalize(),
+                    Text(
+                        unit.lowercasedString,
                         color = MaterialTheme.colorScheme.onSurface
                     )
                 },
@@ -83,7 +84,8 @@ class UnitDropdown(
 
     @Composable
     fun MenuButton() {
-        Text(unit.toString().replace("_", " ").lowercase().capitalize(),
+        Text(
+            unit.lowercasedString,
             style = MaterialTheme.typography.titleMedium,
             color = MaterialTheme.colorScheme.surface,
             textAlign = TextAlign.Start,

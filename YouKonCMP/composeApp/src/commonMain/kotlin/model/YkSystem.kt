@@ -25,7 +25,7 @@ enum class YkSystem(private val units: Array<YkUnit>) {
         YkUnit.SLUGS_PER_FOOT_CUBED,
         YkUnit.FOOT_POUND_PER_SECOND,
         YkUnit.FOOT_POUND_ENERGY,
-        YkUnit.PSF
+        YkUnit.POUNDS_PER_SQUARE_FOOT
     ))
     ;
 
