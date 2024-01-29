@@ -1,19 +1,19 @@
 package viewmodel
 
+import Log
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import dev.icerock.moko.mvvm.viewmodel.ViewModel
-
-//import androidx.constraintlayout.compose.ConstraintSet
 
 class OnboardingScreenViewModel : ViewModel() {
     private val tag = "OnboardingScreenViewModel"
     val showOnboarding = mutableStateOf(false)
 
     val mainViewModel = MainViewModel(loadDefault = true)
-    val projectsCardViewModel = ProjectsCardViewModel(mainViewModel.user)
+    private val projectsCardViewModel = mainViewModel.projectsCardViewModel
     val quickConvertCardViewModel = QuickConvertCardViewModel()
 
     init {
@@ -128,48 +128,14 @@ class OnboardingScreenViewModel : ViewModel() {
     val dialogFillRatio: Float get() = if (isWide) 0.75f else 0.9f
     val constraintPadding: Dp get() = if (isWide) 16.dp else 0.dp
 
-    private val constraintChangeIndex = 1
-    /*
-    fun constraints(): ConstraintSet {
-        return if (currentPage.intValue <= constraintChangeIndex) {
-            ConstraintSet {
-                val text = createRefFor("text")
-                val main = createRefFor("main")
-                val nav = createRefFor("nav")
+    val onboardTextHeight = 128.dp
 
-                constrain(text) {
-                    top.linkTo(parent.top)
-                }
+    val onboardTextAlign: Alignment
+        get() = if (currentPage.value < 2) Alignment.TopStart else Alignment.BottomStart
 
-                constrain(main) {
-                    top.linkTo(text.bottom, (-96).dp)
-                }
+    val onboardTextOffset: Dp
+        get() = if (currentPage.value < 2) 0.dp else (-64).dp
 
-                constrain(nav) {
-                    end.linkTo(parent.end)
-                    bottom.linkTo(parent.bottom)
-                }
-            }
-        } else {
-             ConstraintSet {
-                 val text = createRefFor("text")
-                 val main = createRefFor("main")
-                 val nav = createRefFor("nav")
-
-                 constrain(text) {
-                     bottom.linkTo(nav.top)
-                 }
-
-                 constrain(main) {
-                     bottom.linkTo(text.top, (-56).dp)
-                 }
-
-                 constrain(nav) {
-                     end.linkTo(parent.end)
-                     bottom.linkTo(parent.bottom)
-                 }
-             }
-        }
-    }
-     */
+    val mainViewVerticalOffset: Dp
+        get() = if (currentPage.value < 2) 64.dp else (-96).dp
 }

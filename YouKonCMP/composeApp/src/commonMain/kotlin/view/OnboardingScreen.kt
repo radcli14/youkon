@@ -1,6 +1,6 @@
 package view
 
-//import android.annotation.SuppressLint
+import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.BorderStroke
@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredSize
 import androidx.compose.foundation.layout.size
@@ -18,7 +19,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material.icons.filled.Check
-//import androidx.compose.material.icons.filled.NavigateNext
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -40,14 +40,10 @@ import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.input.pointer.pointerInput
-//import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
-//import androidx.constraintlayout.compose.ConstraintLayout
-//import androidx.constraintlayout.compose.layoutId
-//import androidx.constraintlayout.widget.ConstraintLayout
-import viewmodel.OnboardingScreenViewModel
 import kotlinx.coroutines.delay
+import viewmodel.OnboardingScreenViewModel
 
 class OnboardingScreen(
     private val viewModel: OnboardingScreenViewModel = OnboardingScreenViewModel(),
@@ -61,20 +57,35 @@ class OnboardingScreen(
             ),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            /*ConstraintLayout(
-                viewModel.constraints(),
-                modifier = Modifier
-                    .fillMaxHeight(viewModel.dialogFillRatio)
-                    .padding(viewModel.constraintPadding)
-                    .clipToBounds(),
-                animateChanges = true
-            ) {
-                OnboardText(Modifier.layoutId("text"))
-                ScaledMainView(Modifier.layoutId("main"))
-                NavButton(Modifier.layoutId("nav"))
-            }*/
+            var varticalOffsetForMainView by remember {
+                mutableStateOf(viewModel.mainViewVerticalOffset)
+            }
+            val offsetForMainView by animateDpAsState(varticalOffsetForMainView)
 
-            Tabs()
+            Box(modifier = Modifier
+                .fillMaxHeight(viewModel.dialogFillRatio)
+                .padding(viewModel.constraintPadding)
+                .clipToBounds()
+            ) {
+                ScaledMainView(
+                    Modifier
+                        .align(Alignment.TopCenter)
+                        .offset(y = offsetForMainView)
+                )
+                OnboardText(
+                    Modifier
+                        .align(viewModel.onboardTextAlign)
+                        .offset(y = viewModel.onboardTextOffset)
+                )
+                NavButton(
+                    Modifier.align(Alignment.BottomEnd)
+                ) {
+                    varticalOffsetForMainView = viewModel.mainViewVerticalOffset
+                }
+            }
+            Tabs {
+                varticalOffsetForMainView = viewModel.mainViewVerticalOffset
+            }
         }
     }
 
@@ -124,7 +135,7 @@ class OnboardingScreen(
         Column(
             modifier = modifier
                 .padding(16.dp)
-                .height(128.dp)
+                .height(viewModel.onboardTextHeight)
         ) {
             Text(helpHeader,
                 style = MaterialTheme.typography.titleLarge,
@@ -141,7 +152,7 @@ class OnboardingScreen(
 
     /// A row of tabs at the bottom of the screen
     @Composable
-    fun Tabs() {
+    fun Tabs(onChangeTab: () -> Unit = {}) {
         TabRow(
             modifier = Modifier.fillMaxWidth(0.7f),
             selectedTabIndex = viewModel.currentPage.intValue,
@@ -156,6 +167,7 @@ class OnboardingScreen(
                 }
             }
         }
+        onChangeTab()
     }
 
     /// The icon of a tab, with appearance dependent on whether the tab is selected
@@ -171,7 +183,7 @@ class OnboardingScreen(
         )
     }
 
-    /// The color of a tab, dependent on wheter it is selected
+    /// The color of a tab, dependent on whether it is selected
     @Composable
     fun tabColor(isCurrent: Boolean): Color {
         return if (isCurrent) {
@@ -202,11 +214,15 @@ class OnboardingScreen(
     /// The button to navigate to the next onboarding screen
     @Composable
     fun NavButton(
-        modifier: Modifier = Modifier
+        modifier: Modifier = Modifier,
+        onNavigate: () -> Unit = {}
     ) {
         FloatingActionButton(
             modifier = modifier.padding(16.dp),
-            onClick = { viewModel.incrementPage() }
+            onClick = {
+                viewModel.incrementPage()
+                onNavigate()
+            }
         ) {
             Icon(navButtonIcon(), viewModel.navButtonDescription)
         }
