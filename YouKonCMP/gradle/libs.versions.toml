@@ -18,6 +18,7 @@ kotlin = "1.9.21"
 lifecycleViewmodelKtx = "2.7.0"
 material3 = "1.1.2"
 lifecycleLivedataCoreKtx = "2.7.0"
+constraintlayoutCompose = "1.0.1"
 
 [libraries]
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
@@ -38,6 +39,7 @@ compose-material = { module = "androidx.compose.material:material", version.ref 
 androidx-lifecycle-viewmodel-ktx = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-ktx", version.ref = "lifecycleViewmodelKtx" }
 androidx-material3 = { group = "androidx.compose.material3", name = "material3", version.ref = "material3" }
 androidx-lifecycle-livedata-core-ktx = { group = "androidx.lifecycle", name = "lifecycle-livedata-core-ktx", version.ref = "lifecycleLivedataCoreKtx" }
+androidx-constraintlayout-compose = { group = "androidx.constraintlayout", name = "constraintlayout-compose", version.ref = "constraintlayoutCompose" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
