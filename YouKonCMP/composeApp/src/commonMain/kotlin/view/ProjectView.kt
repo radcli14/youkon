@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.CornerBasedShape
 import androidx.compose.material.icons.Icons
@@ -103,7 +104,9 @@ class ProjectView(
             modifier = Modifier.onboardingModifier(ProjectViewViews.COMPACT)
         ) {
             Column(
-                modifier = Modifier.padding(16.dp)
+                modifier = Modifier
+                    .padding(start = 16.dp, end = 8.dp)
+                    .padding(vertical = 16.dp)
             ) {
                 LabelStack()
                 ExpansionStack()
@@ -125,10 +128,10 @@ class ProjectView(
             } else {
                Modifier.fillMaxWidth()
             },
-            horizontalArrangement = Arrangement.spacedBy(8.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             ProjectImage()
+            Spacer(Modifier.width(8.dp))
             Column(modifier = Modifier.weight(1f)) {
                 NameField()
                 DescriptionField()
@@ -190,7 +193,7 @@ class ProjectView(
 
     /// Selects which icon to use when no image was provided in the project based on the project id,
     /// selecting from one of the 7 `noImageIcon` resources
-    private val noImageIconResource: String // Int
+    private val noImageIconResource: String
         get() {
             return "noimageicons${vm.project.value.id.first().code % 7}.png"
         }
@@ -264,7 +267,7 @@ class ProjectView(
                 BasicTextFieldWithHint(
                     value = vm.editedDescription.value,
                     hint = "description",
-                    textStyle = MaterialTheme.typography.bodyLarge.copy(
+                    textStyle = MaterialTheme.typography.bodyMedium.copy(
                         color = MaterialTheme.colorScheme.onSurface
                     ),
                     onValueChange = { vm.updateDescription(it) },
@@ -273,24 +276,13 @@ class ProjectView(
             else -> {
                 Text(
                     text = project.value.about,
-                    style = MaterialTheme.typography.bodyMedium,
+                    style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurface,
                     modifier = Modifier.padding(bottom = 4.dp),
                 )
             }
         }
     }
-
-    /// When the `DisclosureGroup` is expanded, this will be inside, and will either contain the editable content when opened in a `.sheet`, or static text
-    /*@Composable
-    private fun ExpansionView() {
-        ExpansionMeasurements()
-    }
-
-    @Composable
-    private fun ExpansionMeasurements() {
-        ExpansionMeasurementsList()
-    }*/
 
     /// A `ForEach` corresponding to each of the measurements, in either editable or static form
     @Composable
