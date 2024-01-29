@@ -1,10 +1,10 @@
 package viewmodel
 
+import Log
 import Storage
 import dev.icerock.moko.mvvm.livedata.LiveData
 import dev.icerock.moko.mvvm.livedata.MutableLiveData
 import dev.icerock.moko.mvvm.viewmodel.ViewModel
-import model.ProjectExpansionLevel
 import model.YkProject
 import model.YkUser
 
