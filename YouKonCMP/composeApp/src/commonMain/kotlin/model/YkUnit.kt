@@ -29,7 +29,7 @@ enum class YkUnit(private val toBase: Double, val shortUnit: String) {
 
     private val fromBase: Double get() = 1.0 / toBase
 
-    val allUnits get() = YkUnit.values()
+    val allUnits get() = entries.toTypedArray()
 
     /// Provide an array of units that the measurement may be converted to
     fun equivalentUnits(): Array<YkUnit> {
