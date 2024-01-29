@@ -3,6 +3,7 @@ package viewmodel
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import dev.icerock.moko.mvvm.viewmodel.ViewModel
+import model.ProjectExpansionLevel
 import model.YkProject
 import model.YkUser
 
@@ -24,6 +25,11 @@ class ProjectsCardViewModel(var user: YkUser = YkUser()) : ViewModel() {
         updateProjects()
     }
 
+    /// Change the state of the project from EDITABLE back to STATIC when the user closes the sheet
+    fun stopEditing(project: YkProject) {
+        projectViewModel(project).expansion.value = ProjectExpansionLevel.STATIC
+    }
+
     /// Update the public list of `YkProject` items by assuring that the Kotlin version is Swift formatted
     private fun updateProjects() {
         projects.value = user.projects.toTypedArray()
@@ -38,12 +44,12 @@ class ProjectsCardViewModel(var user: YkUser = YkUser()) : ViewModel() {
 
     /// To persist the `ProjectViewModel` inside the project card, it is retained in the `pvcDict`
     fun projectViewModel(project: YkProject): ProjectViewModel {
-        var pvc = pvcDict[project.id]
-        if (pvc == null) {
-            pvc = ProjectViewModel(project)
-            pvcDict[project.id] = pvc
+        var pvm = pvcDict[project.id]
+        if (pvm == null) {
+            pvm = ProjectViewModel(project)
+            pvcDict[project.id] = pvm
         }
-        return pvc
+        return pvm
     }
 
     /// Used in the onboarding screen, requesting `projectViewModel()` without arguments gives the first as a default

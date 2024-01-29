@@ -193,15 +193,6 @@ class ProjectView(
     private val noImageIconResource: String // Int
         get() {
             return "noimageicons${vm.project.value.id.first().code % 7}.png"
-            /*return when(vm.project.value.id.first().code % 7) {
-                1 -> R.drawable.noimageicons1
-                2 -> R.drawable.noimageicons2
-                3 -> R.drawable.noimageicons3
-                4 -> R.drawable.noimageicons4
-                5 -> R.drawable.noimageicons5
-                6 -> R.drawable.noimageicons6
-                else -> R.drawable.noimageicons0
-            }*/
         }
 
     /// The image representing the project, either a generic icon, or a user-specified image

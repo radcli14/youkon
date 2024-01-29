@@ -4,6 +4,7 @@ import Storage
 import dev.icerock.moko.mvvm.livedata.LiveData
 import dev.icerock.moko.mvvm.livedata.MutableLiveData
 import dev.icerock.moko.mvvm.viewmodel.ViewModel
+import model.ProjectExpansionLevel
 import model.YkProject
 import model.YkUser
 
@@ -34,13 +35,14 @@ class MainViewModel(loadDefault: Boolean = false, verbose: Boolean = false) : Vi
     /// The user tapped the measurements in a project's disclosure group, toggle editable measurements sheet
     fun toggleEdit(projectToEdit: YkProject) {
         _isEditingProject.value = isEditingProject.value == false
-        project = if (isEditingProject.value == true) projectToEdit else null
+        project = if (isEditingProject.value) projectToEdit else null
         Log.d(tag, "toggled edit to $project")
     }
 
     /// The user exited the bottom sheet, stop editing the project
     fun stopEditing() {
         Log.d(tag, "stopped editing ${project?.name}")
+        project?.let { projectsCardViewModel.stopEditing(it) }
         _isEditingProject.value = false
         project = null
     }
