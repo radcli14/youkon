@@ -8,12 +8,25 @@ class YkUser {
     var name = "New User"
     var projects = mutableListOf<YkProject>()
 
-    fun fromJsonString(jsonString: String): YkUser? {
-        return Json.decodeFromString<YkUser>(jsonString)
+    companion object {
+        /// For testing, provide a generic user
+        val testUser: YkUser
+            get() {
+                val user = YkUser()
+                user.projects.add(wembyProject())
+                user.projects.add(spaceProject())
+                return user
+            }
+
+        fun fromJsonString(jsonString: String): YkUser {
+            return Json.decodeFromString<YkUser>(jsonString)
+        }
     }
 
+    @Contextual
+    private val json = Json { prettyPrint = true }
     fun asJsonString(): String {
-        return Json{ prettyPrint = true }.encodeToString(this)
+        return json.encodeToString(this)
     }
 
     /// Add a project with `name` and `about` strings, but empty `measurements` and `image`
@@ -33,12 +46,5 @@ class YkUser {
         projects.indexOfFirst { project == it }.let { idx ->
             projects.removeAt(idx)
         }
-    }
-
-    /// For testing, create a generic user
-    fun setAsTestUser() {
-        name = "Eliott"
-        projects.add(wembyProject())
-        projects.add(spaceProject())
     }
 }

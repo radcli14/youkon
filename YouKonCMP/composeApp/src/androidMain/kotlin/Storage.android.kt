@@ -1,4 +1,5 @@
 import android.os.Environment
+import model.YkStrings
 import model.YkUser
 import java.io.File
 
@@ -22,20 +23,21 @@ actual class Storage {
         actual val defaultUser: YkUser
             get() {
                 // TODO: load from JSON file in resources directory
-                val defaultUser = YkUser()
-                defaultUser.setAsTestUser()
-                return defaultUser
+                return try {
+                    YkUser.fromJsonString(YkStrings.defaultUserJsonString)
+                } catch (exception: Exception) {
+                    Log.d(tag, "Failed to load defaultUser from Json, using testUser")
+                    YkUser.testUser
+                }
             }
 
         actual val savedUser: YkUser
             get() {
                 try {
                     val contents = workingFile.readText()
-                    YkUser().fromJsonString(contents)?.let { savedUser ->
-                        return savedUser
-                    }
+                    return YkUser.fromJsonString(contents)
                 } catch (err: Exception) {
-                    //Log.d(tag, "Failed to load the saved YkUser, falling back to a default user")
+                    Log.d(tag, "Failed to load the saved YkUser, falling back to a default user")
                 }
                 return defaultUser
             }
@@ -49,6 +51,7 @@ actual class Storage {
                     workingFile.createNewFile()
                 }
                 workingFile.writeText(jsonString)
+                Log.d(tag, "Save succeeded to $workingFile")
             } catch(exception: Exception) {
                 Log.d(tag,"Save failed because $exception")
                 exception.printStackTrace()
