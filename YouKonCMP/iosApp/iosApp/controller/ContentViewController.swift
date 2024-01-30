@@ -24,9 +24,8 @@ class ContentViewController: ObservableObject {
     /// The default user for someone opening the app for the first time is stored in `resources/defaultuser.json`
     var defaultUser: YkUser {
         if let path = Bundle.main.path(forResource: "defaultuser", ofType: "json"),
-            let contents = try? String(contentsOfFile: path),
-            let defaultUser = user.fromJsonString(jsonString: contents) {
-            return defaultUser
+           let contents = try? String(contentsOfFile: path) {
+            return YkUser.companion.fromJsonString(jsonString: contents)
         } else {
             print("Failed to load the default YkUser, falling back to an empty YkUser()")
             return YkUser()
@@ -35,9 +34,8 @@ class ContentViewController: ObservableObject {
     
     /// The `YkUser` that is saved from a previous session
     var savedUser: YkUser {
-        if let contents = try? String(contentsOf: workingFile),
-            let savedUser = user.fromJsonString(jsonString: contents)  {
-            return savedUser
+        if let contents = try? String(contentsOf: workingFile) {
+            return YkUser.companion.fromJsonString(jsonString: contents)
         } else {
             print("Failed to load the saved YkUser, falling back to a default user")
             return defaultUser
