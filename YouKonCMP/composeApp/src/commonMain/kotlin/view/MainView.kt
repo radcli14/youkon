@@ -101,6 +101,7 @@ class MainView(
                 scope.launch { scaffoldState.bottomSheetState.expand() }
             } else {
                 scope.launch { scaffoldState.bottomSheetState.hide() }
+                mainViewModel.saveUserToJson()
             }
         }
 
