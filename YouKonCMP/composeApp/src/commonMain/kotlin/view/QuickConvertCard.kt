@@ -134,7 +134,7 @@ class QuickConvertCard(
             contentAlignment = Alignment.CenterStart
         ) {
             Text(vm.convertedText,
-                style = MaterialTheme.typography.titleLarge,
+                style = MaterialTheme.typography.bodyLarge,
                 color = MaterialTheme.colorScheme.onSurface
             )
         }

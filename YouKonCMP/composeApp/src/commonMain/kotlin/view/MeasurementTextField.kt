@@ -29,7 +29,7 @@ fun MeasurementTextField(
     updateMeasurement: (Double) -> Unit
 ) {
     var text by remember { mutableStateOf(TextFieldValue(initialText)) }
-    val textStyle = MaterialTheme.typography.titleLarge
+    val textStyle = MaterialTheme.typography.titleMedium
 
     Surface(
         modifier = modifier.height(40.dp),
