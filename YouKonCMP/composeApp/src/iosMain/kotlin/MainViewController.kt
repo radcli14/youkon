@@ -8,6 +8,9 @@ private val quickConvertCardViewModel = QuickConvertCardViewModel()
 private val onboardingScreenViewModel = OnboardingScreenViewModel()
 
 fun MainViewController() = ComposeUIViewController {
+    // TODO: set the isWide variable based on detecting screen geometry
+    onboardingScreenViewModel.isWide = false
+
     App(
         mainViewModel,
         quickConvertCardViewModel,
