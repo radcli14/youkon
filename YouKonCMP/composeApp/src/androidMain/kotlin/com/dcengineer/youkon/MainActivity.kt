@@ -51,13 +51,6 @@ class MainActivity : ComponentActivity() {
         val manager = getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
         onboardingScreenViewModel.isWide = manager.phoneType == TelephonyManager.PHONE_TYPE_NONE
 
-        // Any time the user closes an editing dialog, save the user data to a json file
-        mainViewModel.isEditingProject.addObserver { isEditing ->
-            if (!isEditing) {
-                mainViewModel.saveUserToJson()
-            }
-        }
-
         setContent {
             MainView(
                 mainViewModel,
@@ -80,6 +73,8 @@ class MainActivity : ComponentActivity() {
             commit()
         }
         Log.d(tag, "Saved shared preferences: ${sharedPref.all}")
+
+        mainViewModel.saveUserToJson()
         Log.d(tag, "Destroyed the main activity")
     }
 }
