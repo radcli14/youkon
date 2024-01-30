@@ -126,9 +126,8 @@ class OnboardingScreenViewModel : ViewModel() {
     val width: Dp get() = if (isWide) 880.dp else 400.dp
     val height = 720.dp
     val dialogFillRatio: Float get() = if (isWide) 0.75f else 0.9f
-    val constraintPadding: Dp get() = if (isWide) 16.dp else 0.dp
 
-    val onboardTextHeight = 128.dp
+    val onboardTextHeight = 160.dp
 
     val onboardTextAlign: Alignment
         get() = if (currentPage.value < 2) Alignment.TopStart else Alignment.BottomStart

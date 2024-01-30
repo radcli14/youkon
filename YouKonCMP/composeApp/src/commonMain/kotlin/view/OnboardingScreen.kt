@@ -64,7 +64,6 @@ class OnboardingScreen(
 
             Box(modifier = Modifier
                 .fillMaxHeight(viewModel.dialogFillRatio)
-                .padding(viewModel.constraintPadding)
                 .clipToBounds()
             ) {
                 ScaledMainView(
@@ -218,7 +217,7 @@ class OnboardingScreen(
         onNavigate: () -> Unit = {}
     ) {
         FloatingActionButton(
-            modifier = modifier.padding(16.dp),
+            modifier = modifier.padding(8.dp),
             onClick = {
                 viewModel.incrementPage()
                 onNavigate()
