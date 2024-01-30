@@ -30,9 +30,18 @@ actual class Storage {
                     YkUser.testUser
                 }
             }
+        @OptIn(ExperimentalForeignApi::class)
         actual val savedUser: YkUser
             get() {
-                Log.d(tag, "workingFile: $workingFile")
+                try {
+                    NSString.stringWithContentsOfFile(workingFile, NSUTF8StringEncoding, null)?.let {
+                        return YkUser.fromJsonString(it)
+                    }
+                    Log.d(tag, "Loaded savedUser from Json")
+                } catch (exception: Exception) {
+                    exception.printStackTrace()
+                }
+                Log.d(tag, "Failed to load savedUser from Json, falling back to defaultUser")
                 return defaultUser
             }
 
@@ -42,6 +51,7 @@ actual class Storage {
             val jsonString = user.asJsonString() as NSString
             try {
                 jsonString.writeToFile(workingFile, true, NSUTF8StringEncoding, null)
+                Log.d(tag, "saveUserToJson succeeded in writing to $workingFile")
             } catch(exception: Exception) {
                 Log.d(tag, "saveUserToJson failed with exception $exception")
             }
