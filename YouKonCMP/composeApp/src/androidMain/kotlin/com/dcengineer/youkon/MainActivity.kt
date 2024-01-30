@@ -11,7 +11,6 @@ import model.YkUnit
 import view.MainView
 import viewmodel.MainViewModel
 import viewmodel.OnboardingScreenViewModel
-import viewmodel.ProjectsCardViewModel
 import viewmodel.QuickConvertCardViewModel
 
 
@@ -40,6 +39,7 @@ class MainActivity : ComponentActivity() {
         quickConvertCardViewModel.updateUnit(
             YkUnit.valueOf(sharedPref.getString(quickConvertUnitKey, "METERS") ?: "METERS")
         )
+
         quickConvertCardViewModel.updateTargetUnit(
             YkUnit.valueOf(sharedPref.getString(quickConvertTargetKey, "FEET") ?: "FEET")
         )
@@ -52,11 +52,11 @@ class MainActivity : ComponentActivity() {
         onboardingScreenViewModel.isWide = manager.phoneType == TelephonyManager.PHONE_TYPE_NONE
 
         // Any time the user closes an editing dialog, save the user data to a json file
-        /*mainViewModel.isEditingProject.observe(this) { isEditing ->
+        mainViewModel.isEditingProject.addObserver { isEditing ->
             if (!isEditing) {
                 mainViewModel.saveUserToJson()
             }
-        }*/
+        }
 
         setContent {
             MainView(
