@@ -23,10 +23,8 @@ class YkUser {
         }
     }
 
-    @Contextual
-    private val json = Json { prettyPrint = true }
     fun asJsonString(): String {
-        return json.encodeToString(this)
+        return Json { prettyPrint = true }.encodeToString(this)
     }
 
     /// Add a project with `name` and `about` strings, but empty `measurements` and `image`
