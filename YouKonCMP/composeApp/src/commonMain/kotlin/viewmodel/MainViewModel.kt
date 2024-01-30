@@ -23,7 +23,6 @@ class MainViewModel(loadDefault: Boolean = false, verbose: Boolean = false) : Vi
         } else {
             Log.d(tag, "Initialized ViewModel for User: ${user.name}")
         }
-        saveUserToJson()
     }
 
     private val defaultUser: YkUser get() = Storage.defaultUser
