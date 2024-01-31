@@ -92,9 +92,9 @@ class QuickConvertCard(
     /// Selection for which type of unit to convert from
     @Composable
     private fun FromDropdown(modifier: Modifier) {
-        val measurement by vm.measurement.collectAsState()
+        val data by vm.data.collectAsState()
         UnitDropdown(
-            unit = measurement.unit,
+            unit = data.unit,
             availableUnits = vm.allUnits,
             headerText = "From",
             modifier = modifier,
@@ -105,9 +105,10 @@ class QuickConvertCard(
     /// Selection for which type of unit to convert to
     @Composable
     private fun ToDropdown(modifier: Modifier) {
+        val data by vm.data.collectAsState()
         UnitDropdown(
-            unit = vm.targetUnit,
-            availableUnits = vm.equivalentUnits,
+            unit = data.targetUnit,
+            availableUnits = data.equivalentUnits,
             headerText = "To",
             modifier = modifier,
             onClick = { vm.updateTargetUnit(it) }
@@ -117,10 +118,10 @@ class QuickConvertCard(
     /// The field that takes the user input on the numeric value of the measurement
     @Composable
     private fun TextField(modifier: Modifier) {
-        val measurement = vm.measurement.collectAsState()
+        val data by vm.data.collectAsState()
         MeasurementTextField(
-            initialText = measurement.value.value.toString(),
-            unitText = measurement.value.unit.shortUnit,
+            initialText = data.value.toString(),
+            unitText = data.unit.shortUnit,
             modifier = modifier,
             updateMeasurement = { vm.updateValue(it) }
         )
@@ -129,11 +130,12 @@ class QuickConvertCard(
     /// The display of the measurement after conversion
     @Composable
     private fun ConvertedText(modifier: Modifier) {
+        val data by vm.data.collectAsState()
         Box(
             modifier = modifier,
             contentAlignment = Alignment.CenterStart
         ) {
-            Text(vm.convertedText,
+            Text(data.convertedText,
                 style = MaterialTheme.typography.bodyLarge,
                 color = MaterialTheme.colorScheme.onSurface
             )

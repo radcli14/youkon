@@ -1,71 +1,59 @@
 package viewmodel
 
+import Log
+import Storage
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import dev.icerock.moko.mvvm.viewmodel.ViewModel
-import model.YkMeasurement
-import model.YkUnit
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
+import model.YkUnit
 
 /// The set of all views contained in the quick convert card, for selection of one that is highlighted
 enum class QuickConvertViews {
     SURFACE, FROM, TO, VALUE, CONVERTED
 }
 
-class QuickConvertCardViewModel(
-    initialMeasurement: YkMeasurement = YkMeasurement(2.26, YkUnit.METERS)
-) : ViewModel() {
-    val measurement = MutableStateFlow(initialMeasurement)
+class QuickConvertCardViewModel : ViewModel() {
+    val data = MutableStateFlow(Storage.savedQuickData)
 
-    val unit: YkUnit get() = measurement.value.unit
-    val value: Double get() = measurement.value.value
+    val unit: YkUnit get() = data.value.unit
+    val value: Double get() = data.value.value
     val allUnits get() = unit.allUnits
-    var equivalentUnits by mutableStateOf(unit.equivalentUnits())
-    var targetUnit by mutableStateOf(unit.newTargetUnit)
-
-    var convertedText by mutableStateOf(measurement.value.unitAndConversion(targetUnit))
+    private val targetUnit get() = data.value.targetUnit
 
     private val tag = "QuickConvertCardViewModel"
 
     /// When the user modifies the value in the `MeasurementTextField` update the `value`
     fun updateValue(newValue: Double) {
         Log.d(tag, "value updated from $value to $newValue")
-        measurement.update { currentMeasurement ->
-            currentMeasurement.copy(value = newValue)
+        data.update { currentData ->
+            currentData.copy(value = newValue)
         }
-        updateConvertedText()
+        Storage.saveQuickDataToJson(data.value)
     }
 
     /// When the user modifies the `From` dropdown, update the `measurement.unit`
     fun updateUnit(newUnit: YkUnit?) {
-        newUnit?.let {
-            Log.d(tag, "unit updated from $unit to $it")
-            measurement.update { currentMeasurement ->
-                currentMeasurement.copy(unit = it)
+        newUnit?.let { newUnit ->
+            Log.d(tag, "unit updated from $unit to $newUnit")
+            data.update { currentData ->
+                val newTargetUnit = newUnit.getNewTargetUnit(targetUnit)
+                currentData.copy(unit = newUnit, targetUnit = newTargetUnit)
             }
-            equivalentUnits = it.equivalentUnits()
-            targetUnit = it.getNewTargetUnit(targetUnit)
-            updateConvertedText()
+            Storage.saveQuickDataToJson(data.value)
         }
     }
 
     /// When the user modifies the `To` dropdown, update the `targetUnit`
-    fun updateTargetUnit(newUnit: YkUnit?) {
-        newUnit?.let {
-            Log.d(tag, "targetUnit updated from $targetUnit to $it")
-            targetUnit = it
-            updateConvertedText()
+    fun updateTargetUnit(newTargetUnit: YkUnit?) {
+        newTargetUnit?.let {newTargetUnit ->
+            Log.d(tag, "targetUnit updated from $targetUnit to $newTargetUnit")
+            data.update { currentData ->
+                currentData.copy(targetUnit = newTargetUnit)
+            }
+            Storage.saveQuickDataToJson(data.value)
         }
-    }
-
-    /// When a new value is received, update the text at the bottom of the card
-    private fun updateConvertedText() {
-        val newText = measurement.value.unitAndConversion(targetUnit)
-        Log.d(tag, "convertedText updated from $convertedText to $newText")
-        convertedText = newText
     }
 
     /// When viewing the onboard screen, this modifies which view is highlighted
