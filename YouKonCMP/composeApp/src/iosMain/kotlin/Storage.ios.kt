@@ -1,5 +1,7 @@
 import kotlinx.cinterop.ExperimentalForeignApi
+import model.YkQuickData
 import model.YkStrings
+import model.YkUnit
 import platform.Foundation.*
 import model.YkUser
 
@@ -19,6 +21,9 @@ actual class Storage {
 
         /// The working file, which will be imported on startup, and saved any time the user modifies the data
         private val workingFile: String get() = "$documentsPath/userdata.json"
+
+        /// The quick data file, containing a value, unit, and target unit for the quick convert card
+        private val quickDataFile: String get() = "$documentsPath/quickdata.json"
 
         actual val defaultUser: YkUser
             get() {
@@ -46,14 +51,36 @@ actual class Storage {
             }
 
         @OptIn(ExperimentalForeignApi::class)
-        @Suppress("CAST_NEVER_SUCCEEDS")
+        actual val savedQuickData: YkQuickData
+            get() {
+                try {
+                    NSString.stringWithContentsOfFile(quickDataFile, NSUTF8StringEncoding, null)?.let {
+                        return YkQuickData.fromJsonString(it)
+                    }
+                    Log.d(tag, "Loaded savedUser from Json")
+                } catch (exception: Exception) {
+                    exception.printStackTrace()
+                }
+                Log.d(tag, "Failed to load savedUser from Json, falling back to defaultUser")
+                return YkQuickData(2.26, YkUnit.METERS, YkUnit.FEET)
+            }
+
         actual fun saveUserToJson(user: YkUser) {
-            val jsonString = user.asJsonString() as NSString
+            saveToJson(user.asJsonString(), workingFile)
+        }
+
+        actual fun saveQuickDataToJson(data: YkQuickData) {
+            saveToJson(data.asJsonString, quickDataFile)
+        }
+
+        @OptIn(ExperimentalForeignApi::class)
+        @Suppress("CAST_NEVER_SUCCEEDS")
+        private fun saveToJson(str: String, file: String) {
             try {
-                jsonString.writeToFile(workingFile, true, NSUTF8StringEncoding, null)
-                Log.d(tag, "saveUserToJson succeeded in writing to $workingFile")
+                (str as NSString).writeToFile(file, true, NSUTF8StringEncoding, null)
+                Log.d(tag, "saveToJson succeeded in writing to $file")
             } catch(exception: Exception) {
-                Log.d(tag, "saveUserToJson failed with exception $exception")
+                Log.d(tag, "saveToJson failed with exception $exception")
             }
         }
     }

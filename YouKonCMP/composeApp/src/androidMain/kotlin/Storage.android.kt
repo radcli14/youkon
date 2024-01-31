@@ -1,5 +1,7 @@
 import android.os.Environment
+import model.YkQuickData
 import model.YkStrings
+import model.YkUnit
 import model.YkUser
 import java.io.File
 
@@ -19,6 +21,10 @@ actual class Storage {
         /// The working file, which will be imported on startup, and saved any time the user modifies the data
         private val workingFile: File
             get() = File("${documentsUrl.absolutePath}/userdata.json")
+
+        /// The quick data file, containing a value, unit, and target unit for the quick convert card
+        private val quickDataFile: File
+            get() = File("${documentsUrl.absolutePath}/quickdata.json")
 
         actual val defaultUser: YkUser
             get() {
@@ -42,6 +48,17 @@ actual class Storage {
                 return defaultUser
             }
 
+        actual val savedQuickData: YkQuickData
+            get() {
+                try {
+                    val contents = quickDataFile.readText()
+                    return YkQuickData.fromJsonString(contents)
+                } catch (err: Exception) {
+                    Log.d(tag, "Failed to load the saved YkQuick, falling back to default")
+                }
+                return YkQuickData(2.26, YkUnit.METERS, YkUnit.FEET)
+            }
+
         actual fun saveUserToJson(user: YkUser) {
             val jsonString = user.asJsonString()
             try {
@@ -52,6 +69,22 @@ actual class Storage {
                 }
                 workingFile.writeText(jsonString)
                 Log.d(tag, "Save succeeded to $workingFile")
+            } catch(exception: Exception) {
+                Log.d(tag,"Save failed because $exception")
+                exception.printStackTrace()
+            }
+        }
+
+        actual fun saveQuickDataToJson(data: YkQuickData) {
+            val jsonString = data.asJsonString
+            try {
+                if (!quickDataFile.exists()) {
+                    // If the file doesn't exist, try creating it along with the necessary directories
+                    quickDataFile.parentFile?.mkdirs()
+                    quickDataFile.createNewFile()
+                }
+                quickDataFile.writeText(jsonString)
+                Log.d(tag, "Save succeeded to $quickDataFile")
             } catch(exception: Exception) {
                 Log.d(tag,"Save failed because $exception")
                 exception.printStackTrace()
