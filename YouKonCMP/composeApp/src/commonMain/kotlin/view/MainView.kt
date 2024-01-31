@@ -1,5 +1,6 @@
 package view
 
+import YoukonTheme
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
@@ -10,7 +11,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
-//import androidx.compose.material.icons.rounded.QuestionMark
+import androidx.compose.material.icons.rounded.Info
 import androidx.compose.material3.BottomSheetScaffold
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
@@ -22,7 +23,6 @@ import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-//import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
@@ -30,17 +30,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.input.pointer.pointerInput
-//import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.unit.dp
-import model.ProjectExpansionLevel
-import YoukonTheme
-import androidx.compose.material.icons.rounded.Info
 import dev.icerock.moko.mvvm.livedata.compose.observeAsState
+import kotlinx.coroutines.launch
+import model.ProjectExpansionLevel
 import viewmodel.MainViewModel
 import viewmodel.OnboardingScreenViewModel
-import viewmodel.ProjectsCardViewModel
 import viewmodel.QuickConvertCardViewModel
-import kotlinx.coroutines.launch
 
 
 class MainView(
@@ -111,17 +108,27 @@ class MainView(
             sheetContent = {
                 ProjectEditingSheet()
             },
-            modifier = Modifier.tapOutside()
+            modifier = Modifier.closeSheetOnTapOutside().closeKeyboardOnTapOutside()
         ) {
             MainContentStack()
         }
     }
 
     /// Modifier used to close the bottom sheet when tapping outside of it
-    private fun Modifier.tapOutside() = composed {
+    private fun Modifier.closeSheetOnTapOutside() = composed {
         Modifier.pointerInput(Unit) {
             detectTapGestures(
                 onTap = { mainViewModel.stopEditing() }
+            )
+        }
+    }
+
+    /// Modifier used to close the keyboard when tapping outside of it
+    private fun Modifier.closeKeyboardOnTapOutside() = composed {
+        val localFocusManager = LocalFocusManager.current
+        Modifier.pointerInput(Unit) {
+            detectTapGestures(
+                onTap = { localFocusManager.clearFocus() }
             )
         }
     }
@@ -145,7 +152,9 @@ class MainView(
     /// When the user taps on the values in a `ProjectView` this opens the sheet for editing it
     @Composable
     private fun ProjectEditingSheet() {
-        Column {
+        Column(
+            Modifier.closeKeyboardOnTapOutside()
+        ) {
             mainViewModel.project?.let { project ->
                 val pvm = mainViewModel.projectsCardViewModel.projectViewModel(project)
                 pvm.expansion.value = ProjectExpansionLevel.EDITABLE
