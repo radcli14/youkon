@@ -33,7 +33,7 @@ fun MeasurementTextField(
 
     Surface(
         modifier = modifier.height(40.dp),
-        color = MaterialTheme.colorScheme.inverseOnSurface,
+        color = grayBackground.copy(alpha = 0.55f),
         shape = MaterialTheme.shapes.medium
     ) {
         Row(
