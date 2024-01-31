@@ -8,7 +8,11 @@ import dev.icerock.moko.mvvm.viewmodel.ViewModel
 import model.YkProject
 import model.YkUser
 
-class MainViewModel(loadDefault: Boolean = false, verbose: Boolean = false) : ViewModel() {
+class MainViewModel(
+    private val canSave: Boolean = true,
+    loadDefault: Boolean = false,
+    verbose: Boolean = false
+) : ViewModel() {
     private val _isEditingProject = MutableLiveData(false)
     val isEditingProject: LiveData<Boolean> = _isEditingProject
     var project: YkProject? = null
@@ -28,7 +32,7 @@ class MainViewModel(loadDefault: Boolean = false, verbose: Boolean = false) : Vi
     private val defaultUser: YkUser get() = Storage.defaultUser
     private val savedUser: YkUser get() = Storage.savedUser
     fun saveUserToJson() {
-        Storage.saveUserToJson(user)
+        if (canSave) { Storage.saveUserToJson(user) }
     }
 
     /// The user tapped the measurements in a project's disclosure group, toggle editable measurements sheet
