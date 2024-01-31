@@ -12,7 +12,7 @@ class OnboardingScreenViewModel : ViewModel() {
     private val tag = "OnboardingScreenViewModel"
     val showOnboarding = mutableStateOf(false)
 
-    val mainViewModel = MainViewModel(loadDefault = true)
+    val mainViewModel = MainViewModel(loadDefault = true, canSave = false)
     private val projectsCardViewModel = mainViewModel.projectsCardViewModel
     val quickConvertCardViewModel = QuickConvertCardViewModel()
 
