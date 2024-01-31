@@ -7,7 +7,6 @@ import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
-import model.YkUnit
 import view.MainView
 import viewmodel.MainViewModel
 import viewmodel.OnboardingScreenViewModel
@@ -21,9 +20,6 @@ class MainActivity : ComponentActivity() {
 
     private val tag = "MainViewModel"
     private val showOnboardingKey = "showOnboarding"
-    private val quickConvertUnitKey = "quickConvertUnit"
-    private val quickConvertTargetKey = "quickConvertTarget"
-    private val quickConvertValueKey = "quickConvertValue"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,17 +31,6 @@ class MainActivity : ComponentActivity() {
         if (sharedPref.getBoolean(showOnboardingKey, true)) {
             onboardingScreenViewModel.openOnboarding()
         }
-
-        quickConvertCardViewModel.updateUnit(
-            YkUnit.valueOf(sharedPref.getString(quickConvertUnitKey, "METERS") ?: "METERS")
-        )
-
-        quickConvertCardViewModel.updateTargetUnit(
-            YkUnit.valueOf(sharedPref.getString(quickConvertTargetKey, "FEET") ?: "FEET")
-        )
-        quickConvertCardViewModel.updateValue(
-            sharedPref.getString(quickConvertValueKey, "2.26")?.toDouble() ?: 2.26
-        )
 
         // Specify whether the onboarding screen displays in wide (tablet) or narrow form (phones)
         val manager = getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
@@ -66,9 +51,6 @@ class MainActivity : ComponentActivity() {
         val sharedPref = getPreferences(Context.MODE_PRIVATE) ?: return
         with (sharedPref.edit()) {
             putBoolean(showOnboardingKey, false)
-            putString(quickConvertUnitKey, quickConvertCardViewModel.unit.toString())
-            putString(quickConvertTargetKey, quickConvertCardViewModel.targetUnit.toString())
-            putString(quickConvertValueKey, quickConvertCardViewModel.value.toString())
             apply()
             commit()
         }
