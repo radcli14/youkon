@@ -44,7 +44,7 @@ fun MeasurementTextField(
             BasicTextField(
                 value = text,
                 modifier = Modifier.weight(1f),
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
                 singleLine = true,
                 onValueChange = { newText ->
                     if (newText.text.toDoubleOrNull() != null) {
