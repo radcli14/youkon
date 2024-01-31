@@ -158,7 +158,7 @@ class MainView(
             mainViewModel.project?.let { project ->
                 val pvm = mainViewModel.projectsCardViewModel.projectViewModel(project)
                 pvm.expansion.value = ProjectExpansionLevel.EDITABLE
-                ProjectView(pvm).Body()
+                ProjectViewWhenEditing(pvm).Body()
             }
             Spacer(Modifier.weight(1f))
         }
