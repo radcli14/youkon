@@ -83,6 +83,7 @@ class ProjectView(
                 NameField()
                 DescriptionField()
             }
+            CloseIcon(vm.expansion.value)
         }
     }
 

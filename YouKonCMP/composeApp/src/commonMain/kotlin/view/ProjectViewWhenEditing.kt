@@ -72,7 +72,6 @@ class ProjectViewWhenEditing(
                 NameField()
                 DescriptionField()
             }
-            CloseIcon(vm.expansion.value)
         }
     }
 
