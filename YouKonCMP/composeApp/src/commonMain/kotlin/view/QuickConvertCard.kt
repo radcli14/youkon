@@ -3,7 +3,10 @@ package view
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.MaterialTheme
@@ -74,7 +77,8 @@ class QuickConvertCard(
         }
         Row(
             horizontalArrangement = Arrangement.spacedBy(8.dp),
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier.height(IntrinsicSize.Min)
         ) {
             TextField(
                 modifier = Modifier
@@ -85,6 +89,7 @@ class QuickConvertCard(
                 modifier = Modifier
                     .onboardingModifier(QuickConvertViews.CONVERTED)
                     .weight(1f)
+                    .fillMaxHeight()
             )
         }
     }
