@@ -7,6 +7,7 @@ import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -17,12 +18,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
-import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Paint
 import androidx.compose.ui.graphics.Shape
-import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
-import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
@@ -49,41 +46,6 @@ fun Modifier.editButtonModifier(
         .padding(padding)
 }
 
-fun Modifier.coloredShadow(
-    color: Color,
-    alpha: Float = 0.75f,
-    borderRadius: Dp = 8.dp,
-    shadowRadius: Dp = 36.dp,
-    offsetY: Dp = 0.dp,
-    offsetX: Dp = 0.dp
-) = composed {
-    val shadowColor = color.copy(alpha = alpha).toArgb()
-    val transparent = color.copy(alpha = 0f).toArgb()
-    this.drawBehind {
-        this.drawIntoCanvas {
-            val paint = Paint()
-            val frameworkPaint = paint.asFrameworkPaint()
-            frameworkPaint.color = transparent
-            /*frameworkPaint.setShadowLayer(
-                shadowRadius.toPx(),
-                offsetX.toPx(),
-                offsetY.toPx(),
-                shadowColor
-            )*/
-            it.drawRoundRect(
-                0f,
-                0f,
-                this.size.width,
-                this.size.height,
-                borderRadius.toPx(),
-                borderRadius.toPx(),
-                paint
-            )
-        }
-    }
-}
-
-
 @Composable
 fun pickerColor(isSelected: Boolean): Color {
     return if (isSelected) pickerSelectedColor else grayBackground
@@ -107,7 +69,8 @@ val animatedColor: Color
             animationSpec = infiniteRepeatable(
                 animation = tween(750, easing = LinearEasing),
                 repeatMode = RepeatMode.Reverse
-            ), label = ""
+            ),
+            label = "Transition color to draw attention to sections of the view in the onboarding"
         )
         return color
     }
@@ -115,7 +78,7 @@ val animatedColor: Color
 /// Provides a view modifier for a colored shadow if the selected view is highlighted in the onboarding screen
 fun Modifier.onboardingModifier(isHighlighted: Boolean): Modifier = composed {
     if (isHighlighted)
-        this.coloredShadow(animatedColor)
+        this.border(width = 3.dp, color = animatedColor, shape = MaterialTheme.shapes.large)
     else
         this
 }
