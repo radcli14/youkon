@@ -168,7 +168,7 @@ class ProjectView(
             modifier = Modifier
                 .onboardingModifier(ProjectViewViews.STATIC_MEASUREMENTS)
                 .clickable {
-                    mainViewModel?.toggleEdit(vm.project.value)
+                    mainViewModel?.startEditing(vm.project.value)
                 }
         ) {
             project.value.measurements.forEach { measurement ->

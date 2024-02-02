@@ -21,11 +21,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.composed
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import model.YkMeasurement
 import viewmodel.MainViewModel
 import viewmodel.ProjectViewModel
+import viewmodel.ProjectViewViews
 
 /// Upon tapping on the measurements, a bottom sheet will open into "Editable" mode.
 class ProjectViewWhenEditing(
@@ -55,11 +57,18 @@ class ProjectViewWhenEditing(
         }
     }
 
+    /// Provides a view modifier for a colored shadow if the selected view is highlighted in the onboarding screen
+    private fun Modifier.onboardingModifier(view: ProjectViewViews): Modifier = composed {
+        this.onboardingModifier(vm.highlightedView.value == view)
+    }
+
     /// The name and description shown at the top of the project
     @Composable
     private fun LabelStack() {
         Row(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .onboardingModifier(ProjectViewViews.LABEL_STACK),
             verticalAlignment = Alignment.CenterVertically
         ) {
             ProjectImage(
@@ -68,7 +77,9 @@ class ProjectViewWhenEditing(
                 imageShape = MaterialTheme.shapes.large
             )
             Spacer(Modifier.width(8.dp))
-            Column(modifier = Modifier.weight(1f)) {
+            Column(
+                modifier = Modifier.weight(1f)
+            ) {
                 NameField()
                 DescriptionField()
             }
@@ -115,7 +126,10 @@ class ProjectViewWhenEditing(
     /// The plus and minus buttons on the right hand side when editing, to create or delete measurements
     @Composable
     private fun ExpansionPlusMinusStack() {
-        Row(verticalAlignment = Alignment.CenterVertically) {
+        Row(
+            modifier = Modifier.onboardingModifier(ProjectViewViews.PLUS_MINUS),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
             Text("Edit Measurements",
                 color = MaterialTheme.colorScheme.primary,
                 style = MaterialTheme.typography.titleLarge
@@ -186,7 +200,11 @@ class ProjectViewWhenEditing(
     private fun EditableMeasurement(measurement: YkMeasurement) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             SubtractMeasurementButton(measurement)
-            MeasurementView(measurement).Body()
+            MeasurementView(
+                measurement,
+                highlightNameAndDescription = vm.highlightedView.value == ProjectViewViews.MEASUREMENT_LABEL,
+                highlightValueAndUnit = vm.highlightedView.value == ProjectViewViews.MEASUREMENT_FIELDS
+            ).Body()
         }
     }
 

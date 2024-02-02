@@ -42,12 +42,17 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
+import getPlatform
 import kotlinx.coroutines.delay
 import viewmodel.OnboardingScreenViewModel
 
 class OnboardingScreen(
     private val viewModel: OnboardingScreenViewModel = OnboardingScreenViewModel(),
 ) {
+    init {
+        viewModel.updateHighlight()
+    }
+
     @Composable
     fun Body() {
         Column(
@@ -57,10 +62,10 @@ class OnboardingScreen(
             ),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            var varticalOffsetForMainView by remember {
+            var verticalOffsetForMainView by remember {
                 mutableStateOf(viewModel.mainViewVerticalOffset)
             }
-            val offsetForMainView by animateDpAsState(varticalOffsetForMainView)
+            val offsetForMainView by animateDpAsState(verticalOffsetForMainView)
 
             Box(modifier = Modifier
                 .fillMaxHeight(viewModel.dialogFillRatio)
@@ -69,7 +74,10 @@ class OnboardingScreen(
                 ScaledMainView(
                     Modifier
                         .align(Alignment.TopCenter)
-                        .offset(y = offsetForMainView)
+                        .offset(
+                            x = if ("iOS" in getPlatform().name) (-12).dp else 0.dp,
+                            y = offsetForMainView
+                        )
                 )
                 OnboardText(
                     Modifier
@@ -79,11 +87,11 @@ class OnboardingScreen(
                 NavButton(
                     Modifier.align(Alignment.BottomEnd)
                 ) {
-                    varticalOffsetForMainView = viewModel.mainViewVerticalOffset
+                    verticalOffsetForMainView = viewModel.mainViewVerticalOffset
                 }
             }
             Tabs {
-                varticalOffsetForMainView = viewModel.mainViewVerticalOffset
+                verticalOffsetForMainView = viewModel.mainViewVerticalOffset
             }
         }
     }
@@ -231,7 +239,6 @@ class OnboardingScreen(
     fun navButtonIcon(): ImageVector {
         return if (viewModel.onLastBeforeExit) Icons.Default.Check else Icons.Default.ArrowForward
     }
-
 }
 
 /*

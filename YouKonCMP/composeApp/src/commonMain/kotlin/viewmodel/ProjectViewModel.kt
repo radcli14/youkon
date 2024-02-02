@@ -13,7 +13,8 @@ import model.YkUnit
 import kotlinx.coroutines.flow.MutableStateFlow
 
 enum class ProjectViewViews {
-    COMPACT, STATIC, SYSTEM_PICKER, STATIC_MEASUREMENTS, EDITABLE, LABEL_STACK, PLUS_MINUS
+    COMPACT, STATIC, SYSTEM_PICKER, STATIC_MEASUREMENTS,
+    EDITABLE, LABEL_STACK, PLUS_MINUS, MEASUREMENT_LABEL, MEASUREMENT_FIELDS
 }
 
 class ProjectViewModel(initialProject: YkProject = YkProject()) : ViewModel() {
@@ -55,7 +56,6 @@ class ProjectViewModel(initialProject: YkProject = YkProject()) : ViewModel() {
             ProjectExpansionLevel.COMPACT ->  ProjectExpansionLevel.STATIC
             ProjectExpansionLevel.STATIC -> ProjectExpansionLevel.COMPACT
             ProjectExpansionLevel.EDITABLE -> ProjectExpansionLevel.STATIC
-            else -> ProjectExpansionLevel.COMPACT
         }
     }
 
@@ -126,6 +126,8 @@ class ProjectViewModel(initialProject: YkProject = YkProject()) : ViewModel() {
             0 -> highlight(ProjectViewViews.EDITABLE)
             1 -> highlight(ProjectViewViews.LABEL_STACK)
             2 -> highlight(ProjectViewViews.PLUS_MINUS)
+            3 -> highlight(ProjectViewViews.MEASUREMENT_LABEL)
+            4 -> highlight(ProjectViewViews.MEASUREMENT_FIELDS)
             else -> highlight(null)
         }
     }

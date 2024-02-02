@@ -29,6 +29,7 @@ class OnboardingScreenViewModel : ViewModel() {
     /// Close the dialog containing the onboarding screen
     fun closeOnboarding() {
         Log.d(tag, "closed onboarding screen")
+        mainViewModel.stopEditing()
         showOnboarding.value = false
     }
 
@@ -93,11 +94,9 @@ class OnboardingScreenViewModel : ViewModel() {
         when(currentPage.intValue) {
             3 -> projectViewModel.highlightInProjectView(currentText.intValue)
             4 -> {
-                Log.d(tag, "got to the editing page, mainViewModel.isEditingProject = ${mainViewModel.isEditingProject.value}")
-                if (mainViewModel.isEditingProject.value != true) {
-                    mainViewModel.toggleEdit(projectViewModel.project.value)
+                if (!mainViewModel.isEditingProject.value) {
+                    mainViewModel.startEditing(projectViewModel.project.value)
                 }
-                Log.d(tag, "  ${mainViewModel.isEditingProject.value}")
                 projectViewModel.highlightInEditableView(currentText.intValue)
             }
             else -> projectViewModel.highlight(null)
@@ -133,8 +132,8 @@ class OnboardingScreenViewModel : ViewModel() {
         get() = if (currentPage.value < 2) Alignment.TopStart else Alignment.BottomStart
 
     val onboardTextOffset: Dp
-        get() = if (currentPage.value < 2) 0.dp else (-64).dp
+        get() = if (currentPage.value < 2) 0.dp else (-32).dp
 
     val mainViewVerticalOffset: Dp
-        get() = if (currentPage.value < 2) 64.dp else (-96).dp
+        get() = if (currentPage.value < 2) 64.dp else (-128).dp
 }

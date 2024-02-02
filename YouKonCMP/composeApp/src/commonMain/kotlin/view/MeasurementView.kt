@@ -3,6 +3,7 @@ package view
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -14,14 +15,23 @@ import viewmodel.MeasurementViewModel
 
 /// The editable form of a single measurement, with a name, description, value, and unit. Name and
 /// description are editable text fields, value is a numeric field, and unit is a dropdown.
-class MeasurementView(measurement: YkMeasurement) {
+class MeasurementView(
+    measurement: YkMeasurement,
+    private val highlightNameAndDescription: Boolean = false,
+    private val highlightValueAndUnit: Boolean = false
+) {
     private val vm = MeasurementViewModel(measurement)
 
     @Composable
     fun Body() {
         Column(modifier = Modifier.padding(vertical = 8.dp)) {
-            NameField()
-            DescriptionField()
+            Column(modifier = Modifier
+                .fillMaxWidth()
+                .onboardingModifier(highlightNameAndDescription)
+            ) {
+                NameField()
+                DescriptionField()
+            }
             ValueAndUnitStack()
         }
     }
@@ -56,6 +66,7 @@ class MeasurementView(measurement: YkMeasurement) {
     @Composable
     private fun ValueAndUnitStack() {
         Row(
+            modifier = Modifier.onboardingModifier(highlightValueAndUnit),
             horizontalArrangement = Arrangement.spacedBy(8.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {

@@ -1,5 +1,6 @@
 package view
 
+//import androidx.compose.material.icons.filled.Remove
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -18,7 +19,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.Delete
-//import androidx.compose.material.icons.filled.Remove
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -32,7 +32,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import model.YkProject
 import viewmodel.MainViewModel
-import viewmodel.ProjectsCardViewModel
 import viewmodel.ProjectsCardViews
 
 class ProjectsCard(
@@ -75,6 +74,7 @@ class ProjectsCard(
         this.onboardingModifier(vm.highlightedView.value == view)
     }
 
+    /// A row with the text defining the card as `Projects`, and buttons to toggle adding and subtracting
     @Composable
     fun LabelStack() {
         Row(verticalAlignment = Alignment.CenterVertically) {
@@ -86,13 +86,16 @@ class ProjectsCard(
             )
             Spacer(Modifier.weight(1f))
             PlusButton()
+            Spacer(Modifier.width(8.dp))
             MinusButton()
         }
     }
 
+    /// A button that, when tapped, adds a new, empty project
     @Composable
     fun PlusButton() {
         IconButton(
+            modifier = Modifier.editButtonModifier().onboardingModifier(ProjectsCardViews.PLUS),
             onClick = {
                 vm.addProject()
                 mainViewModel.saveUserToJson()
@@ -101,21 +104,21 @@ class ProjectsCard(
             Icon(
                 imageVector = Icons.Default.Add,
                 contentDescription = "Add a new project",
-                modifier = Modifier.editButtonModifier().onboardingModifier(ProjectsCardViews.PLUS),
                 tint = MaterialTheme.colorScheme.primary
             )
         }
     }
 
+    /// A button that, when tapped, toggles the projects to show red "X" to delete them
     @Composable
     fun MinusButton() {
         IconButton(
+            modifier = Modifier.editButtonModifier().onboardingModifier(ProjectsCardViews.MINUS),
             onClick = { vm.onSubtractButtonTap() }
         ) {
             Icon(
                 imageVector = Icons.Default.Delete, // .Remove,
                 contentDescription = "Allow deleting projects",
-                modifier = Modifier.editButtonModifier().onboardingModifier(ProjectsCardViews.MINUS),
                 tint = MaterialTheme.colorScheme.primary
             )
         }
