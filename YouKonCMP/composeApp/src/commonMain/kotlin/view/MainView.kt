@@ -93,11 +93,16 @@ class MainView(
         // React to changes in mainViewModel.isEditingProject by expanding or collapsing
         val scope = rememberCoroutineScope()
         val isBottomSheetExpanded by mainViewModel.isEditingProject.observeAsState()
+        // TODO: it seems the entire view is getting recomposed when the onboarding view model updates, and when this recompose happens the default sheet state is closed. Try to prevent this extra recompose.
+        if (isBottomSheetExpanded) {
+            scope.launch { scaffoldState.bottomSheetState.expand() }
+        }
         LaunchedEffect(isBottomSheetExpanded) {
             if (isBottomSheetExpanded) {
                 scope.launch { scaffoldState.bottomSheetState.expand() }
             } else {
                 scope.launch { scaffoldState.bottomSheetState.hide() }
+                Log.d("MainView", "did hide the sheet")
                 mainViewModel.saveUserToJson()
             }
         }
@@ -108,7 +113,9 @@ class MainView(
             sheetContent = {
                 ProjectEditingSheet()
             },
-            modifier = Modifier.closeSheetOnTapOutside().closeKeyboardOnTapOutside()
+            modifier = Modifier
+                .closeSheetOnTapOutside()
+                .closeKeyboardOnTapOutside()
         ) {
             MainContentStack()
         }
