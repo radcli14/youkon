@@ -8,6 +8,11 @@ Examples where this may be useful:
 - Measurement quantities for a recipe
 - ... and many more
 
+## Download the App
+
+YouKon is now available for beta testing at the following links:
+- **iOS**: https://testflight.apple.com/join/aKAd0AwD
+- **Android**: https://play.google.com/apps/testing/com.dcengineer.youkon
 
 ## User Interface
 
