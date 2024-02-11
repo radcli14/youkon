@@ -9,8 +9,7 @@ import model.YkProject
 import model.YkUser
 
 class MainViewModel(
-    private val canSave: Boolean = true,
-    loadDefault: Boolean = false,
+    private val storage: Storage? = null,
     verbose: Boolean = false
 ) : ViewModel() {
     private val _isEditingProject = MutableLiveData(false)
@@ -21,7 +20,7 @@ class MainViewModel(
     private val tag = "MainViewModel"
 
     init {
-        user = if (loadDefault) defaultUser else savedUser
+        user = savedUser
         if (verbose) {
             Log.d(tag, "Initial User State\n==================\n\n${user.asJsonString()}\n\n")
         } else {
@@ -29,10 +28,10 @@ class MainViewModel(
         }
     }
 
-    private val defaultUser: YkUser get() = Storage.defaultUser
-    private val savedUser: YkUser get() = Storage.savedUser
+    private val defaultUser: YkUser get() = Storage().defaultUser
+    private val savedUser: YkUser get() = storage?.savedUser ?: defaultUser
     fun saveUserToJson() {
-        if (canSave) { Storage.saveUserToJson(user) }
+        storage?.saveUserToJson(user)
     }
 
     /// The user tapped the measurements in a project's disclosure group, toggle editable measurements sheet

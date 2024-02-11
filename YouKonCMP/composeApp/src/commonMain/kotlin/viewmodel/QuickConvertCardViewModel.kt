@@ -14,8 +14,8 @@ enum class QuickConvertViews {
     SURFACE, FROM, TO, VALUE, CONVERTED
 }
 
-class QuickConvertCardViewModel : ViewModel() {
-    val data = MutableStateFlow(Storage.savedQuickData)
+class QuickConvertCardViewModel(private val storage: Storage? = null) : ViewModel() {
+    val data = MutableStateFlow(storage?.savedQuickData ?: Storage().savedQuickData)
 
     val unit: YkUnit get() = data.value.unit
     val value: Double get() = data.value.value
@@ -30,7 +30,7 @@ class QuickConvertCardViewModel : ViewModel() {
         data.update { currentData ->
             currentData.copy(value = newValue)
         }
-        Storage.saveQuickDataToJson(data.value)
+        storage?.saveQuickDataToJson(data.value)
     }
 
     /// When the user modifies the `From` dropdown, update the `measurement.unit`
@@ -41,7 +41,7 @@ class QuickConvertCardViewModel : ViewModel() {
                 val newTargetUnit = newUnit.getNewTargetUnit(targetUnit)
                 currentData.copy(unit = newUnit, targetUnit = newTargetUnit)
             }
-            Storage.saveQuickDataToJson(data.value)
+            storage?.saveQuickDataToJson(data.value)
         }
     }
 
@@ -52,7 +52,7 @@ class QuickConvertCardViewModel : ViewModel() {
             data.update { currentData ->
                 currentData.copy(targetUnit = newTargetUnit)
             }
-            Storage.saveQuickDataToJson(data.value)
+            storage?.saveQuickDataToJson(data.value)
         }
     }
 

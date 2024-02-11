@@ -3,8 +3,9 @@ import viewmodel.MainViewModel
 import viewmodel.OnboardingScreenViewModel
 import viewmodel.QuickConvertCardViewModel
 
-private val mainViewModel = MainViewModel()
-private val quickConvertCardViewModel = QuickConvertCardViewModel()
+private val storage = Storage()
+private val mainViewModel = MainViewModel(storage)
+private val quickConvertCardViewModel = QuickConvertCardViewModel(storage)
 private val onboardingScreenViewModel = OnboardingScreenViewModel()
 
 fun MainViewController() = ComposeUIViewController {

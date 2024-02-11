@@ -1,5 +1,6 @@
 package com.dcengineer.youkon
 
+import Storage
 import android.content.Context
 import android.os.Bundle
 import android.telephony.TelephonyManager
@@ -7,18 +8,34 @@ import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import view.MainView
 import viewmodel.MainViewModel
 import viewmodel.OnboardingScreenViewModel
 import viewmodel.QuickConvertCardViewModel
 
+/// The `MainViewModelFactory` exists so that the storage class can be provided on creation
+class MainViewModelFactory(private val storage: Storage): ViewModelProvider.NewInstanceFactory() {
+    override fun <T : ViewModel> create(modelClass: Class<T>): T = MainViewModel(storage) as T
+}
+
+/// The `QuickConvertCardViewModelFactory` exists so that the storage class can be provided on creation
+class QuickConvertCardViewModelFactory(private val storage: Storage): ViewModelProvider.NewInstanceFactory() {
+    override fun <T : ViewModel> create(modelClass: Class<T>): T = QuickConvertCardViewModel(storage) as T
+}
 
 class MainActivity : ComponentActivity() {
-    private val mainViewModel: MainViewModel by viewModels()
+    private val storage = Storage(this)
+    private val mainViewModel: MainViewModel by viewModels {
+        MainViewModelFactory(storage)
+    }
     private val onboardingScreenViewModel: OnboardingScreenViewModel by viewModels()
-    private val quickConvertCardViewModel: QuickConvertCardViewModel by viewModels()
+    private val quickConvertCardViewModel: QuickConvertCardViewModel by viewModels {
+        QuickConvertCardViewModelFactory(storage)
+    }
 
-    private val tag = "MainViewModel"
+    private val tag = "MainActivity"
     private val showOnboardingKey = "showOnboarding"
 
     override fun onCreate(savedInstanceState: Bundle?) {
