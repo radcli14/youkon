@@ -52,30 +52,6 @@ kotlin {
         }
     }
 
-    // export correct artifact to use all classes of library directly from Swift
-    /*
-    targets.withType(org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget::class.java).all {
-        binaries.withType(org.jetbrains.kotlin.gradle.plugin.mpp.Framework::class.java).all {
-            export("dev.icerock.moko:mvvm-core:0.16.1")
-            export("dev.icerock.moko:mvvm-livedata:0.16.1")
-            export("dev.icerock.moko:mvvm-livedata-resources:0.16.1")
-            export("dev.icerock.moko:mvvm-state:0.16.1")
-        }
-    }
-    */
-
-    /*
-    cocoapods {
-        // ...
-
-        framework {
-            baseName = "MultiPlatformLibrary"
-            export("dev.icerock.moko:mvvm-core:$mokoMvvmVersion")
-            export("dev.icerock.moko:mvvm-flow:$mokoMvvmVersion")
-        }
-    }
-    */
-
 }
 
 android {
@@ -112,6 +88,7 @@ android {
     }
 }
 dependencies {
+
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.lifecycle.livedata.core.ktx)

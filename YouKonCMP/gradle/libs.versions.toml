@@ -14,13 +14,16 @@ compose = "1.6.0"
 compose-compiler = "1.5.8"
 compose-plugin = "1.5.11"
 junit = "4.13.2"
+koinCore = "3.6.0"
 kotlin = "1.9.21"
 lifecycleViewmodelKtx = "2.7.0"
 material3 = "1.1.2"
 lifecycleLivedataCoreKtx = "2.7.0"
 constraintlayoutCompose = "1.0.1"
+roomCompilerProcessingTesting = "2.6.1"
 
 [libraries]
+koin-core = { module = "io.insert-koin:koin-core", version.ref = "koinCore" }
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
 kotlin-test-junit = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlin" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -40,6 +43,7 @@ androidx-lifecycle-viewmodel-ktx = { group = "androidx.lifecycle", name = "lifec
 androidx-material3 = { group = "androidx.compose.material3", name = "material3", version.ref = "material3" }
 androidx-lifecycle-livedata-core-ktx = { group = "androidx.lifecycle", name = "lifecycle-livedata-core-ktx", version.ref = "lifecycleLivedataCoreKtx" }
 androidx-constraintlayout-compose = { group = "androidx.constraintlayout", name = "constraintlayout-compose", version.ref = "constraintlayoutCompose" }
+androidx-room-compiler-processing-testing = { group = "androidx.room", name = "room-compiler-processing-testing", version.ref = "roomCompilerProcessingTesting" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
