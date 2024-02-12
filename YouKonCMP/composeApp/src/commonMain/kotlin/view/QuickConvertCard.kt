@@ -140,7 +140,7 @@ class QuickConvertCard(
             modifier = modifier,
             contentAlignment = Alignment.CenterStart
         ) {
-            Text(data.convertedText,
+            TextWithSubscripts(data.convertedText,
                 style = MaterialTheme.typography.bodyLarge,
                 color = MaterialTheme.colorScheme.onSurface
             )

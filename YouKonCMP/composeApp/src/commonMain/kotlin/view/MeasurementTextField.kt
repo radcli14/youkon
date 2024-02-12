@@ -8,7 +8,6 @@ import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -61,7 +60,7 @@ fun MeasurementTextField(
                 ),
             )
             unitText?.let {
-                Text(it,
+                TextWithSubscripts(it,
                     style = textStyle,
                     color = MaterialTheme.colorScheme.onSurface
                 )

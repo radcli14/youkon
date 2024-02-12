@@ -208,7 +208,7 @@ class ProjectView(
                 style = MaterialTheme.typography.labelMedium,
                 color = MaterialTheme.colorScheme.onSurface
             )
-            Text(measurement.convertToSystem(vm.convertToSystem.value).valueString,
+            TextWithSubscripts(measurement.convertToSystem(vm.convertToSystem.value).valueString,
                 color = MaterialTheme.colorScheme.onSurface
             )
         }
