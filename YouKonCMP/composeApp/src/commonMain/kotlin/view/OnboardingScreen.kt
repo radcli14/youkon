@@ -49,10 +49,6 @@ import viewmodel.OnboardingScreenViewModel
 class OnboardingScreen(
     private val viewModel: OnboardingScreenViewModel = OnboardingScreenViewModel(),
 ) {
-    init {
-        viewModel.updateHighlight()
-    }
-
     @Composable
     fun Body() {
         Column(

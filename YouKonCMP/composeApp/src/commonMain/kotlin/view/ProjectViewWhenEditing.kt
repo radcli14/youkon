@@ -7,7 +7,9 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Clear
@@ -176,7 +178,9 @@ class ProjectViewWhenEditing(
     private fun ExpansionMeasurementsList() {
         val project = vm.project.collectAsState()
 
-        Column {
+        Column(
+            modifier = Modifier.verticalScroll(rememberScrollState())
+        ) {
             project.value.measurements.forEach { measurement ->
                 EditableMeasurement(measurement)
             }
@@ -241,5 +245,4 @@ fun ProjectViewWhenEditingPreview() {
     viewModel.toggleExpansion()
     ProjectViewWhenEditing(viewModel).Body()
 }
-
  */

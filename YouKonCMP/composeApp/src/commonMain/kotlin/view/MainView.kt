@@ -23,6 +23,7 @@ import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
@@ -43,13 +44,12 @@ import viewmodel.QuickConvertCardViewModel
 class MainView(
     private var mainViewModel: MainViewModel = MainViewModel(),
     private var quickConvertCardViewModel: QuickConvertCardViewModel = QuickConvertCardViewModel(),
-    private var onboardingScreenViewModel: OnboardingScreenViewModel = OnboardingScreenViewModel()
+    private var onboardingScreenViewModel: OnboardingScreenViewModel? = null
 ) {
     /// Initialize using the fake view models inside the onboarding screen
     constructor(onboardingScreenViewModel: OnboardingScreenViewModel): this(
         onboardingScreenViewModel.mainViewModel,
         onboardingScreenViewModel.quickConvertCardViewModel,
-        onboardingScreenViewModel
     )
 
     @Composable
@@ -68,7 +68,9 @@ class MainView(
     /// The onboarding screen will be shown on first app startup, or when user taps the help button
     @Composable
     fun Onboarding() {
-        OnboardingScreen(onboardingScreenViewModel).AsDialog()
+        onboardingScreenViewModel?.let {
+            OnboardingScreen(it).AsDialog()
+        }
     }
 
     /// Holds state and the bottom sheet scaffold to allow the editing screen to appear
@@ -93,13 +95,9 @@ class MainView(
         // React to changes in mainViewModel.isEditingProject by expanding or collapsing
         val scope = rememberCoroutineScope()
         val isBottomSheetExpanded by mainViewModel.isEditingProject.observeAsState()
-        // TODO: it seems the entire view is getting recomposed when the onboarding view model updates, and when this recompose happens the default sheet state is closed. Try to prevent this extra recompose.
-        if (isBottomSheetExpanded) {
-            scope.launch { scaffoldState.bottomSheetState.expand() }
-        }
         LaunchedEffect(isBottomSheetExpanded) {
             if (isBottomSheetExpanded) {
-                scope.launch { scaffoldState.bottomSheetState.expand() }
+                scope.launch { scaffoldState.bottomSheetState.partialExpand() }
             } else {
                 scope.launch { scaffoldState.bottomSheetState.hide() }
                 Log.d("MainView", "did hide the sheet")
@@ -109,7 +107,7 @@ class MainView(
 
         BottomSheetScaffold(
             scaffoldState = scaffoldState,
-            sheetPeekHeight = 360.dp,
+            sheetPeekHeight = 500.dp,
             sheetContent = {
                 ProjectEditingSheet()
             },
@@ -176,7 +174,9 @@ class MainView(
     @Composable
     private fun ActionButton(modifier: Modifier = Modifier) {
         val isBottomSheetExpanded by mainViewModel.isEditingProject.observeAsState()
-        val showOnboarding by remember { onboardingScreenViewModel.showOnboarding }
+        val showOnboarding by remember {
+            onboardingScreenViewModel?.showOnboarding ?: mutableStateOf(false)
+        }
         AnimatedVisibility(!showOnboarding,
             modifier = modifier.padding(16.dp)
         ) {
@@ -185,7 +185,7 @@ class MainView(
                     if (isBottomSheetExpanded) {
                         mainViewModel.stopEditing()
                     } else {
-                        onboardingScreenViewModel.openOnboarding()
+                        onboardingScreenViewModel?.openOnboarding()
                     }
               },
                 containerColor = MaterialTheme.colorScheme.primaryContainer
