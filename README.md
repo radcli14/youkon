@@ -19,23 +19,23 @@ YouKon is now available for beta testing at the following links:
 The main application view includes the logo and header, a quick conversion card, and the projects card
 Quick conversion includes a text field for entering numeric values, and dropdowns for selecting "from" and "to" units.
 
-| Quick Convert Card on Android                     | Quick Convert Card on iOS                         |
-|---------------------------------------------------|---------------------------------------------------|
-| ![Android Quick Convert](assets/quickConvert.png) | ![iOS Quick Convert](assets/quickConvert-ios.jpg) |
+| Quick Convert Card                             |
+|------------------------------------------------|
+| ![Quick Convert Card](assets/quickConvert.png) |
 
 Each user has a projects card, where any single project represents a grouping of measurement data that hold a common purpose.
 The projects in the card are laid out as tiles, which can be tapped to expand and show the enclosed measurements. 
 
-| Projects Card on Android                                   | Projects Card on iOS                                 |
-|------------------------------------------------------------|---------------------------------------------------------|
-|  ![Android Projects Card](assets/projectsCard-android.jpg) | ![iOS Projects Card](assets/projectsCard-ios.jpg) |
+| Projects Card                              |
+|--------------------------------------------|
+|  ![Projects Card](assets/projectsCard.png) |
 
 With a project file expanded, the user may then modify the measurements of that particular project.
 Unlike the quick converter, the individual measurements in a project do not have a "to" unit selector, rather the entire project will have a selector for a consistent unit set (i.e. Imperial or SI), and all measurements will get converted to this unit set.
 
-| Editable Project on Android                                     | Editable Project  on iOS                                |
-|-----------------------------------------------------------------|---------------------------------------------------------|
-| ![Android Editable Project](assets/editableProject-android.png) | ![iOS Editable Project](assets/editableProject-ios.jpg) |
+| Editable Project                                        |
+|---------------------------------------------------------|
+| ![Android Editable Project](assets/editableProject.png) |
 
 ## Shared Architecture
 
