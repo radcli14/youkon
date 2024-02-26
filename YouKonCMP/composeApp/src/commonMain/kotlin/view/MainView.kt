@@ -13,6 +13,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.rounded.Info
 import androidx.compose.material3.BottomSheetScaffold
+import androidx.compose.material3.BottomSheetScaffoldState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
@@ -26,6 +27,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
@@ -78,33 +80,6 @@ class MainView(
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     fun BottomSheetLayout() {
-        // Set up the scaffold state such that it clears the project being edited from the
-        // view model if the user drags the sheet downward. Will do the same if the user taps
-        // the floating action button in the lower right.
-        val scaffoldState = rememberBottomSheetScaffoldState(
-            bottomSheetState = rememberModalBottomSheetState(
-                confirmValueChange = {
-                    if (it == SheetValue.Hidden) {
-                        mainViewModel.stopEditing()
-                    }
-                    false
-                }
-            )
-        )
-
-        // React to changes in mainViewModel.isEditingProject by expanding or collapsing
-        val scope = rememberCoroutineScope()
-        val isBottomSheetExpanded by mainViewModel.isEditingProject.observeAsState()
-        LaunchedEffect(isBottomSheetExpanded) {
-            if (isBottomSheetExpanded) {
-                scope.launch { scaffoldState.bottomSheetState.partialExpand() }
-            } else {
-                scope.launch { scaffoldState.bottomSheetState.hide() }
-                Log.d("MainView", "did hide the sheet")
-                mainViewModel.saveUserToJson()
-            }
-        }
-
         BottomSheetScaffold(
             scaffoldState = scaffoldState,
             sheetPeekHeight = 500.dp,
@@ -118,6 +93,59 @@ class MainView(
             MainContentStack()
         }
     }
+
+    /// Set up the scaffold state such that it clears the project being edited from the
+    /// view model if the user drags the sheet downward. Will do the same if the user taps
+    /// the floating action button in the lower right.
+    @OptIn(ExperimentalMaterial3Api::class)
+    private val scaffoldState: BottomSheetScaffoldState
+        @Composable
+        get() {
+            val scope = rememberCoroutineScope()
+            val scaffoldState = rememberBottomSheetScaffoldState(
+                bottomSheetState = rememberModalBottomSheetState()
+            )
+
+            // React to changes in mainViewModel.isEditingProject by expanding or collapsing
+            val isBottomSheetExpanded by mainViewModel.isEditingProject.observeAsState()
+            LaunchedEffect(isBottomSheetExpanded) {
+                if (isBottomSheetExpanded) {
+                    scope.launch { scaffoldState.bottomSheetState.partialExpand() }
+                } else {
+                    scope.launch { scaffoldState.bottomSheetState.hide() }
+                }
+            }
+
+            // Observe dragging of the bottom sheet state, modify expanded state if needed
+            LaunchedEffect(scaffoldState.bottomSheetState) {
+                snapshotFlow { scaffoldState.bottomSheetState.targetValue }
+                    .collect { state ->
+                        when (state) {
+                            SheetValue.Expanded -> {
+                                scope.launch { scaffoldState.bottomSheetState.expand() }
+                            }
+                            SheetValue.PartiallyExpanded -> {
+                                scope.launch { scaffoldState.bottomSheetState.partialExpand() }
+                            }
+                            SheetValue.Hidden -> {
+                                scope.launch { scaffoldState.bottomSheetState.hide() }
+                            }
+                        }
+                    }
+            }
+
+            // Make sure that once the sheet is put into hidden state, you stop editing the project
+            LaunchedEffect(scaffoldState.bottomSheetState) {
+                snapshotFlow { scaffoldState.bottomSheetState.currentValue }
+                    .collect { state ->
+                        if (state == SheetValue.Hidden && mainViewModel.isEditingProject.value) {
+                            mainViewModel.stopEditing(saveAfterStopping = true)
+                        }
+                    }
+            }
+
+            return scaffoldState
+        }
 
     /// Modifier used to close the bottom sheet when tapping outside of it
     private fun Modifier.closeSheetOnTapOutside() = composed {
@@ -155,6 +183,7 @@ class MainView(
     }
 
     /// When the user taps on the values in a `ProjectView` this opens the sheet for editing it
+    @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     private fun ProjectEditingSheet() {
         Column(
@@ -183,7 +212,7 @@ class MainView(
             FloatingActionButton(
                 onClick = {
                     if (isBottomSheetExpanded) {
-                        mainViewModel.stopEditing()
+                        mainViewModel.stopEditing(saveAfterStopping = true)
                     } else {
                         onboardingScreenViewModel?.openOnboarding()
                     }
