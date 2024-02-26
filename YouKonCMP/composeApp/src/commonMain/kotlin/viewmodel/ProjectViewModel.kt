@@ -30,12 +30,6 @@ class ProjectViewModel(initialProject: YkProject = YkProject()) : ViewModel() {
     val showSubtractAlert = mutableStateOf(false)
     val measurementToDelete: MutableState<YkMeasurement?> = mutableStateOf(null)
 
-    val imageSize: Dp
-        get() = if (expansion.value == ProjectExpansionLevel.EDITABLE) 48.dp else 36.dp
-
-    val divTopPadding
-        get() = if (expansion.value == ProjectExpansionLevel.STATIC) 0.dp else 16.dp
-
     /// Update the public list of `YkProject` items by assuring that the Kotlin version is Swift formatted
     private fun updateMeasurements() {
         measurements.value = project.value.measurements.toTypedArray()

@@ -75,7 +75,7 @@ class ProjectView(
         ) {
             ProjectImage(
                 project = vm.project.value,
-                imageSize = vm.imageSize,
+                imageSize = Constants.imageSize,
                 imageShape = MaterialTheme.shapes.medium
             )
             Spacer(Modifier.width(8.dp))
@@ -96,7 +96,7 @@ class ProjectView(
             exit = shrinkVertically()
         ) {
             Column {
-                Divider(Modifier.padding(top = vm.divTopPadding))
+                Divider(Modifier.padding(top = Constants.divTopPadding))
                 SystemPicker()
                 ExpansionMeasurementsList()
             }
@@ -106,30 +106,28 @@ class ProjectView(
     /// Selection control between `YkSystem` variations, such as SI or IMPERIAL
     @Composable
     private fun SystemPicker() {
-        if (vm.expansion.value != ProjectExpansionLevel.EDITABLE) {
-            Row(
-                horizontalArrangement = Arrangement.SpaceEvenly,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 8.dp)
-                    .onboardingModifier(ProjectViewViews.SYSTEM_PICKER)
-            ) {
-                YkSystem.entries.forEach { system ->
-                    val isSelected = vm.convertToSystem.value == system
-                    Button(
-                        onClick = { vm.toggleSystem(system) },
-                        modifier = Modifier
-                            .weight(1f)
-                            .height(36.dp)
-                        ,
-                        shape = MaterialTheme.shapes.medium,
-                        colors = ButtonDefaults.buttonColors(
-                            containerColor = pickerColor(isSelected),
-                            contentColor = pickerTextColor
-                        )
-                    ) {
-                        Text(text = system.toString())
-                    }
+        Row(
+            horizontalArrangement = Arrangement.SpaceEvenly,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 8.dp)
+                .onboardingModifier(ProjectViewViews.SYSTEM_PICKER)
+        ) {
+            YkSystem.entries.forEach { system ->
+                val isSelected = vm.convertToSystem.value == system
+                Button(
+                    onClick = { vm.toggleSystem(system) },
+                    modifier = Modifier
+                        .weight(1f)
+                        .height(36.dp)
+                    ,
+                    shape = MaterialTheme.shapes.medium,
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = pickerColor(isSelected),
+                        contentColor = pickerTextColor
+                    )
+                ) {
+                    Text(text = system.toString())
                 }
             }
         }
@@ -211,6 +209,13 @@ class ProjectView(
             TextWithSubscripts(measurement.convertToSystem(vm.convertToSystem.value).valueString,
                 color = MaterialTheme.colorScheme.onSurface
             )
+        }
+    }
+
+    private class Constants {
+        companion object {
+            val imageSize = 36.dp
+            val divTopPadding = 4.dp
         }
     }
 }

@@ -74,7 +74,7 @@ class ProjectViewWhenEditing(
         ) {
             ProjectImage(
                 project = vm.project.value,
-                imageSize = vm.imageSize,
+                imageSize = Constants.imageSize,
                 imageShape = MaterialTheme.shapes.large
             )
             Spacer(Modifier.width(8.dp))
@@ -91,7 +91,7 @@ class ProjectViewWhenEditing(
     @Composable
     private fun ExpansionStack() {
         Column {
-            Divider(Modifier.padding(top = vm.divTopPadding))
+            Divider(Modifier.padding(top = Constants.divTopPadding))
             ExpansionPlusMinusStack()
             ExpansionMeasurementsList()
         }
@@ -232,6 +232,13 @@ class ProjectViewWhenEditing(
                     tint = MaterialTheme.colorScheme.onPrimary
                 )
             }
+        }
+    }
+
+    private class Constants {
+        companion object {
+            val imageSize = 48.dp
+            val divTopPadding = 16.dp
         }
     }
 }
