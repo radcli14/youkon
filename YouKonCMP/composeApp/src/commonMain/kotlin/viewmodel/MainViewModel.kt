@@ -42,11 +42,14 @@ class MainViewModel(
     }
 
     /// The user exited the bottom sheet, stop editing the project
-    fun stopEditing() {
+    fun stopEditing(saveAfterStopping: Boolean = false) {
         Log.d(tag, "stopped editing ${project?.name}")
         project?.let { projectsCardViewModel.stopEditing(it) }
         _isEditingProject.value = false
         project = null
+        if (saveAfterStopping) {
+            saveUserToJson()
+        }
     }
 
     /// The `ProjectsCardViewModel` is retained to persist the states of the individual projects
