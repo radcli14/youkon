@@ -69,16 +69,12 @@ actual class Storage actual constructor() {
     actual fun saveUserToJson(user: YkUser) {
         val jsonString = user.asJsonString()
         try {
-            Log.d(tag, "attempting to save to $workingFile")
+            Log.d(tag, "Attempting to save to $workingFile")
             if (!workingFile.exists()) {
                 // If the file doesn't exist, try creating it along with the necessary directories
-                Log.d(tag, "before mkdirs")
                 workingFile.parentFile?.mkdirs()
-                Log.d(tag, "after mkdirs")
                 workingFile.createNewFile()
-                Log.d(tag, "after createNewFile")
             }
-            Log.d(tag, "after exist checks")
             workingFile.writeText(jsonString)
             Log.d(tag, "Save succeeded to $workingFile")
         } catch(exception: Exception) {
