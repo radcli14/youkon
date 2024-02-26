@@ -7,9 +7,8 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Clear
@@ -178,11 +177,11 @@ class ProjectViewWhenEditing(
     private fun ExpansionMeasurementsList() {
         val project = vm.project.collectAsState()
 
-        Column(
-            modifier = Modifier.verticalScroll(rememberScrollState())
-        ) {
-            project.value.measurements.forEach { measurement ->
-                EditableMeasurement(measurement)
+        Column {
+            LazyColumn {
+                items(project.value.measurements.count()) {
+                    EditableMeasurement(project.value.measurements[it])
+                }
             }
 
             // I had a confusing issue where the two conditional state updates would fire
