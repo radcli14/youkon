@@ -2,15 +2,13 @@ package viewmodel
 
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.dp
 import dev.icerock.moko.mvvm.viewmodel.ViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
 import model.ProjectExpansionLevel
 import model.YkMeasurement
 import model.YkProject
 import model.YkSystem
 import model.YkUnit
-import kotlinx.coroutines.flow.MutableStateFlow
 
 enum class ProjectViewViews {
     COMPACT, STATIC, SYSTEM_PICKER, STATIC_MEASUREMENTS,
