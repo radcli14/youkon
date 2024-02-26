@@ -44,7 +44,7 @@ kotlin {
             implementation(compose.ui)
             @OptIn(ExperimentalComposeLibrary::class)
             implementation(compose.components.resources)
-            implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0")
+            implementation(libs.kotlinx.serialization.json)
             //implementation("androidx.compose.material:material-icons-extended:1.6.0")
         }
         desktopMain.dependencies {
