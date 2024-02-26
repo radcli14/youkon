@@ -45,7 +45,7 @@ class MainActivity : ComponentActivity() {
         val sharedPref = getPreferences(Context.MODE_PRIVATE) ?: return
         Log.d(tag, "Loaded shared preferences: ${sharedPref.all}")
 
-        if (sharedPref.getBoolean(showOnboardingKey, true)) {
+        if (sharedPref.getBoolean(showOnboardingKey, false)) {
             onboardingScreenViewModel.openOnboarding()
         }
 
