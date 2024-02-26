@@ -66,8 +66,8 @@ android {
         applicationId = "com.dcengineer.youkon"
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.targetSdk.get().toInt()
-        versionCode = 1
-        versionName = "1.0"
+        versionCode = 2
+        versionName = "0.2.0"
     }
     packaging {
         resources {
@@ -94,18 +94,19 @@ dependencies {
     implementation(libs.androidx.lifecycle.livedata.core.ktx)
     implementation(compose.material3)
     implementation(libs.androidx.constraintlayout.compose)
+    implementation(libs.androidx.ui.tooling.preview.android)
 
-    commonMainApi("dev.icerock.moko:mvvm-core:0.16.1") // only ViewModel, EventsDispatcher, Dispatchers.UI
-    commonMainApi("dev.icerock.moko:mvvm-flow:0.16.1") // api mvvm-core, CFlow for native and binding extensions
-    commonMainApi("dev.icerock.moko:mvvm-livedata:0.16.1") // api mvvm-core, LiveData and extensions
-    commonMainApi("dev.icerock.moko:mvvm-state:0.16.1") // api mvvm-livedata, ResourceState class and extensions
-    commonMainApi("dev.icerock.moko:mvvm-livedata-resources:0.16.1") // api mvvm-core, moko-resources, extensions for LiveData with moko-resources
-    commonMainApi("dev.icerock.moko:mvvm-flow-resources:0.16.1") // api mvvm-core, moko-resources, extensions for Flow with moko-resources
+    commonMainApi(libs.mvvm.core) // only ViewModel, EventsDispatcher, Dispatchers.UI
+    commonMainApi(libs.mvvm.flow) // api mvvm-core, CFlow for native and binding extensions
+    commonMainApi(libs.mvvm.livedata) // api mvvm-core, LiveData and extensions
+    commonMainApi(libs.mvvm.state) // api mvvm-livedata, ResourceState class and extensions
+    commonMainApi(libs.mvvm.livedata.resources) // api mvvm-core, moko-resources, extensions for LiveData with moko-resources
+    commonMainApi(libs.mvvm.flow.resources) // api mvvm-core, moko-resources, extensions for Flow with moko-resources
 
     // compose multiplatform
-    commonMainApi("dev.icerock.moko:mvvm-compose:0.16.1") // api mvvm-core, getViewModel for Compose Multiplatform
-    commonMainApi("dev.icerock.moko:mvvm-flow-compose:0.16.1") // api mvvm-flow, binding extensions for Compose Multiplatform
-    commonMainApi("dev.icerock.moko:mvvm-livedata-compose:0.16.1") // api mvvm-livedata, binding extensions for Compose Multiplatform
+    commonMainApi(libs.mvvm.compose) // api mvvm-core, getViewModel for Compose Multiplatform
+    commonMainApi(libs.mvvm.flow.compose) // api mvvm-flow, binding extensions for Compose Multiplatform
+    commonMainApi(libs.mvvm.livedata.compose) // api mvvm-livedata, binding extensions for Compose Multiplatform
 
     /*
     androidMainApi("dev.icerock.moko:mvvm-livedata-material:0.16.1") // api mvvm-livedata, Material library android extensions
@@ -114,7 +115,7 @@ dependencies {
     androidMainApi("dev.icerock.moko:mvvm-databinding:0.16.1") // api mvvm-livedata, DataBinding support for Android
     androidMainApi("dev.icerock.moko:mvvm-viewbinding:0.16.1") // api mvvm-livedata, ViewBinding support for Android
     */
-    commonTestImplementation("dev.icerock.moko:mvvm-test:0.16.1") // test utilities
+    commonTestImplementation(libs.mvvm.test) // test utilities
 }
 
 compose.desktop {

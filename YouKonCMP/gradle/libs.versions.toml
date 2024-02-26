@@ -20,7 +20,9 @@ lifecycleViewmodelKtx = "2.7.0"
 material3 = "1.1.2"
 lifecycleLivedataCoreKtx = "2.7.0"
 constraintlayoutCompose = "1.0.1"
+mvvmCore = "0.16.1"
 roomCompilerProcessingTesting = "2.6.1"
+uiToolingPreviewAndroid = "1.6.2"
 
 [libraries]
 koin-core = { module = "io.insert-koin:koin-core", version.ref = "koinCore" }
@@ -44,6 +46,17 @@ androidx-material3 = { group = "androidx.compose.material3", name = "material3",
 androidx-lifecycle-livedata-core-ktx = { group = "androidx.lifecycle", name = "lifecycle-livedata-core-ktx", version.ref = "lifecycleLivedataCoreKtx" }
 androidx-constraintlayout-compose = { group = "androidx.constraintlayout", name = "constraintlayout-compose", version.ref = "constraintlayoutCompose" }
 androidx-room-compiler-processing-testing = { group = "androidx.room", name = "room-compiler-processing-testing", version.ref = "roomCompilerProcessingTesting" }
+mvvm-compose = { module = "dev.icerock.moko:mvvm-compose", version.ref = "mvvmCore" }
+mvvm-core = { module = "dev.icerock.moko:mvvm-core", version.ref = "mvvmCore" }
+mvvm-flow = { module = "dev.icerock.moko:mvvm-flow", version.ref = "mvvmCore" }
+mvvm-flow-compose = { module = "dev.icerock.moko:mvvm-flow-compose", version.ref = "mvvmCore" }
+mvvm-flow-resources = { module = "dev.icerock.moko:mvvm-flow-resources", version.ref = "mvvmCore" }
+mvvm-livedata = { module = "dev.icerock.moko:mvvm-livedata", version.ref = "mvvmCore" }
+mvvm-livedata-compose = { module = "dev.icerock.moko:mvvm-livedata-compose", version.ref = "mvvmCore" }
+mvvm-livedata-resources = { module = "dev.icerock.moko:mvvm-livedata-resources", version.ref = "mvvmCore" }
+mvvm-state = { module = "dev.icerock.moko:mvvm-state", version.ref = "mvvmCore" }
+mvvm-test = { module = "dev.icerock.moko:mvvm-test", version.ref = "mvvmCore" }
+androidx-ui-tooling-preview-android = { group = "androidx.compose.ui", name = "ui-tooling-preview-android", version.ref = "uiToolingPreviewAndroid" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
