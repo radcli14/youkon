@@ -7,4 +7,5 @@ plugins {
     alias(libs.plugins.kotlinMultiplatform) apply false
     alias(libs.plugins.serialization) apply false
     alias(libs.plugins.cocoapods) apply false
+    id("com.google.gms.google-services") version "4.3.14" apply false
 }

@@ -13,6 +13,8 @@ androidx-test-junit = "1.1.5"
 compose = "1.6.0"
 compose-compiler = "1.5.8"
 compose-plugin = "1.5.11"
+firebaseCommonKtx = "20.3.3"
+googleServices = "4.4.1"
 junit = "4.13.2"
 koinCore = "3.6.0"
 kotlin = "1.9.21"
@@ -26,6 +28,8 @@ roomCompilerProcessingTesting = "2.6.1"
 uiToolingPreviewAndroid = "1.6.2"
 
 [libraries]
+firebase-common-ktx = { module = "com.google.firebase:firebase-common-ktx", version.ref = "firebaseCommonKtx" }
+google-services = { module = "com.google.gms:google-services", version.ref = "googleServices" }
 koin-core = { module = "io.insert-koin:koin-core", version.ref = "koinCore" }
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
 kotlin-test-junit = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlin" }

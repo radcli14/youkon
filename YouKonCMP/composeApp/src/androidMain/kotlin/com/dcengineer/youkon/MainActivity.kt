@@ -10,6 +10,8 @@ import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.google.firebase.Firebase
+import com.google.firebase.initialize
 import view.MainView
 import viewmodel.MainViewModel
 import viewmodel.OnboardingScreenViewModel
@@ -52,6 +54,8 @@ class MainActivity : ComponentActivity() {
         // Specify whether the onboarding screen displays in wide (tablet) or narrow form (phones)
         val manager = getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
         onboardingScreenViewModel.isWide = manager.phoneType == TelephonyManager.PHONE_TYPE_NONE
+
+        Firebase.initialize(this) // This line
 
         setContent {
             MainView(
