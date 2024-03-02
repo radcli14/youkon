@@ -11,12 +11,14 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource
+import youkon.composeapp.generated.resources.Res
+import youkon.composeapp.generated.resources.header
 
 @OptIn(ExperimentalResourceApi::class)
 @Composable
 fun Header() {
     Image(
-        painter = painterResource("header.png"), //(id = R.drawable.icon_clearbackground),
+        painter = painterResource(Res.drawable.header),
         contentDescription = "App header",
         modifier = Modifier
             .requiredHeightIn(min = 64.dp, max = 96.dp)

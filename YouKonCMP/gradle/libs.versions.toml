@@ -10,9 +10,9 @@ androidx-core-ktx = "1.12.0"
 androidx-espresso-core = "3.5.1"
 androidx-material = "1.11.0"
 androidx-test-junit = "1.1.5"
-compose = "1.6.0"
-compose-compiler = "1.5.8"
-compose-plugin = "1.5.11"
+compose = "1.6.2"
+compose-compiler = "1.5.10"
+compose-plugin = "1.6.0"
 firebaseCommon = "20.3.3"
 firebaseGitlive = "1.8.1"
 googleServices = "4.4.1"
@@ -21,7 +21,7 @@ koinCore = "3.6.0"
 kotlin = "1.9.21"
 kotlinxSerializationJson = "1.6.0"
 lifecycleViewmodelKtx = "2.7.0"
-material3 = "1.1.2"
+material3 = "1.2.0"
 lifecycleLivedataCoreKtx = "2.7.0"
 constraintlayoutCompose = "1.0.1"
 mvvmCore = "0.16.1"
@@ -29,6 +29,7 @@ roomCompilerProcessingTesting = "2.6.1"
 uiToolingPreviewAndroid = "1.6.2"
 firebaseCrashlyticsBuildtools = "2.9.9"
 annotationJvm = "1.7.1"
+material3Android = "1.2.0"
 
 [libraries]
 firebase-common = { module = "com.google.firebase:firebase-common", version.ref = "firebaseCommon" }
@@ -73,6 +74,7 @@ mvvm-test = { module = "dev.icerock.moko:mvvm-test", version.ref = "mvvmCore" }
 androidx-ui-tooling-preview-android = { group = "androidx.compose.ui", name = "ui-tooling-preview-android", version.ref = "uiToolingPreviewAndroid" }
 firebase-crashlytics-buildtools = { group = "com.google.firebase", name = "firebase-crashlytics-buildtools", version.ref = "firebaseCrashlyticsBuildtools" }
 androidx-annotation-jvm = { group = "androidx.annotation", name = "annotation-jvm", version.ref = "annotationJvm" }
+androidx-material3-android = { group = "androidx.compose.material3", name = "material3-android", version.ref = "material3Android" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

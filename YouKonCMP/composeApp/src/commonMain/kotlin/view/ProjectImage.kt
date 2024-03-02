@@ -14,14 +14,31 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import model.YkProject
+import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource
-
+import youkon.composeapp.generated.resources.Res
+import youkon.composeapp.generated.resources.noimageicons0
+import youkon.composeapp.generated.resources.noimageicons1
+import youkon.composeapp.generated.resources.noimageicons2
+import youkon.composeapp.generated.resources.noimageicons3
+import youkon.composeapp.generated.resources.noimageicons4
+import youkon.composeapp.generated.resources.noimageicons5
+import youkon.composeapp.generated.resources.noimageicons6
 
 /// Selects which icon to use when no image was provided in the project based on the project id,
 /// selecting from one of the 7 `noImageIcon` resources
-private fun noImageIconString(id: String): String {
-    return "noimageicons${id.first().code % 7}.png"
+@OptIn(ExperimentalResourceApi::class)
+private fun noImageIcon(id: String): DrawableResource {
+    return when(id.first().code % 7) {
+        1 -> Res.drawable.noimageicons1
+        2 -> Res.drawable.noimageicons2
+        3 -> Res.drawable.noimageicons3
+        4 -> Res.drawable.noimageicons4
+        5 -> Res.drawable.noimageicons5
+        6 -> Res.drawable.noimageicons6
+        else -> Res.drawable.noimageicons0
+    }
 }
 
 /// The image representing a project, either a generic icon, or a user-specified image
@@ -34,7 +51,7 @@ fun ProjectImage(project: YkProject, imageSize: Dp, imageShape: CornerBasedShape
         color = grayBackground
     ) {
         Image(
-            painter = painterResource(noImageIconString(project.id)),
+            painter = painterResource(noImageIcon(project.id)),
             contentDescription = "Icon for ${project.name}",
             modifier = Modifier
                 .size(imageSize)
