@@ -11,6 +11,8 @@ import androidx.activity.viewModels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.google.firebase.Firebase
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.auth
 import com.google.firebase.initialize
 import view.MainView
 import viewmodel.MainViewModel
@@ -28,6 +30,8 @@ class QuickConvertCardViewModelFactory(private val storage: Storage): ViewModelP
 }
 
 class MainActivity : ComponentActivity() {
+    private lateinit var auth: FirebaseAuth
+
     private val storage = Storage(this)
     private val mainViewModel: MainViewModel by viewModels {
         MainViewModelFactory(storage)
@@ -42,6 +46,9 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        // Initialize authentication with Google Firebase
+        Firebase.initialize(this)
+        auth = Firebase.auth
 
         // Get saved state of the quick convert card from last time the app was open
         val sharedPref = getPreferences(Context.MODE_PRIVATE) ?: return
