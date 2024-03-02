@@ -47,6 +47,8 @@ kotlin {
             @OptIn(ExperimentalComposeLibrary::class)
             implementation(compose.components.resources)
             implementation(libs.kotlinx.serialization.json)
+            implementation(libs.gitlive.firebase.firestore)
+            implementation(libs.gitlive.firebase.common)
             //implementation("androidx.compose.material:material-icons-extended:1.6.0")
         }
         desktopMain.dependencies {
@@ -119,12 +121,10 @@ dependencies {
     */
     commonTestImplementation(libs.mvvm.test) // test utilities
 
-    //implementation(libs.firebase.common.ktx)
     implementation(platform("com.google.firebase:firebase-bom:32.7.3"))
-    implementation("com.google.firebase:firebase-auth")
-    implementation("com.google.firebase:firebase-firestore")
-
-    //implementation(libs.google.services)
+    implementation(libs.firebase.common)
+    implementation(libs.firebase.auth)
+    implementation(libs.firebase.firestore)
 }
 
 compose.desktop {
