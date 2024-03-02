@@ -47,6 +47,9 @@ kotlin {
             @OptIn(ExperimentalComposeLibrary::class)
             implementation(compose.components.resources)
             implementation(libs.kotlinx.serialization.json)
+            implementation(libs.gitlive.firebase.auth)
+            implementation(libs.gitlive.firebase.firestore)
+            implementation(libs.gitlive.firebase.common)
             //implementation("androidx.compose.material:material-icons-extended:1.6.0")
         }
         desktopMain.dependencies {
@@ -97,6 +100,8 @@ dependencies {
     implementation(compose.material3)
     implementation(libs.androidx.constraintlayout.compose)
     implementation(libs.androidx.ui.tooling.preview.android)
+    implementation(libs.firebase.crashlytics.buildtools)
+    implementation(libs.androidx.annotation.jvm)
 
     commonMainApi(libs.mvvm.core) // only ViewModel, EventsDispatcher, Dispatchers.UI
     commonMainApi(libs.mvvm.flow) // api mvvm-core, CFlow for native and binding extensions
@@ -119,12 +124,10 @@ dependencies {
     */
     commonTestImplementation(libs.mvvm.test) // test utilities
 
-    //implementation(libs.firebase.common.ktx)
     implementation(platform("com.google.firebase:firebase-bom:32.7.3"))
-    implementation("com.google.firebase:firebase-auth")
-    implementation("com.google.firebase:firebase-firestore")
-
-    //implementation(libs.google.services)
+    implementation(libs.firebase.common)
+    implementation(libs.firebase.auth)
+    implementation(libs.firebase.firestore)
 }
 
 compose.desktop {
