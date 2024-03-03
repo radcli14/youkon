@@ -100,8 +100,6 @@ dependencies {
     implementation(compose.material3)
     implementation(libs.androidx.constraintlayout.compose)
     implementation(libs.androidx.ui.tooling.preview.android)
-    implementation(libs.firebase.crashlytics.buildtools)
-    implementation(libs.androidx.annotation.jvm)
 
     commonMainApi(libs.mvvm.core) // only ViewModel, EventsDispatcher, Dispatchers.UI
     commonMainApi(libs.mvvm.flow) // api mvvm-core, CFlow for native and binding extensions
