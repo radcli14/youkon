@@ -1,12 +1,18 @@
 package viewmodel
 
+import AccountService
+import LOGIN_SCREEN
+import LaunchCatchingViewModel
+import SETTINGS_SCREEN
 import androidx.compose.runtime.mutableStateOf
-import dev.icerock.moko.mvvm.viewmodel.ViewModel
 import isValidEmail
-import kotlinx.coroutines.flow.Flow
-import model.YkUser
+import model.LogService
+import org.jetbrains.compose.resources.ExperimentalResourceApi
 import view.SnackbarManager
 import view.SnackbarMessage
+import youkon.composeapp.generated.resources.Res
+import youkon.composeapp.generated.resources.email_error
+import youkon.composeapp.generated.resources.recovery_email_sent
 
 data class LoginUiState(
     val email: String = "",
@@ -15,8 +21,8 @@ data class LoginUiState(
 
 class LoginViewModel(
     private val accountService: AccountService,
-    //logService: LogService
-) : ViewModel() {
+    logService: LogService
+) : LaunchCatchingViewModel(logService) {
     var uiState = mutableStateOf(LoginUiState())
         private set
 
@@ -44,39 +50,22 @@ class LoginViewModel(
             return
         }
 
-        /*
         launchCatching {
             accountService.authenticate(email, password)
             openAndPopUp(SETTINGS_SCREEN, LOGIN_SCREEN)
         }
-         */
     }
 
+    @OptIn(ExperimentalResourceApi::class)
     fun onForgotPasswordClick() {
         if (!email.isValidEmail()) {
-            SnackbarManager.showMessage(SnackbarMessage.StringSnackbar("TODO: get email error resource")) // AppText.email_error)
+            SnackbarManager.showMessage(Res.string.email_error)
             return
         }
 
-        /*
         launchCatching {
             accountService.sendRecoveryEmail(email)
-            SnackbarManager.showMessage(SnackbarMessage.StringSnackbar("TODO: get recovery email resource")) //AppText.recovery_email_sent)
+            SnackbarManager.showMessage(Res.string.recovery_email_sent)
         }
-         */
     }
-}
-
-interface AccountService {
-    val currentUserId: String
-    val hasUser: Boolean
-
-    val currentUser: Flow<YkUser>
-
-    suspend fun authenticate(email: String, password: String)
-    suspend fun sendRecoveryEmail(email: String)
-    suspend fun createAnonymousAccount()
-    suspend fun linkAccount(email: String, password: String)
-    suspend fun deleteAccount()
-    suspend fun signOut()
 }
