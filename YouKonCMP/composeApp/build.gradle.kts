@@ -1,4 +1,3 @@
-import org.jetbrains.compose.ExperimentalComposeLibrary
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 
 plugins {
@@ -44,11 +43,11 @@ kotlin {
             implementation(compose.foundation)
             implementation(compose.material3)
             implementation(compose.ui)
-            @OptIn(ExperimentalComposeLibrary::class)
             implementation(compose.components.resources)
             implementation(libs.kotlinx.serialization.json)
             implementation(libs.gitlive.firebase.auth)
             implementation(libs.gitlive.firebase.crashlytics)
+            implementation(libs.gitlive.firebase.perf)
             implementation(libs.gitlive.firebase.firestore)
             implementation(libs.gitlive.firebase.common)
             //implementation("androidx.compose.material:material-icons-extended:1.6.0")
