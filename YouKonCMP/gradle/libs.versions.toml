@@ -38,6 +38,7 @@ firebase-firestore = { module = "com.google.firebase:firebase-firestore", versio
 gitlive-firebase-common = { module = "dev.gitlive:firebase-common", version.ref = "firebaseGitlive" }
 gitlive-firebase-auth = { module = "dev.gitlive:firebase-auth", version.ref = "firebaseGitlive" }
 gitlive-firebase-firestore = { module = "dev.gitlive:firebase-firestore", version.ref = "firebaseGitlive" }
+gitlive-firebase-crashlytics = { module = "dev.gitlive:firebase-crashlytics", version.ref = "firebaseGitlive" }
 google-services = { module = "com.google.gms:google-services", version.ref = "googleServices" }
 koin-core = { module = "io.insert-koin:koin-core", version.ref = "koinCore" }
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }

@@ -48,6 +48,7 @@ kotlin {
             implementation(compose.components.resources)
             implementation(libs.kotlinx.serialization.json)
             implementation(libs.gitlive.firebase.auth)
+            implementation(libs.gitlive.firebase.crashlytics)
             implementation(libs.gitlive.firebase.firestore)
             implementation(libs.gitlive.firebase.common)
             //implementation("androidx.compose.material:material-icons-extended:1.6.0")
