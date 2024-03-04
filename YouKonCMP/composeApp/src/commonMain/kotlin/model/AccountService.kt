@@ -1,14 +1,9 @@
 import dev.gitlive.firebase.Firebase
 import dev.gitlive.firebase.auth.EmailAuthProvider
 import dev.gitlive.firebase.auth.FirebaseAuth
-import dev.gitlive.firebase.auth.auth
-import dev.gitlive.firebase.perf.FirebasePerformance
 import dev.gitlive.firebase.perf.metrics.Trace
 import dev.gitlive.firebase.perf.performance
-import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.callbackFlow
 import model.YkUser
 
@@ -36,7 +31,11 @@ class AccountServiceImpl(private val auth: FirebaseAuth) : AccountService {
         get() = auth.currentUser != null
 
     override val currentUser: Flow<YkUser>
-        get() = MutableStateFlow(YkUser())
+        get() = callbackFlow {
+            auth.currentUser?.let {
+                YkUser(name = it.email ?: "Anonymous User", id = it.uid)
+            }
+        }
         /*get() = callbackFlow {
             val listener =
                 FirebaseAuth.AuthStateListener { auth ->
