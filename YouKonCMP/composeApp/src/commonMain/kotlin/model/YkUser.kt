@@ -1,13 +1,15 @@
 package model
+import UUIDGenerator
 import kotlinx.serialization.*
 import kotlinx.serialization.json.*
 
 /// Holds the user's name and multiple projects
 @Serializable
-class YkUser {
-    var name = "New User"
-    var projects = mutableListOf<YkProject>()
-
+class YkUser(
+    var name: String = "Anonymous User",
+    var projects: MutableList<YkProject> = mutableListOf(),
+    val id: String = UUIDGenerator().generateUUID()
+) {
     companion object {
         /// For testing, provide a generic user
         val testUser: YkUser
