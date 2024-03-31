@@ -1,5 +1,6 @@
 package com.dcengineer.youkon
 
+import App
 import Storage
 import android.content.Context
 import android.os.Bundle
@@ -65,11 +66,11 @@ class MainActivity : ComponentActivity() {
         Firebase.initialize(this) // This line
 
         setContent {
-            MainView(
+            App(
                 mainViewModel,
                 quickConvertCardViewModel,
                 onboardingScreenViewModel
-            ).Body()
+            )
         }
     }
 
