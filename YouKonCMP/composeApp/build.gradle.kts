@@ -5,7 +5,7 @@ plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsCompose)
     alias(libs.plugins.serialization)
-    id("com.google.gms.google-services")
+    alias(libs.plugins.googleServices)
 }
 
 kotlin {
@@ -46,7 +46,7 @@ kotlin {
             implementation(compose.components.resources)
             implementation(libs.kotlinx.serialization.json)
             implementation(libs.gitlive.firebase.auth)
-            implementation(libs.gitlive.firebase.crashlytics)
+            //implementation(libs.gitlive.firebase.crashlytics)
             implementation(libs.gitlive.firebase.perf)
             implementation(libs.gitlive.firebase.firestore)
             implementation(libs.gitlive.firebase.common)

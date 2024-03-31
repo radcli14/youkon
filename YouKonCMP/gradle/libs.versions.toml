@@ -15,7 +15,7 @@ compose-compiler = "1.5.10"
 compose-plugin = "1.6.0"
 firebaseCommon = "20.3.3"
 firebaseGitlive = "1.11.1"
-googleServices = "4.4.1"
+gservices = "4.4.1"
 junit = "4.13.2"
 koinCore = "3.6.0"
 kotlin = "1.9.21"
@@ -40,7 +40,7 @@ gitlive-firebase-auth = { module = "dev.gitlive:firebase-auth", version.ref = "f
 gitlive-firebase-firestore = { module = "dev.gitlive:firebase-firestore", version.ref = "firebaseGitlive" }
 gitlive-firebase-crashlytics = { module = "dev.gitlive:firebase-crashlytics", version.ref = "firebaseGitlive" }
 gitlive-firebase-perf = { module = "dev.gitlive:firebase-perf", version.ref = "firebaseGitlive" }
-google-services = { module = "com.google.gms:google-services", version.ref = "googleServices" }
+google-services = { module = "com.google.gms:google-services", version.ref = "gservices" }
 koin-core = { module = "io.insert-koin:koin-core", version.ref = "koinCore" }
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
 kotlin-test-junit = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlin" }
@@ -85,3 +85,4 @@ jetbrainsCompose = { id = "org.jetbrains.compose", version.ref = "compose-plugin
 kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 cocoapods = { id = "org.jetbrains.kotlin.native.cocoapods", version.ref = "kotlin" }
+googleServices = { id = "com.google.gms.google-services", version.ref = "gservices"}
