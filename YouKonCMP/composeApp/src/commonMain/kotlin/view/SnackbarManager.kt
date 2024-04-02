@@ -16,11 +16,13 @@ limitations under the License.
 
 package view
 
+import androidx.compose.runtime.Composable
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.StringResource
+import org.jetbrains.compose.resources.stringResource
 import youkon.composeapp.generated.resources.Res
 import youkon.composeapp.generated.resources.generic_error
 
@@ -46,17 +48,19 @@ object SnackbarManager {
 
 sealed class SnackbarMessage {
   class StringSnackbar(val message: String) : SnackbarMessage()
-  class ResourceSnackbar @OptIn(ExperimentalResourceApi::class) constructor(val message: StringResource) : SnackbarMessage()
+  @OptIn(ExperimentalResourceApi::class)
+  class ResourceSnackbar(val message: StringResource) : SnackbarMessage()
 
   companion object {
-    /*
-    fun SnackbarMessage.toMessage(resources: Resources): String {
+    @Composable
+    @OptIn(ExperimentalResourceApi::class)
+    fun SnackbarMessage.toMessage(): String {
       return when (this) {
         is StringSnackbar -> this.message
-        is ResourceSnackbar -> resources.getString(this.message)
+        is ResourceSnackbar -> stringResource(this.message)
       }
     }
-    */
+
     @OptIn(ExperimentalResourceApi::class)
     fun Throwable.toSnackbarMessage(): SnackbarMessage {
       val message = this.message.orEmpty()

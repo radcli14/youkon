@@ -9,9 +9,9 @@ import isValidEmail
 import model.LogService
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import view.SnackbarManager
-import view.SnackbarMessage
 import youkon.composeapp.generated.resources.Res
 import youkon.composeapp.generated.resources.email_error
+import youkon.composeapp.generated.resources.empty_password_error
 import youkon.composeapp.generated.resources.recovery_email_sent
 
 data class LoginUiState(
@@ -39,14 +39,15 @@ class LoginViewModel(
         uiState.value = uiState.value.copy(password = newValue)
     }
 
+    @OptIn(ExperimentalResourceApi::class)
     fun onSignInClick(openAndPopUp: (String, String) -> Unit) {
         if (!email.isValidEmail()) {
-            SnackbarManager.showMessage(SnackbarMessage.StringSnackbar("TODO: get email error resource")) //AppText.email_error)
+            SnackbarManager.showMessage(Res.string.email_error)
             return
         }
 
         if (password.isBlank()) {
-            SnackbarManager.showMessage(SnackbarMessage.StringSnackbar("TODO: get password error resource")) //AppText.empty_password_error)
+            SnackbarManager.showMessage(Res.string.empty_password_error)
             return
         }
 
