@@ -11,12 +11,14 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.rounded.Info
 import androidx.compose.material3.BottomSheetScaffold
 import androidx.compose.material3.BottomSheetScaffoldState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SheetValue
 import androidx.compose.material3.rememberBottomSheetScaffoldState
@@ -35,9 +37,12 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Dialog
 import dev.icerock.moko.mvvm.livedata.compose.observeAsState
+import getPlatform
 import kotlinx.coroutines.launch
 import model.ProjectExpansionLevel
+import viewmodel.LoginViewModel
 import viewmodel.MainViewModel
 import viewmodel.OnboardingScreenViewModel
 import viewmodel.QuickConvertCardViewModel
@@ -46,7 +51,8 @@ import viewmodel.QuickConvertCardViewModel
 class MainView(
     private var mainViewModel: MainViewModel = MainViewModel(),
     private var quickConvertCardViewModel: QuickConvertCardViewModel = QuickConvertCardViewModel(),
-    private var onboardingScreenViewModel: OnboardingScreenViewModel? = null
+    private var onboardingScreenViewModel: OnboardingScreenViewModel? = null,
+    private var loginViewModel: LoginViewModel? = null
 ) {
     /// Initialize using the fake view models inside the onboarding screen
     constructor(onboardingScreenViewModel: OnboardingScreenViewModel): this(
@@ -61,8 +67,10 @@ class MainView(
                 modifier = Modifier.fillMaxSize(),
             ) {
                 BottomSheetLayout()
+                SettingsButton(Modifier.align(Alignment.TopEnd))
                 ActionButton(Modifier.align(Alignment.BottomEnd))
                 Onboarding()
+                Settings()
             }
         }
     }
@@ -72,6 +80,17 @@ class MainView(
     fun Onboarding() {
         onboardingScreenViewModel?.let {
             OnboardingScreen(it).AsDialog()
+        }
+    }
+
+    @Composable
+    fun Settings() {
+        if (mainViewModel.settingsAreVisible.value) {
+            loginViewModel?.let { viewModel ->
+                Dialog(onDismissRequest = mainViewModel::hideSettings) {
+                    LoginScreen({ x, y -> /* */}, viewModel)
+                }
+            }
         }
     }
 
@@ -179,6 +198,17 @@ class MainView(
                 QuickConvertCard(quickConvertCardViewModel).Body()
                 ProjectsCard(mainViewModel).Body()
             }
+        }
+    }
+
+    @Composable
+    fun SettingsButton(modifier: Modifier = Modifier) {
+        val isIphone = "iOS" in getPlatform().name
+        IconButton(
+            modifier = modifier.padding(top = if (isIphone) 32.dp else 0.dp),
+            onClick = mainViewModel::showSettings
+        ) {
+            Icon(imageVector = Icons.Default.Settings, contentDescription = "Settings")
         }
     }
 

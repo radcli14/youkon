@@ -2,6 +2,7 @@ package viewmodel
 
 import Log
 import Storage
+import androidx.compose.runtime.mutableStateOf
 import dev.icerock.moko.mvvm.livedata.LiveData
 import dev.icerock.moko.mvvm.livedata.MutableLiveData
 import dev.icerock.moko.mvvm.viewmodel.ViewModel
@@ -12,8 +13,12 @@ class MainViewModel(
     private val storage: Storage? = null,
     verbose: Boolean = false
 ) : ViewModel() {
+
     private val _isEditingProject = MutableLiveData(false)
     val isEditingProject: LiveData<Boolean> = _isEditingProject
+
+    val settingsAreVisible = mutableStateOf(false)
+
     var project: YkProject? = null
     var user = YkUser()
 
@@ -50,6 +55,16 @@ class MainViewModel(
         if (saveAfterStopping) {
             saveUserToJson()
         }
+    }
+
+    fun showSettings() {
+        Log.d(tag, "Show Settings")
+        settingsAreVisible.value = true
+    }
+
+    fun hideSettings() {
+        Log.d(tag, "Hide Settings")
+        settingsAreVisible.value = false
     }
 
     /// The `ProjectsCardViewModel` is retained to persist the states of the individual projects

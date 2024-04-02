@@ -1,8 +1,8 @@
 package view
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
@@ -63,6 +63,59 @@ fun LoginScreen(
         onSignInClick = { viewModel.onSignInClick(openAndPopUp) },
         onForgotPasswordClick = viewModel::onForgotPasswordClick
     )
+
+    // Below this line, pending deletion as I get the above up and running
+    /*
+    val scope = rememberCoroutineScope()
+    val auth = remember { Firebase.auth }
+    var firebaseUser: FirebaseUser? by remember { mutableStateOf(null) }
+    var userEmail by remember { mutableStateOf("") }
+    var userPassword by remember { mutableStateOf("") }
+
+    if (firebaseUser == null) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(24.dp)
+                .background(MaterialTheme.colorScheme.background),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            TextField(
+                value = userEmail,
+                onValueChange = { userEmail = it },
+                placeholder = { Text(text = "Email Address") }
+            )
+            Spacer(modifier = Modifier.height(12.dp))
+            TextField(
+                value = userPassword,
+                onValueChange = { userPassword = it },
+                placeholder = { Text(text = "Password") },
+                visualTransformation = PasswordVisualTransformation()
+            )
+            Spacer(modifier = Modifier.height(24.dp))
+            Button(onClick = {
+                scope.launch {
+                    firebaseUser = try {
+                        auth.createUserWithEmailAndPassword(
+                            email = userEmail,
+                            password = userPassword
+                        ).user
+                    } catch (e: Exception) {
+                        auth.signInWithEmailAndPassword(
+                            email = userEmail,
+                            password = userPassword
+                        ).user
+                    }
+                }
+            }) {
+                Text(text = "Sign in")
+            }
+        }
+    } else {
+        Text(firebaseUser!!.uid, modifier = Modifier.background(MaterialTheme.colorScheme.primaryContainer))
+    }
+    */
 }
 
 @OptIn(ExperimentalResourceApi::class)
@@ -75,16 +128,21 @@ fun LoginScreenContent(
     onSignInClick: () -> Unit,
     onForgotPasswordClick: () -> Unit
 ) {
-    BasicToolbar(Res.string.login_details)
+    //BasicToolbar(Res.string.login_details)
 
     Column(
         modifier = modifier
+            .background(MaterialTheme.colorScheme.background)
             .fillMaxWidth()
-            .fillMaxHeight()
+            //.fillMaxHeight()
             .verticalScroll(rememberScrollState()),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+        Text(
+            text = stringResource(Res.string.login_details),
+            style = MaterialTheme.typography.bodyLarge
+        )
         EmailField(uiState.email, onEmailChange, Modifier.fieldModifier())
         PasswordField(uiState.password, onPasswordChange, Modifier.fieldModifier())
         BasicButton(Res.string.sign_in, Modifier.basicButton()) { onSignInClick() }
