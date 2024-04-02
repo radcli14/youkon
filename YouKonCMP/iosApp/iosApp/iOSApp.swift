@@ -1,13 +1,13 @@
 import SwiftUI
-//import Firebase
+import Firebase
 
 @main
 struct iOSApp: App {
-    /*
-    init(){
+
+    init() {
       FirebaseApp.configure()
     }
-     */
+
 	var body: some Scene {
 		WindowGroup {
             // To build the Compose Multiplatform version, uncomment this line

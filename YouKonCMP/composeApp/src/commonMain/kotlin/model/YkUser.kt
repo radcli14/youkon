@@ -10,6 +10,12 @@ class YkUser(
     var projects: MutableList<YkProject> = mutableListOf(),
     val id: String = UUIDGenerator().generateUUID()
 ) {
+    constructor() : this(
+        name = "Anonymous User",
+        projects = mutableListOf(),
+        id = UUIDGenerator().generateUUID()
+    )
+
     companion object {
         /// For testing, provide a generic user
         val testUser: YkUser
