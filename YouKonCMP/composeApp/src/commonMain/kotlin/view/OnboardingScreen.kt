@@ -65,6 +65,7 @@ class OnboardingScreen(
 
             Box(modifier = Modifier
                 .fillMaxHeight(viewModel.dialogFillRatio)
+                .fillMaxWidth()
                 .clipToBounds()
             ) {
                 ScaledMainView(
