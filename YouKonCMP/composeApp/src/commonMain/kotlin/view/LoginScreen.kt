@@ -1,6 +1,5 @@
 package view
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -132,7 +131,6 @@ fun LoginScreenContent(
 
     Column(
         modifier = modifier
-            .background(MaterialTheme.colorScheme.background)
             .fillMaxWidth()
             //.fillMaxHeight()
             .verticalScroll(rememberScrollState()),
@@ -141,6 +139,7 @@ fun LoginScreenContent(
     ) {
         Text(
             text = stringResource(Res.string.login_details),
+            color = MaterialTheme.colorScheme.onBackground,
             style = MaterialTheme.typography.bodyLarge
         )
         EmailField(uiState.email, onEmailChange, Modifier.fieldModifier())

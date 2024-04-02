@@ -2,6 +2,7 @@ package view
 
 import YoukonTheme
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -88,7 +89,16 @@ class MainView(
         if (mainViewModel.settingsAreVisible.value) {
             loginViewModel?.let { viewModel ->
                 Dialog(onDismissRequest = mainViewModel::hideSettings) {
-                    LoginScreen({ x, y -> /* */}, viewModel)
+                    Box(
+                        modifier = Modifier
+                            .background(
+                                MaterialTheme.colorScheme.background,
+                                MaterialTheme.shapes.large
+                            )
+                            .padding(16.dp)
+                    ) {
+                        LoginScreen({ x, y -> /* */}, viewModel)
+                    }
                 }
             }
         }
@@ -208,7 +218,11 @@ class MainView(
             modifier = modifier.padding(top = if (isIphone) 32.dp else 0.dp),
             onClick = mainViewModel::showSettings
         ) {
-            Icon(imageVector = Icons.Default.Settings, contentDescription = "Settings")
+            Icon(
+                imageVector = Icons.Default.Settings,
+                contentDescription = "Settings",
+                tint = MaterialTheme.colorScheme.onBackground
+            )
         }
     }
 
