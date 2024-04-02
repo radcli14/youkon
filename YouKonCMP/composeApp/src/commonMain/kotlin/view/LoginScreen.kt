@@ -12,9 +12,11 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -123,7 +125,7 @@ fun EmailField(value: String, onNewValue: (String) -> Unit, modifier: Modifier =
         modifier = modifier,
         value = value,
         onValueChange = { onNewValue(it) },
-        placeholder = { stringResource(Res.string.email) },
+        placeholder = { Text(text = stringResource(Res.string.email)) },
         leadingIcon = { Icon(imageVector = Icons.Default.Email, contentDescription = "Email") }
     )
 }
@@ -190,11 +192,11 @@ fun BasicButton(text: StringResource, modifier: Modifier, action: () -> Unit) {
     Button(
         onClick = action,
         modifier = modifier,
-        /*colors =
-        ButtonDefaults.buttonColors(
-            backgroundColor = MaterialTheme.colorScheme.primary,
+        colors =
+        ButtonDefaults.buttonColors().copy(
+            containerColor = MaterialTheme.colorScheme.primary,
             contentColor = MaterialTheme.colorScheme.onPrimary
-        )*/
+        )
     ) {
         Text(text = stringResource(text), fontSize = 16.sp)
     }
