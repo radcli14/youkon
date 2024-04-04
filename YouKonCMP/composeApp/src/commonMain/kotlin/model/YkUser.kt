@@ -8,11 +8,14 @@ import kotlinx.serialization.json.*
 class YkUser(
     var name: String = "Anonymous User",
     var projects: MutableList<YkProject> = mutableListOf(),
+    val isAnonymous: Boolean = true,
     val id: String = UUIDGenerator().generateUUID()
 ) {
+
     constructor() : this(
         name = "Anonymous User",
         projects = mutableListOf(),
+        isAnonymous = true,
         id = UUIDGenerator().generateUUID()
     )
 
