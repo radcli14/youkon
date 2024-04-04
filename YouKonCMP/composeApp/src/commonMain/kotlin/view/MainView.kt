@@ -41,15 +41,16 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import dev.icerock.moko.mvvm.livedata.compose.observeAsState
+import firebase.login.LoginScreen
 import getPlatform
 import kotlinx.coroutines.launch
 import model.ProjectExpansionLevel
-import viewmodel.LoginViewModel
+import firebase.login.LoginViewModel
 import viewmodel.MainViewModel
 import viewmodel.OnboardingScreenViewModel
 import viewmodel.QuickConvertCardViewModel
 import viewmodel.SettingsScreenState
-import viewmodel.SettingsViewModel
+import firebase.settings.SettingsViewModel
 
 
 class MainView(
@@ -121,7 +122,7 @@ class MainView(
     @Composable
     private fun SettingsScreen() {
         settingsViewModel?.let { viewModel ->
-            SettingsScreen(
+            firebase.settings.SettingsScreen(
                 restartApp = mainViewModel::restartAppFromSettingsScreen,
                 openScreen = mainViewModel::openScreenFromSettingsScreen,
                 viewModel

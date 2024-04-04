@@ -23,6 +23,7 @@ interface AccountService {
 
 
 class AccountServiceImpl(private val auth: FirebaseAuth) : AccountService {
+    private val tag = "AccountServiceImpl"
 
     override val currentUserId: String
         get() = auth.currentUser?.uid.orEmpty()
@@ -48,7 +49,8 @@ class AccountServiceImpl(private val auth: FirebaseAuth) : AccountService {
         }*/
 
     override suspend fun authenticate(email: String, password: String) {
-        auth.signInWithEmailAndPassword(email, password) //.await()
+        val result = auth.signInWithEmailAndPassword(email, password) //.await()
+        Log.d(tag, "authenticate result = ${result.user?.email ?: "null"} ${result.user?.uid}")
     }
 
     override suspend fun sendRecoveryEmail(email: String) {

@@ -2,13 +2,13 @@ import androidx.compose.ui.window.ComposeUIViewController
 import dev.gitlive.firebase.Firebase
 import dev.gitlive.firebase.auth.auth
 import dev.gitlive.firebase.firestore.firestore
-import model.LogServiceImpl
-import model.StorageServiceImpl
-import viewmodel.LoginViewModel
+import firebase.service.LogServiceImpl
+import firebase.service.StorageServiceImpl
+import firebase.login.LoginViewModel
 import viewmodel.MainViewModel
 import viewmodel.OnboardingScreenViewModel
 import viewmodel.QuickConvertCardViewModel
-import viewmodel.SettingsViewModel
+import firebase.settings.SettingsViewModel
 
 private val storage = Storage()
 private val mainViewModel = MainViewModel(storage)

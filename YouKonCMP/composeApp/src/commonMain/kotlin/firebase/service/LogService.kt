@@ -1,6 +1,5 @@
-package model
+package firebase.service
 
-import dev.gitlive.firebase.Firebase
 //import dev.gitlive.firebase.crashlytics.crashlytics
 
 interface LogService {

@@ -3,7 +3,7 @@ import dev.icerock.moko.mvvm.viewmodel.ViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
-import model.LogService
+import firebase.service.LogService
 import view.SnackbarManager
 import view.SnackbarMessage.Companion.toSnackbarMessage
 

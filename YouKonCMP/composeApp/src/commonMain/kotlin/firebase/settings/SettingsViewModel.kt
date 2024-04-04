@@ -1,4 +1,4 @@
-package viewmodel
+package firebase.settings
 
 import AccountService
 import LOGIN_SCREEN
@@ -6,8 +6,8 @@ import LaunchCatchingViewModel
 import SIGN_UP_SCREEN
 import SPLASH_SCREEN
 import kotlinx.coroutines.flow.map
-import model.LogService
-import model.StorageService
+import firebase.service.LogService
+import firebase.service.StorageService
 
 data class SettingsUiState(val isAnonymousAccount: Boolean = true)
 

@@ -1,4 +1,4 @@
-package viewmodel
+package firebase.login
 
 import AccountService
 import LOGIN_SCREEN
@@ -6,7 +6,7 @@ import LaunchCatchingViewModel
 import SETTINGS_SCREEN
 import androidx.compose.runtime.mutableStateOf
 import isValidEmail
-import model.LogService
+import firebase.service.LogService
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import view.SnackbarManager
 import youkon.composeapp.generated.resources.Res
