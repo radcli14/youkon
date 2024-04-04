@@ -1,5 +1,6 @@
 package com.dcengineer.youkon
 
+import AccountServiceImpl
 import App
 import Storage
 import android.content.Context
@@ -11,11 +12,15 @@ import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.google.firebase.Firebase
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.auth
-import com.google.firebase.initialize
-import view.MainView
+import dev.gitlive.firebase.Firebase
+import dev.gitlive.firebase.auth.auth
+import dev.gitlive.firebase.firestore.firestore
+import dev.gitlive.firebase.initialize
+import firebase.login.LoginViewModel
+import firebase.service.LogServiceImpl
+import firebase.service.StorageServiceImpl
+import firebase.settings.SettingsViewModel
+import firebase.sign_up.SignUpViewModel
 import viewmodel.MainViewModel
 import viewmodel.OnboardingScreenViewModel
 import viewmodel.QuickConvertCardViewModel
@@ -31,8 +36,6 @@ class QuickConvertCardViewModelFactory(private val storage: Storage): ViewModelP
 }
 
 class MainActivity : ComponentActivity() {
-    private lateinit var auth: FirebaseAuth
-
     private val storage = Storage(this)
     private val mainViewModel: MainViewModel by viewModels {
         MainViewModelFactory(storage)
@@ -42,6 +45,14 @@ class MainActivity : ComponentActivity() {
         QuickConvertCardViewModelFactory(storage)
     }
 
+    private val logService = LogServiceImpl()
+    private val accountService = AccountServiceImpl(Firebase.auth)
+    private val storageService = StorageServiceImpl(Firebase.firestore, accountService)
+    // TODO: create factories for these view models
+    private val settingsViewModel = SettingsViewModel(logService, accountService, storageService)
+    private val loginViewModel = LoginViewModel(accountService, logService)
+    private val signUpViewModel = SignUpViewModel(accountService, logService)
+
     private val tag = "MainActivity"
     private val showOnboardingKey = "showOnboarding"
 
@@ -49,7 +60,6 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         // Initialize authentication with Google Firebase
         Firebase.initialize(this)
-        auth = Firebase.auth
 
         // Get saved state of the quick convert card from last time the app was open
         val sharedPref = getPreferences(Context.MODE_PRIVATE) ?: return
@@ -63,13 +73,16 @@ class MainActivity : ComponentActivity() {
         val manager = getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
         onboardingScreenViewModel.isWide = manager.phoneType == TelephonyManager.PHONE_TYPE_NONE
 
-        Firebase.initialize(this) // This line
+        Firebase.initialize(this)
 
         setContent {
             App(
                 mainViewModel,
                 quickConvertCardViewModel,
-                onboardingScreenViewModel
+                onboardingScreenViewModel,
+                loginViewModel,
+                settingsViewModel,
+                signUpViewModel
             )
         }
     }
@@ -89,11 +102,3 @@ class MainActivity : ComponentActivity() {
         Log.d(tag, "Destroyed the main activity")
     }
 }
-
-/*
-@Preview
-@Composable
-fun AppAndroidPreview() {
-    App()
-}
- */

@@ -68,9 +68,11 @@ class MainViewModel(
 
     fun openScreenFromSettingsScreen(route: String) {
         Log.d(tag, "openScreenFromSettingsScreen, route = $route")
-        when (route) {
-            "SettingsScreen" -> settingsScreenState.value = SettingsScreenState.SETTINGS
-            "LoginScreen" -> settingsScreenState.value = SettingsScreenState.SIGN_IN
+        settingsScreenState.value = when (route) {
+            "SettingsScreen" -> SettingsScreenState.SETTINGS
+            "LoginScreen" -> SettingsScreenState.SIGN_IN
+            "SignUpScreen" -> SettingsScreenState.CREATE_ACCOUNT
+            else -> settingsScreenState.value
         }
     }
 

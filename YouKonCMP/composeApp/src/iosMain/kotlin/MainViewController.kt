@@ -9,6 +9,7 @@ import viewmodel.MainViewModel
 import viewmodel.OnboardingScreenViewModel
 import viewmodel.QuickConvertCardViewModel
 import firebase.settings.SettingsViewModel
+import firebase.sign_up.SignUpViewModel
 
 private val storage = Storage()
 private val mainViewModel = MainViewModel(storage)
@@ -19,6 +20,7 @@ private val accountService = AccountServiceImpl(Firebase.auth)
 private val storageService = StorageServiceImpl(Firebase.firestore, accountService)
 private val settingsViewModel = SettingsViewModel(logService, accountService, storageService)
 private val loginViewModel = LoginViewModel(accountService, logService)
+private val signUpViewModel = SignUpViewModel(accountService, logService)
 
 fun MainViewController() = ComposeUIViewController {
     // TODO: set the isWide variable based on detecting screen geometry
@@ -29,6 +31,7 @@ fun MainViewController() = ComposeUIViewController {
         quickConvertCardViewModel,
         onboardingScreenViewModel,
         loginViewModel,
-        settingsViewModel
+        settingsViewModel,
+        signUpViewModel
     )
 }

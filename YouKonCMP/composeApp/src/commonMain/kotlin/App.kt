@@ -10,27 +10,23 @@ import viewmodel.MainViewModel
 import viewmodel.OnboardingScreenViewModel
 import viewmodel.QuickConvertCardViewModel
 import firebase.settings.SettingsViewModel
+import firebase.sign_up.SignUpViewModel
 
 @Composable
 fun App(
     mainViewModel: MainViewModel = MainViewModel(),
     quickConvertCardViewModel: QuickConvertCardViewModel = QuickConvertCardViewModel(),
     onboardingScreenViewModel: OnboardingScreenViewModel = OnboardingScreenViewModel(),
-    loginViewModel: LoginViewModel = LoginViewModel(
-        AccountServiceImpl(Firebase.auth),
-        LogServiceImpl()
-    ),
-    settingsViewModel: SettingsViewModel = SettingsViewModel(
-        LogServiceImpl(),
-        AccountServiceImpl(Firebase.auth),
-        StorageServiceImpl(Firebase.firestore, AccountServiceImpl(Firebase.auth))
-    )
+    loginViewModel: LoginViewModel? = null,
+    settingsViewModel: SettingsViewModel? = null,
+    signUpViewModel: SignUpViewModel? = null
 ) {
     MainView(
         mainViewModel,
         quickConvertCardViewModel,
         onboardingScreenViewModel,
         loginViewModel,
-        settingsViewModel
+        settingsViewModel,
+        signUpViewModel
     ).Body()
 }

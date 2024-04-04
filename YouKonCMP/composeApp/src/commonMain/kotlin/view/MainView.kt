@@ -51,6 +51,8 @@ import viewmodel.OnboardingScreenViewModel
 import viewmodel.QuickConvertCardViewModel
 import viewmodel.SettingsScreenState
 import firebase.settings.SettingsViewModel
+import firebase.sign_up.SignUpScreen
+import firebase.sign_up.SignUpViewModel
 
 
 class MainView(
@@ -58,7 +60,8 @@ class MainView(
     private var quickConvertCardViewModel: QuickConvertCardViewModel = QuickConvertCardViewModel(),
     private var onboardingScreenViewModel: OnboardingScreenViewModel? = null,
     private var loginViewModel: LoginViewModel? = null,
-    private var settingsViewModel: SettingsViewModel? = null
+    private var settingsViewModel: SettingsViewModel? = null,
+    private var signupViewModel: SignUpViewModel? = null
 ) {
     /// Initialize using the fake view models inside the onboarding screen
     constructor(onboardingScreenViewModel: OnboardingScreenViewModel): this(
@@ -114,6 +117,7 @@ class MainView(
             when (mainViewModel.settingsScreenState.value) {
                 SettingsScreenState.SETTINGS -> SettingsScreen()
                 SettingsScreenState.SIGN_IN -> SignInScreen()
+                SettingsScreenState.CREATE_ACCOUNT -> CreateAccountScreen()
                 else -> {}
             }
         }
@@ -135,6 +139,16 @@ class MainView(
         loginViewModel?.let { viewModel ->
             LoginScreen(
                 openAndPopUp = mainViewModel::openAndPopupFromLoginScreen,
+                viewModel
+            )
+        }
+    }
+
+    @Composable
+    private fun CreateAccountScreen() {
+        signupViewModel?.let { viewModel ->
+            SignUpScreen(
+                mainViewModel::openAndPopupFromLoginScreen,
                 viewModel
             )
         }
