@@ -47,13 +47,15 @@ import viewmodel.LoginViewModel
 import viewmodel.MainViewModel
 import viewmodel.OnboardingScreenViewModel
 import viewmodel.QuickConvertCardViewModel
+import viewmodel.SettingsViewModel
 
 
 class MainView(
     private var mainViewModel: MainViewModel = MainViewModel(),
     private var quickConvertCardViewModel: QuickConvertCardViewModel = QuickConvertCardViewModel(),
     private var onboardingScreenViewModel: OnboardingScreenViewModel? = null,
-    private var loginViewModel: LoginViewModel? = null
+    private var loginViewModel: LoginViewModel? = null,
+    private var settingsViewModel: SettingsViewModel? = null
 ) {
     /// Initialize using the fake view models inside the onboarding screen
     constructor(onboardingScreenViewModel: OnboardingScreenViewModel): this(
@@ -87,7 +89,8 @@ class MainView(
     @Composable
     fun Settings() {
         if (mainViewModel.settingsAreVisible.value) {
-            loginViewModel?.let { viewModel ->
+            //loginViewModel?.let { viewModel ->
+            settingsViewModel?.let { viewModel ->
                 Dialog(onDismissRequest = mainViewModel::hideSettings) {
                     Box(
                         modifier = Modifier
@@ -97,7 +100,8 @@ class MainView(
                             )
                             .padding(16.dp)
                     ) {
-                        LoginScreen({ x, y -> /* */}, viewModel)
+                        //LoginScreen({ x, y -> /* */}, viewModel)
+                        SettingsScreen(restartApp = {}, openScreen = {}, viewModel)
                     }
                 }
             }
