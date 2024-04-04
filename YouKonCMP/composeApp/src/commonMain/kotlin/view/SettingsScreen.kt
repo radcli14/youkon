@@ -85,8 +85,6 @@ fun SettingsScreenContent(
     ) {
         BasicToolbar(Res.string.settings)
 
-        Spacer(modifier = Modifier.spacer())
-
         if (uiState.isAnonymousAccount) {
             RegularCardEditor(Res.string.sign_in, Res.drawable.ic_sign_in, "", Modifier.card()) {
                 onLoginClick()

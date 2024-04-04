@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
@@ -47,6 +48,7 @@ import viewmodel.LoginViewModel
 import viewmodel.MainViewModel
 import viewmodel.OnboardingScreenViewModel
 import viewmodel.QuickConvertCardViewModel
+import viewmodel.SettingsScreenState
 import viewmodel.SettingsViewModel
 
 
@@ -73,7 +75,7 @@ class MainView(
                 SettingsButton(Modifier.align(Alignment.TopEnd))
                 ActionButton(Modifier.align(Alignment.BottomEnd))
                 Onboarding()
-                Settings()
+                SettingsDialog()
             }
         }
     }
@@ -87,24 +89,53 @@ class MainView(
     }
 
     @Composable
-    fun Settings() {
-        if (mainViewModel.settingsAreVisible.value) {
-            //loginViewModel?.let { viewModel ->
-            settingsViewModel?.let { viewModel ->
-                Dialog(onDismissRequest = mainViewModel::hideSettings) {
-                    Box(
-                        modifier = Modifier
-                            .background(
-                                MaterialTheme.colorScheme.background,
-                                MaterialTheme.shapes.large
-                            )
-                            .padding(16.dp)
-                    ) {
-                        //LoginScreen({ x, y -> /* */}, viewModel)
-                        SettingsScreen(restartApp = {}, openScreen = {}, viewModel)
-                    }
-                }
+    private fun SettingsDialog() {
+        if (mainViewModel.settingsScreenState.value != SettingsScreenState.HIDDEN) {
+            Dialog(
+                onDismissRequest = mainViewModel::hideSettings
+            ) {
+                SettingsBox()
             }
+        }
+    }
+
+    @Composable
+    private fun SettingsBox() {
+        Box(
+            modifier = Modifier
+                .background(
+                    MaterialTheme.colorScheme.surfaceBright,
+                    MaterialTheme.shapes.large
+                )
+                .height(360.dp)
+                .padding(16.dp)
+        ) {
+            when (mainViewModel.settingsScreenState.value) {
+                SettingsScreenState.SETTINGS -> SettingsScreen()
+                SettingsScreenState.SIGN_IN -> SignInScreen()
+                else -> {}
+            }
+        }
+    }
+
+    @Composable
+    private fun SettingsScreen() {
+        settingsViewModel?.let { viewModel ->
+            SettingsScreen(
+                restartApp = mainViewModel::restartAppFromSettingsScreen,
+                openScreen = mainViewModel::openScreenFromSettingsScreen,
+                viewModel
+            )
+        }
+    }
+
+    @Composable
+    private fun SignInScreen() {
+        loginViewModel?.let { viewModel ->
+            LoginScreen(
+                openAndPopUp = mainViewModel::openAndPopupFromLoginScreen,
+                viewModel
+            )
         }
     }
 

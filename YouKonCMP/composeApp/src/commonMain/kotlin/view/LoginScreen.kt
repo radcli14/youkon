@@ -2,6 +2,7 @@ package view
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
@@ -127,8 +128,6 @@ fun LoginScreenContent(
     onSignInClick: () -> Unit,
     onForgotPasswordClick: () -> Unit
 ) {
-    //BasicToolbar(Res.string.login_details)
-
     Column(
         modifier = modifier
             .fillMaxWidth()
@@ -137,11 +136,7 @@ fun LoginScreenContent(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(
-            text = stringResource(Res.string.login_details),
-            color = MaterialTheme.colorScheme.onBackground,
-            style = MaterialTheme.typography.bodyLarge
-        )
+        BasicToolbar(Res.string.login_details)
         EmailField(uiState.email, onEmailChange, Modifier.fieldModifier())
         PasswordField(uiState.password, onPasswordChange, Modifier.fieldModifier())
         BasicButton(Res.string.sign_in, Modifier.basicButton()) { onSignInClick() }
@@ -154,7 +149,13 @@ fun LoginScreenContent(
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalResourceApi::class)
 @Composable
 fun BasicToolbar(title: StringResource) {
-    TopAppBar(title = { Text(stringResource(title)) })
+    //TopAppBar(title = { Text(stringResource(title)) })
+    Text(
+        text = stringResource(title),
+        color = MaterialTheme.colorScheme.onBackground,
+        style = MaterialTheme.typography.titleLarge
+    )
+    Spacer(modifier = Modifier.spacer())
 }
 
 @OptIn(ExperimentalResourceApi::class)

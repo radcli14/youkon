@@ -4,7 +4,6 @@ import dev.gitlive.firebase.auth.FirebaseAuth
 import dev.gitlive.firebase.perf.metrics.Trace
 import dev.gitlive.firebase.perf.performance
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.flowOf
 import model.YkUser
 

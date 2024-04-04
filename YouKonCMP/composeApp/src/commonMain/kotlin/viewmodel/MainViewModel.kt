@@ -9,6 +9,10 @@ import dev.icerock.moko.mvvm.viewmodel.ViewModel
 import model.YkProject
 import model.YkUser
 
+enum class SettingsScreenState {
+    HIDDEN, SETTINGS, SIGN_IN, CREATE_ACCOUNT
+}
+
 class MainViewModel(
     private val storage: Storage? = null,
     verbose: Boolean = false
@@ -17,7 +21,7 @@ class MainViewModel(
     private val _isEditingProject = MutableLiveData(false)
     val isEditingProject: LiveData<Boolean> = _isEditingProject
 
-    val settingsAreVisible = mutableStateOf(false)
+    val settingsScreenState = mutableStateOf(SettingsScreenState.HIDDEN)
 
     var project: YkProject? = null
     var user = YkUser()
@@ -59,12 +63,29 @@ class MainViewModel(
 
     fun showSettings() {
         Log.d(tag, "Show Settings")
-        settingsAreVisible.value = true
+        settingsScreenState.value = SettingsScreenState.SETTINGS
+    }
+
+    fun openScreenFromSettingsScreen(route: String) {
+        Log.d(tag, "openScreenFromSettingsScreen, route = $route")
+        when (route) {
+            "SettingsScreen" -> settingsScreenState.value = SettingsScreenState.SETTINGS
+            "LoginScreen" -> settingsScreenState.value = SettingsScreenState.SIGN_IN
+        }
+    }
+
+    fun openAndPopupFromLoginScreen(open: String, popup: String) {
+        Log.d(tag, "openAndPopupFromLoginScreen, open = $open, popup = $popup")
+        openScreenFromSettingsScreen(open)
+    }
+
+    fun restartAppFromSettingsScreen(route: String) {
+        Log.d(tag, route)
     }
 
     fun hideSettings() {
         Log.d(tag, "Hide Settings")
-        settingsAreVisible.value = false
+        settingsScreenState.value = SettingsScreenState.HIDDEN
     }
 
     /// The `ProjectsCardViewModel` is retained to persist the states of the individual projects
