@@ -9,7 +9,10 @@ import kotlinx.coroutines.flow.map
 import firebase.service.LogService
 import firebase.service.StorageService
 
-data class SettingsUiState(val isAnonymousAccount: Boolean = true)
+data class SettingsUiState(
+    val name: String,
+    val isAnonymousAccount: Boolean = true
+)
 
 class SettingsViewModel(
     logService: LogService,
@@ -17,7 +20,7 @@ class SettingsViewModel(
     private val storageService: StorageService
 ) : LaunchCatchingViewModel(logService) {
     val uiState = accountService.currentUser.map {
-        SettingsUiState(it.isAnonymous)
+        SettingsUiState(it.name, it.isAnonymous)
     }
 
     fun onLoginClick(openScreen: (String) -> Unit) = openScreen(LOGIN_SCREEN)

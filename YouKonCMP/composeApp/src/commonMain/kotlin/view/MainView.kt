@@ -111,7 +111,7 @@ class MainView(
                     MaterialTheme.colorScheme.surfaceBright,
                     MaterialTheme.shapes.large
                 )
-                .height(360.dp)
+                .height(420.dp)
                 .padding(16.dp)
         ) {
             when (mainViewModel.settingsScreenState.value) {

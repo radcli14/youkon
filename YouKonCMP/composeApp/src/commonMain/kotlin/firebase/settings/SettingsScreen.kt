@@ -55,7 +55,7 @@ fun SettingsScreen(
     viewModel: SettingsViewModel
 ) {
     val uiState by viewModel.uiState.collectAsState(
-        initial = SettingsUiState(false)
+        initial = SettingsUiState("Anonymous User",true)
     )
     SettingsScreenContent(
         uiState = uiState,
@@ -92,6 +92,10 @@ fun SettingsScreenContent(
                 onSignUpClick()
             }
         } else {
+            Text("Logged in as ${uiState.name}",
+                modifier = Modifier.padding(16.dp),
+                color = MaterialTheme.colorScheme.onSurface
+            )
             SignOutCard { onSignOutClick() }
             DeleteMyAccountCard { onDeleteMyAccountClick() }
         }

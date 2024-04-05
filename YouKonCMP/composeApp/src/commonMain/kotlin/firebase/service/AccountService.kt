@@ -4,7 +4,7 @@ import dev.gitlive.firebase.auth.FirebaseAuth
 import dev.gitlive.firebase.perf.metrics.Trace
 import dev.gitlive.firebase.perf.performance
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.map
 import model.YkUser
 
 interface AccountService {
@@ -32,13 +32,15 @@ class AccountServiceImpl(private val auth: FirebaseAuth) : AccountService {
         get() = auth.currentUser != null
 
     override val currentUser: Flow<YkUser>
-        get() = flowOf(
-            if (auth.currentUser != null) {
-                YkUser(name = auth.currentUser!!.email ?: "Anonymous User", id = auth.currentUser!!.uid)
-            } else {
-                YkUser()
-            }
-        )
+        get() = auth.authStateChanged.map { firebaseUser ->
+            firebaseUser?.let { it ->
+                YkUser(
+                    name = it.email ?: "Anonymous User",
+                    id = it.uid,
+                    isAnonymous = it.isAnonymous
+                )
+            } ?: YkUser()
+        }
         /*get() = callbackFlow {
             val listener =
                 FirebaseAuth.AuthStateListener { auth ->
