@@ -10,8 +10,6 @@ import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import dev.gitlive.firebase.Firebase
 import dev.gitlive.firebase.auth.auth
 import dev.gitlive.firebase.firestore.firestore
@@ -25,33 +23,31 @@ import viewmodel.MainViewModel
 import viewmodel.OnboardingScreenViewModel
 import viewmodel.QuickConvertCardViewModel
 
-/// The `MainViewModelFactory` exists so that the storage class can be provided on creation
-class MainViewModelFactory(private val storage: Storage): ViewModelProvider.NewInstanceFactory() {
-    override fun <T : ViewModel> create(modelClass: Class<T>): T = MainViewModel(storage) as T
-}
-
-/// The `QuickConvertCardViewModelFactory` exists so that the storage class can be provided on creation
-class QuickConvertCardViewModelFactory(private val storage: Storage): ViewModelProvider.NewInstanceFactory() {
-    override fun <T : ViewModel> create(modelClass: Class<T>): T = QuickConvertCardViewModel(storage) as T
-}
 
 class MainActivity : ComponentActivity() {
-    private val storage = Storage(this)
+    // Initialize services
+    private val logService = LogServiceImpl()
+    private val accountService = AccountServiceImpl(Firebase.auth)
+    private val localStorage = Storage(this)
+    private val cloudStorage = StorageServiceImpl(Firebase.firestore, accountService)
+
+    // Initialize view models
     private val mainViewModel: MainViewModel by viewModels {
-        MainViewModelFactory(storage)
+        MainViewModelFactory(localStorage, cloudStorage)
     }
     private val onboardingScreenViewModel: OnboardingScreenViewModel by viewModels()
     private val quickConvertCardViewModel: QuickConvertCardViewModel by viewModels {
-        QuickConvertCardViewModelFactory(storage)
+        QuickConvertCardViewModelFactory(localStorage)
     }
-
-    private val logService = LogServiceImpl()
-    private val accountService = AccountServiceImpl(Firebase.auth)
-    private val storageService = StorageServiceImpl(Firebase.firestore, accountService)
-    // TODO: create factories for these view models
-    private val settingsViewModel = SettingsViewModel(logService, accountService, storageService)
-    private val loginViewModel = LoginViewModel(accountService, logService)
-    private val signUpViewModel = SignUpViewModel(accountService, logService)
+    private val settingsViewModel: SettingsViewModel by viewModels {
+        SettingsViewModelFactory(logService, accountService, cloudStorage)
+    }
+    private val loginViewModel: LoginViewModel by viewModels {
+        LoginViewModelFactory(accountService, logService)
+    }
+    private val signUpViewModel: SignUpViewModel by viewModels {
+        SignUpViewModelFactory(accountService, logService)
+    }
 
     private val tag = "MainActivity"
     private val showOnboardingKey = "showOnboarding"
