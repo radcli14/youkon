@@ -8,11 +8,13 @@ plugins {
     alias(libs.plugins.googleServices)
 }
 
+val javaVersion = JavaVersion.VERSION_11
+
 kotlin {
     androidTarget {
         compilations.all {
             kotlinOptions {
-                jvmTarget = "1.8"
+                jvmTarget = javaVersion.toString()
             }
         }
     }
@@ -85,8 +87,8 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = javaVersion
+        targetCompatibility = javaVersion
     }
     dependencies {
         debugImplementation(libs.compose.ui.tooling)
