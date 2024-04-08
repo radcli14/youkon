@@ -40,9 +40,11 @@ data class YkUser(
 
     /// Add a project with `name` and `about` strings, but empty `measurements` and `image`
     fun addProject(name: String = "", description: String = "") {
-        val project = YkProject()
-        project.name = name
-        project.about = description
+        val project = YkProject(
+            name = name,
+            about = description,
+            userId = id
+        )
         projects.add(project)
     }
 
