@@ -35,6 +35,11 @@ class ProjectsCardViewModel(var user: YkUser = YkUser()) : ViewModel() {
         projects.value = user.projects.toTypedArray()
     }
 
+    fun updateProjects(newListOfProjects: List<YkProject>) {
+        user.projects = newListOfProjects as MutableList<YkProject>
+        updateProjects()
+    }
+
     /// Add a new, blank, `YkProject` to the `YkUser`
     fun addProject() {
         user.addProject()
