@@ -9,7 +9,7 @@ data class YkUser(
     var name: String = "Anonymous User",
     var projects: MutableList<YkProject> = mutableListOf(),
     val isAnonymous: Boolean = true,
-    val id: String = UUIDGenerator().generateUUID()
+    var id: String = UUIDGenerator().generateUUID()
 ) {
 
     constructor() : this(
