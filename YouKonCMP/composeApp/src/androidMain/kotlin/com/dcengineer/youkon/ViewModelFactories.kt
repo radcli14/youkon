@@ -14,10 +14,11 @@ import viewmodel.QuickConvertCardViewModel
 
 /// The `MainViewModelFactory` exists so that the storage class can be provided on creation
 class MainViewModelFactory(
+    private val accountService: AccountService,
     private val localStorage: Storage,
     private val cloudStorage: StorageService
 ): ViewModelProvider.NewInstanceFactory() {
-    override fun <T : ViewModel> create(modelClass: Class<T>): T = MainViewModel(localStorage, cloudStorage) as T
+    override fun <T : ViewModel> create(modelClass: Class<T>): T = MainViewModel(accountService, localStorage, cloudStorage) as T
 }
 
 /// The `QuickConvertCardViewModelFactory` exists so that the storage class can be provided on creation

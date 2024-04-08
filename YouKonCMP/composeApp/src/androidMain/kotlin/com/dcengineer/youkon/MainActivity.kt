@@ -33,7 +33,7 @@ class MainActivity : ComponentActivity() {
 
     // Initialize view models
     private val mainViewModel: MainViewModel by viewModels {
-        MainViewModelFactory(localStorage, cloudStorage)
+        MainViewModelFactory(accountService, localStorage, cloudStorage)
     }
     private val onboardingScreenViewModel: OnboardingScreenViewModel by viewModels()
     private val quickConvertCardViewModel: QuickConvertCardViewModel by viewModels {

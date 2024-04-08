@@ -11,14 +11,15 @@ import viewmodel.QuickConvertCardViewModel
 import firebase.settings.SettingsViewModel
 import firebase.sign_up.SignUpViewModel
 
-private val storage = Storage()
-private val mainViewModel = MainViewModel(storage)
-private val quickConvertCardViewModel = QuickConvertCardViewModel(storage)
-private val onboardingScreenViewModel = OnboardingScreenViewModel()
 private val logService = LogServiceImpl()
 private val accountService = AccountServiceImpl(Firebase.auth)
-private val storageService = StorageServiceImpl(Firebase.firestore, accountService)
-private val settingsViewModel = SettingsViewModel(logService, accountService, storageService)
+private val localStorage = Storage()
+private val cloudStorage = StorageServiceImpl(Firebase.firestore, accountService)
+
+private val mainViewModel = MainViewModel(accountService, localStorage, cloudStorage)
+private val quickConvertCardViewModel = QuickConvertCardViewModel(localStorage)
+private val onboardingScreenViewModel = OnboardingScreenViewModel()
+private val settingsViewModel = SettingsViewModel(logService, accountService, cloudStorage)
 private val loginViewModel = LoginViewModel(accountService, logService)
 private val signUpViewModel = SignUpViewModel(accountService, logService)
 
