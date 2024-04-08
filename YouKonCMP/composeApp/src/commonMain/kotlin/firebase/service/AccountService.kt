@@ -9,6 +9,7 @@ import model.YkUser
 
 interface AccountService {
     val currentUserId: String
+    val currentUserName: String
     val hasUser: Boolean
 
     val currentUser: Flow<YkUser>
@@ -27,6 +28,9 @@ class AccountServiceImpl(private val auth: FirebaseAuth) : AccountService {
 
     override val currentUserId: String
         get() = auth.currentUser?.uid.orEmpty()
+
+    override val currentUserName: String
+        get() = auth.currentUser?.email ?: "Anonymous User"
 
     override val hasUser: Boolean
         get() = auth.currentUser != null
