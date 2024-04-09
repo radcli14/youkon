@@ -58,4 +58,12 @@ data class YkUser(
             projects.removeAt(idx)
         }
     }
+
+    /// Print the list of projects to the console
+    fun printProjects() {
+        println("YkUser: For $name, projects include")
+        projects.forEachIndexed { idx, project ->
+            println("  $idx. $project")
+        }
+    }
 }
