@@ -18,8 +18,8 @@ enum class SettingsScreenState {
 
 class MainViewModel(
     private val account: AccountService? = null,
-    private val storage: Storage? = null,
-    private val storageService: StorageService? = null,
+    private val localStorage: Storage? = null,
+    private val cloudStorage: StorageService? = null,
     verbose: Boolean = false
 ) : ViewModel() {
 
@@ -34,54 +34,72 @@ class MainViewModel(
     private val tag = "MainViewModel"
 
     init {
+        // Initialize the user, which will originally derive from the local JSON file
         user = savedUser
         if (verbose) {
             Log.d(tag, "Initial User State\n==================\n\n${user.asJsonString()}\n\n")
         } else {
             Log.d(tag, "Initialized ViewModel for User: ${user.name}, with ID: ${user.id}")
         }
+
+        // Set up the listeners for changes in the account login or storage states
+        viewModelScope.launch {
+            collectAccountService()
+            collectStorageService()
+        }
+    }
+
+    private suspend fun collectAccountService() {
+        // When a user is emitted by Firebase, update our user with that list
+        account?.currentUser?.collect { accountUser ->
+            // Update ID and name using what was emitted by Firebase
+            Log.d(tag, "accountUser = $accountUser")
+            user.id = account.currentUserId
+            user.projects.forEach { project -> project.userId = account.currentUserId }
+            user.name = account.currentUserName
+
+            // If available, update with projects from the Firebase Firestore
+            if (!accountUser.isAnonymous) {
+                cloudStorage?.getUser(accountUser.id)?.let { storageUser ->
+                    Log.d(tag, "storageUser from accountUser = $storageUser")
+                    storageUser.printProjects()
+                    user.projects = storageUser.projects
+                    projectsCardViewModel.updateProjects()
+                }
+            } else {
+                user.projects.clear() // = savedUser.projects //
+                projectsCardViewModel.updateProjects()
+            }
+        }
+    }
+
+    private suspend fun collectStorageService() {
+        cloudStorage?.user?.collect {
+            Log.d(tag, "storageUser = $it")
+        }
     }
 
     private val defaultUser: YkUser get() = Storage().defaultUser
-    private val savedUser: YkUser
-        get() {
-            // Get the initial user, either from JSON, or from defaults
-            val user = storage?.savedUser ?: defaultUser
 
-            // If Firebase did its job, update ID and name
-            account?.currentUserId?.let { currentUserId ->
-                user.id = currentUserId
-                user.projects.forEach { project -> project.userId = currentUserId }
-            }
-            account?.currentUserName?.let { currentUserName -> user.name = currentUserName }
-
-            // When a listOfProjects is emitted by Firebase, update our user with that list
-            viewModelScope.launch {
-                try {
-                    storageService?.projects?.collect { listOfProjects ->
-                        listOfProjects.forEachIndexed { idx, project ->
-                            Log.d(tag, "  $idx. $project")
-                        }
-                        if (listOfProjects.isNotEmpty()) {
-                            projectsCardViewModel.updateProjects(listOfProjects)
-                        }
-                        // TODO: find an alternate place to put this, this is temporary
-                        /*if (listOfProjects.isEmpty()) {
-                            user.projects.forEach { project ->
-                                storageService?.save(project)
-                            }
-                        }*/
-                    }
-                } catch(e: Exception) {
-                    Log.d(tag, "Failed getting projects from storage service, error was ${e.message}")
-                }
-            }
-
-            return user
-        }
+    /// Get the initial user, either from JSON, or from defaults
+    private val savedUser: YkUser get() = localStorage?.savedUser ?: defaultUser
 
     fun saveUserToJson() {
-        storage?.saveUserToJson(user)
+        localStorage?.saveUserToJson(user)
+        // TODO: call this from elsewhere so it isn't coupled with a JSON write
+        saveUserToCloud()
+    }
+
+    private fun saveUserToCloud() {
+        viewModelScope.launch {
+            if (cloudStorage?.userExists(user.id) == true) {
+                Log.d(tag, "Updating cloud user")
+                cloudStorage.update(user)
+            } else if (!user.isAnonymous) {
+                Log.d(tag, "Saving cloud user")
+                cloudStorage?.save(user)
+            }
+        }
     }
 
     /// The user tapped the measurements in a project's disclosure group, toggle editable measurements sheet
