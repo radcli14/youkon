@@ -1,6 +1,7 @@
 package firebase.service
 
 import AccountService
+import dev.gitlive.firebase.firestore.DocumentSnapshot
 import dev.gitlive.firebase.firestore.FirebaseFirestore
 import dev.gitlive.firebase.firestore.FirebaseFirestoreException
 import dev.gitlive.firebase.firestore.where
@@ -18,6 +19,7 @@ interface StorageService {
     val user: Flow<YkUser>
 
     suspend fun getProject(projectId: String): YkProject?
+    suspend fun userExists(userId: String): Boolean
     suspend fun getUser(userId: String): YkUser?
     suspend fun save(project: YkProject): String
     suspend fun save(user: YkUser): String
@@ -61,12 +63,11 @@ class StorageServiceImpl(
     override suspend fun getProject(projectId: String): YkProject? =
         firestore.collection(PROJECT_COLLECTION).document(projectId).get().data(YkProject.serializer())
 
-    override suspend fun getUser(userId: String): YkUser? =
+    private suspend fun userCollectionDocument(userId: String): DocumentSnapshot? =
         try {
             firestore.collection(USER_DATA_COLLECTION)
                 .where { ID_FIELD equalTo userId }
                 .snapshots.first().documents.first()
-                .data(YkUser.serializer())
         } catch(e: NoSuchElementException) {
             Log.d(tag, "Failed getting user data from storage service, error was ${e.message}")
             null
@@ -74,7 +75,12 @@ class StorageServiceImpl(
             Log.d(tag, "Failed getting user data from storage service, error was ${e.message}")
             null
         }
-    //firestore.collection(USER_DATA_COLLECTION).document(userId).get().data(YkUser.serializer())
+
+    override suspend fun userExists(userId: String): Boolean =
+        userCollectionDocument(userId)?.exists ?: false
+
+    override suspend fun getUser(userId: String): YkUser? =
+        userCollectionDocument(userId)?.data(YkUser.serializer())
 
     override suspend fun save(project: YkProject): String =
         trace(SAVE_PROJECT_TRACE) {
