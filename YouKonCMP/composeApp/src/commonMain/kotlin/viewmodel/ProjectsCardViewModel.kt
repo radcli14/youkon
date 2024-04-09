@@ -31,13 +31,8 @@ class ProjectsCardViewModel(var user: YkUser = YkUser()) : ViewModel() {
     }
 
     /// Update the public list of `YkProject` items by assuring that the Kotlin version is Swift formatted
-    private fun updateProjects() {
+    fun updateProjects() {
         projects.value = user.projects.toTypedArray()
-    }
-
-    fun updateProjects(newListOfProjects: List<YkProject>) {
-        user.projects = newListOfProjects as MutableList<YkProject>
-        updateProjects()
     }
 
     /// Add a new, blank, `YkProject` to the `YkUser`
