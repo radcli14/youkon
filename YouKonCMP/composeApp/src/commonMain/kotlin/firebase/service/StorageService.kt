@@ -9,6 +9,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.last
 import kotlinx.coroutines.flow.map
 import model.YkProject
 import model.YkUser
@@ -67,7 +68,7 @@ class StorageServiceImpl(
         try {
             firestore.collection(USER_DATA_COLLECTION)
                 .where { ID_FIELD equalTo userId }
-                .snapshots.first().documents.first()
+                .get().documents.last()
         } catch(e: NoSuchElementException) {
             Log.d(tag, "Failed getting user data from storage service, error was ${e.message}")
             null
@@ -99,7 +100,9 @@ class StorageServiceImpl(
 
     override suspend fun update(user: YkUser): Unit =
         trace(UPDATE_PROJECT_TRACE) {
-            firestore.collection(USER_DATA_COLLECTION).document(user.id).set(user)
+            userCollectionDocument(user.id)?.let {
+                firestore.collection(USER_DATA_COLLECTION).document(it.id).set(user)
+            }
         }
 
     override suspend fun delete(taskId: String) {
