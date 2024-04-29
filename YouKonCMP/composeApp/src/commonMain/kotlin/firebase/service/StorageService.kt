@@ -1,15 +1,14 @@
 package firebase.service
 
 import AccountService
+import Log
 import dev.gitlive.firebase.firestore.DocumentSnapshot
 import dev.gitlive.firebase.firestore.FirebaseFirestore
 import dev.gitlive.firebase.firestore.FirebaseFirestoreException
 import dev.gitlive.firebase.firestore.where
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.last
 import kotlinx.coroutines.flow.map
 import model.YkProject
 import model.YkUser
@@ -105,8 +104,8 @@ class StorageServiceImpl(
             }
         }
 
-    override suspend fun delete(taskId: String) {
-        firestore.collection(PROJECT_COLLECTION).document(taskId).delete()
+    override suspend fun delete(projectId: String) {
+        firestore.collection(PROJECT_COLLECTION).document(projectId).delete()
     }
 
     override suspend fun delete(user: YkUser) {
