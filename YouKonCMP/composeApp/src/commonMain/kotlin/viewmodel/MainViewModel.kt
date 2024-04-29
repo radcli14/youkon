@@ -53,13 +53,15 @@ class MainViewModel(
         // When a user is emitted by Firebase, update our user with that list
         account?.currentUser?.collect { accountUser ->
             // Update ID and name using what was emitted by Firebase
-            Log.d(tag, "accountUser = $accountUser")
+            Log.d(tag, "collectAccountService, accountUser = $accountUser")
             user.id = account.currentUserId
+            user.isAnonymous = accountUser.isAnonymous
             user.projects.forEach { project -> project.userId = account.currentUserId }
             user.name = account.currentUserName
 
             // If available, update with projects from the Firebase Firestore
             if (!accountUser.isAnonymous) {
+                Log.d(tag, "user is not anonymous, trying cloudStorage.getUser ${cloudStorage?.getUser(accountUser.id)}")
                 cloudStorage?.getUser(accountUser.id)?.let { storageUser ->
                     Log.d(tag, "storageUser from accountUser = $storageUser")
                     storageUser.printProjects()
@@ -67,6 +69,7 @@ class MainViewModel(
                     projectsCardViewModel.updateProjects()
                 }
             } else {
+                Log.d(tag, "user is anonymous")
                 user.projects.clear() // = savedUser.projects //
                 projectsCardViewModel.updateProjects()
             }
