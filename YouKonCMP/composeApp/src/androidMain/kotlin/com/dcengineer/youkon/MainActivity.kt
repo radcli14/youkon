@@ -94,7 +94,7 @@ class MainActivity : ComponentActivity() {
         }
         Log.d(tag, "Saved shared preferences: ${sharedPref.all}")
 
-        mainViewModel.saveUserToJson()
+        mainViewModel.saveUserToAll()
         Log.d(tag, "Destroyed the main activity")
     }
 }

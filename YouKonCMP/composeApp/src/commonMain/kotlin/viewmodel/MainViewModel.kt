@@ -87,10 +87,13 @@ class MainViewModel(
     /// Get the initial user, either from JSON, or from defaults
     private val savedUser: YkUser get() = localStorage?.savedUser ?: defaultUser
 
+    fun saveUserToAll() {
+        saveUserToJson()
+        saveUserToCloud()
+    }
+
     fun saveUserToJson() {
         localStorage?.saveUserToJson(user)
-        // TODO: call this from elsewhere so it isn't coupled with a JSON write
-        saveUserToCloud()
     }
 
     private fun saveUserToCloud() {
@@ -119,7 +122,7 @@ class MainViewModel(
         _isEditingProject.value = false
         project = null
         if (saveAfterStopping) {
-            saveUserToJson()
+            saveUserToAll()
         }
     }
 

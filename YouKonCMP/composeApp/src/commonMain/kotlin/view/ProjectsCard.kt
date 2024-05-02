@@ -62,7 +62,8 @@ class ProjectsCard(
                 title = vm.projectToDelete.value?.name ?: "",
                 confirmAction = {
                     vm.confirmDelete()
-                    mainViewModel.saveUserToJson()
+                    //mainViewModel.saveUserToJson()
+                    mainViewModel.saveUserToAll()
                 },
                 cancelAction = { vm.cancelDelete() }
             )
@@ -98,7 +99,7 @@ class ProjectsCard(
             modifier = Modifier.editButtonModifier().onboardingModifier(ProjectsCardViews.PLUS),
             onClick = {
                 vm.addProject()
-                mainViewModel.saveUserToJson()
+                mainViewModel.saveUserToAll()
             }
         ) {
             Icon(
