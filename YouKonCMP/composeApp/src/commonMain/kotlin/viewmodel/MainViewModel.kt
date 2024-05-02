@@ -63,8 +63,7 @@ class MainViewModel(
             if (!accountUser.isAnonymous) {
                 Log.d(tag, "user is not anonymous, trying cloudStorage.getUser ${cloudStorage?.getUser(accountUser.id)}")
                 cloudStorage?.getUser(accountUser.id)?.let { storageUser ->
-                    Log.d(tag, "storageUser from accountUser = $storageUser")
-                    storageUser.printProjects()
+                    Log.d(tag, "storageUser from accountUser -> ${storageUser.summary}")
                     user.projects = storageUser.projects
                     projectsCardViewModel.updateProjects()
                 }

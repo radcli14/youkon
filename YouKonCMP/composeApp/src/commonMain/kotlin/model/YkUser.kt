@@ -59,11 +59,12 @@ data class YkUser(
         }
     }
 
-    /// Print the list of projects to the console
-    fun printProjects() {
-        println("YkUser: For $name, projects include")
-        projects.forEachIndexed { idx, project ->
-            println("  $idx. $project")
-        }
-    }
+    /// List of project ID's to maintain their order in the cloud database
+    val projectIds: List<String> get() = projects.map { project -> project.id }
+
+    /// List of project names to use in a shortened print
+    private val projectNames: List<String> get() = projects.map { project -> project.name }
+
+    /// Shortened string for this user showing just its name and list of project names
+    val summary: String get() = "name: $name, projectNames: $projectNames"
 }
