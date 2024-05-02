@@ -26,6 +26,7 @@ data class YkProject(
         return Json{ prettyPrint = true }.encodeToString(this)
     }
 
+    /// Add a new measurement with user specifications for value, unit, name, and about
     fun addMeasurement(
         value: Double = 0.0,
         unit: YkUnit = YkUnit.METERS,
