@@ -67,4 +67,16 @@ data class YkUser(
 
     /// Shortened string for this user showing just its name and list of project names
     val summary: String get() = "name: $name, projectNames: $projectNames"
+
+    /// Compact form of this user for storage in the cloud
+    val compact: Compact get() = Compact(name, id, projectNames, projectIds)
+
+    @Serializable
+    data class Compact(
+        val name: String,
+        val id: String,
+        val projectNames: List<String>,
+        val projectIds: List<String>
+    )
 }
+
