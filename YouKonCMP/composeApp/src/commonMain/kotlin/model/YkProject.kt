@@ -11,7 +11,8 @@ data class YkProject(
     var measurements: MutableList<YkMeasurement> = mutableListOf(),
     var images: MutableList<String> = mutableListOf(),
     val id: String = UUIDGenerator().generateUUID(),
-    var userId: String = ""
+    var userId: String = "",
+    var isPublic: Boolean = false
 ) {
 
     constructor() : this(
