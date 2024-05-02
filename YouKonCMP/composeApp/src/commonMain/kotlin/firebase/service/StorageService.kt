@@ -18,12 +18,13 @@ interface StorageService {
     val projects: Flow<List<YkProject>>
     val user: Flow<YkUser>
 
-    suspend fun getProject(projectId: String): YkProject?
+    suspend fun getProject(user: YkUser, projectId: String): YkProject?
     suspend fun userExists(userId: String): Boolean
     suspend fun getUser(userId: String): YkUser?
-    suspend fun save(project: YkProject): String
+    suspend fun getUserProjects(userId: String): MutableList<YkProject>
+    suspend fun save(user: YkUser, project: YkProject): String
     suspend fun save(user: YkUser): String
-    suspend fun update(project: YkProject)
+    suspend fun update(user: YkUser, project: YkProject)
     suspend fun update(user: YkUser)
     suspend fun delete(projectId: String)
     suspend fun delete(user: YkUser)
@@ -40,7 +41,9 @@ class StorageServiceImpl(
     override val projects: Flow<List<YkProject>>
         get() =
             auth.currentUser.flatMapLatest { user ->
-                firestore.collection(PROJECT_COLLECTION)
+                firestore
+                    .collection(USER_DATA_COLLECTION).document(user.name)
+                    .collection(PROJECT_COLLECTION)
                     .where { USER_ID_FIELD equalTo user.id }
                     .snapshots
                     .map { snapshot ->
@@ -60,14 +63,22 @@ class StorageServiceImpl(
                 }
         }
 
-    override suspend fun getProject(projectId: String): YkProject? =
-        firestore.collection(PROJECT_COLLECTION).document(projectId).get().data(YkProject.serializer())
+    override suspend fun getProject(user: YkUser, projectId: String): YkProject =
+        getProject(user.name, projectId)
+
+    private suspend fun getProject(userName: String, projectId: String): YkProject =
+        firestore
+            .collection(USER_DATA_COLLECTION).document(userName)
+            .collection(PROJECT_COLLECTION).document(projectId)
+            .get().data(YkProject.serializer())
 
     private suspend fun userCollectionDocument(userId: String): DocumentSnapshot? =
         try {
-            firestore.collection(USER_DATA_COLLECTION)
+            val documents = firestore.collection(USER_DATA_COLLECTION)
                 .where { ID_FIELD equalTo userId }
-                .get().documents.last()
+                .get().documents
+            println("userCollectionDocument documents = $documents")
+            documents.last()
         } catch(e: NoSuchElementException) {
             Log.d(tag, "Failed getting user data from storage service, error was ${e.message}")
             null
@@ -79,29 +90,51 @@ class StorageServiceImpl(
     override suspend fun userExists(userId: String): Boolean =
         userCollectionDocument(userId)?.exists ?: false
 
-    override suspend fun getUser(userId: String): YkUser? =
-        userCollectionDocument(userId)?.data(YkUser.serializer())
+    override suspend fun getUser(userId: String): YkUser {
+        val name = userCollectionDocument(userId)?.data(YkUser.Compact.serializer())?.name ?: ""
+        val projects = getUserProjects(userId)
+        return YkUser(name, projects, isAnonymous = name.isEmpty(), userId)
+    }
 
-    override suspend fun save(project: YkProject): String =
+    override suspend fun getUserProjects(userId: String): MutableList<YkProject> {
+        userCollectionDocument(userId)?.data(YkUser.Compact.serializer())?.let { compactUser ->
+            return compactUser.projectIds.map { projectId ->
+                getProject(compactUser.name, projectId)
+            }.toMutableList()
+        }
+        return mutableListOf()
+    }
+
+    override suspend fun save(user: YkUser, project: YkProject): String =
         trace(SAVE_PROJECT_TRACE) {
-            firestore.collection(PROJECT_COLLECTION).add(project).id
+            //firestore.collection(PROJECT_COLLECTION).add(project).id
+            update(user, project)
+            "update project from the save() function, TODO: don't do this"
         }
 
     override suspend fun save(user: YkUser): String =
-        trace(SAVE_PROJECT_TRACE) {
-            firestore.collection(USER_DATA_COLLECTION).add(user).id
+        trace(SAVE_USER_TRACE) {
+            //firestore.collection(USER_DATA_COLLECTION).add(user).id
+            update(user)
+            "update user from the save() function, TODO: don't do this, "
         }
 
-    override suspend fun update(project: YkProject): Unit =
+    override suspend fun update(user: YkUser, project: YkProject): Unit =
         trace(UPDATE_PROJECT_TRACE) {
-            firestore.collection(PROJECT_COLLECTION).document(project.id).set(project)
+            firestore
+                .collection(USER_DATA_COLLECTION).document(user.name)
+                .collection(PROJECT_COLLECTION).document(project.id).set(project)
         }
 
     override suspend fun update(user: YkUser): Unit =
-        trace(UPDATE_PROJECT_TRACE) {
-            userCollectionDocument(user.id)?.let {
-                firestore.collection(USER_DATA_COLLECTION).document(it.id).set(user)
+        trace(UPDATE_USER_TRACE) {
+            firestore.collection(USER_DATA_COLLECTION).document(user.name).set(user.compact)
+            user.projects.forEach { project ->
+                update(user, project)
             }
+            /*userCollectionDocument(user.id)?.let {
+                firestore.collection(USER_DATA_COLLECTION).document(it.id).set(user)
+            }*/
         }
 
     override suspend fun delete(projectId: String) {
@@ -115,9 +148,11 @@ class StorageServiceImpl(
     companion object {
         private const val ID_FIELD = "id"
         private const val USER_ID_FIELD = "userId"
-        private const val USER_DATA_COLLECTION = "userData"
+        private const val USER_DATA_COLLECTION = "users"
         private const val PROJECT_COLLECTION = "projects"
         private const val SAVE_PROJECT_TRACE = "saveProject"
+        private const val SAVE_USER_TRACE = "saveUser"
         private const val UPDATE_PROJECT_TRACE = "updateProject"
+        private const val UPDATE_USER_TRACE = "updateUser"
     }
 }
