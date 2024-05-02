@@ -107,6 +107,25 @@ class MainViewModel(
         }
     }
 
+    private fun saveProjectToCloud(project: YkProject) {
+        cloudStorage?.let { storage ->
+            viewModelScope.launch {
+                Log.d(tag, "Saving ${project.name} to cloud")
+                storage.update(user, project)
+            }
+        }
+    }
+
+    // TODO: Add delete support
+    private fun deleteProjectFromCloud(project: YkProject) {
+        cloudStorage?.let { storage ->
+            viewModelScope.launch {
+                Log.d(tag, "Deleting ${project.name} from cloud")
+                storage.delete(project.id)
+            }
+        }
+    }
+
     /// The user tapped the measurements in a project's disclosure group, toggle editable measurements sheet
     fun startEditing(projectToEdit: YkProject) {
         _isEditingProject.value = isEditingProject.value == false
@@ -119,10 +138,11 @@ class MainViewModel(
         Log.d(tag, "stopped editing ${project?.name}")
         project?.let { projectsCardViewModel.stopEditing(it) }
         _isEditingProject.value = false
-        project = null
         if (saveAfterStopping) {
-            saveUserToAll()
+            saveUserToJson()
+            project?.let { saveProjectToCloud(it) }
         }
+        project = null
     }
 
     fun showSettings() {
