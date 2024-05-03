@@ -61,8 +61,10 @@ class ProjectsCard(
             SubtractAlert(
                 title = vm.projectToDelete.value?.name ?: "",
                 confirmAction = {
+                    vm.projectToDelete.value?.let {
+                        mainViewModel.deleteProjectFromCloud(it)
+                    }
                     vm.confirmDelete()
-                    //mainViewModel.saveUserToJson()
                     mainViewModel.saveUserToAll()
                 },
                 cancelAction = { vm.cancelDelete() }

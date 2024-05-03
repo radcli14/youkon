@@ -116,12 +116,11 @@ class MainViewModel(
         }
     }
 
-    // TODO: Add delete support
-    private fun deleteProjectFromCloud(project: YkProject) {
+    fun deleteProjectFromCloud(project: YkProject) {
         cloudStorage?.let { storage ->
             viewModelScope.launch {
                 Log.d(tag, "Deleting ${project.name} from cloud")
-                storage.delete(project.id)
+                storage.delete(user, project.id)
             }
         }
     }

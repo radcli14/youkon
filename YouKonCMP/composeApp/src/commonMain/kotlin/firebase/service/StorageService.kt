@@ -2,6 +2,7 @@ package firebase.service
 
 import AccountService
 import Log
+import dev.gitlive.firebase.firestore.CollectionReference
 import dev.gitlive.firebase.firestore.DocumentSnapshot
 import dev.gitlive.firebase.firestore.FirebaseFirestore
 import dev.gitlive.firebase.firestore.FirebaseFirestoreException
@@ -26,7 +27,7 @@ interface StorageService {
     suspend fun save(user: YkUser): String
     suspend fun update(user: YkUser, project: YkProject)
     suspend fun update(user: YkUser)
-    suspend fun delete(projectId: String)
+    suspend fun delete(user: YkUser, projectId: String)
     suspend fun delete(user: YkUser)
 }
 
@@ -63,13 +64,17 @@ class StorageServiceImpl(
                 }
         }
 
+    private fun projectCollection(userName: String): CollectionReference =
+        firestore
+            .collection(USER_DATA_COLLECTION).document(userName)
+            .collection(PROJECT_COLLECTION)
+
     override suspend fun getProject(user: YkUser, projectId: String): YkProject =
         getProject(user.name, projectId)
 
     private suspend fun getProject(userName: String, projectId: String): YkProject =
-        firestore
-            .collection(USER_DATA_COLLECTION).document(userName)
-            .collection(PROJECT_COLLECTION).document(projectId)
+        projectCollection(userName)
+            .document(projectId)
             .get().data(YkProject.serializer())
 
     private suspend fun userCollectionDocument(userId: String): DocumentSnapshot? =
@@ -121,9 +126,7 @@ class StorageServiceImpl(
 
     override suspend fun update(user: YkUser, project: YkProject): Unit =
         trace(UPDATE_PROJECT_TRACE) {
-            firestore
-                .collection(USER_DATA_COLLECTION).document(user.name)
-                .collection(PROJECT_COLLECTION).document(project.id).set(project)
+            projectCollection(user.name).document(project.id).set(project)
         }
 
     override suspend fun update(user: YkUser): Unit =
@@ -137,8 +140,9 @@ class StorageServiceImpl(
             }*/
         }
 
-    override suspend fun delete(projectId: String) {
-        firestore.collection(PROJECT_COLLECTION).document(projectId).delete()
+    override suspend fun delete(user: YkUser, projectId: String) {
+        projectCollection(user.name).document(projectId).delete()
+        //firestore.collection(PROJECT_COLLECTION).document(projectId).delete()
     }
 
     override suspend fun delete(user: YkUser) {
