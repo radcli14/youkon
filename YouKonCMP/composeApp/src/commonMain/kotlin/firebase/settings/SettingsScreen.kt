@@ -15,6 +15,7 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -24,6 +25,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.unit.dp
 import firebase.login.BasicToolbar
 import org.jetbrains.compose.resources.DrawableResource
@@ -41,6 +43,8 @@ import youkon.composeapp.generated.resources.ic_create_account
 import youkon.composeapp.generated.resources.ic_delete_my_account
 import youkon.composeapp.generated.resources.ic_exit
 import youkon.composeapp.generated.resources.ic_sign_in
+import youkon.composeapp.generated.resources.privacy_policy_button
+import youkon.composeapp.generated.resources.privacy_policy_url
 import youkon.composeapp.generated.resources.settings
 import youkon.composeapp.generated.resources.sign_in
 import youkon.composeapp.generated.resources.sign_out
@@ -99,6 +103,8 @@ fun SettingsScreenContent(
             SignOutCard { onSignOutClick() }
             DeleteMyAccountCard { onDeleteMyAccountClick() }
         }
+
+        PrivacyPolicyButton()
     }
 }
 
@@ -258,5 +264,18 @@ fun DialogCancelButton(text: StringResource, action: () -> Unit) {
         )
     ) {
         Text(text = stringResource(text))
+    }
+}
+
+@OptIn(ExperimentalResourceApi::class)
+@Composable
+fun PrivacyPolicyButton() {
+    val url = stringResource(Res.string.privacy_policy_url)
+    val uriHandler = LocalUriHandler.current
+    TextButton(onClick = {
+        Log.d("Settings Screen","Tapped Privacy Policy Button: $url")
+        uriHandler.openUri(url)
+    }) {
+        Text(stringResource(Res.string.privacy_policy_button), modifier = Modifier.padding(16.dp))
     }
 }
