@@ -8,6 +8,7 @@ import dev.icerock.moko.mvvm.livedata.LiveData
 import dev.icerock.moko.mvvm.livedata.MutableLiveData
 import dev.icerock.moko.mvvm.viewmodel.ViewModel
 import firebase.service.StorageService
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import model.YkProject
 import model.YkUser
@@ -61,16 +62,17 @@ class MainViewModel(
 
             // If available, update with projects from the Firebase Firestore
             if (!accountUser.isAnonymous) {
-                Log.d(tag, "user is not anonymous, trying cloudStorage.getUser ${cloudStorage?.getUser(accountUser.id)}")
+                Log.d(tag, "user is not anonymous, trying cloudStorage.getUser")
                 cloudStorage?.getUser(accountUser.id)?.let { storageUser ->
                     Log.d(tag, "storageUser from accountUser -> ${storageUser.summary}")
                     user.projects = storageUser.projects
-                    projectsCardViewModel.updateProjects()
+                    projectsCardViewModel.value = ProjectsCardViewModel(user)
+                    saveUserToJson()
                 }
             } else {
                 Log.d(tag, "user is anonymous")
                 user.projects.clear() // = savedUser.projects //
-                projectsCardViewModel.updateProjects()
+                projectsCardViewModel.value.updateProjects()
             }
         }
     }
@@ -135,7 +137,7 @@ class MainViewModel(
     /// The user exited the bottom sheet, stop editing the project
     fun stopEditing(saveAfterStopping: Boolean = false) {
         Log.d(tag, "stopped editing ${project?.name}")
-        project?.let { projectsCardViewModel.stopEditing(it) }
+        project?.let { projectsCardViewModel.value.stopEditing(it) }
         _isEditingProject.value = false
         if (saveAfterStopping) {
             saveUserToJson()
@@ -174,13 +176,5 @@ class MainViewModel(
     }
 
     /// The `ProjectsCardViewModel` is retained to persist the states of the individual projects
-    val projectsCardViewModel: ProjectsCardViewModel
-        get() {
-            _projectsCardViewModel?.let {
-                return it
-            }
-            _projectsCardViewModel = ProjectsCardViewModel(user)
-            return _projectsCardViewModel!!
-        }
-    private var _projectsCardViewModel: ProjectsCardViewModel? = null
+    var projectsCardViewModel = MutableStateFlow(ProjectsCardViewModel(user))
 }

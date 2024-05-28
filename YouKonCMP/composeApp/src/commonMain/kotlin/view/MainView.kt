@@ -27,6 +27,7 @@ import androidx.compose.material3.rememberBottomSheetScaffoldState
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -284,7 +285,8 @@ class MainView(
             Modifier.closeKeyboardOnTapOutside()
         ) {
             mainViewModel.project?.let { project ->
-                val pvm = mainViewModel.projectsCardViewModel.projectViewModel(project)
+                val pcvm = mainViewModel.projectsCardViewModel.collectAsState()
+                val pvm = pcvm.value.projectViewModel(project)
                 pvm.expansion.value = ProjectExpansionLevel.EDITABLE
                 ProjectViewWhenEditing(pvm).Body()
             }

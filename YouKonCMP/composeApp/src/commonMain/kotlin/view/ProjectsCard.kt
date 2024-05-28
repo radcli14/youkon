@@ -25,6 +25,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
@@ -37,9 +38,10 @@ import viewmodel.ProjectsCardViews
 class ProjectsCard(
     private val mainViewModel: MainViewModel = MainViewModel()
 ) {
-    private val vm = mainViewModel.projectsCardViewModel
+    //private val vm = mainViewModel.projectsCardViewModel
     @Composable
     fun Body() {
+        val vm = mainViewModel.projectsCardViewModel.collectAsState()
         Surface(
             color = MaterialTheme.colorScheme.surface.copy(alpha = 0.4f),
             shape = MaterialTheme.shapes.medium,
@@ -57,24 +59,25 @@ class ProjectsCard(
             }
         }
 
-        if (vm.showSubtractAlert.value) {
+        if (vm.value.showSubtractAlert.value) {
             SubtractAlert(
-                title = vm.projectToDelete.value?.name ?: "",
+                title = vm.value.projectToDelete.value?.name ?: "",
                 confirmAction = {
-                    vm.projectToDelete.value?.let {
+                    vm.value.projectToDelete.value?.let {
                         mainViewModel.deleteProjectFromCloud(it)
                     }
-                    vm.confirmDelete()
+                    vm.value.confirmDelete()
                     mainViewModel.saveUserToAll()
                 },
-                cancelAction = { vm.cancelDelete() }
+                cancelAction = { vm.value.cancelDelete() }
             )
         }
     }
 
     /// Provides a view modifier for a colored shadow if the selected view is highlighted in the onboarding screen
     private fun Modifier.onboardingModifier(view: ProjectsCardViews): Modifier = composed {
-        this.onboardingModifier(vm.highlightedView.value == view)
+        val vm = mainViewModel.projectsCardViewModel.collectAsState()
+        this.onboardingModifier(vm.value.highlightedView.value == view)
     }
 
     /// A row with the text defining the card as `Projects`, and buttons to toggle adding and subtracting
@@ -97,10 +100,11 @@ class ProjectsCard(
     /// A button that, when tapped, adds a new, empty project
     @Composable
     fun PlusButton() {
+        val vm = mainViewModel.projectsCardViewModel.collectAsState()
         IconButton(
             modifier = Modifier.editButtonModifier().onboardingModifier(ProjectsCardViews.PLUS),
             onClick = {
-                vm.addProject()
+                vm.value.addProject()
                 mainViewModel.saveUserToAll()
             }
         ) {
@@ -115,9 +119,10 @@ class ProjectsCard(
     /// A button that, when tapped, toggles the projects to show red "X" to delete them
     @Composable
     fun MinusButton() {
+        val vm = mainViewModel.projectsCardViewModel.collectAsState()
         IconButton(
             modifier = Modifier.editButtonModifier().onboardingModifier(ProjectsCardViews.MINUS),
-            onClick = { vm.onSubtractButtonTap() }
+            onClick = { vm.value.onSubtractButtonTap() }
         ) {
             Icon(
                 imageVector = Icons.Default.Delete, // .Remove,
@@ -130,6 +135,7 @@ class ProjectsCard(
     @OptIn(ExperimentalLayoutApi::class)
     @Composable
     fun ProjectContent() {
+        val vm = mainViewModel.projectsCardViewModel.collectAsState()
         val vertScrollState = rememberScrollState()
 
         FlowRow(
@@ -139,13 +145,13 @@ class ProjectsCard(
             horizontalArrangement = Arrangement.spacedBy(8.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            vm.projects.value.forEach { project ->
+            vm.value.projects.value.forEach { project ->
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier.width(360.dp)
                 ) {
                     SubtractProjectButton(project)
-                    val pvm = vm.projectViewModel(project)
+                    val pvm = vm.value.projectViewModel(project)
                     ProjectView(pvm, mainViewModel).Body()
                 }
             }
@@ -155,9 +161,10 @@ class ProjectsCard(
     /// The red `X` that shows up to the left of a project when the user has enabled subtracting projects
     @Composable
     fun SubtractProjectButton(project: YkProject) {
-        AnimatedVisibility(vm.canSubtract.value) {
+        val vm = mainViewModel.projectsCardViewModel.collectAsState()
+        AnimatedVisibility(vm.value.canSubtract.value) {
             IconButton(
-                onClick = { vm.subtract(project) }
+                onClick = { vm.value.subtract(project) }
             ) {
                 Icon(
                     imageVector = Icons.Default.Clear,
