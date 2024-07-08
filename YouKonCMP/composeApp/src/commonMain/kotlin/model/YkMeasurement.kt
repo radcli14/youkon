@@ -25,8 +25,7 @@ data class YkMeasurement(
 
     /// Convert from the current measurement unit into a different unit, using the Unit type as input
     fun convertTo(targetUnit: YkUnit): YkMeasurement {
-        val newValue = value * (unit.conversionFactor(targetUnit) - unit.offsetToBase) + targetUnit.offsetToBase
-        return YkMeasurement(newValue, targetUnit)
+        return YkMeasurement(unit.convert(value, targetUnit), targetUnit)
     }
 
     /// Converts the measurement to a consistent system of measurements, like SI (kg-m-N), Imperial (slug-ft-pound), etc

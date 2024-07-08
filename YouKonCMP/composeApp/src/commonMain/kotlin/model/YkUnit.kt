@@ -25,6 +25,11 @@ enum class YkUnit(private val toBase: Double, val shortUnit: String, val offsetT
     CELSIUS(1.0, "C"), FAHRENHEIT(5.0/9.0, "F", 32.0), KELVIN(1.0, "K", 273.15), RANKINE(5.0/9.0, "R", 491.67)
     ;
 
+    /// Convert a numeric value from this unit to a target unit
+    fun convert(value: Double, targetUnit: YkUnit): Double {
+        return conversionFactor(targetUnit) * (value - offsetToBase) + targetUnit.offsetToBase
+    }
+
     val lowercasedString: String get() = this
         .toString()
         .replace("_", " ")
