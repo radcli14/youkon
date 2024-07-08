@@ -1,6 +1,6 @@
 package com.dcsim.youkon
 
-import com.dcengineer.youkon.YkUnit
+import model.YkUnit
 import kotlin.test.Test
 import kotlin.test.assertContains
 import kotlin.test.assertEquals
@@ -129,58 +129,58 @@ class YkUnitTest {
         val joules = YkUnit.JOULES
         assertContains(joules.equivalentUnits(), YkUnit.JOULES)
         assertContains(joules.equivalentUnits(), YkUnit.FOOT_POUND_ENERGY)
-        assertContains(joules.equivalentUnits(), YkUnit.BTU)
+        assertContains(joules.equivalentUnits(), YkUnit.BRITISH_THERMAL_UNIT)
         assertEquals(1.0, joules.conversionFactor(YkUnit.JOULES), absTol)
         assertEquals(0.737562, joules.conversionFactor(YkUnit.FOOT_POUND_ENERGY), absTol)
-        assertEquals(0.000947817, joules.conversionFactor(YkUnit.BTU), absTol)
+        assertEquals(0.000947817, joules.conversionFactor(YkUnit.BRITISH_THERMAL_UNIT), absTol)
     }
 
     @Test
     fun testFootPoundEnergy() {
         val footPound = YkUnit.FOOT_POUND_ENERGY
         assertContains(footPound.equivalentUnits(), YkUnit.JOULES)
-        assertContains(footPound.equivalentUnits(), YkUnit.BTU)
+        assertContains(footPound.equivalentUnits(), YkUnit.BRITISH_THERMAL_UNIT)
         assertContains(footPound.equivalentUnits(), YkUnit.FOOT_POUND_ENERGY)
         assertEquals(1.35582, footPound.conversionFactor(YkUnit.JOULES), absTol)
         assertEquals(1.0, footPound.conversionFactor(YkUnit.FOOT_POUND_ENERGY), absTol)
-        assertEquals(0.00128507, footPound.conversionFactor(YkUnit.BTU), absTol)
+        assertEquals(0.00128507, footPound.conversionFactor(YkUnit.BRITISH_THERMAL_UNIT), absTol)
     }
 
     @Test
     fun testBTU() {
-        val btu = YkUnit.BTU
+        val btu = YkUnit.BRITISH_THERMAL_UNIT
         assertContains(btu.equivalentUnits(), YkUnit.JOULES)
         assertContains(btu.equivalentUnits(), YkUnit.FOOT_POUND_ENERGY)
-        assertContains(btu.equivalentUnits(), YkUnit.BTU)
+        assertContains(btu.equivalentUnits(), YkUnit.BRITISH_THERMAL_UNIT)
         assertEquals(1055.06, btu.conversionFactor(YkUnit.JOULES), absTol)
         assertEquals(778.169, btu.conversionFactor(YkUnit.FOOT_POUND_ENERGY), 0.01)
-        assertEquals(1.0, btu.conversionFactor(YkUnit.BTU), absTol)
+        assertEquals(1.0, btu.conversionFactor(YkUnit.BRITISH_THERMAL_UNIT), absTol)
     }
 
     @Test
     fun testPascals() {
         val pascals = YkUnit.PASCALS
         assertContains(pascals.equivalentUnits(), YkUnit.PASCALS)
-        assertContains(pascals.equivalentUnits(), YkUnit.PSI)
+        assertContains(pascals.equivalentUnits(), YkUnit.POUNDS_PER_SQUARE_INCH)
         assertContains(pascals.equivalentUnits(), YkUnit.ATM)
         assertContains(pascals.equivalentUnits(), YkUnit.BARS)
 
         assertEquals(1.0, pascals.conversionFactor(YkUnit.PASCALS), absTol)
-        assertEquals(0.000145037737732368, pascals.conversionFactor(YkUnit.PSI), absTol)
+        assertEquals(0.000145037737732368, pascals.conversionFactor(YkUnit.POUNDS_PER_SQUARE_INCH), absTol)
         assertEquals(9.86923266716012e-06, pascals.conversionFactor(YkUnit.ATM), absTol)
         assertEquals(1.0e-05, pascals.conversionFactor(YkUnit.BARS), absTol)
     }
 
     @Test
     fun testPSI() {
-        val psi = YkUnit.PSI
+        val psi = YkUnit.POUNDS_PER_SQUARE_INCH
         assertContains(psi.equivalentUnits(), YkUnit.PASCALS)
-        assertContains(psi.equivalentUnits(), YkUnit.PSI)
+        assertContains(psi.equivalentUnits(), YkUnit.POUNDS_PER_SQUARE_INCH)
         assertContains(psi.equivalentUnits(), YkUnit.ATM)
         assertContains(psi.equivalentUnits(), YkUnit.BARS)
 
         assertEquals(6894.76, psi.conversionFactor(YkUnit.PASCALS), absTol)
-        assertEquals(1.0, psi.conversionFactor(YkUnit.PSI), absTol)
+        assertEquals(1.0, psi.conversionFactor(YkUnit.POUNDS_PER_SQUARE_INCH), absTol)
         assertEquals(0.068045963534013, psi.conversionFactor(YkUnit.ATM), absTol)
         assertEquals(0.0689476, psi.conversionFactor(YkUnit.BARS), absTol)
     }
@@ -189,12 +189,12 @@ class YkUnitTest {
     fun testATM() {
         val atm = YkUnit.ATM
         assertContains(atm.equivalentUnits(), YkUnit.PASCALS)
-        assertContains(atm.equivalentUnits(), YkUnit.PSI)
+        assertContains(atm.equivalentUnits(), YkUnit.POUNDS_PER_SQUARE_INCH)
         assertContains(atm.equivalentUnits(), YkUnit.ATM)
         assertContains(atm.equivalentUnits(), YkUnit.BARS)
 
         assertEquals(101325.0, atm.conversionFactor(YkUnit.PASCALS), absTol)
-        assertEquals(14.696, atm.conversionFactor(YkUnit.PSI), absTol)
+        assertEquals(14.696, atm.conversionFactor(YkUnit.POUNDS_PER_SQUARE_INCH), absTol)
         assertEquals(1.0, atm.conversionFactor(YkUnit.ATM), absTol)
         assertEquals(1.01325, atm.conversionFactor(YkUnit.BARS), absTol)
     }
@@ -203,13 +203,37 @@ class YkUnitTest {
     fun testBars() {
         val bars = YkUnit.BARS
         assertContains(bars.equivalentUnits(), YkUnit.PASCALS)
-        assertContains(bars.equivalentUnits(), YkUnit.PSI)
+        assertContains(bars.equivalentUnits(), YkUnit.POUNDS_PER_SQUARE_INCH)
         assertContains(bars.equivalentUnits(), YkUnit.ATM)
         assertContains(bars.equivalentUnits(), YkUnit.BARS)
 
         assertEquals(100000.0, bars.conversionFactor(YkUnit.PASCALS), absTol)
-        assertEquals(14.5038, bars.conversionFactor(YkUnit.PSI), absTol)
+        assertEquals(14.5038, bars.conversionFactor(YkUnit.POUNDS_PER_SQUARE_INCH), absTol)
         assertEquals(0.98692326716012, bars.conversionFactor(YkUnit.ATM), absTol)
         assertEquals(1.0, bars.conversionFactor(YkUnit.BARS), absTol)
+    }
+
+    @Test
+    fun testCelsius() {
+        val celsius = YkUnit.CELSIUS
+        assertContains(celsius.equivalentUnits(), YkUnit.FAHRENHEIT)
+        assertContains(celsius.equivalentUnits(), YkUnit.KELVIN)
+        assertContains(celsius.equivalentUnits(), YkUnit.RANKINE)
+
+        assertEquals(68.0 , celsius.convert(20.0, YkUnit.FAHRENHEIT))
+        assertEquals(273.15, celsius.convert(0.0, YkUnit.KELVIN))
+        assertEquals(491.67, celsius.convert(0.0, YkUnit.RANKINE))
+    }
+
+    @Test
+    fun testFahrenheit() {
+        val fahrenheit = YkUnit.CELSIUS
+        assertContains(fahrenheit.equivalentUnits(), YkUnit.CELSIUS)
+        assertContains(fahrenheit.equivalentUnits(), YkUnit.KELVIN)
+        assertContains(fahrenheit.equivalentUnits(), YkUnit.RANKINE)
+
+        assertEquals(20.0 , fahrenheit.convert(68.0, YkUnit.CELSIUS))
+        assertEquals(255.37, fahrenheit.convert(0.0, YkUnit.KELVIN))
+        assertEquals(459.67, fahrenheit.convert(0.0, YkUnit.RANKINE))
     }
 }
