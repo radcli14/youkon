@@ -25,7 +25,8 @@ data class YkMeasurement(
 
     /// Convert from the current measurement unit into a different unit, using the Unit type as input
     fun convertTo(targetUnit: YkUnit): YkMeasurement {
-        return YkMeasurement(value * unit.conversionFactor(targetUnit), targetUnit)
+        val newValue = value * (unit.conversionFactor(targetUnit) - unit.offsetToBase) + targetUnit.offsetToBase
+        return YkMeasurement(newValue, targetUnit)
     }
 
     /// Converts the measurement to a consistent system of measurements, like SI (kg-m-N), Imperial (slug-ft-pound), etc
@@ -38,6 +39,7 @@ data class YkMeasurement(
             in YkType.POWER.units -> convertTo(targetSystem.power)
             in YkType.ENERGY.units -> convertTo(targetSystem.energy)
             in YkType.PRESSURE.units -> convertTo(targetSystem.pressure)
+            in YkType.TEMPERATURE.units -> convertTo(targetSystem.temperature)
             else -> return this
         }
     }

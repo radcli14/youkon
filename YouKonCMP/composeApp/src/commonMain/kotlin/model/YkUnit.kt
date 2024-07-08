@@ -11,15 +11,19 @@ package model
  *
  * @param toBase the conversion factor to go from this unit to the base unit, typically in SI
  * @param shortUnit the more compact string representation of this unit
+ * @param offsetToBase the offset to apply when converting from this unit to the base unit,
+ * for example 32 degrees for temperature conversions from Fahrenheit to Celcius
  */
-enum class YkUnit(private val toBase: Double, val shortUnit: String) {
+enum class YkUnit(private val toBase: Double, val shortUnit: String, val offsetToBase: Double = 0.0) {
     KILOGRAMS(1.0, "kg"), POUNDS(0.453592, "lbm"), SLUGS(14.5939, "slug"),
     METERS(1.0, "m"), FEET(0.3048, "ft"), INCHES(0.0254, "in"),
     NEWTONS(1.0, "N"), POUND_FORCE(4.44822, "lbf"),
     KILOGRAMS_PER_METER_CUBED(1.0, "kg/m^3"), SLUGS_PER_FOOT_CUBED(515.379, "slug/ft^3"),
     WATTS(1.0, "W"), FOOT_POUND_PER_SECOND(1.35582, "ft·lbf/s"), HORSEPOWER(745.7, "HP"),
     JOULES(1.0, "J"), FOOT_POUND_ENERGY(1.35582, "ft·lbf"), BRITISH_THERMAL_UNIT(1055.06, "BTU"),
-    PASCALS(1.0, "Pa"), POUNDS_PER_SQUARE_FOOT(47.8803, "psf"), POUNDS_PER_SQUARE_INCH(6894.76, "psi"), ATM(101325.0, "atm"), BARS(100000.0, "bar");
+    PASCALS(1.0, "Pa"), POUNDS_PER_SQUARE_FOOT(47.8803, "psf"), POUNDS_PER_SQUARE_INCH(6894.76, "psi"), ATM(101325.0, "atm"), BARS(100000.0, "bar"),
+    CELSIUS(1.0, "C"), FAHRENHEIT(5.0/9.0, "F", 32.0), KELVIN(1.0, "K", 273.15), RANKINE(5.0/9.0, "R", 491.67)
+    ;
 
     val lowercasedString: String get() = this
         .toString()
@@ -41,6 +45,7 @@ enum class YkUnit(private val toBase: Double, val shortUnit: String) {
             in YkType.POWER.units -> YkType.POWER.units
             in YkType.ENERGY.units -> YkType.ENERGY.units
             in YkType.PRESSURE.units -> YkType.PRESSURE.units
+            in YkType.TEMPERATURE.units -> YkType.TEMPERATURE.units
             else -> arrayOf()
         }
     }
