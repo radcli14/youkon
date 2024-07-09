@@ -220,20 +220,44 @@ class YkUnitTest {
         assertContains(celsius.equivalentUnits(), YkUnit.KELVIN)
         assertContains(celsius.equivalentUnits(), YkUnit.RANKINE)
 
-        assertEquals(68.0 , celsius.convert(20.0, YkUnit.FAHRENHEIT))
-        assertEquals(273.15, celsius.convert(0.0, YkUnit.KELVIN))
-        assertEquals(491.67, celsius.convert(0.0, YkUnit.RANKINE))
+        assertEquals(68.0 , celsius.convert(20.0, YkUnit.FAHRENHEIT), absTol)
+        assertEquals(273.15, celsius.convert(0.0, YkUnit.KELVIN), absTol)
+        assertEquals(491.67, celsius.convert(0.0, YkUnit.RANKINE), absTol)
     }
 
     @Test
     fun testFahrenheit() {
-        val fahrenheit = YkUnit.CELSIUS
+        val fahrenheit = YkUnit.FAHRENHEIT
         assertContains(fahrenheit.equivalentUnits(), YkUnit.CELSIUS)
         assertContains(fahrenheit.equivalentUnits(), YkUnit.KELVIN)
         assertContains(fahrenheit.equivalentUnits(), YkUnit.RANKINE)
 
-        assertEquals(20.0 , fahrenheit.convert(68.0, YkUnit.CELSIUS))
-        assertEquals(255.37, fahrenheit.convert(0.0, YkUnit.KELVIN))
-        assertEquals(459.67, fahrenheit.convert(0.0, YkUnit.RANKINE))
+        assertEquals(20.0 , fahrenheit.convert(68.0, YkUnit.CELSIUS), absTol)
+        assertEquals(255.37222222, fahrenheit.convert(0.0, YkUnit.KELVIN), absTol)
+        assertEquals(459.67, fahrenheit.convert(0.0, YkUnit.RANKINE), absTol)
+    }
+
+    @Test
+    fun testKelvin() {
+        val kelvin = YkUnit.KELVIN
+        assertContains(kelvin.equivalentUnits(), YkUnit.CELSIUS)
+        assertContains(kelvin.equivalentUnits(), YkUnit.FAHRENHEIT)
+        assertContains(kelvin.equivalentUnits(), YkUnit.RANKINE)
+
+        assertEquals(-273.15, kelvin.convert(0.0, YkUnit.CELSIUS), absTol)
+        assertEquals(-459.67, kelvin.convert(0.0, YkUnit.FAHRENHEIT), absTol)
+        assertEquals(0.0, kelvin.convert(0.0, YkUnit.RANKINE), absTol)
+    }
+
+    @Test
+    fun testRankine() {
+        val rankine = YkUnit.RANKINE
+        assertContains(rankine.equivalentUnits(), YkUnit.CELSIUS)
+        assertContains(rankine.equivalentUnits(), YkUnit.FAHRENHEIT)
+        assertContains(rankine.equivalentUnits(), YkUnit.KELVIN)
+
+        assertEquals(-273.15, rankine.convert(0.0, YkUnit.CELSIUS), absTol)
+        assertEquals(-459.67, rankine.convert(0.0, YkUnit.FAHRENHEIT), absTol)
+        assertEquals(0.0, rankine.convert(0.0, YkUnit.KELVIN), absTol)
     }
 }
