@@ -6,10 +6,10 @@ import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
@@ -119,15 +119,21 @@ class ProjectView(
                     onClick = { vm.toggleSystem(system) },
                     modifier = Modifier
                         .weight(1f)
-                        .height(36.dp)
+                        //.height(48.dp)
                     ,
                     shape = MaterialTheme.shapes.medium,
                     colors = ButtonDefaults.buttonColors(
                         containerColor = pickerColor(isSelected),
                         contentColor = pickerTextColor
-                    )
+                    ),
+                    contentPadding = PaddingValues(horizontal = 0.dp)
                 ) {
-                    Text(text = system.toString())
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Text(text = system.toString())
+                        Text(system.text, style = MaterialTheme.typography.labelSmall)
+                    }
                 }
             }
         }
