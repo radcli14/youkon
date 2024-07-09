@@ -17,7 +17,7 @@ import androidx.compose.foundation.layout.requiredSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowForward
+import androidx.compose.material.icons.automirrored.filled.ArrowForward
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
@@ -244,7 +244,7 @@ class OnboardingScreen(
 
     @Composable
     fun navButtonIcon(): ImageVector {
-        return if (viewModel.onLastBeforeExit) Icons.Default.Check else Icons.Default.ArrowForward
+        return if (viewModel.onLastBeforeExit) Icons.Default.Check else Icons.AutoMirrored.Filled.ArrowForward
     }
 }
 
