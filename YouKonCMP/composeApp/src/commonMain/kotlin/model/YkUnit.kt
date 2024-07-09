@@ -16,12 +16,13 @@ package model
  * for example 32 degrees for temperature conversions from Fahrenheit to Celcius
  */
 enum class YkUnit(private val toBase: Double, val shortUnit: String, val offsetToBase: Double = 0.0) {
+    UNITLESS(1.0, "n/a"),
     // Mass
     KILOGRAMS(1.0, "kg"),
     GRAMS(1e-3, "g"),
     POUNDS(0.453592, "lbm"),
     SLUGS(14.5939, "slug"),
-    SLINCH(175.126836, "lbf s^2/in"),
+    SLINCH(175.126836, "lbf·s^2/in"),
     // Length
     METERS(1.0, "m"),
     KILOMETERS(1e3, "km"),
@@ -41,13 +42,18 @@ enum class YkUnit(private val toBase: Double, val shortUnit: String, val offsetT
     // Density
     KILOGRAMS_PER_METER_CUBED(1.0, "kg/m^3"),
     SLUGS_PER_FOOT_CUBED(515.379, "slug/ft^3"),
+    SLINCH_PER_INCH_CUBED(515.379*20736.0, "lbf·s^2/in^4"),
+    POUND_MASS_PER_FOOT_CUBED(16.0185, "lbm/ft^3"),
+    POUND_MASS_PER_INCH_CUBED(27679.9, "lbm/in^3"),
     // Power
     WATTS(1.0, "W"),
     FOOT_POUND_PER_SECOND(1.35582, "ft·lbf/s"),
+    INCH_POUND_PER_SECOND(1.35582/12.0, "in·lbf/s"),
     HORSEPOWER(745.7, "HP"),
     // Energy
     JOULES(1.0, "J"),
     FOOT_POUND_ENERGY(1.35582, "ft·lbf"),
+    INCH_POUND_ENERGY(1.35582/12.0, "in·lbf"),
     BRITISH_THERMAL_UNIT(1055.06, "BTU"),
     // Pressure
     PASCALS(1.0, "Pa"),
