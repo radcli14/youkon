@@ -235,7 +235,10 @@ class OnboardingScreen(
                 onNavigate()
             }
         ) {
-            Icon(navButtonIcon(), viewModel.navButtonDescription)
+            Icon(navButtonIcon(),
+                contentDescription = viewModel.navButtonDescription,
+                modifier = Modifier.size(40.dp)
+            )
         }
     }
 

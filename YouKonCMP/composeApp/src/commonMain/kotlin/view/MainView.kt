@@ -11,16 +11,17 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Settings
-import androidx.compose.material.icons.rounded.Info
 import androidx.compose.material3.BottomSheetScaffold
 import androidx.compose.material3.BottomSheetScaffoldState
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FilledIconButton
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SheetValue
 import androidx.compose.material3.rememberBottomSheetScaffoldState
@@ -43,17 +44,17 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import dev.icerock.moko.mvvm.livedata.compose.observeAsState
 import firebase.login.LoginScreen
+import firebase.login.LoginViewModel
+import firebase.settings.SettingsViewModel
+import firebase.sign_up.SignUpScreen
+import firebase.sign_up.SignUpViewModel
 import getPlatform
 import kotlinx.coroutines.launch
 import model.ProjectExpansionLevel
-import firebase.login.LoginViewModel
 import viewmodel.MainViewModel
 import viewmodel.OnboardingScreenViewModel
 import viewmodel.QuickConvertCardViewModel
 import viewmodel.SettingsScreenState
-import firebase.settings.SettingsViewModel
-import firebase.sign_up.SignUpScreen
-import firebase.sign_up.SignUpViewModel
 
 
 class MainView(
@@ -265,14 +266,15 @@ class MainView(
     @Composable
     fun SettingsButton(modifier: Modifier = Modifier) {
         val isIphone = "iOS" in getPlatform().name
-        IconButton(
-            modifier = modifier.padding(top = if (isIphone) 32.dp else 0.dp),
+        FilledIconButton(
+            modifier = modifier.padding(top = if (isIphone) 40.dp else 8.dp, end = 8.dp),
             onClick = mainViewModel::showSettings
         ) {
             Icon(
                 imageVector = Icons.Default.Settings,
                 contentDescription = "Settings",
-                tint = MaterialTheme.colorScheme.onBackground
+                tint = MaterialTheme.colorScheme.primaryContainer,
+                modifier = Modifier.size(40.dp)
             )
         }
     }
@@ -298,12 +300,13 @@ class MainView(
     /// or close the sheet to conclude editing a project
     @Composable
     private fun ActionButton(modifier: Modifier = Modifier) {
+        val isIphone = "iOS" in getPlatform().name
         val isBottomSheetExpanded by mainViewModel.isEditingProject.observeAsState()
         val showOnboarding by remember {
             onboardingScreenViewModel?.showOnboarding ?: mutableStateOf(false)
         }
         AnimatedVisibility(!showOnboarding,
-            modifier = modifier.padding(16.dp)
+            modifier = modifier.padding(bottom = if (isIphone) 36.dp else 24.dp, end = 24.dp)
         ) {
             FloatingActionButton(
                 onClick = {
@@ -315,9 +318,9 @@ class MainView(
               },
                 containerColor = MaterialTheme.colorScheme.primaryContainer
             ) {
-                Icon(
-                    closeButtonIcon(isBottomSheetExpanded),
-                    contentDescription = "Open a help dialog, or confirm and close the edit dialog."
+                Icon(closeButtonIcon(isBottomSheetExpanded),
+                    contentDescription = "Open a help dialog, or confirm and close the edit dialog.",
+                    modifier = Modifier.size(40.dp)
                 )
             }
         }
@@ -325,7 +328,7 @@ class MainView(
 
     @Composable
     private fun closeButtonIcon(isBottomSheetExpanded: Boolean?): ImageVector {
-        return if (isBottomSheetExpanded == true) Icons.Filled.Check else Icons.Rounded.Info
+        return if (isBottomSheetExpanded == true) Icons.Filled.Check else Icons.Filled.Info
     }
 }
 
