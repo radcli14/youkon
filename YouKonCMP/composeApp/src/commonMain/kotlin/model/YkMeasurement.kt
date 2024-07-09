@@ -33,6 +33,7 @@ data class YkMeasurement(
         return when (unit) {
             in YkType.MASS.units -> convertTo(targetSystem.mass)
             in YkType.LENGTH.units -> convertTo(targetSystem.length)
+            in YkType.SPEED.units -> convertTo(targetSystem.speed)
             in YkType.FORCE.units -> convertTo(targetSystem.force)
             in YkType.DENSITY.units -> convertTo(targetSystem.density)
             in YkType.POWER.units -> convertTo(targetSystem.power)
