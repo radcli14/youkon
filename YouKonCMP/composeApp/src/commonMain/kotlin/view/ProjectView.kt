@@ -14,7 +14,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -96,7 +96,7 @@ class ProjectView(
             exit = shrinkVertically()
         ) {
             Column {
-                Divider(Modifier.padding(top = Constants.divTopPadding))
+                HorizontalDivider(Modifier.padding(top = Constants.divTopPadding))
                 SystemPicker()
                 ExpansionMeasurementsList()
             }
@@ -200,7 +200,7 @@ class ProjectView(
             horizontalAlignment = Alignment.Start,
             modifier = Modifier.padding(2.dp)
         ) {
-            Divider()
+            HorizontalDivider()
             Text(
                 measurement.name.ifBlank { "New Measurement" },
                 style = MaterialTheme.typography.bodyMedium,
