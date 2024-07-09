@@ -15,4 +15,11 @@ enum class YkType(val units: Array<YkUnit>) {
     ENERGY(arrayOf(YkUnit.JOULES, YkUnit.FOOT_POUND_ENERGY, YkUnit.BRITISH_THERMAL_UNIT)),
     PRESSURE(arrayOf(YkUnit.PASCALS, YkUnit.POUNDS_PER_SQUARE_FOOT, YkUnit.POUNDS_PER_SQUARE_INCH, YkUnit.ATM, YkUnit.BARS)),
     TEMPERATURE(arrayOf(YkUnit.CELSIUS, YkUnit.FAHRENHEIT, YkUnit.KELVIN, YkUnit.RANKINE))
+    ;
+
+    val lowercasedString: String get() = this
+        .toString()
+        .replace("_", " ")
+        .lowercase()
+        .replaceFirstChar { if (it.isLowerCase()) it.titlecase() else it.toString() }
 }

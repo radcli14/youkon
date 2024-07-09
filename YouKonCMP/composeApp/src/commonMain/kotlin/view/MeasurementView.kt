@@ -78,6 +78,7 @@ class MeasurementView(
             UnitDropdown(
                 unit = vm.unit,
                 availableUnits = vm.unit.allUnits,
+                isNested = true,
                 modifier = Modifier.weight(1f),
                 onClick = { vm.updateUnit(it) }
             ).Body()

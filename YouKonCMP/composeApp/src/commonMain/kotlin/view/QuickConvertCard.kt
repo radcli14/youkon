@@ -102,6 +102,7 @@ class QuickConvertCard(
             unit = data.unit,
             availableUnits = vm.allUnits,
             headerText = "From",
+            isNested = true,
             modifier = modifier,
             onClick = { vm.updateUnit(it) }
         ).Body()
