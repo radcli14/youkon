@@ -14,8 +14,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.capitalize
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import model.YkType
 import model.YkUnit
@@ -29,6 +29,8 @@ class UnitDropdown(
     val onClick: (YkUnit?) -> Unit = {}
 ) {
     private val isExpanded = mutableStateOf(false)
+    private val typeIsExpanded = mutableStateOf(false)
+    private var selectedType: YkType? = null
     private val headerPadding = 8.dp
     private val contentPadding = 12.dp
 
@@ -66,6 +68,8 @@ class UnitDropdown(
             contentPadding = PaddingValues(horizontal = contentPadding)
         ) {
             MenuButton()
+
+            // The main dropdown
             DropdownMenu(
                 expanded = isExpanded.value,
                 onDismissRequest = { isExpanded.value = false }
@@ -74,6 +78,21 @@ class UnitDropdown(
                     TypeMenuItems()
                 } else {
                     UnitMenuItems(availableUnits)
+                }
+            }
+
+            // The nested dropdown
+            DropdownMenu(
+                expanded = typeIsExpanded.value,
+                offset = DpOffset(contentPadding, contentPadding),
+                onDismissRequest = {
+                    typeIsExpanded.value = false
+                    selectedType = null
+                }
+            ) {
+                selectedType?.let {
+                    HeaderText("Choose the ${it.lowercasedString} Unit")
+                    UnitMenuItems(it.units)
                 }
             }
         }
@@ -86,23 +105,17 @@ class UnitDropdown(
         HeaderText("Choose a Unit Type")
 
         YkType.entries.forEach { unitType ->
-            val typeIsExpanded = mutableStateOf(false)
-
             DropdownMenuItem(
                 text = {
                     Text(
                         unitType.lowercasedString,
                         color = MaterialTheme.colorScheme.onSurface
                     )
-                    DropdownMenu(
-                        expanded = typeIsExpanded.value,
-                        onDismissRequest = { typeIsExpanded.value = false }
-                    ) {
-                        HeaderText("Choose the ${unitType.lowercasedString} Unit")
-                        UnitMenuItems(unitType.units)
-                    }
                 },
-                onClick = { typeIsExpanded.value = !typeIsExpanded.value }
+                onClick = {
+                    typeIsExpanded.value = !typeIsExpanded.value
+                    selectedType = unitType
+                }
             )
         }
     }
