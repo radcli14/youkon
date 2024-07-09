@@ -21,6 +21,7 @@ enum class YkUnit(private val toBase: Double, val shortUnit: String, val offsetT
     GRAMS(1e-3, "g"),
     POUNDS(0.453592, "lbm"),
     SLUGS(14.5939, "slug"),
+    SLINCH(175.126836, "lbf s^2/in"),
     // Length
     METERS(1.0, "m"),
     KILOMETERS(1e3, "km"),

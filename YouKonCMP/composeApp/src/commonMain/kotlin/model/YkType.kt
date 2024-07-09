@@ -7,7 +7,7 @@ package model
  * @param units an array of `YkUnit` that all represent the same type of measurement
  */
 enum class YkType(val units: Array<YkUnit>) {
-    MASS(arrayOf(YkUnit.KILOGRAMS, YkUnit.GRAMS, YkUnit.POUNDS, YkUnit.SLUGS)),
+    MASS(arrayOf(YkUnit.KILOGRAMS, YkUnit.GRAMS, YkUnit.POUNDS, YkUnit.SLUGS, YkUnit.SLINCH)),
     LENGTH(arrayOf(
         YkUnit.METERS, YkUnit.KILOMETERS, YkUnit.CENTIMETERS, YkUnit.MILLIMETERS,
         YkUnit.FEET, YkUnit.INCHES)),
