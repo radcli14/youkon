@@ -15,8 +15,8 @@ package model
  * @param offsetToBase the offset to apply when converting from this unit to the base unit,
  * for example 32 degrees for temperature conversions from Fahrenheit to Celcius
  */
-enum class YkUnit(private val toBase: Double, val shortUnit: String, val offsetToBase: Double = 0.0) {
-    UNITLESS(1.0, "n/a"),
+enum class YkUnit(private val toBase: Double, val shortUnit: String, private val offsetToBase: Double = 0.0) {
+    UNITLESS(1.0, ""),
     // Mass
     KILOGRAMS(1.0, "kg"),
     GRAMS(1e-3, "g"),

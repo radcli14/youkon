@@ -25,6 +25,7 @@ class UnitDropdown(
     val availableUnits: Array<YkUnit>,
     val headerText: String? = null,
     val isNested: Boolean = false,
+    val includeUnitless: Boolean = false,
     val modifier: Modifier = Modifier,
     val onClick: (YkUnit?) -> Unit = {}
 ) {
@@ -103,6 +104,21 @@ class UnitDropdown(
     @Composable
     fun TypeMenuItems() {
         HeaderText("Choose a Unit Type")
+
+        if (includeUnitless) {
+            DropdownMenuItem(
+                text = {
+                    Text(
+                        YkUnit.UNITLESS.lowercasedString,
+                        color = MaterialTheme.colorScheme.onSurface
+                    )
+                },
+                onClick = {
+                    isExpanded.value = false
+                    onClick(YkUnit.UNITLESS)
+                }
+            )
+        }
 
         YkType.entries.forEach { unitType ->
             DropdownMenuItem(
