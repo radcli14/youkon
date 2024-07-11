@@ -19,6 +19,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.KeyboardArrowDown
+import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -32,13 +34,17 @@ import androidx.compose.ui.composed
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import model.YkProject
+import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.imageResource
+import org.jetbrains.compose.resources.painterResource
 import viewmodel.MainViewModel
 import viewmodel.ProjectsCardViews
+import youkon.composeapp.generated.resources.Res
+import youkon.composeapp.generated.resources.swap_vert_24dp_E8EAED_FILL0_wght400_GRAD0_opsz24
 
 class ProjectsCard(
     private val mainViewModel: MainViewModel = MainViewModel()
 ) {
-    //private val vm = mainViewModel.projectsCardViewModel
     @Composable
     fun Body() {
         val vm = mainViewModel.projectsCardViewModel.collectAsState()
@@ -94,6 +100,8 @@ class ProjectsCard(
             PlusButton()
             Spacer(Modifier.width(8.dp))
             MinusButton()
+            Spacer(Modifier.width(8.dp))
+            ReorderButton()
         }
     }
 
@@ -122,11 +130,27 @@ class ProjectsCard(
         val vm = mainViewModel.projectsCardViewModel.collectAsState()
         IconButton(
             modifier = Modifier.editButtonModifier().onboardingModifier(ProjectsCardViews.MINUS),
-            onClick = { vm.value.onSubtractButtonTap() }
+            onClick = vm.value::onSubtractButtonTap
         ) {
             Icon(
                 imageVector = Icons.Default.Delete, // .Remove,
                 contentDescription = "Allow deleting projects",
+                tint = MaterialTheme.colorScheme.primary
+            )
+        }
+    }
+
+    @OptIn(ExperimentalResourceApi::class)
+    @Composable
+    fun ReorderButton() {
+        val vm = mainViewModel.projectsCardViewModel.collectAsState()
+        IconButton(
+            modifier = Modifier.editButtonModifier(), //.onboardingModifier(ProjectsCardViews.REORDER),
+            onClick = vm.value::onReorderButtonTap
+        ) {
+            Icon(
+                painter = painterResource(Res.drawable.swap_vert_24dp_E8EAED_FILL0_wght400_GRAD0_opsz24),
+                contentDescription = "Allow reordering projects",
                 tint = MaterialTheme.colorScheme.primary
             )
         }
@@ -151,6 +175,7 @@ class ProjectsCard(
                     modifier = Modifier.width(360.dp)
                 ) {
                     SubtractProjectButton(project)
+                    ReorderControls(project)
                     val pvm = vm.value.projectViewModel(project)
                     ProjectView(pvm, mainViewModel).Body()
                 }
@@ -179,6 +204,26 @@ class ProjectsCard(
                     ),
                     tint = MaterialTheme.colorScheme.onPrimary
                 )
+            }
+        }
+    }
+
+    ///
+    @Composable
+    fun ReorderControls(project: YkProject) {
+        val vm = mainViewModel.projectsCardViewModel.collectAsState()
+        AnimatedVisibility(vm.value.canReorder.value) {
+            Column {
+                for (direction in arrayOf("up", "down")) {
+                    IconButton(
+                        onClick = { vm.value.onReorderControlButtonTap(project, direction) }
+                    ) {
+                        Icon(
+                            imageVector = if (direction == "up") Icons.Default.KeyboardArrowUp else Icons.Default.KeyboardArrowDown,
+                            contentDescription = "Reorder ${project.name} project $direction",
+                        )
+                    }
+                }
             }
         }
     }

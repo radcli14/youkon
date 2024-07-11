@@ -15,6 +15,7 @@ class ProjectsCardViewModel(var user: YkUser = YkUser()) : ViewModel() {
     var projects: MutableState<Array<YkProject>> = mutableStateOf(user.projects.toTypedArray())
     val canSubtract = mutableStateOf(false)
     val showSubtractAlert = mutableStateOf(false)
+    val canReorder = mutableStateOf(false)
     val projectToDelete: MutableState<YkProject?> = mutableStateOf(null)
     private var pvcDict = mutableMapOf<String, ProjectViewModel>()
 
@@ -61,7 +62,9 @@ class ProjectsCardViewModel(var user: YkUser = YkUser()) : ViewModel() {
 
     /// Make the button to remove any of the `YkProject`s visible
     fun onSubtractButtonTap() {
-        canSubtract.value = !canSubtract.value
+        if (!canReorder.value) {
+            canSubtract.value = !canSubtract.value
+        }
     }
 
     /// Remove the specified `YkProject` from the `YkUser`
@@ -87,6 +90,18 @@ class ProjectsCardViewModel(var user: YkUser = YkUser()) : ViewModel() {
         showSubtractAlert.value = false
         projectToDelete.value = null
         canSubtract.value = false
+    }
+
+    /// When tapping the swap button, this will open the controls to allow user to reorder projects
+    fun onReorderButtonTap() {
+        if (!canSubtract.value) {
+            canReorder.value = !canReorder.value
+        }
+    }
+
+    /// The controls to move a project "up" or "down"
+    fun onReorderControlButtonTap(project: YkProject, direction: String) {
+        Log.d(tag, "onReorderControlButtonTap: $project $direction")
     }
 
     /// When viewing the onboard screen, this modifies which view is highlighted
