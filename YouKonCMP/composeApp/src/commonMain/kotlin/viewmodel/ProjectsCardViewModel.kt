@@ -101,7 +101,16 @@ class ProjectsCardViewModel(var user: YkUser = YkUser()) : ViewModel() {
 
     /// The controls to move a project "up" or "down"
     fun onReorderControlButtonTap(project: YkProject, direction: String) {
-        Log.d(tag, "onReorderControlButtonTap: $project $direction")
+        Log.d(tag, "onReorderControlButtonTap: move ${project.name} $direction")
+        val idx = user.projects.indexOf(project)
+        if (direction == "up" && idx > 0) {
+            user.projects.removeAt(idx)
+            user.projects.add(idx-1, project)
+        } else if (direction == "down" && idx < user.projects.count()-1) {
+            user.projects.removeAt(idx)
+            user.projects.add(idx+1, project)
+        }
+        updateProjects()
     }
 
     /// When viewing the onboard screen, this modifies which view is highlighted
