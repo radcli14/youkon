@@ -13,9 +13,6 @@ enum class ProjectsCardViews {
 }
 
 class ProjectsCardViewModel(var user: YkUser = YkUser()) : ViewModel() {
-    //private val _user = MutableStateFlow(user)
-    //val user: StateFlow<YkUser> = _user
-    //val projects: MutableList<YkProject> get() = _user.value.projects
     var projects: MutableState<Array<YkProject>> = mutableStateOf(user.projects.toTypedArray())
     val canSubtract = mutableStateOf(false)
     val showSubtractAlert = mutableStateOf(false)
