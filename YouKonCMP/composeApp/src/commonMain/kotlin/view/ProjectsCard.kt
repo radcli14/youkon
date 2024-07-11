@@ -1,20 +1,17 @@
 package view
 
-//import androidx.compose.material.icons.filled.Remove
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
-import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
+import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
+import androidx.compose.foundation.lazy.staggeredgrid.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Delete
@@ -25,9 +22,11 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
+import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import model.YkProject
@@ -158,23 +157,23 @@ class ProjectsCard(
         }
     }
 
+    var nCols = mutableStateOf(1)
+
     @OptIn(ExperimentalLayoutApi::class, ExperimentalFoundationApi::class)
     @Composable
     fun ProjectContent() {
         val vm = mainViewModel.projectsCardViewModel.collectAsState()
-        val vertScrollState = rememberScrollState()
 
-        FlowRow(
-            modifier = Modifier
-                .verticalScroll(vertScrollState)
-                .fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(8.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
+        LazyVerticalStaggeredGrid(
+            columns = StaggeredGridCells.Fixed(nCols.value),
+            verticalItemSpacing = 16.dp,
+            horizontalArrangement = Arrangement.spacedBy(16.dp),
+            modifier = Modifier.onSizeChanged { nCols.value = if (it.width.dp >= 1440.dp) 2 else 1 }
         ) {
-            vm.value.projects.value.forEach { project ->
+            items(vm.value.projects.value) { project ->
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier.width(360.dp)
+                    modifier = Modifier.width(360.dp).animateItemPlacement()
                 ) {
                     SubtractProjectButton(project)
                     ReorderControls(project)
