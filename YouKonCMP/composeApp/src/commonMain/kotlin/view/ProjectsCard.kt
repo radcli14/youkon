@@ -146,7 +146,7 @@ class ProjectsCard(
             enabled = !vm.value.canSubtract.value,
             modifier = Modifier.editButtonModifier(
                 color = pickerColor(vm.value.canReorder.value)
-            ), //.onboardingModifier(ProjectsCardViews.REORDER),
+            ).onboardingModifier(ProjectsCardViews.REORDER),
             onClick = vm.value::onReorderButtonTap
         ) {
             Icon(
@@ -159,7 +159,7 @@ class ProjectsCard(
 
     var nCols = mutableStateOf(1)
 
-    @OptIn(ExperimentalLayoutApi::class, ExperimentalFoundationApi::class)
+    @OptIn(ExperimentalFoundationApi::class)
     @Composable
     fun ProjectContent() {
         val vm = mainViewModel.projectsCardViewModel.collectAsState()

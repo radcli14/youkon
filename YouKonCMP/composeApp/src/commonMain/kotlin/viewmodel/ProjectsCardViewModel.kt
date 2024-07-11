@@ -8,7 +8,7 @@ import model.YkProject
 import model.YkUser
 
 enum class ProjectsCardViews {
-    SURFACE, PLUS, MINUS, PROJECT
+    SURFACE, PLUS, MINUS, REORDER, PROJECT
 }
 
 class ProjectsCardViewModel(var user: YkUser = YkUser()) : ViewModel() {
