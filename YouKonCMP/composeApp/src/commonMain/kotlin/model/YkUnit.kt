@@ -20,6 +20,7 @@ enum class YkUnit(private val toBase: Double, val shortUnit: String, private val
     // Mass
     KILOGRAMS(1.0, "kg"),
     GRAMS(1e-3, "g"),
+    METRIC_TONS(1e3, "tons"),
     POUNDS(0.453592, "lbm"),
     SLUGS(14.5939, "slug"),
     SLINCH(175.126836, "lbf·s^2/in"),
@@ -30,15 +31,18 @@ enum class YkUnit(private val toBase: Double, val shortUnit: String, private val
     MILLIMETERS(1e-3, "mm"),
     FEET(0.3048, "ft"),
     INCHES(0.0254, "in"),
+    MILES(0.3048*5280.0, "miles"),
+    MILS(2.54e-5, "mils"),
     // Speed
     METERS_PER_SECOND(1.0, "m/s"),
     KILOMETERS_PER_HOUR(1.0/3.6, "km/h"),
     FEET_PER_SECOND(0.3048, "ft/s"),
     INCHES_PER_SECOND(0.0254, "in/s"),
-    MILES_PER_HOUR(0.3088 * 5280.0 / 3600.0, "mph"),
+    MILES_PER_HOUR(0.3048 * 5280.0 / 3600.0, "mph"),
     // Force
     NEWTONS(1.0, "N"),
     POUND_FORCE(4.44822, "lbf"),
+    DYNES(1e-5, "dyne"),
     // Density
     KILOGRAMS_PER_METER_CUBED(1.0, "kg/m^3"),
     SLUGS_PER_FOOT_CUBED(515.379, "slug/ft^3"),
@@ -64,7 +68,7 @@ enum class YkUnit(private val toBase: Double, val shortUnit: String, private val
     KILOPOUNDS_PER_SQUARE_FOOT(47.8803e3, "psf"),
     POUNDS_PER_SQUARE_INCH(6894.76, "psi"),
     KILOPOUNDS_PER_SQUARE_INCH(6894.76e3, "ksi"),
-    ATM(101325.0, "atm"),
+    ATMOSPHERES(101325.0, "atm"),
     BARS(100000.0, "bar"),
     // Temperature
     CELSIUS(1.0, "C"),

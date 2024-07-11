@@ -162,12 +162,12 @@ class YkUnitTest {
         val pascals = YkUnit.PASCALS
         assertContains(pascals.equivalentUnits(), YkUnit.PASCALS)
         assertContains(pascals.equivalentUnits(), YkUnit.POUNDS_PER_SQUARE_INCH)
-        assertContains(pascals.equivalentUnits(), YkUnit.ATM)
+        assertContains(pascals.equivalentUnits(), YkUnit.ATMOSPHERES)
         assertContains(pascals.equivalentUnits(), YkUnit.BARS)
 
         assertEquals(1.0, pascals.conversionFactor(YkUnit.PASCALS), absTol)
         assertEquals(0.000145037737732368, pascals.conversionFactor(YkUnit.POUNDS_PER_SQUARE_INCH), absTol)
-        assertEquals(9.86923266716012e-06, pascals.conversionFactor(YkUnit.ATM), absTol)
+        assertEquals(9.86923266716012e-06, pascals.conversionFactor(YkUnit.ATMOSPHERES), absTol)
         assertEquals(1.0e-05, pascals.conversionFactor(YkUnit.BARS), absTol)
     }
 
@@ -176,26 +176,26 @@ class YkUnitTest {
         val psi = YkUnit.POUNDS_PER_SQUARE_INCH
         assertContains(psi.equivalentUnits(), YkUnit.PASCALS)
         assertContains(psi.equivalentUnits(), YkUnit.POUNDS_PER_SQUARE_INCH)
-        assertContains(psi.equivalentUnits(), YkUnit.ATM)
+        assertContains(psi.equivalentUnits(), YkUnit.ATMOSPHERES)
         assertContains(psi.equivalentUnits(), YkUnit.BARS)
 
         assertEquals(6894.76, psi.conversionFactor(YkUnit.PASCALS), absTol)
         assertEquals(1.0, psi.conversionFactor(YkUnit.POUNDS_PER_SQUARE_INCH), absTol)
-        assertEquals(0.068045963534013, psi.conversionFactor(YkUnit.ATM), absTol)
+        assertEquals(0.068045963534013, psi.conversionFactor(YkUnit.ATMOSPHERES), absTol)
         assertEquals(0.0689476, psi.conversionFactor(YkUnit.BARS), absTol)
     }
 
     @Test
     fun testATM() {
-        val atm = YkUnit.ATM
+        val atm = YkUnit.ATMOSPHERES
         assertContains(atm.equivalentUnits(), YkUnit.PASCALS)
         assertContains(atm.equivalentUnits(), YkUnit.POUNDS_PER_SQUARE_INCH)
-        assertContains(atm.equivalentUnits(), YkUnit.ATM)
+        assertContains(atm.equivalentUnits(), YkUnit.ATMOSPHERES)
         assertContains(atm.equivalentUnits(), YkUnit.BARS)
 
         assertEquals(101325.0, atm.conversionFactor(YkUnit.PASCALS), absTol)
         assertEquals(14.696, atm.conversionFactor(YkUnit.POUNDS_PER_SQUARE_INCH), absTol)
-        assertEquals(1.0, atm.conversionFactor(YkUnit.ATM), absTol)
+        assertEquals(1.0, atm.conversionFactor(YkUnit.ATMOSPHERES), absTol)
         assertEquals(1.01325, atm.conversionFactor(YkUnit.BARS), absTol)
     }
 
@@ -204,12 +204,12 @@ class YkUnitTest {
         val bars = YkUnit.BARS
         assertContains(bars.equivalentUnits(), YkUnit.PASCALS)
         assertContains(bars.equivalentUnits(), YkUnit.POUNDS_PER_SQUARE_INCH)
-        assertContains(bars.equivalentUnits(), YkUnit.ATM)
+        assertContains(bars.equivalentUnits(), YkUnit.ATMOSPHERES)
         assertContains(bars.equivalentUnits(), YkUnit.BARS)
 
         assertEquals(100000.0, bars.conversionFactor(YkUnit.PASCALS), absTol)
         assertEquals(14.5038, bars.conversionFactor(YkUnit.POUNDS_PER_SQUARE_INCH), absTol)
-        assertEquals(0.98692326716012, bars.conversionFactor(YkUnit.ATM), absTol)
+        assertEquals(0.98692326716012, bars.conversionFactor(YkUnit.ATMOSPHERES), absTol)
         assertEquals(1.0, bars.conversionFactor(YkUnit.BARS), absTol)
     }
 
