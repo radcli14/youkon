@@ -3,7 +3,6 @@ package view
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -44,7 +43,7 @@ class ProjectsCard(
     fun Body() {
         val vm = mainViewModel.projectsCardViewModel.collectAsState()
         Surface(
-            color = MaterialTheme.colorScheme.surface.copy(alpha = 0.4f),
+            color = MaterialTheme.colorScheme.surface.copy(alpha = Constants.SURFACE_ALPHA),
             shape = MaterialTheme.shapes.medium,
             modifier = Modifier
                 .onboardingModifier(ProjectsCardViews.SURFACE)
@@ -52,8 +51,8 @@ class ProjectsCard(
                 .width(760.dp)
         ) {
             Column(
-                modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
-                verticalArrangement = Arrangement.spacedBy(8.dp)
+                modifier = Modifier.padding(horizontal = Constants.horizontalPadding, vertical = Constants.verticalPadding),
+                verticalArrangement = Arrangement.spacedBy(Constants.verticalPadding)
             ) {
                 LabelStack()
                 ProjectContent()
@@ -92,10 +91,15 @@ class ProjectsCard(
                 fontWeight = FontWeight.SemiBold
             )
             Spacer(Modifier.weight(1f))
+            ControlButtons()
+        }
+    }
+
+    @Composable
+    fun ControlButtons() {
+        Row(horizontalArrangement = Arrangement.spacedBy(Constants.controlButtonSpacing)) {
             PlusButton()
-            Spacer(Modifier.width(8.dp))
             MinusButton()
-            Spacer(Modifier.width(8.dp))
             ReorderButton()
         }
     }
@@ -157,7 +161,7 @@ class ProjectsCard(
         }
     }
 
-    var nCols = mutableStateOf(1)
+    private var nCols = mutableStateOf(1)
 
     @OptIn(ExperimentalFoundationApi::class)
     @Composable
@@ -167,13 +171,15 @@ class ProjectsCard(
         LazyVerticalStaggeredGrid(
             columns = StaggeredGridCells.Fixed(nCols.value),
             verticalItemSpacing = 16.dp,
-            horizontalArrangement = Arrangement.spacedBy(16.dp),
-            modifier = Modifier.onSizeChanged { nCols.value = if (it.width.dp >= 1440.dp) 2 else 1 }
+            horizontalArrangement = Arrangement.spacedBy(Constants.horizontalPadding),
+            modifier = Modifier.onSizeChanged {
+                nCols.value = if (it.width.dp >= Constants.widthForTwoColumns) 2 else 1
+            }
         ) {
             items(vm.value.projects.value) { project ->
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier.width(360.dp).animateItemPlacement()
+                    modifier = Modifier.width(Constants.projectRowWidth).animateItemPlacement()
                 ) {
                     SubtractProjectButton(project)
                     ReorderControls(project)
@@ -202,6 +208,17 @@ class ProjectsCard(
                 contentDescriptionLeader = "Reorder ${project.name} project",
                 onClick = { direction -> vm.value.onReorderControlButtonTap(project, direction) }
             )
+        }
+    }
+
+    private class Constants {
+        companion object {
+            const val SURFACE_ALPHA = 0.4f
+            val horizontalPadding = 16.dp
+            val verticalPadding = 8.dp
+            val controlButtonSpacing = 8.dp
+            val projectRowWidth = 360.dp
+            val widthForTwoColumns = 1440.dp
         }
     }
 }
