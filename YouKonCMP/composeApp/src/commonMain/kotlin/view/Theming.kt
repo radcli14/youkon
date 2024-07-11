@@ -1,18 +1,32 @@
 package view
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.AnimatedVisibilityScope
 import androidx.compose.animation.animateColor
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
+import androidx.compose.animation.expandHorizontally
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.shrinkHorizontally
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Clear
+import androidx.compose.material.icons.filled.KeyboardArrowDown
+import androidx.compose.material.icons.filled.KeyboardArrowUp
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -26,6 +40,73 @@ import androidx.compose.ui.unit.dp
 val grayBackground: Color
     @Composable
     get() = if (isSystemInDarkTheme()) Color.DarkGray else Color.LightGray
+
+/// For the subtract or reorder buttons, this gives them a consistent animation
+@Composable
+fun AnimatedVisibilityForControls(
+    visible: Boolean,
+    content: @Composable (AnimatedVisibilityScope.() -> Unit)
+) {
+    AnimatedVisibility(
+        visible = visible,
+        enter = fadeIn() + expandHorizontally(),
+        exit = fadeOut() + shrinkHorizontally()
+    ) {
+        content()
+    }
+}
+
+/// Button that appears left of projects or measurements to delete a single one
+@Composable
+fun SubtractButton(
+    contentDescription: String? = null,
+    onClick: () -> Unit
+) {
+    IconButton(
+        onClick = { onClick() }
+    ) {
+        Icon(
+            imageVector = Icons.Default.Clear,
+            contentDescription = contentDescription,
+            modifier = Modifier.editButtonModifier(
+                color = MaterialTheme.colorScheme.error,
+                alpha = 1f,
+                width = 24.dp,
+                height = 24.dp,
+                padding = 4.dp,
+                shape = MaterialTheme.shapes.medium
+            ),
+            tint = MaterialTheme.colorScheme.onPrimary
+        )
+    }
+}
+
+@Composable
+fun UpDownButtons(
+    contentDescriptionLeader: String,
+    onClick: (String) -> Unit
+) {
+    Column(
+        verticalArrangement = Arrangement.spacedBy(4.dp),
+        modifier = Modifier.padding(end = 8.dp)
+    ) {
+        for (direction in arrayOf("up", "down")) {
+            IconButton(
+                modifier = Modifier.editButtonModifier(
+                    alpha = 0.5f,
+                    padding = 4.dp,
+                    shape = MaterialTheme.shapes.medium
+                ),
+                onClick = { onClick(direction) } // vm.value.onReorderControlButtonTap(project, direction) }
+            ) {
+                Icon(
+                    imageVector = if (direction == "up") Icons.Default.KeyboardArrowUp else Icons.Default.KeyboardArrowDown,
+                    contentDescription = "$contentDescriptionLeader $direction" // "Reorder ${project.name} project $direction",
+                )
+            }
+        }
+    }
+}
 
 @Composable
 fun Modifier.editButtonModifier(

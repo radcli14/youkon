@@ -2,6 +2,7 @@ package view
 
 //import androidx.compose.material.icons.filled.Remove
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
@@ -13,14 +14,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material.icons.filled.KeyboardArrowDown
-import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -35,7 +32,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import model.YkProject
 import org.jetbrains.compose.resources.ExperimentalResourceApi
-import org.jetbrains.compose.resources.imageResource
 import org.jetbrains.compose.resources.painterResource
 import viewmodel.MainViewModel
 import viewmodel.ProjectsCardViews
@@ -129,7 +125,10 @@ class ProjectsCard(
     fun MinusButton() {
         val vm = mainViewModel.projectsCardViewModel.collectAsState()
         IconButton(
-            modifier = Modifier.editButtonModifier().onboardingModifier(ProjectsCardViews.MINUS),
+            enabled = !vm.value.canReorder.value,
+            modifier = Modifier.editButtonModifier(
+                color = pickerColor(vm.value.canSubtract.value)
+            ).onboardingModifier(ProjectsCardViews.MINUS),
             onClick = vm.value::onSubtractButtonTap
         ) {
             Icon(
@@ -145,7 +144,10 @@ class ProjectsCard(
     fun ReorderButton() {
         val vm = mainViewModel.projectsCardViewModel.collectAsState()
         IconButton(
-            modifier = Modifier.editButtonModifier(), //.onboardingModifier(ProjectsCardViews.REORDER),
+            enabled = !vm.value.canSubtract.value,
+            modifier = Modifier.editButtonModifier(
+                color = pickerColor(vm.value.canReorder.value)
+            ), //.onboardingModifier(ProjectsCardViews.REORDER),
             onClick = vm.value::onReorderButtonTap
         ) {
             Icon(
@@ -156,7 +158,7 @@ class ProjectsCard(
         }
     }
 
-    @OptIn(ExperimentalLayoutApi::class)
+    @OptIn(ExperimentalLayoutApi::class, ExperimentalFoundationApi::class)
     @Composable
     fun ProjectContent() {
         val vm = mainViewModel.projectsCardViewModel.collectAsState()
@@ -187,44 +189,20 @@ class ProjectsCard(
     @Composable
     fun SubtractProjectButton(project: YkProject) {
         val vm = mainViewModel.projectsCardViewModel.collectAsState()
-        AnimatedVisibility(vm.value.canSubtract.value) {
-            IconButton(
-                onClick = { vm.value.subtract(project) }
-            ) {
-                Icon(
-                    imageVector = Icons.Default.Clear,
-                    contentDescription = "Delete ${project.name} project",
-                    modifier = Modifier.editButtonModifier(
-                        color = MaterialTheme.colorScheme.error,
-                        alpha = 1f,
-                        width = 24.dp,
-                        height = 24.dp,
-                        padding = 4.dp,
-                        shape = CircleShape
-                    ),
-                    tint = MaterialTheme.colorScheme.onPrimary
-                )
-            }
+        AnimatedVisibilityForControls(vm.value.canSubtract.value) {
+            SubtractButton(onClick = { vm.value.subtract(project) })
         }
     }
 
-    ///
+    /// Up and Down buttons for changing the position of a project in the card
     @Composable
     fun ReorderControls(project: YkProject) {
         val vm = mainViewModel.projectsCardViewModel.collectAsState()
-        AnimatedVisibility(vm.value.canReorder.value) {
-            Column {
-                for (direction in arrayOf("up", "down")) {
-                    IconButton(
-                        onClick = { vm.value.onReorderControlButtonTap(project, direction) }
-                    ) {
-                        Icon(
-                            imageVector = if (direction == "up") Icons.Default.KeyboardArrowUp else Icons.Default.KeyboardArrowDown,
-                            contentDescription = "Reorder ${project.name} project $direction",
-                        )
-                    }
-                }
-            }
+        AnimatedVisibilityForControls(vm.value.canReorder.value) {
+            UpDownButtons(
+                contentDescriptionLeader = "Reorder ${project.name} project",
+                onClick = { direction -> vm.value.onReorderControlButtonTap(project, direction) }
+            )
         }
     }
 }
