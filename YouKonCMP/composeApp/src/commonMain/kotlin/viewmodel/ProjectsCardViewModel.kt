@@ -1,5 +1,6 @@
 package viewmodel
 
+import Log
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import dev.icerock.moko.mvvm.viewmodel.ViewModel
@@ -12,6 +13,9 @@ enum class ProjectsCardViews {
 }
 
 class ProjectsCardViewModel(var user: YkUser = YkUser()) : ViewModel() {
+    //private val _user = MutableStateFlow(user)
+    //val user: StateFlow<YkUser> = _user
+    //val projects: MutableList<YkProject> get() = _user.value.projects
     var projects: MutableState<Array<YkProject>> = mutableStateOf(user.projects.toTypedArray())
     val canSubtract = mutableStateOf(false)
     val showSubtractAlert = mutableStateOf(false)
@@ -40,7 +44,7 @@ class ProjectsCardViewModel(var user: YkUser = YkUser()) : ViewModel() {
     fun addProject() {
         user.addProject()
         updateProjects()
-        Log.d(tag, "added a new project: ${projects.value}")
+        Log.d(tag, "added a new project: ${projects}")
     }
 
     /// To persist the `ProjectViewModel` inside the project card, it is retained in the `pvcDict`
@@ -102,14 +106,7 @@ class ProjectsCardViewModel(var user: YkUser = YkUser()) : ViewModel() {
     /// The controls to move a project "up" or "down"
     fun onReorderControlButtonTap(project: YkProject, direction: String) {
         Log.d(tag, "onReorderControlButtonTap: move ${project.name} $direction")
-        val idx = user.projects.indexOf(project)
-        if (direction == "up" && idx > 0) {
-            user.projects.removeAt(idx)
-            user.projects.add(idx-1, project)
-        } else if (direction == "down" && idx < user.projects.count()-1) {
-            user.projects.removeAt(idx)
-            user.projects.add(idx+1, project)
-        }
+        user.moveProject(project, direction)
         updateProjects()
     }
 

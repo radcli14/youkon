@@ -59,6 +59,24 @@ data class YkUser(
         }
     }
 
+    /// Move a project in the up or down direction
+    fun moveProject(project: YkProject, direction: String) {
+        val idx = projects.indexOf(project)
+        val toIndex = when {
+            direction == "up" && idx > 0 -> idx - 1
+            direction == "down" && idx < projects.count()-1 -> idx + 1
+            else -> null
+        }
+        toIndex?.let { newIdx -> moveProject(project, newIdx) }
+    }
+
+    /// Move a project to a new index
+    fun moveProject(project: YkProject, toIndex: Int) {
+        val idx = projects.indexOf(project)
+        projects.removeAt(idx)
+        projects.add(toIndex, project)
+    }
+
     /// List of project ID's to maintain their order in the cloud database
     val projectIds: List<String> get() = projects.map { project -> project.id }
 
