@@ -2,7 +2,9 @@ package viewmodel
 
 import Log
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import dev.icerock.moko.mvvm.viewmodel.ViewModel
 import model.ProjectExpansionLevel
 import model.YkProject
@@ -13,7 +15,7 @@ enum class ProjectsCardViews {
 }
 
 class ProjectsCardViewModel(var user: YkUser = YkUser()) : ViewModel() {
-    var projects: MutableState<Array<YkProject>> = mutableStateOf(user.projects.toTypedArray())
+    var projects: SnapshotStateList<YkProject> = mutableStateListOf()
     val canSubtract = mutableStateOf(false)
     val showSubtractAlert = mutableStateOf(false)
     val canReorder = mutableStateOf(false)
@@ -34,7 +36,21 @@ class ProjectsCardViewModel(var user: YkUser = YkUser()) : ViewModel() {
 
     /// Update the public list of `YkProject` items by assuring that the Kotlin version is Swift formatted
     fun updateProjects() {
-        projects.value = user.projects.toTypedArray()
+        user.projects.forEachIndexed { idx, project ->
+            val idxInState = projects.indexOf(project)
+            if (idxInState == -1) {
+                // Did not find this project in the state list of projects, add it here
+                projects.add(idx, project)
+            } else if (idx != idxInState) {
+                // Found this project, but it was at the wrong location, move it here
+                projects.removeAt(idxInState)
+                projects.add(idx, project)
+            }
+        }
+
+        // Remove any projects from the state list that don't exist in the user
+        projects.removeAll { project -> user.projects.indexOf(project) == -1 }
+        //projects.value = user.projects.toTypedArray()
     }
 
     /// Add a new, blank, `YkProject` to the `YkUser`
@@ -56,8 +72,8 @@ class ProjectsCardViewModel(var user: YkUser = YkUser()) : ViewModel() {
 
     /// Used in the onboarding screen, requesting `projectViewModel()` without arguments gives the first as a default
     fun projectViewModel(): ProjectViewModel {
-        return if (projects.value.isNotEmpty()) {
-            projectViewModel(projects.value.first())
+        return if (projects.isNotEmpty()) {
+            projectViewModel(projects.first())
         } else ProjectViewModel()
     }
 

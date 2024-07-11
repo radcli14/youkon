@@ -28,6 +28,10 @@ class ProjectViewModel(initialProject: YkProject = YkProject()) : ViewModel() {
     val showSubtractAlert = mutableStateOf(false)
     val measurementToDelete: MutableState<YkMeasurement?> = mutableStateOf(null)
 
+    val canReorder = mutableStateOf(false)
+
+    private val tag = "ProjectsCardViewModel"
+
     /// Update the public list of `YkProject` items by assuring that the Kotlin version is Swift formatted
     private fun updateMeasurements() {
         measurements.value = project.value.measurements.toTypedArray()
@@ -91,6 +95,20 @@ class ProjectViewModel(initialProject: YkProject = YkProject()) : ViewModel() {
         showSubtractAlert.value = false
         measurementToDelete.value = null
         canSubtract.value = false
+    }
+
+    /// When tapping the swap button, this will open the controls to allow user to reorder projects
+    fun onReorderButtonTap() {
+        if (!canSubtract.value) {
+            canReorder.value = !canReorder.value
+        }
+    }
+
+    /// The controls to move a project "up" or "down"
+    fun onReorderControlButtonTap(measurement: YkMeasurement, direction: String) {
+        Log.d(tag, "onReorderControlButtonTap: move ${measurement.name} $direction")
+        project.value.moveMeasurement(measurement, direction)
+        updateMeasurements()
     }
 
     /// When viewing the onboard screen, this modifies which view is highlighted

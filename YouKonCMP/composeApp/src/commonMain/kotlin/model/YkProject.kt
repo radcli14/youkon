@@ -42,6 +42,24 @@ data class YkProject(
             measurements.removeAt(idx)
         }
     }
+
+    /// Move a measurement in the up or down direction
+    fun moveMeasurement(measurement: YkMeasurement, direction: String) {
+        val idx = measurements.indexOf(measurement)
+        val toIndex = when {
+            direction == "up" && idx > 0 -> idx - 1
+            direction == "down" && idx < measurements.count()-1 -> idx + 1
+            else -> null
+        }
+        toIndex?.let { newIdx -> moveMeasurement(measurement, newIdx) }
+    }
+
+    /// Move a measurement to a new index
+    fun moveMeasurement(measurement: YkMeasurement, toIndex: Int) {
+        val idx = measurements.indexOf(measurement)
+        measurements.removeAt(idx)
+        measurements.add(toIndex, measurement)
+    }
 }
 
 enum class ProjectExpansionLevel {

@@ -1,6 +1,5 @@
 package view
 
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -8,12 +7,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -26,9 +23,13 @@ import androidx.compose.ui.composed
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import model.YkMeasurement
+import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.painterResource
 import viewmodel.MainViewModel
 import viewmodel.ProjectViewModel
 import viewmodel.ProjectViewViews
+import youkon.composeapp.generated.resources.Res
+import youkon.composeapp.generated.resources.swap_vert_24dp_E8EAED_FILL0_wght400_GRAD0_opsz24
 
 /// Upon tapping on the measurements, a bottom sheet will open into "Editable" mode.
 class ProjectViewWhenEditing(
@@ -91,7 +92,7 @@ class ProjectViewWhenEditing(
     @Composable
     private fun ExpansionStack() {
         Column {
-            Divider(Modifier.padding(top = Constants.divTopPadding))
+            HorizontalDivider(Modifier.padding(top = Constants.divTopPadding))
             ExpansionPlusMinusStack()
             ExpansionMeasurementsList()
         }
@@ -138,6 +139,7 @@ class ProjectViewWhenEditing(
             Spacer(Modifier.weight(1f))
             PlusButton()
             MinusButton()
+            ReorderButton()
         }
     }
 
@@ -166,7 +168,25 @@ class ProjectViewWhenEditing(
             Icon(
                 imageVector = Icons.Default.Delete, // .Remove,
                 contentDescription = "Allow deleting measurements",
-                modifier = Modifier.editButtonModifier(),
+                modifier = Modifier.editButtonModifier(color = pickerColor(vm.canSubtract.value)),
+                tint = MaterialTheme.colorScheme.primary
+            )
+        }
+    }
+
+    @OptIn(ExperimentalResourceApi::class)
+    @Composable
+    fun ReorderButton() {
+        IconButton(
+            enabled = !vm.canSubtract.value,
+            modifier = Modifier.editButtonModifier(
+                color = pickerColor(vm.canReorder.value)
+            ),
+            onClick = vm::onReorderButtonTap
+        ) {
+            Icon(
+                painter = painterResource(Res.drawable.swap_vert_24dp_E8EAED_FILL0_wght400_GRAD0_opsz24),
+                contentDescription = "Allow reordering measurements",
                 tint = MaterialTheme.colorScheme.primary
             )
         }
@@ -203,6 +223,7 @@ class ProjectViewWhenEditing(
     private fun EditableMeasurement(measurement: YkMeasurement) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             SubtractMeasurementButton(measurement)
+            ReorderControls(measurement)
             MeasurementView(
                 measurement,
                 highlightNameAndDescription = vm.highlightedView.value == ProjectViewViews.MEASUREMENT_LABEL,
@@ -214,24 +235,20 @@ class ProjectViewWhenEditing(
     /// The red `X` that shows up to the left of a measurement when the user has enabled subtracting measurements
     @Composable
     private fun SubtractMeasurementButton(measurement: YkMeasurement) {
-        AnimatedVisibility(vm.canSubtract.value) {
-            IconButton(
-                onClick = { vm.subtract(measurement) }
-            ) {
-                Icon(
-                    imageVector = Icons.Default.Clear,
-                    contentDescription = "Delete ${measurement.name} measurement",
-                    modifier = Modifier.editButtonModifier(
-                        color = MaterialTheme.colorScheme.error,
-                        alpha = 1f,
-                        width = 24.dp,
-                        height = 24.dp,
-                        padding = 4.dp,
-                        shape = CircleShape
-                    ),
-                    tint = MaterialTheme.colorScheme.onPrimary
-                )
-            }
+        AnimatedVisibilityForControls(vm.canSubtract.value) {
+            SubtractButton(onClick = { vm.subtract(measurement) })
+        }
+    }
+
+    /// Up and Down buttons for changing the position of a measurement in the card
+    @Composable
+    fun ReorderControls(measurement: YkMeasurement) {
+        //val vm = mainViewModel.projectsCardViewModel.collectAsState()
+        AnimatedVisibilityForControls(vm.canReorder.value) {
+            UpDownButtons(
+                contentDescriptionLeader = "Reorder ${measurement.name} measurement",
+                onClick = { direction -> vm.onReorderControlButtonTap(measurement, direction) }
+            )
         }
     }
 

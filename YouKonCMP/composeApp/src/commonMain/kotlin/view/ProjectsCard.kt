@@ -21,6 +21,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -166,24 +167,24 @@ class ProjectsCard(
     @OptIn(ExperimentalFoundationApi::class)
     @Composable
     fun ProjectContent() {
-        val vm = mainViewModel.projectsCardViewModel.collectAsState()
+        val vm by mainViewModel.projectsCardViewModel.collectAsState()
 
         LazyVerticalStaggeredGrid(
             columns = StaggeredGridCells.Fixed(nCols.value),
-            verticalItemSpacing = 16.dp,
+            verticalItemSpacing = Constants.verticalSpacing,
             horizontalArrangement = Arrangement.spacedBy(Constants.horizontalPadding),
             modifier = Modifier.onSizeChanged {
                 nCols.value = if (it.width.dp >= Constants.widthForTwoColumns) 2 else 1
             }
         ) {
-            items(vm.value.projects.value) { project ->
+            items(vm.projects) { project ->
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier.width(Constants.projectRowWidth).animateItemPlacement()
                 ) {
                     SubtractProjectButton(project)
                     ReorderControls(project)
-                    val pvm = vm.value.projectViewModel(project)
+                    val pvm = vm.projectViewModel(project)
                     ProjectView(pvm, mainViewModel).Body()
                 }
             }
@@ -216,6 +217,7 @@ class ProjectsCard(
             const val SURFACE_ALPHA = 0.4f
             val horizontalPadding = 16.dp
             val verticalPadding = 8.dp
+            val verticalSpacing = 16.dp
             val controlButtonSpacing = 8.dp
             val projectRowWidth = 360.dp
             val widthForTwoColumns = 1440.dp
