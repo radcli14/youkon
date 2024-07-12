@@ -269,7 +269,7 @@ class MainView(
         FilledIconButton(
             modifier = modifier.padding(
                 top = Constants.settingsButtonTopPadding,
-                end = Constants.mainContentPadding
+                end = Constants.settingsButtonEndPadding
             ),
             colors = IconButtonDefaults.filledIconButtonColors(
                 containerColor = MaterialTheme.colorScheme.surfaceContainerHighest,
@@ -327,7 +327,7 @@ class MainView(
             ) {
                 Icon(closeButtonIcon(isBottomSheetExpanded),
                     contentDescription = "Open a help dialog, or confirm and close the edit dialog.",
-                    modifier = Modifier.size(Constants.settingsButtonSize)
+                    modifier = Modifier.size(Constants.actionButtonIconSize)
                 )
             }
         }
@@ -344,19 +344,13 @@ class MainView(
             val mainContentPadding = 16.dp
             val mainContentSpacing = 16.dp
             val settingsButtonTopPadding = if (isIphone) 48.dp else 40.dp
+            val settingsButtonEndPadding = 12.dp
             val settingsButtonSize = 40.dp
             val settingsBoxHeight = 420.dp
             val actionButtonBottomPadding = if (isIphone) 36.dp else 24.dp
             val actionButtonEndPadding = 24.dp
+            val actionButtonIconSize = 36.dp
             val sheetPeakHeight = 500.dp
         }
     }
 }
-
-/*
-@Preview
-@Composable
-fun DefaultPreview() {
-    MainView().Body()
-}
- */
