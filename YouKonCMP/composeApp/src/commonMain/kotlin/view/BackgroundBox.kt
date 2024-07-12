@@ -39,7 +39,7 @@ fun BackgroundBox(content: @Composable () -> Unit) {
         Box(
             modifier = Modifier
                 .padding(
-                    top = if (isIphone) 36.dp else 0.dp,
+                    top = if (isIphone) 36.dp else 24.dp,
                     bottom = if (isIphone) 12.dp else 0.dp
                 )
         ) {

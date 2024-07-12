@@ -9,6 +9,7 @@ import android.telephony.TelephonyManager
 import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import dev.gitlive.firebase.Firebase
 import dev.gitlive.firebase.auth.auth
@@ -70,6 +71,8 @@ class MainActivity : ComponentActivity() {
         onboardingScreenViewModel.isWide = manager.phoneType == TelephonyManager.PHONE_TYPE_NONE
 
         Firebase.initialize(this)
+
+        enableEdgeToEdge()
 
         setContent {
             App(

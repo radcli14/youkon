@@ -22,6 +22,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilledIconButton
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SheetValue
 import androidx.compose.material3.rememberBottomSheetScaffoldState
@@ -267,13 +268,16 @@ class MainView(
     fun SettingsButton(modifier: Modifier = Modifier) {
         val isIphone = "iOS" in getPlatform().name
         FilledIconButton(
-            modifier = modifier.padding(top = if (isIphone) 40.dp else 8.dp, end = 8.dp),
+            modifier = modifier.padding(top = if (isIphone) 48.dp else 40.dp, end = 8.dp),
+            colors = IconButtonDefaults.filledIconButtonColors(
+                containerColor = MaterialTheme.colorScheme.surfaceContainerHighest,
+                contentColor = MaterialTheme.colorScheme.primary
+            ),
             onClick = mainViewModel::showSettings
         ) {
             Icon(
                 imageVector = Icons.Default.Settings,
                 contentDescription = "Settings",
-                tint = MaterialTheme.colorScheme.primaryContainer,
                 modifier = Modifier.size(40.dp)
             )
         }
