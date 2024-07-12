@@ -114,8 +114,8 @@ class MainView(
                     MaterialTheme.colorScheme.surfaceBright,
                     MaterialTheme.shapes.large
                 )
-                .height(420.dp)
-                .padding(16.dp)
+                .height(Constants.settingsBoxHeight)
+                .padding(Constants.mainContentPadding)
         ) {
             when (mainViewModel.settingsScreenState.value) {
                 SettingsScreenState.SETTINGS -> SettingsScreen()
@@ -164,7 +164,7 @@ class MainView(
     fun BottomSheetLayout() {
         BottomSheetScaffold(
             scaffoldState = scaffoldState,
-            sheetPeekHeight = 500.dp,
+            sheetPeekHeight = Constants.sheetPeakHeight,
             sheetContent = {
                 ProjectEditingSheet()
             },
@@ -253,9 +253,9 @@ class MainView(
     fun MainContentStack() {
         BackgroundBox {
             Column(
-                modifier = Modifier.padding(16.dp),
+                modifier = Modifier.padding(Constants.mainContentPadding),
                 horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.spacedBy(16.dp)
+                verticalArrangement = Arrangement.spacedBy(Constants.mainContentSpacing)
             ) {
                 Header()
                 QuickConvertCard(quickConvertCardViewModel).Body()
@@ -266,9 +266,11 @@ class MainView(
 
     @Composable
     fun SettingsButton(modifier: Modifier = Modifier) {
-        val isIphone = "iOS" in getPlatform().name
         FilledIconButton(
-            modifier = modifier.padding(top = if (isIphone) 48.dp else 40.dp, end = 8.dp),
+            modifier = modifier.padding(
+                top = Constants.settingsButtonTopPadding,
+                end = Constants.mainContentPadding
+            ),
             colors = IconButtonDefaults.filledIconButtonColors(
                 containerColor = MaterialTheme.colorScheme.surfaceContainerHighest,
                 contentColor = MaterialTheme.colorScheme.primary
@@ -278,13 +280,12 @@ class MainView(
             Icon(
                 imageVector = Icons.Default.Settings,
                 contentDescription = "Settings",
-                modifier = Modifier.size(40.dp)
+                modifier = Modifier.size(Constants.settingsButtonSize)
             )
         }
     }
 
     /// When the user taps on the values in a `ProjectView` this opens the sheet for editing it
-    @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     private fun ProjectEditingSheet() {
         Column(
@@ -304,13 +305,15 @@ class MainView(
     /// or close the sheet to conclude editing a project
     @Composable
     private fun ActionButton(modifier: Modifier = Modifier) {
-        val isIphone = "iOS" in getPlatform().name
         val isBottomSheetExpanded by mainViewModel.isEditingProject.observeAsState()
         val showOnboarding by remember {
             onboardingScreenViewModel?.showOnboarding ?: mutableStateOf(false)
         }
         AnimatedVisibility(!showOnboarding,
-            modifier = modifier.padding(bottom = if (isIphone) 36.dp else 24.dp, end = 24.dp)
+            modifier = modifier.padding(
+                bottom = Constants.actionButtonBottomPadding,
+                end = Constants.actionButtonEndPadding
+            )
         ) {
             FloatingActionButton(
                 onClick = {
@@ -324,7 +327,7 @@ class MainView(
             ) {
                 Icon(closeButtonIcon(isBottomSheetExpanded),
                     contentDescription = "Open a help dialog, or confirm and close the edit dialog.",
-                    modifier = Modifier.size(40.dp)
+                    modifier = Modifier.size(Constants.settingsButtonSize)
                 )
             }
         }
@@ -333,6 +336,20 @@ class MainView(
     @Composable
     private fun closeButtonIcon(isBottomSheetExpanded: Boolean?): ImageVector {
         return if (isBottomSheetExpanded == true) Icons.Filled.Check else Icons.Filled.Info
+    }
+
+    class Constants {
+        companion object {
+            private val isIphone = "iOS" in getPlatform().name
+            val mainContentPadding = 16.dp
+            val mainContentSpacing = 16.dp
+            val settingsButtonTopPadding = if (isIphone) 48.dp else 40.dp
+            val settingsButtonSize = 40.dp
+            val settingsBoxHeight = 420.dp
+            val actionButtonBottomPadding = if (isIphone) 36.dp else 24.dp
+            val actionButtonEndPadding = 24.dp
+            val sheetPeakHeight = 500.dp
+        }
     }
 }
 
