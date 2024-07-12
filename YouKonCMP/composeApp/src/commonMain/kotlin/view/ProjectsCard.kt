@@ -177,7 +177,7 @@ class ProjectsCard(
                 nCols.value = if (it.width.dp >= Constants.widthForTwoColumns) 2 else 1
             }
         ) {
-            items(vm.projects) { project ->
+            items(vm.projects, key = { it.id }) { project ->
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier.width(Constants.projectRowWidth).animateItemPlacement()
