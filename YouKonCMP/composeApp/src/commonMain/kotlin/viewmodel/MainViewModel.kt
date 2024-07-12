@@ -89,8 +89,12 @@ class MainViewModel(
     private val savedUser: YkUser get() = localStorage?.savedUser ?: defaultUser
 
     fun saveUserToAll() {
-        saveUserToJson()
-        saveUserToCloud()
+        viewModelScope.launch {
+            if (user != savedUser) {
+                saveUserToJson()
+                saveUserToCloud()
+            }
+        }
     }
 
     fun saveUserToJson() {

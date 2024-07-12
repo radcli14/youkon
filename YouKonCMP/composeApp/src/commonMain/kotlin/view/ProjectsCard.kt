@@ -152,7 +152,10 @@ class ProjectsCard(
             modifier = Modifier.editButtonModifier(
                 color = pickerColor(vm.value.canReorder.value)
             ).onboardingModifier(ProjectsCardViews.REORDER),
-            onClick = vm.value::onReorderButtonTap
+            onClick = {
+                vm.value.onReorderButtonTap()
+                mainViewModel.saveUserToAll()
+            }
         ) {
             Icon(
                 painter = painterResource(Res.drawable.swap_vert_24dp_E8EAED_FILL0_wght400_GRAD0_opsz24),
