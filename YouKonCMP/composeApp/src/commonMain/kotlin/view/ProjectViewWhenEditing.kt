@@ -1,5 +1,6 @@
 package view
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -17,6 +18,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
@@ -193,14 +196,20 @@ class ProjectViewWhenEditing(
     }
 
     /// A `ForEach` corresponding to each of the measurements, in either editable or static form
+    @OptIn(ExperimentalFoundationApi::class)
     @Composable
     private fun ExpansionMeasurementsList() {
         val project = vm.project.collectAsState()
 
         Column {
             LazyColumn {
-                items(project.value.measurements.count()) {
-                    EditableMeasurement(project.value.measurements[it])
+                items(project.value.measurements.count(),
+                    key = { project.value.measurements[it].id }
+                ) {
+                    EditableMeasurement(
+                        measurement = project.value.measurements[it],
+                        modifier = Modifier.animateItemPlacement()
+                    )
                 }
             }
 
@@ -220,8 +229,11 @@ class ProjectViewWhenEditing(
 
     /// In the `expansionMeasurementList`, this is a single measurement that is editable
     @Composable
-    private fun EditableMeasurement(measurement: YkMeasurement) {
-        Row(verticalAlignment = Alignment.CenterVertically) {
+    private fun EditableMeasurement(measurement: YkMeasurement, modifier: Modifier = Modifier) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = modifier
+        ) {
             SubtractMeasurementButton(measurement)
             ReorderControls(measurement)
             MeasurementView(
