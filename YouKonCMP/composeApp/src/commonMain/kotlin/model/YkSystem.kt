@@ -42,6 +42,17 @@ enum class YkSystem(val text: String, private val units: Array<YkUnit>) {
         YkUnit.POUNDS_PER_SQUARE_INCH,
         YkUnit.FAHRENHEIT
     )),
+    ROBLOX(text = "studs-Rowtons", units = arrayOf(
+        YkUnit.RMU,
+        YkUnit.STUDS,
+        YkUnit.STUDS_PER_SECOND,
+        YkUnit.ROWTONS,
+        YkUnit.RMU_PER_STUD_CUBED,
+        YkUnit.ROWTON_STUD_PER_SECOND,
+        YkUnit.ROWTON_STUD,
+        YkUnit.ROWTON_PER_STUD_SQUARED,
+        YkUnit.CELSIUS
+    ))
     ;
 
     val mass get() = units[0]

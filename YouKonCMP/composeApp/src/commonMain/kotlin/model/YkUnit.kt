@@ -24,6 +24,7 @@ enum class YkUnit(private val toBase: Double, val shortUnit: String, private val
     POUNDS(0.453592, "lbm"),
     SLUGS(14.5939, "slug"),
     SLINCH(175.126836, "lbf·s^2/in"),
+    RMU(21.952, "RMU"),
     // Length
     METERS(1.0, "m"),
     KILOMETERS(1e3, "km"),
@@ -33,32 +34,39 @@ enum class YkUnit(private val toBase: Double, val shortUnit: String, private val
     INCHES(0.0254, "in"),
     MILES(0.3048*5280.0, "miles"),
     MILS(2.54e-5, "mils"),
+    STUDS(0.28, "stud"),
     // Speed
     METERS_PER_SECOND(1.0, "m/s"),
     KILOMETERS_PER_HOUR(1.0/3.6, "km/h"),
     FEET_PER_SECOND(0.3048, "ft/s"),
     INCHES_PER_SECOND(0.0254, "in/s"),
     MILES_PER_HOUR(0.3048 * 5280.0 / 3600.0, "mph"),
+    STUDS_PER_SECOND(0.28, "studs/s"),
     // Force
     NEWTONS(1.0, "N"),
     POUND_FORCE(4.44822, "lbf"),
     DYNES(1e-5, "dyne"),
+    ROWTONS(1.0/0.163, "Rowtons"),
     // Density
     KILOGRAMS_PER_METER_CUBED(1.0, "kg/m^3"),
     SLUGS_PER_FOOT_CUBED(515.379, "slug/ft^3"),
     SLINCH_PER_INCH_CUBED(515.379*20736.0, "lbf·s^2/in^4"),
     POUND_MASS_PER_FOOT_CUBED(16.0185, "lbm/ft^3"),
     POUND_MASS_PER_INCH_CUBED(27679.9, "lbm/in^3"),
+    RMU_PER_STUD_CUBED(1000.0, "RMU/stud^3"),
     // Power
     WATTS(1.0, "W"),
+    KILOWATTS(1000.0, "kW"),
     FOOT_POUND_PER_SECOND(1.35582, "ft·lbf/s"),
     INCH_POUND_PER_SECOND(1.35582/12.0, "in·lbf/s"),
     HORSEPOWER(745.7, "HP"),
+    ROWTON_STUD_PER_SECOND(1.0/0.581, "R·S/s"),
     // Energy
     JOULES(1.0, "J"),
     FOOT_POUND_ENERGY(1.35582, "ft·lbf"),
     INCH_POUND_ENERGY(1.35582/12.0, "in·lbf"),
     BRITISH_THERMAL_UNIT(1055.06, "BTU"),
+    ROWTON_STUD(1.0/0.581, "R·S"),
     // Pressure
     PASCALS(1.0, "Pa"),
     KILOPASCALS(1e3, "kPa"),
@@ -70,6 +78,7 @@ enum class YkUnit(private val toBase: Double, val shortUnit: String, private val
     KILOPOUNDS_PER_SQUARE_INCH(6894.76e3, "ksi"),
     ATMOSPHERES(101325.0, "atm"),
     BARS(100000.0, "bar"),
+    ROWTON_PER_STUD_SQUARED(101325.0/1290.0, "R/stud²"),
     // Temperature
     CELSIUS(1.0, "C"),
     FAHRENHEIT(5.0/9.0, "F", 32.0),
