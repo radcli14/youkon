@@ -42,7 +42,7 @@ enum class YkSystem(val text: String, private val units: Array<YkUnit>) {
         YkUnit.POUNDS_PER_SQUARE_INCH,
         YkUnit.FAHRENHEIT
     )),
-    ROBLOX(text = "studs-Rowtons", units = arrayOf(
+    ROBLOX(text = "RMU-s-R", units = arrayOf(
         YkUnit.RMU,
         YkUnit.STUDS,
         YkUnit.STUDS_PER_SECOND,
