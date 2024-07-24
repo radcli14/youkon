@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.HorizontalDivider
@@ -48,14 +49,14 @@ class ProjectView(
     @Composable
     fun Body() {
         Surface(
-            color = grayBackground.copy(alpha = 0.4f),
+            color = grayBackground.copy(alpha = Constants.bodyBackgroundAlpha),
             shape = MaterialTheme.shapes.medium,
             modifier = Modifier.onboardingModifier(ProjectViewViews.COMPACT)
         ) {
             Column(
                 modifier = Modifier
-                    .padding(start = 16.dp, end = 8.dp)
-                    .padding(vertical = 16.dp)
+                    .padding(start = Constants.bodyStartPadding, end = Constants.bodyEndPadding)
+                    .padding(vertical = Constants.bodyStartPadding)
             ) {
                 LabelStack()
                 ExpansionStack()
@@ -78,7 +79,7 @@ class ProjectView(
                 imageSize = Constants.imageSize,
                 imageShape = MaterialTheme.shapes.medium
             )
-            Spacer(Modifier.width(8.dp))
+            Spacer(Modifier.width(Constants.labelSpacerWidth))
             Column(modifier = Modifier.weight(1f)) {
                 NameField()
                 DescriptionField()
@@ -106,35 +107,36 @@ class ProjectView(
     /// Selection control between `YkSystem` variations, such as SI or IMPERIAL
     @Composable
     private fun SystemPicker() {
-        Row(
-            horizontalArrangement = Arrangement.SpaceEvenly,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 8.dp)
-                .onboardingModifier(ProjectViewViews.SYSTEM_PICKER)
-        ) {
-            YkSystem.entries.forEach { system ->
-                val isSelected = vm.convertToSystem.value == system
-                Button(
-                    onClick = { vm.toggleSystem(system) },
-                    modifier = Modifier
-                        .weight(1f)
-                        //.height(48.dp)
-                    ,
-                    shape = MaterialTheme.shapes.medium,
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = pickerColor(isSelected),
-                        contentColor = pickerTextColor
-                    ),
-                    contentPadding = PaddingValues(horizontal = 0.dp)
-                ) {
-                    Column(
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-                        Text(text = system.toString())
-                        Text(system.text, style = MaterialTheme.typography.labelSmall)
-                    }
+        Column(Modifier.onboardingModifier(ProjectViewViews.SYSTEM_PICKER)) {
+            Text("Choose a system for conversion", style = MaterialTheme.typography.titleSmall)
+            LazyRow {
+                items(YkSystem.entries.count()) { idx ->
+                    val system = YkSystem.entries[idx]
+                    val isSelected = vm.convertToSystem.value == system
+                    SystemPickerButton(system, isSelected)
                 }
+            }
+        }
+    }
+
+    /// The individual buttons representing a system of units
+    @Composable
+    private fun SystemPickerButton(system: YkSystem, isSelected: Boolean) {
+        Button(
+            onClick = { vm.toggleSystem(system) },
+            modifier = Modifier.width(Constants.systemPickerButtonWidth),
+            shape = MaterialTheme.shapes.medium,
+            colors = ButtonDefaults.buttonColors(
+                containerColor = pickerColor(isSelected),
+                contentColor = pickerTextColor
+            ),
+            contentPadding = PaddingValues(horizontal = 0.dp)
+        ) {
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Text(text = system.toString())
+                Text(system.text, style = MaterialTheme.typography.labelSmall)
             }
         }
     }
@@ -159,7 +161,7 @@ class ProjectView(
             text = project.value.about,
             style = MaterialTheme.typography.bodySmall,
             color = MaterialTheme.colorScheme.onSurface,
-            modifier = Modifier.padding(bottom = 4.dp),
+            modifier = Modifier.padding(bottom = Constants.descriptionBottomPadding),
         )
     }
 
@@ -198,7 +200,7 @@ class ProjectView(
     private fun StaticMeasurement(measurement: YkMeasurement) {
         Column(
             horizontalAlignment = Alignment.Start,
-            modifier = Modifier.padding(2.dp)
+            modifier = Modifier.padding(Constants.staticMeasurementPadding)
         ) {
             HorizontalDivider()
             Text(
@@ -220,8 +222,15 @@ class ProjectView(
 
     private class Constants {
         companion object {
+            val bodyBackgroundAlpha = 0.4f
+            val bodyStartPadding = 16.dp
+            val bodyEndPadding = 8.dp
+            val labelSpacerWidth = 8.dp
+            val descriptionBottomPadding = 4.dp
             val imageSize = 36.dp
             val divTopPadding = 4.dp
+            val systemPickerButtonWidth = 96.dp
+            val staticMeasurementPadding = 2.dp
         }
     }
 }
