@@ -78,7 +78,7 @@ enum class YkUnit(private val toBase: Double, val shortUnit: String, private val
     KILOPOUNDS_PER_SQUARE_INCH(6894.76e3, "ksi"),
     ATMOSPHERES(101325.0, "atm"),
     BARS(100000.0, "bar"),
-    ROWTON_PER_STUD_SQUARED(101325.0/1290.0, "R/stud²"),
+    ROWTON_PER_STUD_SQUARED(101325.0/0.00129, "R/stud²"),
     // Temperature
     CELSIUS(1.0, "C"),
     FAHRENHEIT(5.0/9.0, "F", 32.0),
