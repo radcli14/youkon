@@ -4,7 +4,6 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.expandVertically
 import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -29,9 +28,14 @@ import androidx.compose.ui.unit.dp
 import model.ProjectExpansionLevel
 import model.YkMeasurement
 import model.YkSystem
+import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.stringResource
 import viewmodel.MainViewModel
 import viewmodel.ProjectViewModel
 import viewmodel.ProjectViewViews
+import youkon.composeapp.generated.resources.Res
+import youkon.composeapp.generated.resources.choose_a_system
+import youkon.composeapp.generated.resources.swipe_for_options
 
 /// The `ProjectView` displays the data from a `YkProject`.
 /// Initially shown with an icon, name, and description, in "Compact" mode.
@@ -105,10 +109,12 @@ class ProjectView(
     }
 
     /// Selection control between `YkSystem` variations, such as SI or IMPERIAL
+    @OptIn(ExperimentalResourceApi::class)
     @Composable
     private fun SystemPicker() {
         Column(Modifier.onboardingModifier(ProjectViewViews.SYSTEM_PICKER)) {
-            Text("Choose a system for conversion", style = MaterialTheme.typography.titleSmall)
+            Text(stringResource(Res.string.choose_a_system), style = MaterialTheme.typography.titleSmall)
+            Text(stringResource(Res.string.swipe_for_options), style = MaterialTheme.typography.labelSmall)
             LazyRow {
                 items(YkSystem.entries.count()) { idx ->
                     val system = YkSystem.entries[idx]

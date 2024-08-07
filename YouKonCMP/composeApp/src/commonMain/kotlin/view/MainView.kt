@@ -2,6 +2,8 @@ package view
 
 import YoukonTheme
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
@@ -310,6 +312,8 @@ class MainView(
             onboardingScreenViewModel?.showOnboarding ?: mutableStateOf(false)
         }
         AnimatedVisibility(!showOnboarding,
+            enter = fadeIn(),
+            exit = fadeOut(),
             modifier = modifier.padding(
                 bottom = Constants.actionButtonBottomPadding,
                 end = Constants.actionButtonEndPadding

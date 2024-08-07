@@ -39,18 +39,23 @@
     <string name="sign_out">Sign out</string>
     <string name="delete_my_account">Delete my account</string>
     <string name="privacy_policy_button">Privacy Policy</string>
-    <string name="privacy_policy_url">https://www.iubenda.com/privacy-policy/70612955</string>
+    <string name="privacy_policy_url">ttps://www.iubenda.com/privacy-policy/70612955h</string>
 
     <!-- Dialogs -->
     <string name="sign_out_title">Sign out?</string>
     <string name="sign_out_description">You will have to sign in again to see your tasks.</string>
     <string name="delete_account_title">Delete account?</string>
-    <string name="delete_account_description">You will lose all your tasks and your account will be deleted. This action is irreversible.</string>
+    <string name="delete_account_description">You will lose all your projects and your account will be deleted. This action is irreversible.</string>
 
     <!-- FCM -->
     <string name="default_notification_channel_id" translatable="false">fcm_default_channel</string>
     <string name="request_notification_permission">Request permission</string>
     <string name="notification_permission_title">Notification permission</string>
     <string name="notification_permission_description">The notification permission is important for this app. Please grant the permission.</string>
-    <string name="notification_permission_settings">The notification permission is important for this app. Please navigate to your device settings and enable notifications for Make it So.</string>
+    <string name="notification_permission_settings">The notification permission is important for this app. Please navigate to your device settings and enable notifications for YouKon.</string>
+
+    <!-- Project View -->
+    <string name="choose_a_system">Choose a system for conversion</string>
+    <string name="swipe_for_options">Swipe for more options</string>
+    <string name="add_new_measurements">Tap here to open the project editor and add new measurements</string>
 </resources>

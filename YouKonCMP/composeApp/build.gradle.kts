@@ -73,8 +73,8 @@ android {
         applicationId = "com.dcengineer.youkon"
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.targetSdk.get().toInt()
-        versionCode = 6
-        versionName = "0.6.0"
+        versionCode = 7
+        versionName = "0.7.0"
     }
     packaging {
         resources {
@@ -105,6 +105,7 @@ dependencies {
     implementation(compose.material3)
     implementation(libs.androidx.constraintlayout.compose)
     implementation(libs.androidx.ui.tooling.preview.android)
+    //implementation(libs.cupertino)
 
     commonMainApi(libs.mvvm.core) // only ViewModel, EventsDispatcher, Dispatchers.UI
     commonMainApi(libs.mvvm.flow) // api mvvm-core, CFlow for native and binding extensions

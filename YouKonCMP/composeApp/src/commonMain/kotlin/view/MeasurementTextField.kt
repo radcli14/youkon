@@ -4,8 +4,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.text.BasicTextField
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
@@ -15,10 +13,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.dcengineer.youkon.CustomDecimalTextField
 
 @Composable
 fun MeasurementTextField(
@@ -40,25 +37,15 @@ fun MeasurementTextField(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.padding(horizontal = 8.dp)
         ) {
-            BasicTextField(
-                value = text,
-                modifier = Modifier.weight(1f),
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
-                singleLine = true,
-                onValueChange = { newText ->
-                    if (newText.text.toDoubleOrNull() != null) {
-                        text = newText
-                        updateMeasurement(newText.text.toDouble())
-                    } else if (newText.text.isBlank() || newText.text == "-") {
-                        text = newText
-                        updateMeasurement(0.0)
-                    }
-                },
-                textStyle = textStyle.copy(
-                    color = MaterialTheme.colorScheme.onSurface,
-                    textAlign = TextAlign.End
-                ),
-            )
+            CustomDecimalTextField(text, Modifier.weight(1f)) { newText ->
+                if (newText.text.toDoubleOrNull() != null) {
+                    text = newText
+                    updateMeasurement(newText.text.toDouble())
+                } else if (newText.text.isBlank() || newText.text == "-") {
+                    text = newText
+                    updateMeasurement(0.0)
+                }
+            }
             unitText?.let {
                 TextWithSubscripts(it,
                     style = textStyle,
@@ -68,3 +55,13 @@ fun MeasurementTextField(
         }
     }
 }
+
+/*
+@Composable
+expect fun CustomDecimalTextField(
+    value: TextFieldValue,
+    modifier: Modifier = Modifier,
+    onValueChange: (TextFieldValue) -> Unit,
+    //keyboardType: KeyboardType = KeyboardType.Decimal
+)
+*/
