@@ -6,6 +6,7 @@ plugins {
     alias(libs.plugins.jetbrainsCompose)
     alias(libs.plugins.serialization)
     alias(libs.plugins.googleServices)
+    alias(libs.plugins.compose.compiler)
 }
 
 val javaVersion = JavaVersion.VERSION_11
@@ -98,14 +99,12 @@ android {
     }
 }
 dependencies {
-
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.lifecycle.livedata.core.ktx)
     implementation(compose.material3)
     implementation(libs.androidx.constraintlayout.compose)
     implementation(libs.androidx.ui.tooling.preview.android)
-    //implementation(libs.cupertino)
 
     commonMainApi(libs.mvvm.core) // only ViewModel, EventsDispatcher, Dispatchers.UI
     commonMainApi(libs.mvvm.flow) // api mvvm-core, CFlow for native and binding extensions

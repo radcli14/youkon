@@ -208,7 +208,7 @@ class ProjectViewWhenEditing(
                 ) {
                     EditableMeasurement(
                         measurement = project.value.measurements[it],
-                        modifier = Modifier.animateItemPlacement()
+                        modifier = Modifier.animateItem()
                     )
                 }
             }

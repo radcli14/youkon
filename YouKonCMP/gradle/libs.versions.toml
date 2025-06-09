@@ -1,8 +1,8 @@
 [versions]
 agp = "8.5.0"
-android-compileSdk = "34"
+android-compileSdk = "35"
 android-minSdk = "24"
-android-targetSdk = "34"
+android-targetSdk = "35"
 androidx-activityCompose = "1.9.0"
 androidx-appcompat = "1.7.0"
 androidx-constraintlayout = "2.1.4"
@@ -10,9 +10,8 @@ androidx-core-ktx = "1.13.1"
 androidx-espresso-core = "3.6.1"
 androidx-material = "1.12.0"
 androidx-test-junit = "1.2.1"
-compose = "1.6.8"
-compose-compiler = "1.5.10"
-compose-plugin = "1.6.0"
+compose = "1.8.2"
+compose-plugin = "1.8.1"
 firebaseCommon = "21.0.0"
 firebaseAuth = "23.0.0"
 firebaseFirestore = "25.0.0"
@@ -20,7 +19,7 @@ firebaseGitlive = "1.11.1"
 gservices = "4.4.2"
 junit = "4.13.2"
 koinCore = "3.6.0"
-kotlin = "1.9.21"
+kotlin = "2.1.21"
 kotlinxSerializationJson = "1.6.0"
 lifecycleViewmodelKtx = "2.8.3"
 material3 = "1.2.1"
@@ -89,3 +88,4 @@ kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref =
 serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 cocoapods = { id = "org.jetbrains.kotlin.native.cocoapods", version.ref = "kotlin" }
 googleServices = { id = "com.google.gms.google-services", version.ref = "gservices"}
+compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }

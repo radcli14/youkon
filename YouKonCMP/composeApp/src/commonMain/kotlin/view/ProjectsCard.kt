@@ -183,7 +183,7 @@ class ProjectsCard(
             items(vm.projects, key = { it.id }) { project ->
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier.width(Constants.projectRowWidth).animateItemPlacement()
+                    modifier = Modifier.width(Constants.projectRowWidth).animateItem()
                 ) {
                     SubtractProjectButton(project)
                     ReorderControls(project)

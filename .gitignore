@@ -1,6 +1,7 @@
 # My additions
 .DS_Store
 *.xcf
+GoogleService-Info.plist
 assets/storemedia
 key/
 youkon/YouKon/release/
