@@ -47,13 +47,15 @@ kotlin {
             implementation(compose.material3)
             implementation(compose.ui)
             implementation(compose.components.resources)
+            implementation(libs.material.icons.core)
+            implementation(libs.material.icons.extended)
             implementation(libs.kotlinx.serialization.json)
             implementation(libs.gitlive.firebase.auth)
             //implementation(libs.gitlive.firebase.crashlytics)
             implementation(libs.gitlive.firebase.perf)
             implementation(libs.gitlive.firebase.firestore)
             implementation(libs.gitlive.firebase.common)
-            //implementation("androidx.compose.material:material-icons-extended:1.6.0")
+            implementation(libs.lifecycle.viewmodel.compose)
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
@@ -105,27 +107,6 @@ dependencies {
     implementation(compose.material3)
     implementation(libs.androidx.constraintlayout.compose)
     implementation(libs.androidx.ui.tooling.preview.android)
-
-    commonMainApi(libs.mvvm.core) // only ViewModel, EventsDispatcher, Dispatchers.UI
-    commonMainApi(libs.mvvm.flow) // api mvvm-core, CFlow for native and binding extensions
-    commonMainApi(libs.mvvm.livedata) // api mvvm-core, LiveData and extensions
-    commonMainApi(libs.mvvm.state) // api mvvm-livedata, ResourceState class and extensions
-    commonMainApi(libs.mvvm.livedata.resources) // api mvvm-core, moko-resources, extensions for LiveData with moko-resources
-    commonMainApi(libs.mvvm.flow.resources) // api mvvm-core, moko-resources, extensions for Flow with moko-resources
-
-    // compose multiplatform
-    commonMainApi(libs.mvvm.compose) // api mvvm-core, getViewModel for Compose Multiplatform
-    commonMainApi(libs.mvvm.flow.compose) // api mvvm-flow, binding extensions for Compose Multiplatform
-    commonMainApi(libs.mvvm.livedata.compose) // api mvvm-livedata, binding extensions for Compose Multiplatform
-
-    /*
-    androidMainApi("dev.icerock.moko:mvvm-livedata-material:0.16.1") // api mvvm-livedata, Material library android extensions
-    androidMainApi("dev.icerock.moko:mvvm-livedata-glide:0.16.1") // api mvvm-livedata, Glide library android extensions
-    androidMainApi("dev.icerock.moko:mvvm-livedata-swiperefresh:0.16.1") // api mvvm-livedata, SwipeRefreshLayout library android extensions
-    androidMainApi("dev.icerock.moko:mvvm-databinding:0.16.1") // api mvvm-livedata, DataBinding support for Android
-    androidMainApi("dev.icerock.moko:mvvm-viewbinding:0.16.1") // api mvvm-livedata, ViewBinding support for Android
-    */
-    commonTestImplementation(libs.mvvm.test) // test utilities
 
     implementation(platform("com.google.firebase:firebase-bom:32.7.3"))
     implementation(libs.firebase.common)

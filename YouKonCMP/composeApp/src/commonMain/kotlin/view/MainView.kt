@@ -49,7 +49,6 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
-import dev.icerock.moko.mvvm.livedata.compose.observeAsState
 import firebase.login.LoginScreen
 import firebase.login.LoginViewModel
 import firebase.settings.SettingsViewModel
@@ -200,7 +199,7 @@ class MainView(
             )
 
             // React to changes in mainViewModel.isEditingProject by expanding or collapsing
-            val isBottomSheetExpanded by mainViewModel.isEditingProject.observeAsState()
+            val isBottomSheetExpanded by mainViewModel.isEditingProject.collectAsState()
             LaunchedEffect(isBottomSheetExpanded) {
                 if (isBottomSheetExpanded) {
                     scope.launch { scaffoldState.bottomSheetState.partialExpand() }
@@ -316,7 +315,7 @@ class MainView(
     /// or close the sheet to conclude editing a project
     @Composable
     private fun ActionButton(modifier: Modifier = Modifier) {
-        val isBottomSheetExpanded by mainViewModel.isEditingProject.observeAsState()
+        val isBottomSheetExpanded by mainViewModel.isEditingProject.collectAsState()
         val showOnboarding by remember {
             onboardingScreenViewModel?.showOnboarding ?: mutableStateOf(false)
         }

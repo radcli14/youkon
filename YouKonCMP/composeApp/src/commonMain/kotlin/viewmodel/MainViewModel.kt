@@ -4,11 +4,11 @@ import AccountService
 import Log
 import Storage
 import androidx.compose.runtime.mutableStateOf
-import dev.icerock.moko.mvvm.livedata.LiveData
-import dev.icerock.moko.mvvm.livedata.MutableLiveData
-import dev.icerock.moko.mvvm.viewmodel.ViewModel
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import firebase.service.StorageService
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import model.YkProject
 import model.YkUser
@@ -24,8 +24,8 @@ class MainViewModel(
     verbose: Boolean = false
 ) : ViewModel() {
 
-    private val _isEditingProject = MutableLiveData(false)
-    val isEditingProject: LiveData<Boolean> = _isEditingProject
+    private val _isEditingProject = MutableStateFlow(false)
+    val isEditingProject: StateFlow<Boolean> = _isEditingProject
 
     val settingsScreenState = mutableStateOf(SettingsScreenState.HIDDEN)
 
