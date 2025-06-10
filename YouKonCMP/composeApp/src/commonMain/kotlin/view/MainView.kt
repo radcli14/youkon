@@ -83,9 +83,15 @@ class MainView(
             Scaffold(
                 modifier = Modifier.fillMaxSize(),
                 bottomBar = {
-                    BottomAppBar(Modifier.imePadding()) {
-                        Text("Bottom")
-                    }
+                    BottomAppBar(
+                        modifier = Modifier.imePadding(),
+                        actions = {
+                            Text("Bottom")
+                        },
+                        floatingActionButton = {
+                            ActionButton()
+                        }
+                    )
                 }
             ) {
                 BottomSheetLayout()
@@ -322,10 +328,10 @@ class MainView(
         AnimatedVisibility(!showOnboarding,
             enter = fadeIn(),
             exit = fadeOut(),
-            modifier = modifier.padding(
+            /*modifier = modifier.padding(
                 bottom = Constants.actionButtonBottomPadding,
                 end = Constants.actionButtonEndPadding
-            )
+            )*/
         ) {
             FloatingActionButton(
                 onClick = {
@@ -335,11 +341,11 @@ class MainView(
                         onboardingScreenViewModel?.openOnboarding()
                     }
               },
-                containerColor = MaterialTheme.colorScheme.primaryContainer
+                //containerColor = MaterialTheme.colorScheme.primaryContainer
             ) {
                 Icon(closeButtonIcon(isBottomSheetExpanded),
                     contentDescription = "Open a help dialog, or confirm and close the edit dialog.",
-                    modifier = Modifier.size(Constants.actionButtonIconSize)
+                    //modifier = Modifier.size(Constants.actionButtonIconSize)
                 )
             }
         }
@@ -347,7 +353,7 @@ class MainView(
 
     @Composable
     private fun closeButtonIcon(isBottomSheetExpanded: Boolean?): ImageVector {
-        return if (isBottomSheetExpanded == true) Icons.Filled.Check else Icons.Filled.Info
+        return if (isBottomSheetExpanded == true) Icons.Default.Check else Icons.Default.Info
     }
 
     class Constants {
