@@ -17,6 +17,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusEvent
+import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
@@ -33,9 +34,26 @@ fun MeasurementTextField(
     var text by remember { mutableStateOf(TextFieldValue(initialText)) }
     val textStyle = MaterialTheme.typography.titleMedium
 
-    // Add this LaunchedEffect to update text when initialText changes, specifically if triggered by the switchSign
+    // Add this LaunchedEffect to update text while preserving cursor position when initialText changes, specifically if triggered by the switchSign
     LaunchedEffect(initialText) {
-        text = TextFieldValue(initialText)
+        val oldText = text.text
+        val newText = initialText
+        val oldCursorPos = text.selection.start
+
+        // Calculate new cursor position
+        val newCursorPos = when {
+            // If we added a minus sign, shift cursor right by 1
+            oldText.firstOrNull() != '-' && newText.firstOrNull() == '-' -> oldCursorPos + 1
+            // If we removed a minus sign, shift cursor left by 1
+            oldText.firstOrNull() == '-' && newText.firstOrNull() != '-' -> (oldCursorPos - 1).coerceAtLeast(0)
+            // Otherwise keep cursor at same position
+            else -> oldCursorPos
+        }
+
+        text = TextFieldValue(
+            text = initialText,
+            selection = TextRange(newCursorPos) 
+        )
     }
 
     Surface(
