@@ -50,8 +50,18 @@ fun MeasurementTextField(
             else -> oldCursorPos
         }
 
+        // Get an updated string, which adapts to whether or not the new string changes the numeric content of the original
+        val updatedText: String = when {
+            // Check whether the existing text would yield the same number, if so, don't change it.
+            newText.numericValueEquals(oldText) -> oldText
+            // Check whether the existing text included a decimal point. If it did not, and the update doesn't require a decimal point, convert it to an integer value.
+            !oldText.contains(".") && newText.canBeInt -> newText.substringBefore(".")
+            // Default is to use the new text as-is
+            else -> newText
+        }
+
         text = TextFieldValue(
-            text = initialText,
+            text = updatedText,
             selection = TextRange(newCursorPos) 
         )
     }
@@ -67,12 +77,9 @@ fun MeasurementTextField(
             modifier = Modifier.padding(horizontal = 8.dp)
         ) {
             CustomDecimalTextField(text, Modifier.weight(1f)) { newText ->
-                if (newText.text.toDoubleOrNull() != null) {
-                    text = newText
-                    updateMeasurement(newText.text.toDouble())
-                } else if (newText.text.isBlank() || newText.text == "-") {
-                    text = newText
-                    updateMeasurement(0.0)
+                text = newText
+                newText.text.toDoubleOrZeroOrNull()?.let {
+                    updateMeasurement(it)
                 }
             }
             unitText?.let {
@@ -83,6 +90,23 @@ fun MeasurementTextField(
             }
         }
     }
+}
+
+fun String.toDoubleOrZeroOrNull(): Double? {
+    // First check if this can be converted to a double
+    toDoubleOrNull()?.let { return it }
+    // Otherwise see if this is blank, or a negative sign, which we assume is equivalent to zero
+    if (isBlank() || this == "-") { return 0.0 }
+    // Fall through, return null
+    return null
+}
+
+fun String.numericValueEquals(other: String): Boolean {
+    return this.toDoubleOrZeroOrNull() == other.toDoubleOrZeroOrNull()
+}
+
+val String.canBeInt: Boolean get() {
+    return toDoubleOrZeroOrNull()?.rem(1.0) == 0.0
 }
 
 /// Intended to hold decimal field with additional buttons over top

@@ -30,11 +30,14 @@ class QuickConvertCardViewModel(private val storage: Storage? = null) : ViewMode
 
     /// When the user modifies the value in the `MeasurementTextField` update the `value`
     fun updateValue(newValue: Double) {
-        Log.d(tag, "value updated from $value to $newValue")
-        data.update { currentData ->
-            currentData.copy(value = newValue)
+        // Check that the new value actually is different, otherwise take no action
+        if (newValue != value) {
+            Log.d(tag, "value updated from $value to $newValue")
+            data.update { currentData ->
+                currentData.copy(value = newValue)
+            }
+            storage?.saveQuickDataToJson(data.value)
         }
-        storage?.saveQuickDataToJson(data.value)
     }
 
     /// When the user modifies the `From` dropdown, update the `measurement.unit`
