@@ -18,6 +18,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.twotone.Check
+import androidx.compose.material.icons.twotone.Clear
 import androidx.compose.material.icons.twotone.Flip
 import androidx.compose.material.icons.twotone.Info
 import androidx.compose.material.icons.twotone.Settings
@@ -25,6 +26,8 @@ import androidx.compose.material.icons.twotone.SwapHoriz
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.BottomSheetScaffold
 import androidx.compose.material3.BottomSheetScaffoldState
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilledIconButton
 import androidx.compose.material3.FloatingActionButton
@@ -48,6 +51,7 @@ import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalFocusManager
@@ -310,7 +314,10 @@ class MainView(
             actions = {
                 if (quickIsFocused) {
                     MeasurementEditingControls(
-                        onPlusMinusClick = quickConvertCardViewModel::switchSign
+                        onPlusMinusClick = quickConvertCardViewModel::switchSign,
+                        onTimesTenClick = quickConvertCardViewModel::multiplyByTen,
+                        onDivideByTenClick = quickConvertCardViewModel::divideByTen,
+                        onClearValueClick = quickConvertCardViewModel::clearValue
                     )
                 } else {
                     SettingsButton()
@@ -323,14 +330,30 @@ class MainView(
     }
 
     @Composable
-    fun MeasurementEditingControls(onPlusMinusClick: () -> Unit) {
-        IconButton(onClick = onPlusMinusClick) {
-            Icon(
-                imageVector = Icons.TwoTone.SwapHoriz,
-                contentDescription = "Swap sign of number",
-            )
+    fun MeasurementEditingControls(
+        onPlusMinusClick: () -> Unit,
+        onTimesTenClick: () -> Unit,
+        onDivideByTenClick: () -> Unit,
+        onClearValueClick: () -> Unit
+    ) {
+        MeasurementEditingButton("±", onPlusMinusClick)
+        MeasurementEditingButton("×10", onTimesTenClick)
+        MeasurementEditingButton("÷10", onDivideByTenClick)
+        MeasurementEditingButton("Clear", onClearValueClick)
+    }
+
+    @Composable
+    fun MeasurementEditingButton(text: String, onClick: () -> Unit) {
+        val buttonShape = MaterialTheme.shapes.medium
+        val buttonColors = ButtonDefaults.buttonColors(
+            containerColor = Color.Transparent,
+            contentColor = MaterialTheme.colorScheme.primary
+        )
+        Button(onClick = onClick, shape = buttonShape, colors = buttonColors) {
+            Text(text)
         }
     }
+
 
     /// A floating action button that will open the onboarding screen,
     /// or close the sheet to conclude editing a project

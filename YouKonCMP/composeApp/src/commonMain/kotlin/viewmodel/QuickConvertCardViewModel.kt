@@ -66,12 +66,21 @@ class QuickConvertCardViewModel(private val storage: Storage? = null) : ViewMode
     }
 
     fun switchSign() {
-        Log.d(tag, "switchSign\n - Before: $value")
         if (value.absoluteValue > 0) {
             updateValue(-value)
-            //data.value.value *= -1
         }
-        Log.d(tag, "switchSign\n - After: $value")
+    }
+
+    fun multiplyByTen() {
+        updateValue(value * 10)
+    }
+
+    fun divideByTen() {
+        updateValue(value * 0.1)
+    }
+
+    fun clearValue() {
+        updateValue(0.0)
     }
 
     /// When viewing the onboard screen, this modifies which view is highlighted

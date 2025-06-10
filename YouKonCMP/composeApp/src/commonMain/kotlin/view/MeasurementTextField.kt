@@ -9,6 +9,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -31,6 +32,11 @@ fun MeasurementTextField(
 ) {
     var text by remember { mutableStateOf(TextFieldValue(initialText)) }
     val textStyle = MaterialTheme.typography.titleMedium
+
+    // Add this LaunchedEffect to update text when initialText changes, specifically if triggered by the switchSign
+    LaunchedEffect(initialText) {
+        text = TextFieldValue(initialText)
+    }
 
     Surface(
         modifier = modifier.height(40.dp),
