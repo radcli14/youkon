@@ -83,7 +83,7 @@ class QuickConvertCard(
         ) {
             TextField(
                 modifier = Modifier
-                    .onFocusChanged(vm::handleFocusStateChange) //{ Log.d("QuickConvertCard", "Focus changed to $it") }
+                    .onFocusChanged(vm::handleFocusStateChange)
                     .onboardingModifier(QuickConvertViews.VALUE)
                     .weight(1f)
             )

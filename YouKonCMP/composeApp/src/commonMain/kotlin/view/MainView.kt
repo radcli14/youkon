@@ -359,6 +359,8 @@ class MainView(
     /// or close the sheet to conclude editing a project
     @Composable
     private fun ActionButton(modifier: Modifier = Modifier) {
+        val localFocusManager = LocalFocusManager.current
+        val quickIsFocused by quickConvertCardViewModel.isFocused.collectAsState()
         val isBottomSheetExpanded by mainViewModel.isEditingProject.collectAsState()
         val showOnboarding by remember {
             onboardingScreenViewModel?.showOnboarding ?: mutableStateOf(false)
@@ -369,14 +371,16 @@ class MainView(
         ) {
             FloatingActionButton(
                 onClick = {
-                    if (isBottomSheetExpanded) {
+                    if (quickIsFocused) {
+                        localFocusManager.clearFocus()
+                    } else if (isBottomSheetExpanded) {
                         mainViewModel.stopEditing(saveAfterStopping = true)
                     } else {
                         onboardingScreenViewModel?.openOnboarding()
                     }
                 },
             ) {
-                Icon(closeButtonIcon(isBottomSheetExpanded),
+                Icon(closeButtonIcon(isBottomSheetExpanded || quickIsFocused),
                     contentDescription = "Open a help dialog, or confirm and close the edit dialog.",
                 )
             }
@@ -384,8 +388,8 @@ class MainView(
     }
 
     @Composable
-    private fun closeButtonIcon(isBottomSheetExpanded: Boolean?): ImageVector {
-        return if (isBottomSheetExpanded == true) Icons.TwoTone.Check else Icons.TwoTone.Info
+    private fun closeButtonIcon(isConfirmationAction: Boolean?): ImageVector {
+        return if (isConfirmationAction == true) Icons.TwoTone.Check else Icons.TwoTone.Info
     }
 
     class Constants {
