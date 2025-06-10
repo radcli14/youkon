@@ -292,10 +292,11 @@ class MainView(
     /// When the user taps on the values in a `ProjectView` this opens the sheet for editing it
     @Composable
     private fun ProjectEditingSheet() {
+        val activeProject by mainViewModel.project.collectAsState()
         Column(
             Modifier.closeKeyboardOnTapOutside()
         ) {
-            mainViewModel.project?.let { project ->
+            activeProject?.let { project ->
                 val pcvm = mainViewModel.projectsCardViewModel.collectAsState()
                 val pvm = pcvm.value.projectViewModel(project)
                 pvm.expansion.value = ProjectExpansionLevel.EDITABLE

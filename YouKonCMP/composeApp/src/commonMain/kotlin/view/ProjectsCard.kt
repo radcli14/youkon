@@ -167,7 +167,6 @@ class ProjectsCard(
 
     private var nCols = mutableStateOf(1)
 
-    @OptIn(ExperimentalFoundationApi::class)
     @Composable
     fun ProjectContent() {
         val vm by mainViewModel.projectsCardViewModel.collectAsState()

@@ -29,7 +29,8 @@ class MainViewModel(
 
     val settingsScreenState = mutableStateOf(SettingsScreenState.HIDDEN)
 
-    var project: YkProject? = null
+    //var project: YkProject? = null
+    var project: MutableStateFlow<YkProject?> = MutableStateFlow(null)
     var user = YkUser()
 
     private val tag = "MainViewModel"
@@ -134,20 +135,20 @@ class MainViewModel(
     /// The user tapped the measurements in a project's disclosure group, toggle editable measurements sheet
     fun startEditing(projectToEdit: YkProject) {
         _isEditingProject.value = isEditingProject.value == false
-        project = if (isEditingProject.value) projectToEdit else null
+        project.value = if (isEditingProject.value) projectToEdit else null
         Log.d(tag, "started editing to $project")
     }
 
     /// The user exited the bottom sheet, stop editing the project
     fun stopEditing(saveAfterStopping: Boolean = false) {
-        Log.d(tag, "stopped editing ${project?.name}")
-        project?.let { projectsCardViewModel.value.stopEditing(it) }
+        Log.d(tag, "stopped editing ${project.value?.name}")
+        project.value?.let { projectsCardViewModel.value.stopEditing(it) }
         _isEditingProject.value = false
         if (saveAfterStopping) {
             saveUserToJson()
-            project?.let { saveProjectToCloud(it) }
+            project.value?.let { saveProjectToCloud(it) }
         }
-        project = null
+        project.value = null
     }
 
     fun showSettings() {
