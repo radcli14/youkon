@@ -4,10 +4,12 @@ import Log
 import Storage
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.ui.focus.FocusState
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
 import model.YkUnit
+import kotlin.math.absoluteValue
 
 /// The set of all views contained in the quick convert card, for selection of one that is highlighted
 enum class QuickConvertViews {
@@ -21,6 +23,8 @@ class QuickConvertCardViewModel(private val storage: Storage? = null) : ViewMode
     val value: Double get() = data.value.value
     val allUnits get() = unit.allUnits
     private val targetUnit get() = data.value.targetUnit
+
+    var isFocused = MutableStateFlow(false)
 
     private val tag = "QuickConvertCardViewModel"
 
@@ -54,6 +58,20 @@ class QuickConvertCardViewModel(private val storage: Storage? = null) : ViewMode
             }
             storage?.saveQuickDataToJson(data.value)
         }
+    }
+
+    fun handleFocusStateChange(newState: FocusState) {
+        Log.d(tag, "Focus state changed to $newState")
+        isFocused.value = newState.isFocused
+    }
+
+    fun switchSign() {
+        Log.d(tag, "switchSign\n - Before: $value")
+        if (value.absoluteValue > 0) {
+            updateValue(-value)
+            //data.value.value *= -1
+        }
+        Log.d(tag, "switchSign\n - After: $value")
     }
 
     /// When viewing the onboard screen, this modifies which view is highlighted

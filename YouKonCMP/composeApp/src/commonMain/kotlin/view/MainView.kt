@@ -16,9 +16,12 @@ import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Check
-import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.twotone.Check
+import androidx.compose.material.icons.twotone.Flip
+import androidx.compose.material.icons.twotone.Info
+import androidx.compose.material.icons.twotone.Settings
+import androidx.compose.material.icons.twotone.SwapHoriz
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.BottomSheetScaffold
 import androidx.compose.material3.BottomSheetScaffoldState
@@ -26,6 +29,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilledIconButton
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -82,21 +86,9 @@ class MainView(
         YoukonTheme {
             Scaffold(
                 modifier = Modifier.fillMaxSize(),
-                bottomBar = {
-                    BottomAppBar(
-                        modifier = Modifier.imePadding(),
-                        actions = {
-                            Text("Bottom")
-                        },
-                        floatingActionButton = {
-                            ActionButton()
-                        }
-                    )
-                }
+                bottomBar = { BottomBar() }
             ) {
                 BottomSheetLayout()
-                //SettingsButton(Modifier.align(Alignment.TopEnd))
-                //ActionButton(Modifier.align(Alignment.BottomEnd).imePadding())
                 Onboarding()
                 SettingsDialog()
             }
@@ -282,21 +274,13 @@ class MainView(
 
     @Composable
     fun SettingsButton(modifier: Modifier = Modifier) {
-        FilledIconButton(
-            modifier = modifier.padding(
-                top = Constants.settingsButtonTopPadding,
-                end = Constants.settingsButtonEndPadding
-            ),
-            colors = IconButtonDefaults.filledIconButtonColors(
-                containerColor = MaterialTheme.colorScheme.surfaceContainerHighest,
-                contentColor = MaterialTheme.colorScheme.primary
-            ),
+        IconButton(
             onClick = mainViewModel::showSettings
         ) {
             Icon(
-                imageVector = Icons.Default.Settings,
+                imageVector = Icons.TwoTone.Settings,
                 contentDescription = "Settings",
-                modifier = Modifier.size(Constants.settingsButtonSize)
+                //modifier = Modifier.size(Constants.settingsButtonSize)
             )
         }
     }
@@ -317,6 +301,37 @@ class MainView(
         }
     }
 
+    /// The bottom bar, with either settings and info button, or text field controls
+    @Composable
+    fun BottomBar() {
+        val quickIsFocused by quickConvertCardViewModel.isFocused.collectAsState()
+        BottomAppBar(
+            modifier = Modifier.imePadding(),
+            actions = {
+                if (quickIsFocused) {
+                    MeasurementEditingControls(
+                        onPlusMinusClick = quickConvertCardViewModel::switchSign
+                    )
+                } else {
+                    SettingsButton()
+                }
+            },
+            floatingActionButton = {
+                ActionButton()
+            }
+        )
+    }
+
+    @Composable
+    fun MeasurementEditingControls(onPlusMinusClick: () -> Unit) {
+        IconButton(onClick = onPlusMinusClick) {
+            Icon(
+                imageVector = Icons.TwoTone.SwapHoriz,
+                contentDescription = "Swap sign of number",
+            )
+        }
+    }
+
     /// A floating action button that will open the onboarding screen,
     /// or close the sheet to conclude editing a project
     @Composable
@@ -328,10 +343,6 @@ class MainView(
         AnimatedVisibility(!showOnboarding,
             enter = fadeIn(),
             exit = fadeOut(),
-            /*modifier = modifier.padding(
-                bottom = Constants.actionButtonBottomPadding,
-                end = Constants.actionButtonEndPadding
-            )*/
         ) {
             FloatingActionButton(
                 onClick = {
@@ -340,12 +351,10 @@ class MainView(
                     } else {
                         onboardingScreenViewModel?.openOnboarding()
                     }
-              },
-                //containerColor = MaterialTheme.colorScheme.primaryContainer
+                },
             ) {
                 Icon(closeButtonIcon(isBottomSheetExpanded),
                     contentDescription = "Open a help dialog, or confirm and close the edit dialog.",
-                    //modifier = Modifier.size(Constants.actionButtonIconSize)
                 )
             }
         }
@@ -353,7 +362,7 @@ class MainView(
 
     @Composable
     private fun closeButtonIcon(isBottomSheetExpanded: Boolean?): ImageVector {
-        return if (isBottomSheetExpanded == true) Icons.Default.Check else Icons.Default.Info
+        return if (isBottomSheetExpanded == true) Icons.TwoTone.Check else Icons.TwoTone.Info
     }
 
     class Constants {

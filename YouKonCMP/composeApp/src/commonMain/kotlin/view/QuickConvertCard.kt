@@ -18,6 +18,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import viewmodel.QuickConvertCardViewModel
@@ -82,6 +83,7 @@ class QuickConvertCard(
         ) {
             TextField(
                 modifier = Modifier
+                    .onFocusChanged(vm::handleFocusStateChange) //{ Log.d("QuickConvertCard", "Focus changed to $it") }
                     .onboardingModifier(QuickConvertViews.VALUE)
                     .weight(1f)
             )
