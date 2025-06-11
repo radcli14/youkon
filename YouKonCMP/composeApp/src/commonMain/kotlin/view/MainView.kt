@@ -248,7 +248,10 @@ class MainView(
     @Composable
     fun MainContentStack() {
         Column(
-            modifier = Modifier.padding(Constants.mainContentPadding).fillMaxSize(),
+            modifier = Modifier
+                .padding(Constants.mainContentPadding)
+                .padding(bottom = Constants.mainContentPadding)
+                .fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(Constants.mainContentSpacing)
         ) {
