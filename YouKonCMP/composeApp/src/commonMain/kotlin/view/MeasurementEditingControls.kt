@@ -49,7 +49,7 @@ fun MeasurementEditingButton(text: String, onClick: () -> Unit) {
         modifier = Modifier.requiredWidthIn(min = 56.dp, max = 96.dp),
         shape = MaterialTheme.shapes.medium,
         colors = ButtonDefaults.buttonColors(
-            containerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.5f),
+            containerColor = MaterialTheme.colorScheme.secondaryContainer.copy(alpha = 0.65f),
             contentColor = MaterialTheme.colorScheme.secondary
         ),
         contentPadding = PaddingValues(horizontal = 8.dp)

@@ -64,7 +64,6 @@ class QuickConvertCardViewModel(private val storage: Storage? = null) : ViewMode
     }
 
     fun handleFocusStateChange(newState: FocusState) {
-        Log.d(tag, "Focus state changed to $newState")
         isFocused.value = newState.isFocused
     }
 

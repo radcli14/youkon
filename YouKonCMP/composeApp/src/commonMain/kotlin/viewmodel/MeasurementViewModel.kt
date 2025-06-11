@@ -4,10 +4,12 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableDoubleStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.focus.FocusState
 import androidx.lifecycle.ViewModel
 import model.YkMeasurement
 import model.YkUnit
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlin.math.absoluteValue
 
 class MeasurementViewModel(initialMeasurement: YkMeasurement) : ViewModel() {
     val measurement = MutableStateFlow(initialMeasurement)
@@ -18,6 +20,8 @@ class MeasurementViewModel(initialMeasurement: YkMeasurement) : ViewModel() {
     var measurementDescription by mutableStateOf(initialMeasurement.about)
     var value by mutableDoubleStateOf(initialMeasurement.value)
     var unit by mutableStateOf(initialMeasurement.unit)
+
+    var isFocused = MutableStateFlow(false)
 
     fun updateName(newName: String) {
         Log.d(tag, "value updated from $measurementName to $newName")
@@ -45,5 +49,28 @@ class MeasurementViewModel(initialMeasurement: YkMeasurement) : ViewModel() {
             measurement.value.unit = it
             unit = it
         }
+    }
+
+    fun handleFocusStateChange(newState: FocusState) {
+        Log.d(tag, "handleFocusStateChange($newState)")
+        isFocused.value = newState.isFocused
+    }
+
+    fun switchSign() {
+        if (value.absoluteValue > 0) {
+            updateValue(-value)
+        }
+    }
+
+    fun multiplyByTen() {
+        updateValue(value * 10)
+    }
+
+    fun divideByTen() {
+        updateValue(value * 0.1)
+    }
+
+    fun clearValue() {
+        updateValue(0.0)
     }
 }
