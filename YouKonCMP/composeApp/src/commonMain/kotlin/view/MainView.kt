@@ -45,6 +45,8 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
+import closeKeyboardOnTapOutside
+import closeSheetOnTapOutside
 import firebase.login.LoginScreen
 import firebase.login.LoginViewModel
 import firebase.settings.SettingsViewModel
@@ -89,7 +91,7 @@ class MainView(
                         ProjectEditingSheet()
                     },
                     modifier = Modifier
-                        .closeSheetOnTapOutside()
+                        .closeSheetOnTapOutside(mainViewModel::stopEditing)
                         .closeKeyboardOnTapOutside(),
                     topBar = { TopBar() },
                     containerColor = Color.Transparent
@@ -224,25 +226,6 @@ class MainView(
 
             return scaffoldState
         }
-
-    /// Modifier used to close the bottom sheet when tapping outside of it
-    private fun Modifier.closeSheetOnTapOutside() = composed {
-        Modifier.pointerInput(Unit) {
-            detectTapGestures(
-                onTap = { mainViewModel.stopEditing() }
-            )
-        }
-    }
-
-    /// Modifier used to close the keyboard when tapping outside of it
-    private fun Modifier.closeKeyboardOnTapOutside() = composed {
-        val localFocusManager = LocalFocusManager.current
-        Modifier.pointerInput(Unit) {
-            detectTapGestures(
-                onTap = { localFocusManager.clearFocus() }
-            )
-        }
-    }
 
     /// The stack of a `Header`, `QuickConvertCard`, and `ProjectsCard`
     @Composable
