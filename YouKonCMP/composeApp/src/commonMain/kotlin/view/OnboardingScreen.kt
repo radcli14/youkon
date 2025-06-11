@@ -208,14 +208,7 @@ class OnboardingScreen(
             shadowElevation = 8.dp,
             border = BorderStroke(4.dp, MaterialTheme.colorScheme.primaryContainer)
         ) {
-
-            // This conditional is a workaround because on Apple devices the sheet
-            // would be displayed at the instant the onboarding screen was opened
-            if (viewModel.helpHeader == "Editable Project") {
-                MainView(onboardingScreenViewModel = viewModel).BottomSheetLayout()
-            } else {
-                MainView(onboardingScreenViewModel = viewModel).MainContentStack()
-            }
+            MainView(onboardingScreenViewModel = viewModel).Body()
 
             // This box sits on top of the view, and is here to disable user input
             Box(Modifier.fillMaxSize().pointerInput(Unit) {})

@@ -34,8 +34,28 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import org.jetbrains.compose.resources.Font
+import youkon.composeapp.generated.resources.Res
+import youkon.composeapp.generated.resources.philosopher_bold
+import youkon.composeapp.generated.resources.philosopher_bolditalic
+import youkon.composeapp.generated.resources.philosopher_italic
+import youkon.composeapp.generated.resources.philosopher_regular
+
+val philosopherFont: FontFamily
+    @Composable
+    get() {
+        return FontFamily(
+            Font(Res.font.philosopher_regular, weight = FontWeight.Normal),
+            Font(Res.font.philosopher_bold, weight = FontWeight.Bold),
+            Font(Res.font.philosopher_italic, style = FontStyle.Italic),
+            Font(Res.font.philosopher_bolditalic, weight = FontWeight.Bold, style = FontStyle.Italic)
+        )
+    }
 
 val grayBackground: Color
     @Composable
