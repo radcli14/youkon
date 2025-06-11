@@ -239,7 +239,10 @@ class ProjectViewWhenEditing(
             MeasurementView(
                 measurement,
                 highlightNameAndDescription = vm.highlightedView.value == ProjectViewViews.MEASUREMENT_LABEL,
-                highlightValueAndUnit = vm.highlightedView.value == ProjectViewViews.MEASUREMENT_FIELDS
+                highlightValueAndUnit = vm.highlightedView.value == ProjectViewViews.MEASUREMENT_FIELDS,
+                onMeasurementUpdated = { updatedMeasurement ->
+                    vm.updateMeasurement(updatedMeasurement)
+                }
             ).Body()
         }
     }

@@ -15,13 +15,16 @@ enum class ProjectViewViews {
     EDITABLE, LABEL_STACK, PLUS_MINUS, MEASUREMENT_LABEL, MEASUREMENT_FIELDS
 }
 
-class ProjectViewModel(initialProject: YkProject = YkProject()) : ViewModel() {
+class ProjectViewModel(
+    initialProject: YkProject = YkProject(),
+    private val onProjectUpdated: (YkProject) -> Unit = {}
+) : ViewModel() {
     val project = MutableStateFlow(initialProject)
     val editedName = mutableStateOf(initialProject.name)
     val editedDescription = mutableStateOf(initialProject.about)
     val convertToSystem = mutableStateOf(YkSystem.SI)
-    var measurements: MutableState<Array<YkMeasurement>> = mutableStateOf(
-        initialProject.measurements.toTypedArray()
+    var measurements: MutableStateFlow<List<YkMeasurement>> = MutableStateFlow(
+        initialProject.measurements.toList()
     )
     val expansion = mutableStateOf(ProjectExpansionLevel.COMPACT)
     val canSubtract = mutableStateOf(false)
@@ -34,17 +37,34 @@ class ProjectViewModel(initialProject: YkProject = YkProject()) : ViewModel() {
 
     /// Update the public list of `YkProject` items by assuring that the Kotlin version is Swift formatted
     private fun updateMeasurements() {
-        measurements.value = project.value.measurements.toTypedArray()
+        project.value = project.value.copy(
+            measurements = project.value.measurements.toMutableList()
+        )
+        measurements.value = project.value.measurements.toList()
+        onProjectUpdated(project.value)
     }
 
     fun updateName(name: String) {
-        project.value.name = name
+        project.value = project.value.copy(name = name)
         editedName.value = name
+        onProjectUpdated(project.value)
     }
 
     fun updateDescription(description: String) {
-        project.value.about = description
+        project.value = project.value.copy(about = description)
         editedDescription.value = description
+        onProjectUpdated(project.value)
+    }
+
+    fun updateMeasurement(updatedMeasurement: YkMeasurement) {
+        val currentProjectMeasurements = project.value.measurements.toMutableList()
+        val index = currentProjectMeasurements.indexOfFirst { it.id == updatedMeasurement.id }
+        if (index != -1) {
+            currentProjectMeasurements[index] = updatedMeasurement
+            project.value = project.value.copy(measurements = currentProjectMeasurements)
+            measurements.value = currentProjectMeasurements.toList()
+            onProjectUpdated(project.value)
+        }
     }
 
     fun toggleExpansion() {
@@ -63,8 +83,8 @@ class ProjectViewModel(initialProject: YkProject = YkProject()) : ViewModel() {
         project.value.addMeasurement(
             value = 0.0,
             unit = YkUnit.METERS,
-            name = "",
-            about = ""
+            name = "New Measurement",
+            about = "A new measurement"
         )
         updateMeasurements()
     }
@@ -106,9 +126,20 @@ class ProjectViewModel(initialProject: YkProject = YkProject()) : ViewModel() {
 
     /// The controls to move a project "up" or "down"
     fun onReorderControlButtonTap(measurement: YkMeasurement, direction: String) {
-        Log.d(tag, "onReorderControlButtonTap: move ${measurement.name} $direction")
-        project.value.moveMeasurement(measurement, direction)
-        updateMeasurements()
+        val newProjects = project.value.measurements.toMutableList()
+        val idx = newProjects.indexOf(measurement)
+        val toIndex = when {
+            direction == "up" && idx > 0 -> idx - 1
+            direction == "down" && idx < newProjects.count()-1 -> idx + 1
+            else -> null
+        }
+        toIndex?.let {
+            val movedProject = newProjects.removeAt(idx)
+            newProjects.add(toIndex, movedProject)
+            project.value = project.value.copy(measurements = newProjects)
+            measurements.value = newProjects.toList()
+            onProjectUpdated(project.value)
+        }
     }
 
     /// When viewing the onboard screen, this modifies which view is highlighted
@@ -140,5 +171,12 @@ class ProjectViewModel(initialProject: YkProject = YkProject()) : ViewModel() {
             4 -> highlight(ProjectViewViews.MEASUREMENT_FIELDS)
             else -> highlight(null)
         }
+    }
+
+    fun refreshProject(newProject: YkProject) {
+        project.value = newProject
+        editedName.value = newProject.name
+        editedDescription.value = newProject.about
+        measurements.value = newProject.measurements.toList()
     }
 }

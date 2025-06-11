@@ -89,7 +89,7 @@ class OnboardingScreenViewModel : ViewModel() {
 
     fun updateHighlight() {
         quickConvertCardViewModel.highlight(if (currentPage.intValue == 1) currentText.intValue else null)
-        projectsCardViewModel.highlight(if (currentPage.intValue == 2) currentText.intValue else null)
+        projectsCardViewModel.highlightInProjectsCard(if (currentPage.intValue == 2) currentText.intValue else null)
         val projectViewModel = projectsCardViewModel.projectViewModel()
         when(currentPage.intValue) {
             3 -> projectViewModel.highlightInProjectView(currentText.intValue)

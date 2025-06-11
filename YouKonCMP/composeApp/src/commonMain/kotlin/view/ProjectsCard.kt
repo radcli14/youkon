@@ -186,7 +186,9 @@ class ProjectsCard(
                 ) {
                     SubtractProjectButton(project)
                     ReorderControls(project)
-                    val pvm = vm.projectViewModel(project)
+                    val pvm = vm.projectViewModel(project, onProjectUpdated = {
+                        mainViewModel.projectsCardViewModel.value.updateProject(it)
+                    })
                     ProjectView(pvm, mainViewModel).Body()
                 }
             }

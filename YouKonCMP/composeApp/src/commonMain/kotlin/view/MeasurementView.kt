@@ -22,9 +22,10 @@ import viewmodel.MeasurementViewModel
 class MeasurementView(
     measurement: YkMeasurement,
     private val highlightNameAndDescription: Boolean = false,
-    private val highlightValueAndUnit: Boolean = false
+    private val highlightValueAndUnit: Boolean = false,
+    private val onMeasurementUpdated: (YkMeasurement) -> Unit = {}
 ) {
-    private val vm = MeasurementViewModel(measurement)
+    private val vm = MeasurementViewModel(measurement, onMeasurementUpdated)
 
     @Composable
     fun Body() {

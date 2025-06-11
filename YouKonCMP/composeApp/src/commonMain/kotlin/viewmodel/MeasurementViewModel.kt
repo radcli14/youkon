@@ -11,66 +11,68 @@ import model.YkUnit
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlin.math.absoluteValue
 
-class MeasurementViewModel(initialMeasurement: YkMeasurement) : ViewModel() {
-    val measurement = MutableStateFlow(initialMeasurement)
+class MeasurementViewModel(
+    private val measurement: YkMeasurement,
+    private val onMeasurementUpdated: (YkMeasurement) -> Unit
+) : ViewModel() {
+    val measurementName = mutableStateOf(measurement.name)
+    val measurementDescription = mutableStateOf(measurement.about)
+    val value = mutableStateOf(measurement.value)
+    val unit = mutableStateOf(measurement.unit)
+    val isFocused = MutableStateFlow(false)
 
     private val tag = "MeasurementViewModel"
 
-    var measurementName by mutableStateOf(initialMeasurement.name)
-    var measurementDescription by mutableStateOf(initialMeasurement.about)
-    var value by mutableDoubleStateOf(initialMeasurement.value)
-    var unit by mutableStateOf(initialMeasurement.unit)
-
-    var isFocused = MutableStateFlow(false)
-
-    fun updateName(newName: String) {
-        Log.d(tag, "value updated from $measurementName to $newName")
-        measurement.value.name = newName
-        measurementName = newName
+    fun updateName(name: String) {
+        //Log.d(tag, "Updating name from ${measurement.name} to $name")
+        measurement.name = name
+        measurementName.value = name
+        onMeasurementUpdated(measurement)
     }
 
-    fun updateDescription(newDescription: String) {
-        Log.d(tag, "value updated from $measurementDescription to $newDescription")
-        measurement.value.about = newDescription
-        measurementDescription = newDescription
+    fun updateDescription(description: String) {
+        //Log.d(tag, "Updating description from ${measurement.about} to $description")
+        measurement.about = description
+        measurementDescription.value = description
+        onMeasurementUpdated(measurement)
     }
 
-    /// When the user modifies the value in the `MeasurementTextField` update the `value`
     fun updateValue(newValue: Double) {
-        Log.d(tag, "value updated from $value to $newValue")
-        measurement.value.value = newValue
-        value = newValue
+        //Log.d(tag, "Updating value from ${measurement.value} to $newValue")
+        measurement.value = newValue
+        value.value = newValue
+        onMeasurementUpdated(measurement)
     }
 
-    /// When the user modifies the `From` dropdown, update the `measurement.unit`
-    fun updateUnit(newUnit: YkUnit?) {
-        newUnit?.let {
-            Log.d(tag, "unit updated from $unit to $it")
-            measurement.value.unit = it
-            unit = it
-        }
+    fun updateUnit(newUnit: YkUnit) {
+        //Log.d(tag, "Updating unit from ${measurement.unit} to $newUnit")
+        measurement.unit = newUnit
+        unit.value = newUnit
+        onMeasurementUpdated(measurement)
     }
 
-    fun handleFocusStateChange(newState: FocusState) {
-        Log.d(tag, "handleFocusStateChange($newState)")
-        isFocused.value = newState.isFocused
+    fun handleFocusStateChange(focusState: FocusState) {
+        //Log.d(tag, "Focus state changed for value field: ${focusState.isFocused}")
+        isFocused.value = focusState.isFocused
     }
 
     fun switchSign() {
-        if (value.absoluteValue > 0) {
-            updateValue(-value)
-        }
+        //Log.d(tag, "Switching sign of ${measurement.value}")
+        updateValue(measurement.value * -1)
     }
 
     fun multiplyByTen() {
-        updateValue(value * 10)
+        //Log.d(tag, "Multiplying ${measurement.value} by ten")
+        updateValue(measurement.value * 10)
     }
 
     fun divideByTen() {
-        updateValue(value * 0.1)
+        //Log.d(tag, "Dividing ${measurement.value} by ten")
+        updateValue(measurement.value / 10)
     }
 
     fun clearValue() {
+        //Log.d(tag, "Clearing value from ${measurement.value} to 0.0")
         updateValue(0.0)
     }
 }
