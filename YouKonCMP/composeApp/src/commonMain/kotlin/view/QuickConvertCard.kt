@@ -1,5 +1,6 @@
 package view
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -42,6 +43,7 @@ class QuickConvertCard(
             ) {
                 CardLabel()
                 ContentGrid()
+                TextFieldControls()
             }
         }
     }
@@ -133,6 +135,20 @@ class QuickConvertCard(
             modifier = modifier,
             updateMeasurement = { vm.updateValue(it) }
         )
+    }
+
+    /// The controls to switch sign, multiply or divide by ten, or clear
+    @Composable
+    private fun TextFieldControls() {
+        val isFocused by vm.isFocused.collectAsState()
+        AnimatedVisibility(isFocused) {
+            MeasurementEditingControls(
+                onPlusMinusClick = vm::switchSign,
+                onTimesTenClick = vm::multiplyByTen,
+                onDivideByTenClick = vm::divideByTen,
+                onClearValueClick = vm::clearValue,
+            )
+        }
     }
 
     /// The display of the measurement after conversion

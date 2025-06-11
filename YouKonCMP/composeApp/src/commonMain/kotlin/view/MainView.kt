@@ -1,44 +1,29 @@
 package view
 
 import YoukonTheme
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.requiredHeightIn
-import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Check
-import androidx.compose.material.icons.twotone.Check
 import androidx.compose.material.icons.twotone.CheckCircle
 import androidx.compose.material.icons.twotone.Info
 import androidx.compose.material.icons.twotone.Settings
 import androidx.compose.material3.BottomSheetScaffold
 import androidx.compose.material3.BottomSheetScaffoldState
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SheetValue
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarColors
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberBottomSheetScaffoldState
 import androidx.compose.material3.rememberModalBottomSheetState
@@ -46,8 +31,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
@@ -67,7 +50,6 @@ import firebase.login.LoginViewModel
 import firebase.settings.SettingsViewModel
 import firebase.sign_up.SignUpScreen
 import firebase.sign_up.SignUpViewModel
-import getPlatform
 import kotlinx.coroutines.launch
 import model.ProjectExpansionLevel
 import org.jetbrains.compose.resources.painterResource
@@ -76,7 +58,6 @@ import viewmodel.OnboardingScreenViewModel
 import viewmodel.QuickConvertCardViewModel
 import viewmodel.SettingsScreenState
 import youkon.composeapp.generated.resources.Res
-import youkon.composeapp.generated.resources.header
 import youkon.composeapp.generated.resources.icon_clearbackground
 
 
@@ -271,21 +252,19 @@ class MainView(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(Constants.mainContentSpacing)
         ) {
-            //Header()
             QuickConvertCard(quickConvertCardViewModel).Body()
             ProjectsCard(mainViewModel).Body()
         }
     }
 
     @Composable
-    fun SettingsButton(modifier: Modifier = Modifier) {
+    private fun SettingsButton() {
         IconButton(
             onClick = mainViewModel::showSettings
         ) {
             Icon(
                 imageVector = Icons.TwoTone.Settings,
                 contentDescription = "Settings",
-                //modifier = Modifier.size(Constants.settingsButtonSize)
             )
         }
     }
@@ -307,11 +286,10 @@ class MainView(
         }
     }
 
-    /// The bottom bar, with either settings and info button, or text field controls
+    /// The top bar, with app branding, and either settings and info or close button
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
-    fun TopBar() {
-        val quickIsFocused by quickConvertCardViewModel.isFocused.collectAsState()
+    private fun TopBar() {
         CenterAlignedTopAppBar(
             title = {
                 Text("YouKon",
@@ -329,84 +307,30 @@ class MainView(
                 )
             },
             actions = {
-                AnimatedVisibility(quickIsFocused) {
-                    MeasurementEditingControls(
-                        onPlusMinusClick = quickConvertCardViewModel::switchSign,
-                        onTimesTenClick = quickConvertCardViewModel::multiplyByTen,
-                        onDivideByTenClick = quickConvertCardViewModel::divideByTen,
-                        onClearValueClick = quickConvertCardViewModel::clearValue
-                    )
-                }
-                AnimatedVisibility(!quickIsFocused) {
-                    SettingsButton()
-                }
+                SettingsButton()
                 ActionButton()
             },
             colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.Transparent)
         )
     }
 
-    @Composable
-    fun MeasurementEditingControls(
-        onPlusMinusClick: () -> Unit,
-        onTimesTenClick: () -> Unit,
-        onDivideByTenClick: () -> Unit,
-        onClearValueClick: () -> Unit
-    ) {
-        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-            MeasurementEditingButton("±", onPlusMinusClick)
-            MeasurementEditingButton("×10", onTimesTenClick)
-            MeasurementEditingButton("÷10", onDivideByTenClick)
-            MeasurementEditingButton("Clear", onClearValueClick)
-        }
-    }
-
-    @Composable
-    fun MeasurementEditingButton(text: String, onClick: () -> Unit) {
-        Button(
-            onClick = onClick,
-            modifier = Modifier.width(56.dp),
-            shape = MaterialTheme.shapes.medium,
-            colors = ButtonDefaults.buttonColors(
-                containerColor = MaterialTheme.colorScheme.primaryContainer,
-                contentColor = MaterialTheme.colorScheme.primary
-            ),
-            contentPadding = PaddingValues(horizontal = 8.dp)
-        ) {
-            Text(text)
-        }
-    }
-
-
     /// An action button that will open the onboarding screen,
     /// or close the sheet to conclude editing the quick convert card or a project
     @Composable
-    private fun ActionButton(modifier: Modifier = Modifier) {
-        val localFocusManager = LocalFocusManager.current
-        val quickIsFocused by quickConvertCardViewModel.isFocused.collectAsState()
+    private fun ActionButton() {
         val isBottomSheetExpanded by mainViewModel.isEditingProject.collectAsState()
-        val showOnboarding by remember {
-            onboardingScreenViewModel?.showOnboarding ?: mutableStateOf(false)
-        }
-        AnimatedVisibility(!showOnboarding,
-            enter = fadeIn(),
-            exit = fadeOut(),
+        IconButton(
+            onClick = {
+                if (isBottomSheetExpanded) {
+                    mainViewModel.stopEditing(saveAfterStopping = true)
+                } else {
+                    onboardingScreenViewModel?.openOnboarding()
+                }
+            },
         ) {
-            IconButton(
-                onClick = {
-                    if (quickIsFocused) {
-                        localFocusManager.clearFocus()
-                    } else if (isBottomSheetExpanded) {
-                        mainViewModel.stopEditing(saveAfterStopping = true)
-                    } else {
-                        onboardingScreenViewModel?.openOnboarding()
-                    }
-                },
-            ) {
-                Icon(actionButtonIcon(isBottomSheetExpanded || quickIsFocused),
-                    contentDescription = "Open a help dialog, or confirm and close the edit dialog.",
-                )
-            }
+            Icon(actionButtonIcon(isBottomSheetExpanded),
+                contentDescription = "Open a help dialog, or confirm and close the edit dialog.",
+            )
         }
     }
 
@@ -417,16 +341,9 @@ class MainView(
 
     class Constants {
         companion object {
-            private val isIphone = "iOS" in getPlatform().name
             val mainContentPadding = 16.dp
             val mainContentSpacing = 16.dp
-            val settingsButtonTopPadding = if (isIphone) 48.dp else 40.dp
-            val settingsButtonEndPadding = 12.dp
-            val settingsButtonSize = 40.dp
             val settingsBoxHeight = 420.dp
-            val actionButtonBottomPadding = if (isIphone) 36.dp else 24.dp
-            val actionButtonEndPadding = 24.dp
-            val actionButtonIconSize = 36.dp
             val sheetPeakHeight = 500.dp
         }
     }
