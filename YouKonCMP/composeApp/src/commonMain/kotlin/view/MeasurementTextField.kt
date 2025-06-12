@@ -127,7 +127,7 @@ fun CustomDecimalTextField(
 
     BasicTextField(
         value = value,
-        modifier = modifier.requiredHeightIn(40.dp).padding(vertical = 12.dp),
+        modifier = modifier.requiredHeightIn(40.dp).padding(top = 9.dp, bottom = 7.dp),
         keyboardOptions = KeyboardOptions(
             keyboardType = KeyboardType.Decimal,
             imeAction = ImeAction.Done
