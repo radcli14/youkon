@@ -1,25 +1,21 @@
 package viewmodel
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableDoubleStateOf
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.focus.FocusState
 import androidx.lifecycle.ViewModel
 import model.YkMeasurement
 import model.YkUnit
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlin.math.absoluteValue
 
 class MeasurementViewModel(
     private val measurement: YkMeasurement,
-    private val onMeasurementUpdated: (YkMeasurement) -> Unit
+    private val onMeasurementUpdated: (YkMeasurement) -> Unit,
+    val isFocused: MutableState<Boolean>
 ) : ViewModel() {
-    val measurementName = mutableStateOf(measurement.name)
-    val measurementDescription = mutableStateOf(measurement.about)
-    val value = mutableStateOf(measurement.value)
-    val unit = mutableStateOf(measurement.unit)
-    val isFocused = MutableStateFlow(false)
+    var measurementName = mutableStateOf(measurement.name)
+    var measurementDescription = mutableStateOf(measurement.about)
+    var value = mutableStateOf(measurement.value)
+    var unit = mutableStateOf(measurement.unit)
 
     private val tag = "MeasurementViewModel"
 
@@ -52,8 +48,8 @@ class MeasurementViewModel(
     }
 
     fun handleFocusStateChange(focusState: FocusState) {
-        //Log.d(tag, "Focus state changed for value field: ${focusState.isFocused}")
-        isFocused.value = focusState.isFocused
+        //Log.d(tag, "Focus state changed for value field: ${focusState.hasFocus}")
+        isFocused.value = focusState.hasFocus
     }
 
     fun switchSign() {

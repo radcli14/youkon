@@ -100,7 +100,9 @@ class ProjectsCardViewModel(
         var pvm = pvcDict[project.id]
         if (pvm == null) {
             Log.d(tag, "projectViewModel: Creating new ProjectViewModel for ${project.name}")
-            pvm = ProjectViewModel(project, onProjectUpdated)
+            pvm = ProjectViewModel(project) { updatedProject ->
+                updateProject(updatedProject)
+            }
             pvcDict[project.id] = pvm
         } else {
             Log.d(tag, "projectViewModel: Reusing existing ProjectViewModel for ${project.name}, refreshing it.")

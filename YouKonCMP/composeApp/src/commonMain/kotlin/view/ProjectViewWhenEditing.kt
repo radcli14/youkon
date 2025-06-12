@@ -33,11 +33,11 @@ import viewmodel.ProjectViewModel
 import viewmodel.ProjectViewViews
 import youkon.composeapp.generated.resources.Res
 import youkon.composeapp.generated.resources.swap_vert_24dp_E8EAED_FILL0_wght400_GRAD0_opsz24
+import kotlinx.coroutines.flow.MutableStateFlow
 
 /// Upon tapping on the measurements, a bottom sheet will open into "Editable" mode.
 class ProjectViewWhenEditing(
     private val vm: ProjectViewModel,
-    private val mainViewModel: MainViewModel? = null
 ) {
     /// The list of editable measurements when the project is opened in a sheet for editing
     @Composable
@@ -55,7 +55,6 @@ class ProjectViewWhenEditing(
                 title = vm.measurementToDelete.value?.name ?: "",
                 confirmAction = {
                     vm.confirmDelete()
-                    mainViewModel?.saveUserToJson()
                 },
                 cancelAction = { vm.cancelDelete() }
             )
@@ -149,10 +148,7 @@ class ProjectViewWhenEditing(
     @Composable
     fun PlusButton() {
         IconButton(
-            onClick = {
-                vm.addMeasurement()
-                mainViewModel?.saveUserToJson()
-            }
+            onClick = { vm.addMeasurement() }
         ) {
             Icon(
                 imageVector = Icons.Default.Add,
@@ -237,7 +233,7 @@ class ProjectViewWhenEditing(
             SubtractMeasurementButton(measurement)
             ReorderControls(measurement)
             MeasurementView(
-                measurement,
+                measurement = measurement,
                 highlightNameAndDescription = vm.highlightedView.value == ProjectViewViews.MEASUREMENT_LABEL,
                 highlightValueAndUnit = vm.highlightedView.value == ProjectViewViews.MEASUREMENT_FIELDS,
                 onMeasurementUpdated = { updatedMeasurement ->
