@@ -5,6 +5,7 @@ import Storage
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.focus.FocusState
+import androidx.compose.ui.text.TextLayoutResult
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
@@ -25,6 +26,7 @@ class QuickConvertCardViewModel(private val storage: Storage? = null) : ViewMode
     private val targetUnit get() = data.value.targetUnit
 
     var isFocused = MutableStateFlow(false)
+    var convertedTextFitsOnOneLine = MutableStateFlow(true)
 
     private val tag = "QuickConvertCardViewModel"
 
@@ -33,6 +35,7 @@ class QuickConvertCardViewModel(private val storage: Storage? = null) : ViewMode
         // Check that the new value actually is different, otherwise take no action
         if (newValue != value) {
             Log.d(tag, "value updated from $value to $newValue")
+            convertedTextFitsOnOneLine.value = true
             data.update { currentData ->
                 currentData.copy(value = newValue)
             }
@@ -44,6 +47,7 @@ class QuickConvertCardViewModel(private val storage: Storage? = null) : ViewMode
     fun updateUnit(newUnit: YkUnit?) {
         newUnit?.let { newUnit ->
             Log.d(tag, "unit updated from $unit to $newUnit")
+            convertedTextFitsOnOneLine.value = true
             data.update { currentData ->
                 val newTargetUnit = newUnit.getNewTargetUnit(targetUnit)
                 currentData.copy(unit = newUnit, targetUnit = newTargetUnit)
@@ -56,6 +60,7 @@ class QuickConvertCardViewModel(private val storage: Storage? = null) : ViewMode
     fun updateTargetUnit(newTargetUnit: YkUnit?) {
         newTargetUnit?.let {newTargetUnit ->
             Log.d(tag, "targetUnit updated from $targetUnit to $newTargetUnit")
+            convertedTextFitsOnOneLine.value = true
             data.update { currentData ->
                 currentData.copy(targetUnit = newTargetUnit)
             }
@@ -83,6 +88,13 @@ class QuickConvertCardViewModel(private val storage: Storage? = null) : ViewMode
 
     fun clearValue() {
         updateValue(0.0)
+    }
+
+    /// When new text is received in the `ConvertedText`, check whether it is multiple lines, if it is, label the converted text as large
+    fun handleConvertedTextLayout(result: TextLayoutResult) {
+        if (result.lineCount > 1) {
+            convertedTextFitsOnOneLine.value = false
+        }
     }
 
     /// When viewing the onboard screen, this modifies which view is highlighted

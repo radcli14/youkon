@@ -2,14 +2,10 @@ package view
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.requiredHeightIn
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -29,6 +25,8 @@ import viewmodel.QuickConvertViews
 class QuickConvertCard(
     private val vm: QuickConvertCardViewModel = QuickConvertCardViewModel()
 ) {
+    private val tag = "QuickConvertCard"
+
     @Composable
     fun Body() {
         Surface(
@@ -156,13 +154,32 @@ class QuickConvertCard(
     @Composable
     private fun ConvertedText(modifier: Modifier) {
         val data by vm.data.collectAsState()
-        Box(
+        val isOneLine by vm.convertedTextFitsOnOneLine.collectAsState()
+
+        Column(
+            verticalArrangement = Arrangement.spacedBy(0.dp),
             modifier = modifier,
         ) {
-            TextWithSubscripts(data.convertedText,
-                style = MaterialTheme.typography.bodyLarge,
-                color = MaterialTheme.colorScheme.onSurface
-            )
+            if (isOneLine) {
+                // Initially try a one line representation, and detect its layout size.
+                // If it fits one one line, then we will stay with this.
+                TextWithSubscripts(data.convertedText,
+                    style = MaterialTheme.typography.bodyLarge,
+                    color = MaterialTheme.colorScheme.onSurface,
+                    onTextLayout = vm::handleConvertedTextLayout
+                )
+            } else {
+                // If everything is too large, place the name of the converted units on the second line
+                Text(data.convertedText.substringBefore(data.targetUnit.shortUnit),
+                    style = MaterialTheme.typography.bodyLarge,
+                    color = MaterialTheme.colorScheme.onSurface
+                )
+                // TODO: currently this looks good on Android, but leaves too much space on iPhone
+                TextWithSubscripts("      ${data.targetUnit.shortUnit}",
+                    style = MaterialTheme.typography.bodyLarge,
+                    color = MaterialTheme.colorScheme.onSurface
+                )
+            }
         }
     }
 }

@@ -6,7 +6,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.TextLayoutResult
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.style.BaselineShift
@@ -18,7 +20,8 @@ fun TextWithSubscripts(
     text: String,
     modifier: Modifier = Modifier,
     color: Color = LocalContentColor.current,
-    style: TextStyle = LocalTextStyle.current
+    style: TextStyle = LocalTextStyle.current,
+    onTextLayout: (TextLayoutResult) -> Unit = {}
 ) {
     // Define the style for the superscript, shifted upward and slightly smaller than normal script
     val scriptStyleSuper = SpanStyle(
@@ -46,5 +49,5 @@ fun TextWithSubscripts(
     }
 
     // The `Text` composable containing annotated strings for the superscripts
-    Text(annotatedString, modifier, color, style = style)
+    Text(annotatedString, modifier, color, style = style, onTextLayout = onTextLayout)
 }

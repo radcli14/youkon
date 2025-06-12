@@ -12,5 +12,6 @@ import viewmodel.QuickConvertCardViewModel
 fun QuickConvertCardPreview() {
     val vm = QuickConvertCardViewModel()
     vm.updateUnit(YkUnit.KILOGRAMS_PER_METER_CUBED)
+    vm.convertedTextFitsOnOneLine.value = false
     QuickConvertCard(vm).Body()
 }
