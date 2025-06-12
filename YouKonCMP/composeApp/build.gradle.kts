@@ -76,8 +76,8 @@ android {
         applicationId = "com.dcengineer.youkon"
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.targetSdk.get().toInt()
-        versionCode = 7
-        versionName = "0.7.0"
+        versionCode = 8
+        versionName = "0.8.0"
     }
     packaging {
         resources {
