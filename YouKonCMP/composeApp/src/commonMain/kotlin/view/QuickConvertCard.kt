@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.requiredHeightIn
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -80,20 +81,20 @@ class QuickConvertCard(
         }
         Row(
             horizontalArrangement = Arrangement.spacedBy(8.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.height(IntrinsicSize.Min)
+            verticalAlignment = Alignment.Bottom,
         ) {
             TextField(
                 modifier = Modifier
                     .onFocusChanged(vm::handleFocusStateChange)
                     .onboardingModifier(QuickConvertViews.VALUE)
                     .weight(1f)
+                    .alignByBaseline()
             )
             ConvertedText(
                 modifier = Modifier
                     .onboardingModifier(QuickConvertViews.CONVERTED)
                     .weight(1f)
-                    .fillMaxHeight()
+                    .alignByBaseline()
             )
         }
     }
@@ -157,7 +158,6 @@ class QuickConvertCard(
         val data by vm.data.collectAsState()
         Box(
             modifier = modifier,
-            contentAlignment = Alignment.CenterStart
         ) {
             TextWithSubscripts(data.convertedText,
                 style = MaterialTheme.typography.bodyLarge,
@@ -166,11 +166,3 @@ class QuickConvertCard(
         }
     }
 }
-
-/*
-@Preview
-@Composable
-fun QuickConvertCardPreview() {
-    QuickConvertCard().Body()
-}
- */

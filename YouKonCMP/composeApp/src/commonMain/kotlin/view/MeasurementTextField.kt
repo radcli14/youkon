@@ -2,8 +2,10 @@ package view
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.requiredHeightIn
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.MaterialTheme
@@ -16,8 +18,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.onFocusEvent
 import androidx.compose.ui.text.TextRange
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
@@ -32,7 +35,10 @@ fun MeasurementTextField(
     updateMeasurement: (Double) -> Unit
 ) {
     var text by remember { mutableStateOf(TextFieldValue(initialText)) }
-    val textStyle = MaterialTheme.typography.titleMedium
+    val textStyle = MaterialTheme.typography.bodyLarge.copy(
+        color = MaterialTheme.colorScheme.onSurface,
+        fontWeight = FontWeight.SemiBold
+    )
 
     // Add this LaunchedEffect to update text while preserving cursor position when initialText changes, specifically if triggered by the switchSign
     LaunchedEffect(initialText) {
@@ -67,16 +73,16 @@ fun MeasurementTextField(
     }
 
     Surface(
-        modifier = modifier.height(40.dp),
+        modifier = modifier,
         color = grayBackground.copy(alpha = 0.55f),
         shape = MaterialTheme.shapes.medium
     ) {
         Row(
             horizontalArrangement = Arrangement.spacedBy(8.dp),
-            verticalAlignment = Alignment.CenterVertically,
+            verticalAlignment = Alignment.Bottom,
             modifier = Modifier.padding(horizontal = 8.dp)
         ) {
-            CustomDecimalTextField(text, Modifier.weight(1f)) { newText ->
+            CustomDecimalTextField(text, textStyle, Modifier.alignByBaseline().weight(1f)) { newText ->
                 text = newText
                 newText.text.toDoubleOrZeroOrNull()?.let {
                     updateMeasurement(it)
@@ -84,6 +90,7 @@ fun MeasurementTextField(
             }
             unitText?.let {
                 TextWithSubscripts(it,
+                    modifier = Modifier.alignByBaseline(),
                     style = textStyle,
                     color = MaterialTheme.colorScheme.onSurface
                 )
@@ -113,17 +120,14 @@ val String.canBeInt: Boolean get() {
 @Composable
 fun CustomDecimalTextField(
     value: TextFieldValue,
+    textStyle: TextStyle,
     modifier: Modifier,
     onValueChange: (TextFieldValue) -> Unit,
 ) {
-    val textStyle = MaterialTheme.typography.titleMedium.copy(
-        color = MaterialTheme.colorScheme.onSurface,
-        textAlign = TextAlign.End
-    )
 
     BasicTextField(
         value = value,
-        modifier = modifier,
+        modifier = modifier.requiredHeightIn(40.dp).padding(vertical = 12.dp),
         keyboardOptions = KeyboardOptions(
             keyboardType = KeyboardType.Decimal,
             imeAction = ImeAction.Done
@@ -132,9 +136,6 @@ fun CustomDecimalTextField(
         onValueChange = { newText ->
             onValueChange(newText)
         },
-        textStyle = textStyle.copy(
-            color = MaterialTheme.colorScheme.onSurface,
-            textAlign = TextAlign.End
-        ),
+        textStyle = textStyle.copy(textAlign = TextAlign.End),
     )
 }
