@@ -33,6 +33,13 @@ class OnboardingScreenViewModel : ViewModel() {
         showOnboarding.value = false
     }
 
+    /// Reset the onboarding state to its initial state
+    fun resetOnboarding() {
+        Log.d(tag, "resetting onboarding state")
+        currentPage.intValue = 0
+        currentText.intValue = 0
+    }
+
     private val helps = arrayOf(
         "Welcome" to arrayOf("Thank you for trying the unit converter app designed for engineers"),
         "Quick Convert Card" to arrayOf(
@@ -59,6 +66,10 @@ class OnboardingScreenViewModel : ViewModel() {
             "2. `Plus` (+) and `Minus` (-) are used to add and subtract measurements",
             "3. Each measurement has its own name and description field",
             "4. Number value and a unit may be selected for each measurement"
+        ),
+        "Thank You" to arrayOf(
+            "Enjoy YouKon, the unit converter app designed for engineers",
+            ""  // TODO: this is here as a hack for the onboarding exiting one screen too early
         )
     )
     val helpHeader: String get() = helps[currentPage.intValue].first
@@ -73,17 +84,18 @@ class OnboardingScreenViewModel : ViewModel() {
     var currentText = mutableIntStateOf(0)
     fun incrementPage() {
         Log.d(tag, "Incrementing onboarding page\n  From: ${currentPage.intValue}-${currentText.intValue}")
-        if (onLastBeforeExit) {
-            currentPage.intValue = 0
-            currentText.intValue = 0
-            closeOnboarding()
-        } else if (onLastText){
+        updateHighlight()
+        if (currentText.intValue >= lastTextIndex) {
+            if (onLastPage) {
+                resetOnboarding()
+                closeOnboarding()
+                return
+            }
             currentPage.intValue += 1
             currentText.intValue = 0
         } else {
             currentText.intValue += 1
         }
-        updateHighlight()
         Log.d(tag, "  To: ${currentPage.intValue}-${currentText.intValue}")
     }
 
@@ -101,7 +113,6 @@ class OnboardingScreenViewModel : ViewModel() {
             }
             else -> projectViewModel.highlight(null)
         }
-
     }
 
     private val onLastPage: Boolean get() = currentPage.intValue >= lastHelpIndex

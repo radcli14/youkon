@@ -86,13 +86,11 @@ class OnboardingScreen(
                     Modifier.align(Alignment.BottomEnd)
                 ) {
                     verticalOffsetForMainView = viewModel.mainViewVerticalOffset
+                    viewModel.incrementPage()
                     if (viewModel.onLastBeforeExit) {
-                        viewModel.resetOnboarding()
                         navController?.navigate("main") {
                             popUpTo("main") { inclusive = true }
                         }
-                    } else {
-                        viewModel.incrementPage()
                     }
                 }
             }
@@ -232,10 +230,7 @@ class OnboardingScreen(
     ) {
         FloatingActionButton(
             modifier = modifier.padding(8.dp),
-            onClick = {
-                viewModel.incrementPage()
-                onNavigate()
-            }
+            onClick = onNavigate
         ) {
             Icon(navButtonIcon(),
                 contentDescription = viewModel.navButtonDescription,

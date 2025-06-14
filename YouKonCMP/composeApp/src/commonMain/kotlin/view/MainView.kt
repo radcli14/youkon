@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.twotone.CheckCircle
 import androidx.compose.material.icons.twotone.Info
 import androidx.compose.material.icons.twotone.Settings
@@ -31,6 +32,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
@@ -45,6 +48,12 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
+import androidx.navigation.NavHost
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import androidx.navigation.compose.currentBackStackEntryAsState
 import closeKeyboardOnTapOutside
 import closeSheetOnTapOutside
 import firebase.login.LoginScreen
@@ -82,6 +91,8 @@ class MainView(
     fun Body() {
         YoukonTheme {
             BackgroundBox {
+                val navController = rememberNavController()
+                
                 /// Holds state and the bottom sheet scaffold to allow the editing screen to appear
                 /// as a sheet from the bottom of the screen.
                 BottomSheetScaffold(
@@ -93,14 +104,112 @@ class MainView(
                     modifier = Modifier
                         .closeSheetOnTapOutside(mainViewModel::stopEditing)
                         .closeKeyboardOnTapOutside(),
-                    topBar = { TopBar() },
+                    topBar = { TopBar(navController) },
                     containerColor = Color.Transparent
                 ) {
-                    MainContentStack()
-                    Onboarding()
-                    SettingsDialog()
+                    NavHost(
+                        navController = navController,
+                        startDestination = "main"
+                    ) {
+                        composable("main") {
+                            MainContentStack()
+                        }
+                        composable("onboarding") {
+                            OnboardingScreen(onboardingScreenViewModel ?: OnboardingScreenViewModel()).Body(navController)
+                        }
+                        composable("settings") {
+                            SettingsScreen()
+                        }
+                        composable("signin") {
+                            SignInScreen()
+                        }
+                        composable("createaccount") {
+                            CreateAccountScreen()
+                        }
+                    }
                 }
             }
+        }
+    }
+
+    /// The top bar, with app branding, and either settings and info or close button
+    @OptIn(ExperimentalMaterial3Api::class)
+    @Composable
+    private fun TopBar(navController: NavHostController) {
+        val currentRoute = navController.currentBackStackEntryAsState().value?.destination?.route
+        
+        CenterAlignedTopAppBar(
+            title = {
+                Text("YouKon",
+                    fontFamily = philosopherFont,
+                    fontWeight = FontWeight.Bold,
+                    style = MaterialTheme.typography.displayMedium
+                )
+            },
+            navigationIcon = {
+                if (currentRoute != "main") {
+                    IconButton(onClick = { navController.navigateUp() }) {
+                        Icon(
+                            imageVector = Icons.Default.ArrowBack,
+                            contentDescription = "Back"
+                        )
+                    }
+                } else {
+                    Image(
+                        painter = painterResource(Res.drawable.icon_clearbackground),
+                        contentDescription = "App icon",
+                        contentScale = ContentScale.Fit,
+                        colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground)
+                    )
+                }
+            },
+            actions = {
+                if (currentRoute == "main") {
+                    SettingsButton(navController)
+                    ActionButton(navController)
+                }
+            },
+            colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.Transparent)
+        )
+    }
+
+    @Composable
+    private fun SettingsButton(navController: NavHostController) {
+        IconButton(
+            onClick = { navController.navigate("settings") }
+        ) {
+            Icon(
+                imageVector = Icons.TwoTone.Settings,
+                contentDescription = "Settings",
+            )
+        }
+    }
+
+    /// An action button that will open the onboarding screen,
+    /// or close the sheet to conclude editing the quick convert card or a project
+    @Composable
+    private fun ActionButton(navController: NavHostController) {
+        IconButton(
+            onClick = {
+                if (mainViewModel.isEditingProject.value) {
+                    mainViewModel.stopEditing(saveAfterStopping = true)
+                } else {
+                    navController.navigate("onboarding")
+                }
+            }
+        ) {
+            Icon(
+                imageVector = if (mainViewModel.isEditingProject.value) {
+                    Icons.TwoTone.CheckCircle
+                } else {
+                    Icons.TwoTone.Info
+                },
+                contentDescription = if (mainViewModel.isEditingProject.value) {
+                    "Save changes"
+                } else {
+                    "Show help"
+                }
+            )
         }
     }
 
@@ -243,18 +352,6 @@ class MainView(
         }
     }
 
-    @Composable
-    private fun SettingsButton() {
-        IconButton(
-            onClick = mainViewModel::showSettings
-        ) {
-            Icon(
-                imageVector = Icons.TwoTone.Settings,
-                contentDescription = "Settings",
-            )
-        }
-    }
-
     /// When the user taps on the values in a `ProjectView` this opens the sheet for editing it
     @Composable
     private fun ProjectEditingSheet() {
@@ -270,59 +367,6 @@ class MainView(
             }
             Spacer(Modifier.weight(1f))
         }
-    }
-
-    /// The top bar, with app branding, and either settings and info or close button
-    @OptIn(ExperimentalMaterial3Api::class)
-    @Composable
-    private fun TopBar() {
-        CenterAlignedTopAppBar(
-            title = {
-                Text("YouKon",
-                    fontFamily = philosopherFont,
-                    fontWeight = FontWeight.Bold,
-                    style = MaterialTheme.typography.displayMedium
-                )
-            },
-            navigationIcon = {
-                Image(
-                    painter = painterResource(Res.drawable.icon_clearbackground),
-                    contentDescription = "App icon",
-                    contentScale = ContentScale.Fit,
-                    colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground)
-                )
-            },
-            actions = {
-                SettingsButton()
-                ActionButton()
-            },
-            colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.Transparent)
-        )
-    }
-
-    /// An action button that will open the onboarding screen,
-    /// or close the sheet to conclude editing the quick convert card or a project
-    @Composable
-    private fun ActionButton() {
-        val isBottomSheetExpanded by mainViewModel.isEditingProject.collectAsState()
-        IconButton(
-            onClick = {
-                if (isBottomSheetExpanded) {
-                    mainViewModel.stopEditing(saveAfterStopping = true)
-                } else {
-                    onboardingScreenViewModel?.openOnboarding()
-                }
-            },
-        ) {
-            Icon(actionButtonIcon(isBottomSheetExpanded),
-                contentDescription = "Open a help dialog, or confirm and close the edit dialog.",
-            )
-        }
-    }
-
-    @Composable
-    private fun actionButtonIcon(isConfirmationAction: Boolean?): ImageVector {
-        return if (isConfirmationAction == true) Icons.TwoTone.CheckCircle else Icons.TwoTone.Info
     }
 
     class Constants {
