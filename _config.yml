@@ -44,8 +44,8 @@ features                                  :
     
   - title                                 : Designed for Technical Professionals
     description                           : Perfect for engineers and scientists working with various measurement standards.
-    fontawesome_icon_name                 : exchange-alt
-    
+    fontawesome_icon_name                 : user-cog
+
   - title                                 : Project Organization
     description                           : Group related measurements into projects for better organization and management of your engineering data.
     fontawesome_icon_name                 : folder-open
