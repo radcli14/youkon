@@ -233,9 +233,7 @@ class MainView(
         loginViewModel?.let { viewModel ->
             LoginScreen(
                 openAndPopUp = { open, popup -> 
-                    navController.navigate(open) {
-                        popUpTo("main") { inclusive = false }
-                    }
+                    navController.popBackStack()
                 },
                 viewModel
             )
