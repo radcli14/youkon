@@ -45,12 +45,13 @@ import androidx.compose.ui.window.Dialog
 import getPlatform
 import kotlinx.coroutines.delay
 import viewmodel.OnboardingScreenViewModel
+import androidx.navigation.NavHostController
 
 class OnboardingScreen(
     private val viewModel: OnboardingScreenViewModel = OnboardingScreenViewModel(),
 ) {
     @Composable
-    fun Body() {
+    fun Body(navController: NavHostController? = null) {
         Column(
             modifier = Modifier.background(
                 color = MaterialTheme.colorScheme.surface,
@@ -85,6 +86,14 @@ class OnboardingScreen(
                     Modifier.align(Alignment.BottomEnd)
                 ) {
                     verticalOffsetForMainView = viewModel.mainViewVerticalOffset
+                    if (viewModel.onLastBeforeExit) {
+                        viewModel.resetOnboarding()
+                        navController?.navigate("main") {
+                            popUpTo("main") { inclusive = true }
+                        }
+                    } else {
+                        viewModel.incrementPage()
+                    }
                 }
             }
             Tabs {
