@@ -90,7 +90,6 @@
 		8A5A43922BBADAF200AACB45 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 8A11FC892B910FB000DCE3C1 /* FirebaseStorage */; };
 		8A5A43932BBADAF200AACB45 /* FirebaseStorageCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = 8A11FC8A2B910FB000DCE3C1 /* FirebaseStorageCombine-Community */; };
 		8A8F99FD2B8FA59B0048BCF9 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8A8F99FC2B8FA59B0048BCF9 /* GoogleService-Info.plist */; };
-		8AE8C0FC2C5164DC00F448BB /* CustomAppleDecimalTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AE8C0FB2C5164DC00F448BB /* CustomAppleDecimalTextField.swift */; };
 		8AFD34FA2BBC4EC600A3CA8A /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 8AFD34F92BBC4EC600A3CA8A /* FirebaseAnalytics */; };
 		8AFD34FC2BBC4EC600A3CA8A /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 8AFD34FB2BBC4EC600A3CA8A /* FirebaseAuth */; };
 		8AFD34FE2BBC4EC600A3CA8A /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = 8AFD34FD2BBC4EC600A3CA8A /* FirebaseCrashlytics */; };
@@ -98,23 +97,6 @@
 		8AFD35022BBC4EC600A3CA8A /* FirebasePerformance in Frameworks */ = {isa = PBXBuildFile; productRef = 8AFD35012BBC4EC600A3CA8A /* FirebasePerformance */; };
 		8AFD35042BBC4EC600A3CA8A /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 8AFD35032BBC4EC600A3CA8A /* FirebaseStorage */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		8AE8C1272C51734F00F448BB /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 8AE8C1222C51734F00F448BB /* CustomComponents.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 8AE8C1082C51734E00F448BB;
-			remoteInfo = CustomComponents;
-		};
-		8AE8C1292C51734F00F448BB /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 8AE8C1222C51734F00F448BB /* CustomComponents.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 8AE8C1122C51734F00F448BB;
-			remoteInfo = CustomComponentsTests;
-		};
-/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		058557BA273AAA24004C7B11 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -145,9 +127,7 @@
 		8A1D2CFE2B64FCDA006C8922 /* ProjectsCard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProjectsCard.swift; sourceTree = "<group>"; };
 		8A1D2CFF2B64FCDA006C8922 /* MeasurementTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MeasurementTextField.swift; sourceTree = "<group>"; };
 		8A8F99FC2B8FA59B0048BCF9 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		8AE8C0FB2C5164DC00F448BB /* CustomAppleDecimalTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAppleDecimalTextField.swift; sourceTree = "<group>"; };
 		8AE8C0FD2C5165F300F448BB /* iosApp-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "iosApp-Bridging-Header.h"; sourceTree = "<group>"; };
-		8AE8C1222C51734F00F448BB /* CustomComponents.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CustomComponents.xcodeproj; path = CustomComponents/CustomComponents.xcodeproj; sourceTree = SOURCE_ROOT; };
 		AB3632DC29227652001CCB65 /* Config.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -254,8 +234,6 @@
 		7555FF7D242A565900829871 /* iosApp */ = {
 			isa = PBXGroup;
 			children = (
-				8AE8C1222C51734F00F448BB /* CustomComponents.xcodeproj */,
-				8AE8C0FB2C5164DC00F448BB /* CustomAppleDecimalTextField.swift */,
 				8A8F99FC2B8FA59B0048BCF9 /* GoogleService-Info.plist */,
 				8A1D2CEC2B64FB08006C8922 /* controller */,
 				8A1D2CF72B64FCDA006C8922 /* view */,
@@ -317,15 +295,6 @@
 				8A1D2CFF2B64FCDA006C8922 /* MeasurementTextField.swift */,
 			);
 			path = view;
-			sourceTree = "<group>";
-		};
-		8AE8C1232C51734F00F448BB /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				8AE8C1282C51734F00F448BB /* CustomComponents.framework */,
-				8AE8C12A2C51734F00F448BB /* CustomComponentsTests.xctest */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 		AB1DB47929225F7C00F7AF9C /* Configuration */ = {
@@ -453,35 +422,12 @@
 			);
 			productRefGroup = 7555FF7C242A565900829871 /* Products */;
 			projectDirPath = "";
-			projectReferences = (
-				{
-					ProductGroup = 8AE8C1232C51734F00F448BB /* Products */;
-					ProjectRef = 8AE8C1222C51734F00F448BB /* CustomComponents.xcodeproj */;
-				},
-			);
 			projectRoot = "";
 			targets = (
 				7555FF7A242A565900829871 /* iosApp */,
 			);
 		};
 /* End PBXProject section */
-
-/* Begin PBXReferenceProxy section */
-		8AE8C1282C51734F00F448BB /* CustomComponents.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = CustomComponents.framework;
-			remoteRef = 8AE8C1272C51734F00F448BB /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		8AE8C12A2C51734F00F448BB /* CustomComponentsTests.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = CustomComponentsTests.xctest;
-			remoteRef = 8AE8C1292C51734F00F448BB /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		7555FF79242A565900829871 /* Resources */ = {
@@ -562,7 +508,6 @@
 				8A1D2D0A2B64FCDA006C8922 /* QuickConvertCard.swift in Sources */,
 				7555FF83242A565900829871 /* ContentView.swift in Sources */,
 				8A1D2D082B64FCDA006C8922 /* Header.swift in Sources */,
-				8AE8C0FC2C5164DC00F448BB /* CustomAppleDecimalTextField.swift in Sources */,
 				8A1D2CF52B64FB08006C8922 /* ProjectsCardController.swift in Sources */,
 				8A1D2D092B64FCDA006C8922 /* ProjectView.swift in Sources */,
 				8A1D2CF22B64FB08006C8922 /* ContentViewController.swift in Sources */,
