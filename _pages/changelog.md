@@ -10,7 +10,7 @@ Keep track of updates to the YouKon unit conversionsa and property database mana
 <br>
 
 ### `Latest`
-# **Version 2.0**
+# **Version 1.0**
 This is the first planned release to the YouKon app. 
 
 #### What's New
