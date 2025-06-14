@@ -28,8 +28,6 @@ class MainViewModel(
     val isEditingProject: StateFlow<Boolean> = _isEditingProject
 
     val settingsScreenState = mutableStateOf(SettingsScreenState.HIDDEN)
-
-    //var project: YkProject? = null
     var project: MutableStateFlow<YkProject?> = MutableStateFlow(null)
     var user: MutableStateFlow<YkUser> = MutableStateFlow(YkUser())
 
@@ -49,6 +47,35 @@ class MainViewModel(
             collectAccountService()
             collectStorageService()
         }
+    }
+
+    fun showSettings() {
+        Log.d(tag, "Show Settings")
+        settingsScreenState.value = SettingsScreenState.SETTINGS
+    }
+
+    fun openScreenFromSettingsScreen(route: String) {
+        Log.d(tag, "openScreenFromSettingsScreen, route = $route")
+        settingsScreenState.value = when (route) {
+            "SettingsScreen" -> SettingsScreenState.SETTINGS
+            "LoginScreen" -> SettingsScreenState.SIGN_IN
+            "SignUpScreen" -> SettingsScreenState.CREATE_ACCOUNT
+            else -> settingsScreenState.value
+        }
+    }
+
+    fun openAndPopupFromLoginScreen(open: String, popup: String) {
+        Log.d(tag, "openAndPopupFromLoginScreen, open = $open, popup = $popup")
+        openScreenFromSettingsScreen(open)
+    }
+
+    fun restartAppFromSettingsScreen(route: String) {
+        Log.d(tag, route)
+    }
+
+    fun hideSettings() {
+        Log.d(tag, "Hide Settings")
+        settingsScreenState.value = SettingsScreenState.HIDDEN
     }
 
     private suspend fun collectAccountService() {
@@ -157,35 +184,6 @@ class MainViewModel(
             project.value?.let { saveProjectToCloud(it) }
         }
         project.value = null
-    }
-
-    fun showSettings() {
-        Log.d(tag, "Show Settings")
-        settingsScreenState.value = SettingsScreenState.SETTINGS
-    }
-
-    fun openScreenFromSettingsScreen(route: String) {
-        Log.d(tag, "openScreenFromSettingsScreen, route = $route")
-        settingsScreenState.value = when (route) {
-            "SettingsScreen" -> SettingsScreenState.SETTINGS
-            "LoginScreen" -> SettingsScreenState.SIGN_IN
-            "SignUpScreen" -> SettingsScreenState.CREATE_ACCOUNT
-            else -> settingsScreenState.value
-        }
-    }
-
-    fun openAndPopupFromLoginScreen(open: String, popup: String) {
-        Log.d(tag, "openAndPopupFromLoginScreen, open = $open, popup = $popup")
-        openScreenFromSettingsScreen(open)
-    }
-
-    fun restartAppFromSettingsScreen(route: String) {
-        Log.d(tag, route)
-    }
-
-    fun hideSettings() {
-        Log.d(tag, "Hide Settings")
-        settingsScreenState.value = SettingsScreenState.HIDDEN
     }
 
     /// The `ProjectsCardViewModel` is retained to persist the states of the individual projects
