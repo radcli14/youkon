@@ -47,6 +47,7 @@ kotlin {
             implementation(compose.material3)
             implementation(compose.ui)
             implementation(compose.components.resources)
+            implementation(libs.navigation.compose)
             implementation(libs.material.icons.core)
             implementation(libs.material.icons.extended)
             implementation(libs.kotlinx.serialization.json)
@@ -107,7 +108,6 @@ dependencies {
     implementation(compose.material3)
     implementation(libs.androidx.constraintlayout.compose)
     implementation(libs.androidx.ui.tooling.preview.android)
-    implementation(libs.navigation.compose)
 
     implementation(platform("com.google.firebase:firebase-bom:32.7.3"))
     implementation(libs.firebase.common)
