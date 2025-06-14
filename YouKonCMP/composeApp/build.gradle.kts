@@ -19,9 +19,9 @@ kotlin {
             }
         }
     }
-    
+
     jvm("desktop")
-    
+
     listOf(
         iosX64(),
         iosArm64(),
@@ -32,10 +32,10 @@ kotlin {
             isStatic = true
         }
     }
-    
+
     sourceSets {
         val desktopMain by getting
-        
+
         androidMain.dependencies {
             implementation(libs.compose.ui.tooling.preview)
             implementation(libs.androidx.activity.compose)
@@ -107,6 +107,7 @@ dependencies {
     implementation(compose.material3)
     implementation(libs.androidx.constraintlayout.compose)
     implementation(libs.androidx.ui.tooling.preview.android)
+    implementation(libs.navigation.compose)
 
     implementation(platform("com.google.firebase:firebase-bom:32.7.3"))
     implementation(libs.firebase.common)
