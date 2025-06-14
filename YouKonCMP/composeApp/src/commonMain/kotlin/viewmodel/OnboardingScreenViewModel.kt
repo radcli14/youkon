@@ -68,8 +68,8 @@ class OnboardingScreenViewModel : ViewModel() {
             "4. Number value and a unit may be selected for each measurement"
         ),
         "Thank You" to arrayOf(
-            "Enjoy YouKon, the unit converter app designed for engineers",
-            ""  // TODO: this is here as a hack for the onboarding exiting one screen too early
+            "Thank you for trying YouKon, the unit converter app designed for engineers",
+            "", // TODO: this is a hack accounting for the app exiting onboarding one screen too early
         )
     )
     val helpHeader: String get() = helps[currentPage.intValue].first
@@ -84,18 +84,16 @@ class OnboardingScreenViewModel : ViewModel() {
     var currentText = mutableIntStateOf(0)
     fun incrementPage() {
         Log.d(tag, "Incrementing onboarding page\n  From: ${currentPage.intValue}-${currentText.intValue}")
-        updateHighlight()
-        if (currentText.intValue >= lastTextIndex) {
-            if (onLastPage) {
-                resetOnboarding()
-                closeOnboarding()
-                return
-            }
+        if (onLastBeforeExit) {
+            resetOnboarding()
+            closeOnboarding()
+        } else if (onLastText){
             currentPage.intValue += 1
             currentText.intValue = 0
         } else {
             currentText.intValue += 1
         }
+        updateHighlight()
         Log.d(tag, "  To: ${currentPage.intValue}-${currentText.intValue}")
     }
 
