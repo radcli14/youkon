@@ -1,5 +1,8 @@
 package view
 
+import LOGIN_SCREEN
+import SETTINGS_SCREEN
+import SIGN_UP_SCREEN
 import YoukonTheme
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
@@ -109,13 +112,13 @@ class MainView(
                         composable("onboarding") {
                             OnboardingScreen(onboardingScreenViewModel ?: OnboardingScreenViewModel()).Body(navController)
                         }
-                        composable("settings") {
-                            SettingsScreen()
+                        composable(SETTINGS_SCREEN) {
+                            SettingsScreen(navController)
                         }
-                        composable("signin") {
+                        composable(LOGIN_SCREEN) {
                             SignInScreen()
                         }
-                        composable("createaccount") {
+                        composable(SIGN_UP_SCREEN) {
                             CreateAccountScreen()
                         }
                     }
@@ -177,7 +180,7 @@ class MainView(
     @Composable
     private fun SettingsButton(navController: NavHostController) {
         IconButton(
-            onClick = { navController.navigate("settings") }
+            onClick = { navController.navigate(SETTINGS_SCREEN) }
         ) {
             Icon(
                 imageVector = Icons.TwoTone.Settings,
@@ -215,11 +218,11 @@ class MainView(
     }
 
     @Composable
-    private fun SettingsScreen() {
+    private fun SettingsScreen(navController: NavHostController) {
         settingsViewModel?.let { viewModel ->
             firebase.settings.SettingsScreen(
                 restartApp = mainViewModel::restartAppFromSettingsScreen,
-                openScreen = mainViewModel::openScreenFromSettingsScreen,
+                openScreen = { route -> navController.navigate(route) },
                 viewModel
             )
         }

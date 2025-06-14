@@ -1,8 +1,9 @@
 package firebase.settings
 
+import Log
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
@@ -27,7 +28,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.unit.dp
-import firebase.login.BasicToolbar
+import fullWidthSemitransparentPadded
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.StringResource
@@ -45,7 +46,6 @@ import youkon.composeapp.generated.resources.ic_exit
 import youkon.composeapp.generated.resources.ic_sign_in
 import youkon.composeapp.generated.resources.privacy_policy_button
 import youkon.composeapp.generated.resources.privacy_policy_url
-import youkon.composeapp.generated.resources.settings
 import youkon.composeapp.generated.resources.sign_in
 import youkon.composeapp.generated.resources.sign_out
 import youkon.composeapp.generated.resources.sign_out_description
@@ -71,7 +71,6 @@ fun SettingsScreen(
 }
 
 
-@OptIn(ExperimentalResourceApi::class)
 @Composable
 fun SettingsScreenContent(
     modifier: Modifier = Modifier,
@@ -82,10 +81,15 @@ fun SettingsScreenContent(
     onDeleteMyAccountClick: () -> Unit
 ) {
     Column(
-        modifier = modifier.fillMaxWidth().fillMaxHeight().verticalScroll(rememberScrollState()),
+        modifier = modifier
+            .fullWidthSemitransparentPadded()
+            .verticalScroll(rememberScrollState()),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        BasicToolbar(Res.string.settings)
+        Text(if (uiState.isAnonymousAccount) "Log in or create an account" else "Logged in as ${uiState.name}",
+            modifier = Modifier.padding(16.dp),
+            color = MaterialTheme.colorScheme.onSurface
+        )
 
         if (uiState.isAnonymousAccount) {
             RegularCardEditor(Res.string.sign_in, Res.drawable.ic_sign_in, "", Modifier.card()) {
@@ -96,10 +100,6 @@ fun SettingsScreenContent(
                 onSignUpClick()
             }
         } else {
-            Text("Logged in as ${uiState.name}",
-                modifier = Modifier.padding(16.dp),
-                color = MaterialTheme.colorScheme.onSurface
-            )
             SignOutCard { onSignOutClick() }
             DeleteMyAccountCard { onDeleteMyAccountClick() }
         }
@@ -109,7 +109,6 @@ fun SettingsScreenContent(
 }
 
 
-@OptIn(ExperimentalResourceApi::class)
 @Composable
 private fun SignOutCard(signOut: () -> Unit) {
     var showWarningDialog by remember { mutableStateOf(false) }

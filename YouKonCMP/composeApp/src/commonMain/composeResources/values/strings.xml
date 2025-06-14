@@ -18,6 +18,7 @@
 
     <!-- SignUpScreen -->
     <string name="create_account">Create account</string>
+    <string name="create_account_hint">Provide login details for a new user.</string>
     <string name="password_error">Your password should have at least six digits and include one digit, one lower case letter and one upper case letter.</string>
     <string name="password_match_error">Passwords do not match.</string>
 
@@ -43,7 +44,7 @@
 
     <!-- Dialogs -->
     <string name="sign_out_title">Sign out?</string>
-    <string name="sign_out_description">You will have to sign in again to see your tasks.</string>
+    <string name="sign_out_description">You will have to sign in again to see your projects.</string>
     <string name="delete_account_title">Delete account?</string>
     <string name="delete_account_description">You will lose all your projects and your account will be deleted. This action is irreversible.</string>
 

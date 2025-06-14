@@ -1,7 +1,10 @@
 package viewmodel
 
 import AccountService
+import LOGIN_SCREEN
 import Log
+import SETTINGS_SCREEN
+import SIGN_UP_SCREEN
 import Storage
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -57,9 +60,9 @@ class MainViewModel(
     fun openScreenFromSettingsScreen(route: String) {
         Log.d(tag, "openScreenFromSettingsScreen, route = $route")
         settingsScreenState.value = when (route) {
-            "SettingsScreen" -> SettingsScreenState.SETTINGS
-            "LoginScreen" -> SettingsScreenState.SIGN_IN
-            "SignUpScreen" -> SettingsScreenState.CREATE_ACCOUNT
+            SETTINGS_SCREEN -> SettingsScreenState.SETTINGS
+            LOGIN_SCREEN -> SettingsScreenState.SIGN_IN
+            SIGN_UP_SCREEN -> SettingsScreenState.CREATE_ACCOUNT
             else -> settingsScreenState.value
         }
     }

@@ -1,5 +1,6 @@
 package firebase.login
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -37,6 +38,7 @@ import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import firebase.settings.spacer
+import fullWidthSemitransparentPadded
 import youkon.composeapp.generated.resources.Res
 import youkon.composeapp.generated.resources.email
 import youkon.composeapp.generated.resources.forgot_password
@@ -116,7 +118,6 @@ fun LoginScreen(
     */
 }
 
-@OptIn(ExperimentalResourceApi::class)
 @Composable
 fun LoginScreenContent(
     modifier: Modifier = Modifier,
@@ -128,13 +129,16 @@ fun LoginScreenContent(
 ) {
     Column(
         modifier = modifier
-            .fillMaxWidth()
-            //.fillMaxHeight()
+            .fullWidthSemitransparentPadded()
             .verticalScroll(rememberScrollState()),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        BasicToolbar(Res.string.login_details)
+        Text(
+            text = stringResource(Res.string.login_details),
+            modifier = Modifier.padding(16.dp),
+            color = MaterialTheme.colorScheme.onSurface
+        )
         EmailField(uiState.email, onEmailChange, Modifier.fieldModifier())
         PasswordField(uiState.password, onPasswordChange, Modifier.fieldModifier())
         BasicButton(Res.string.sign_in, Modifier.basicButton()) { onSignInClick() }
@@ -144,36 +148,7 @@ fun LoginScreenContent(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalResourceApi::class)
-@Composable
-fun BasicToolbar(title: StringResource) {
-    //TopAppBar(title = { Text(stringResource(title)) })
-    Text(
-        text = stringResource(title),
-        color = MaterialTheme.colorScheme.onBackground,
-        style = MaterialTheme.typography.titleLarge
-    )
-    Spacer(modifier = Modifier.spacer())
-}
 
-@OptIn(ExperimentalResourceApi::class)
-@Composable
-fun BasicField(
-    text: StringResource,
-    value: String,
-    onNewValue: (String) -> Unit,
-    modifier: Modifier = Modifier
-) {
-    OutlinedTextField(
-        singleLine = true,
-        modifier = modifier,
-        value = value,
-        onValueChange = { onNewValue(it) },
-        placeholder = { Text(stringResource(text)) }
-    )
-}
-
-@OptIn(ExperimentalResourceApi::class)
 @Composable
 fun EmailField(value: String, onNewValue: (String) -> Unit, modifier: Modifier = Modifier) {
     OutlinedTextField(
@@ -202,7 +177,6 @@ fun RepeatPasswordField(
     PasswordField(value, Res.string.repeat_password, onNewValue, modifier)
 }
 
-@OptIn(ExperimentalResourceApi::class)
 @Composable
 private fun PasswordField(
     value: String,
@@ -236,13 +210,11 @@ private fun PasswordField(
 }
 
 
-@OptIn(ExperimentalResourceApi::class)
 @Composable
 fun BasicTextButton(text: StringResource, modifier: Modifier, action: () -> Unit) {
     TextButton(onClick = action, modifier = modifier) { Text(text = stringResource(text)) }
 }
 
-@OptIn(ExperimentalResourceApi::class)
 @Composable
 fun BasicButton(text: StringResource, modifier: Modifier, action: () -> Unit) {
     Button(
