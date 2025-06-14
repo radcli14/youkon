@@ -116,7 +116,7 @@ class MainView(
                             SettingsScreen(navController)
                         }
                         composable(LOGIN_SCREEN) {
-                            SignInScreen()
+                            SignInScreen(navController)
                         }
                         composable(SIGN_UP_SCREEN) {
                             CreateAccountScreen()
@@ -229,10 +229,14 @@ class MainView(
     }
 
     @Composable
-    private fun SignInScreen() {
+    private fun SignInScreen(navController: NavHostController) {
         loginViewModel?.let { viewModel ->
             LoginScreen(
-                openAndPopUp = mainViewModel::openAndPopupFromLoginScreen,
+                openAndPopUp = { open, popup ->
+                    navController.navigate(open) {
+                        popUpTo(popup) { inclusive = true }
+                    }
+                },
                 viewModel
             )
         }

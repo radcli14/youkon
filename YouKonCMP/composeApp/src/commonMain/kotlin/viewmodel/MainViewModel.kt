@@ -69,7 +69,12 @@ class MainViewModel(
 
     fun openAndPopupFromLoginScreen(open: String, popup: String) {
         Log.d(tag, "openAndPopupFromLoginScreen, open = $open, popup = $popup")
-        openScreenFromSettingsScreen(open)
+        settingsScreenState.value = when (open) {
+            SETTINGS_SCREEN -> SettingsScreenState.SETTINGS
+            LOGIN_SCREEN -> SettingsScreenState.SIGN_IN
+            SIGN_UP_SCREEN -> SettingsScreenState.CREATE_ACCOUNT
+            else -> settingsScreenState.value
+        }
     }
 
     fun restartAppFromSettingsScreen(route: String) {
