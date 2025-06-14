@@ -62,9 +62,10 @@ class MainActivity : ComponentActivity() {
         val sharedPref = getPreferences(Context.MODE_PRIVATE) ?: return
         Log.d(tag, "Loaded shared preferences: ${sharedPref.all}")
 
-        if (sharedPref.getBoolean(showOnboardingKey, false)) {
+        // TODO: this section should be replaced with navigation rather than the dialog this originally referenced
+        /*if (sharedPref.getBoolean(showOnboardingKey, false)) {
             onboardingScreenViewModel.openOnboarding()
-        }
+        }*/
 
         // Specify whether the onboarding screen displays in wide (tablet) or narrow form (phones)
         val manager = getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager

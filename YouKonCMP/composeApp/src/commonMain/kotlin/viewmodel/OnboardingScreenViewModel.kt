@@ -10,7 +10,6 @@ import androidx.lifecycle.ViewModel
 
 class OnboardingScreenViewModel : ViewModel() {
     private val tag = "OnboardingScreenViewModel"
-    val showOnboarding = mutableStateOf(false)
 
     val mainViewModel = MainViewModel()
     private val projectsCardViewModel = mainViewModel.projectsCardViewModel.value
@@ -20,22 +19,10 @@ class OnboardingScreenViewModel : ViewModel() {
         Log.d(tag, "initialized an OnboardingScreenViewModel")
     }
 
-    /// Open the dialog containing the onboarding screen
-    fun openOnboarding() {
-        Log.d(tag, "open onboarding screen")
-        showOnboarding.value = true
-    }
-
-    /// Close the dialog containing the onboarding screen
-    fun closeOnboarding() {
-        Log.d(tag, "closed onboarding screen")
-        mainViewModel.stopEditing()
-        showOnboarding.value = false
-    }
-
     /// Reset the onboarding state to its initial state
     fun resetOnboarding() {
         Log.d(tag, "resetting onboarding state")
+        mainViewModel.stopEditing()
         currentPage.intValue = 0
         currentText.intValue = 0
     }
@@ -86,7 +73,6 @@ class OnboardingScreenViewModel : ViewModel() {
         Log.d(tag, "Incrementing onboarding page\n  From: ${currentPage.intValue}-${currentText.intValue}")
         if (onLastBeforeExit) {
             resetOnboarding()
-            closeOnboarding()
         } else if (onLastText){
             currentPage.intValue += 1
             currentText.intValue = 0

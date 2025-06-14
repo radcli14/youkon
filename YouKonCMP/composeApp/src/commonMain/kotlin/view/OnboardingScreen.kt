@@ -36,6 +36,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
@@ -54,7 +55,10 @@ class OnboardingScreen(
     @Composable
     fun Body(navController: NavHostController? = null) {
         Column(
-            modifier = Modifier.fillMaxHeight().background(
+            modifier = Modifier
+                .padding(horizontal = 16.dp)
+                .padding(bottom = 32.dp)
+                .background(
                 color = MaterialTheme.colorScheme.surface.copy(alpha = 0.69f),
                 shape = MaterialTheme.shapes.large
             ),
@@ -66,7 +70,7 @@ class OnboardingScreen(
             val offsetForMainView by animateDpAsState(verticalOffsetForMainView)
 
             Box(modifier = Modifier
-                .fillMaxSize()
+                //.fillMaxSize()
                 .weight(1f)
             ) {
                 ScaledMainView(
@@ -91,20 +95,12 @@ class OnboardingScreen(
                         navController?.navigate("main") {
                             popUpTo("main") { inclusive = true }
                         }
+                        viewModel.resetOnboarding()
                     }
                 }
-            }
-            Tabs(Modifier) {
-                verticalOffsetForMainView = viewModel.mainViewVerticalOffset
-            }
-        }
-    }
-
-    @Composable
-    fun AsDialog() {
-        if (viewModel.showOnboarding.value) {
-            Dialog(onDismissRequest = { viewModel.closeOnboarding() }) {
-                Body()
+                Tabs(Modifier.align(Alignment.BottomCenter)) {
+                    verticalOffsetForMainView = viewModel.mainViewVerticalOffset
+                }
             }
         }
     }
@@ -165,7 +161,11 @@ class OnboardingScreen(
     @Composable
     fun Tabs(modifier: Modifier = Modifier, onChangeTab: () -> Unit = {}) {
         TabRow(
-            modifier = modifier.fillMaxWidth(),
+            modifier = modifier
+                .fillMaxWidth(0.69f)
+                .padding(16.dp)
+                .clip(MaterialTheme.shapes.large),
+            containerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.4f),
             selectedTabIndex = viewModel.currentPage.intValue,
         ) {
             for (index in 0 .. viewModel.lastHelpIndex) {
@@ -173,7 +173,7 @@ class OnboardingScreen(
                     viewModel.currentPage.intValue = index
                     viewModel.currentText.intValue = 0
                     viewModel.updateHighlight()
-                }, modifier = Modifier.height(64.dp)) {
+                }, modifier = Modifier.padding(16.dp)) {
                     TabIcon(index == viewModel.currentPage.intValue)
                 }
             }
@@ -245,12 +245,3 @@ class OnboardingScreen(
     }
 }
 
-/*
-@Preview
-@Composable
-fun OnboardingPreview() {
-    val viewModel = OnboardingScreenViewModel()
-    viewModel.isWide = false
-    OnboardingScreen(viewModel).Body()
-}
-*/

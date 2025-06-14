@@ -1,15 +1,14 @@
 package view
 
 import YoukonTheme
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -32,28 +31,22 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.composed
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.text.capitalize
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.intl.Locale
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.Dialog
-import androidx.navigation.NavHost
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
 import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.compose.rememberNavController
 import closeKeyboardOnTapOutside
 import closeSheetOnTapOutside
 import firebase.login.LoginScreen
@@ -67,7 +60,6 @@ import org.jetbrains.compose.resources.painterResource
 import viewmodel.MainViewModel
 import viewmodel.OnboardingScreenViewModel
 import viewmodel.QuickConvertCardViewModel
-import viewmodel.SettingsScreenState
 import youkon.composeapp.generated.resources.Res
 import youkon.composeapp.generated.resources.icon_clearbackground
 
@@ -92,7 +84,7 @@ class MainView(
         YoukonTheme {
             BackgroundBox {
                 val navController = rememberNavController()
-                
+
                 /// Holds state and the bottom sheet scaffold to allow the editing screen to appear
                 /// as a sheet from the bottom of the screen.
                 BottomSheetScaffold(
@@ -137,24 +129,31 @@ class MainView(
     @Composable
     private fun TopBar(navController: NavHostController) {
         val currentRoute = navController.currentBackStackEntryAsState().value?.destination?.route
-        
+        val currentRouteTitle = currentRoute?.capitalize(locale = Locale.current) ?: "Unknown"
+
         CenterAlignedTopAppBar(
             title = {
-                Text("YouKon",
-                    fontFamily = philosopherFont,
-                    fontWeight = FontWeight.Bold,
-                    style = MaterialTheme.typography.displayMedium
-                )
+                AnimatedContent(
+                    if (currentRoute == "main") "YouKon" else currentRouteTitle
+                ) { titleText ->
+                    Text(
+                        text = titleText,
+                        fontFamily = philosopherFont,
+                        fontWeight = FontWeight.Bold,
+                        style = MaterialTheme.typography.displaySmall
+                    )
+                }
             },
             navigationIcon = {
-                if (currentRoute != "main") {
+                AnimatedVisibility(currentRoute != "main") {
                     IconButton(onClick = { navController.navigateUp() }) {
                         Icon(
                             imageVector = Icons.Default.ArrowBack,
                             contentDescription = "Back"
                         )
                     }
-                } else {
+                }
+                AnimatedVisibility(currentRoute == "main") {
                     Image(
                         painter = painterResource(Res.drawable.icon_clearbackground),
                         contentDescription = "App icon",
@@ -164,9 +163,11 @@ class MainView(
                 }
             },
             actions = {
-                if (currentRoute == "main") {
-                    SettingsButton(navController)
-                    ActionButton(navController)
+                AnimatedVisibility(currentRoute == "main") {
+                    Row {
+                        SettingsButton(navController)
+                        ActionButton(navController)
+                    }
                 }
             },
             colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.Transparent)
@@ -210,45 +211,6 @@ class MainView(
                     "Show help"
                 }
             )
-        }
-    }
-
-    /// The onboarding screen will be shown on first app startup, or when user taps the help button
-    @Composable
-    fun Onboarding() {
-        onboardingScreenViewModel?.let {
-            OnboardingScreen(it).AsDialog()
-        }
-    }
-
-    @Composable
-    private fun SettingsDialog() {
-        if (mainViewModel.settingsScreenState.value != SettingsScreenState.HIDDEN) {
-            Dialog(
-                onDismissRequest = mainViewModel::hideSettings
-            ) {
-                SettingsBox()
-            }
-        }
-    }
-
-    @Composable
-    private fun SettingsBox() {
-        Box(
-            modifier = Modifier
-                .background(
-                    MaterialTheme.colorScheme.surfaceBright,
-                    MaterialTheme.shapes.large
-                )
-                .height(Constants.settingsBoxHeight)
-                .padding(Constants.mainContentPadding)
-        ) {
-            when (mainViewModel.settingsScreenState.value) {
-                SettingsScreenState.SETTINGS -> SettingsScreen()
-                SettingsScreenState.SIGN_IN -> SignInScreen()
-                SettingsScreenState.CREATE_ACCOUNT -> CreateAccountScreen()
-                else -> {}
-            }
         }
     }
 
