@@ -39,7 +39,7 @@
     <string name="sign_out">Sign out</string>
     <string name="delete_my_account">Delete my account</string>
     <string name="privacy_policy_button">Privacy Policy</string>
-    <string name="privacy_policy_url">ttps://www.iubenda.com/privacy-policy/70612955h</string>
+    <string name="privacy_policy_url">https://radcli14.github.io/youkon/privacypolicy/</string>
 
     <!-- Dialogs -->
     <string name="sign_out_title">Sign out?</string>
