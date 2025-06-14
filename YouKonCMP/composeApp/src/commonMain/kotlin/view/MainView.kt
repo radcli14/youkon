@@ -232,9 +232,9 @@ class MainView(
     private fun SignInScreen(navController: NavHostController) {
         loginViewModel?.let { viewModel ->
             LoginScreen(
-                openAndPopUp = { open, popup ->
+                openAndPopUp = { open, popup -> 
                     navController.navigate(open) {
-                        popUpTo(popup) { inclusive = true }
+                        popUpTo("main") { inclusive = false }
                     }
                 },
                 viewModel
