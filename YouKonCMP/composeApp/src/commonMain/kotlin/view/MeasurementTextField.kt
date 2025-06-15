@@ -30,6 +30,7 @@ import canBeInt
 import countSignificantDigits
 import numericValueEquals
 import toDoubleOrZeroOrNull
+import viewmodel.MeasurementTextFieldViewModel
 
 
 @Composable
@@ -41,76 +42,31 @@ fun MeasurementTextField(
     updateMeasurement: (Double) -> Unit,
     alignedContent: @Composable (Modifier) -> Unit
 ) {
-    var text by remember { mutableStateOf(TextFieldValue(initialText)) }
-    var significantDigits by remember { mutableStateOf(initialText.countSignificantDigits()) }
+    val viewModel = remember { MeasurementTextFieldViewModel(initialText) }
     var isFocused by remember { mutableStateOf(false) }
     val textStyle = MaterialTheme.typography.bodyLarge.copy(
         color = MaterialTheme.colorScheme.onSurface,
         fontWeight = FontWeight.SemiBold
     )
 
-    // Add this LaunchedEffect to update text while preserving cursor position when initialText changes, specifically if triggered by the switchSign
+    // Update text when initialText changes
     LaunchedEffect(initialText) {
-        val oldText = text.text
-        val newText = initialText
-        val oldCursorPos = text.selection.start
-
-        // Calculate new cursor position
-        val newCursorPos = when {
-            // If we added a minus sign, shift cursor right by 1
-            oldText.firstOrNull() != '-' && newText.firstOrNull() == '-' -> oldCursorPos + 1
-            // If we removed a negative sign, shift cursor left by 1
-            oldText.firstOrNull() == '-' && newText.firstOrNull() != '-' -> (oldCursorPos - 1).coerceAtLeast(0)
-            // Otherwise keep cursor at same position
-            else -> oldCursorPos
-        }
-
-        // Get an updated string, which adapts to whether or not the new string changes the numeric content of the original
-        val updatedText: String = when {
-            // Check whether the existing text would yield the same number, if so, don't change it.
-            newText.numericValueEquals(oldText) -> oldText
-            // Check whether the existing text included a decimal point. If it did not, and the update doesn't require a decimal point, convert it to an integer value.
-            !oldText.contains(".") && newText.canBeInt -> newText.substringBefore(".")
-            // For any other change, format with the current number of significant digits
-            else -> {
-                val newValue = newText.toDoubleOrZeroOrNull()
-                if (newValue != null) {
-                    // If the result is an integer, show it without decimal places
-                    if (newValue.rem(1.0) == 0.0) {
-                        newValue.toInt().toString()
-                    } else {
-                        newValue.formatWithSignificantDigits(significantDigits)
-                    }
-                } else {
-                    newText
-                }
-            }
-        }
-
-        // Update significant digits if this is a programmatic update (like x10)
-        if (newText != oldText) {
-            significantDigits = updatedText.countSignificantDigits()
-        }
-
-        text = TextFieldValue(
-            text = updatedText,
-            selection = TextRange(newCursorPos)
-        )
+        viewModel.updateText(initialText)
     }
 
     Column(modifier = modifier) {
         AnimatedVisibility(controlsAreAbove && isFocused) {
             MeasurementEditingControls(
                 onPlusMinusClick = {
-                    val currentValue = text.text.toDoubleOrZeroOrNull() ?: 0.0
+                    val currentValue = viewModel.text.text.toDoubleOrZeroOrNull() ?: 0.0
                     updateMeasurement(-currentValue)
                 },
                 onTimesTenClick = {
-                    val currentValue = text.text.toDoubleOrZeroOrNull() ?: 0.0
+                    val currentValue = viewModel.text.text.toDoubleOrZeroOrNull() ?: 0.0
                     updateMeasurement(currentValue * 10)
                 },
                 onDivideByTenClick = {
-                    val currentValue = text.text.toDoubleOrZeroOrNull() ?: 0.0
+                    val currentValue = viewModel.text.text.toDoubleOrZeroOrNull() ?: 0.0
                     updateMeasurement(currentValue / 10)
                 },
                 onClearValueClick = {
@@ -135,14 +91,12 @@ fun MeasurementTextField(
             }
 
             CustomDecimalTextField(
-                text,
+                viewModel.text,
                 textStyle,
                 Modifier.weight(1f).onFocusChanged { isFocused = it.hasFocus },
                 trailingIcon = trailingIcon
             ) { newText ->
-                text = newText
-                // Update significant digits on user input
-                significantDigits = newText.text.countSignificantDigits()
+                viewModel.updateText(newText.text, newText.selection.start)
                 newText.text.toDoubleOrZeroOrNull()?.let {
                     updateMeasurement(it)
                 }
@@ -154,15 +108,15 @@ fun MeasurementTextField(
         AnimatedVisibility(!controlsAreAbove && isFocused) {
             MeasurementEditingControls(
                 onPlusMinusClick = {
-                    val currentValue = text.text.toDoubleOrZeroOrNull() ?: 0.0
+                    val currentValue = viewModel.text.text.toDoubleOrZeroOrNull() ?: 0.0
                     updateMeasurement(-currentValue)
                 },
                 onTimesTenClick = {
-                    val currentValue = text.text.toDoubleOrZeroOrNull() ?: 0.0
+                    val currentValue = viewModel.text.text.toDoubleOrZeroOrNull() ?: 0.0
                     updateMeasurement(currentValue * 10)
                 },
                 onDivideByTenClick = {
-                    val currentValue = text.text.toDoubleOrZeroOrNull() ?: 0.0
+                    val currentValue = viewModel.text.text.toDoubleOrZeroOrNull() ?: 0.0
                     updateMeasurement(currentValue / 10)
                 },
                 onClearValueClick = {
