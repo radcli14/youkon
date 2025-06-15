@@ -45,14 +45,36 @@ class MeasurementTextFieldViewModel(
         )
         val oldSignificantDigits = significantDigits
 
+        // Get an updated string, which adapts to whether or not the new string changes the numeric content of the original
+        val updatedText: String = when {
+            // Check whether the existing text would yield the same number, if so, don't change it
+            newText.numericValueEquals(oldText) -> oldText
+            // Check whether the existing text included a decimal point. If it did not, and the update doesn't require a decimal point, convert it to an integer value
+            !oldText.contains(".") && newText.toDoubleOrZeroOrNull()?.rem(1.0) == 0.0 -> newText.substringBefore(".")
+            // For any other change, format with the current number of significant digits
+            else -> {
+                val newValue = newText.toDoubleOrZeroOrNull()
+                if (newValue != null) {
+                    // If the result is an integer, show it without decimal places
+                    if (newValue.rem(1.0) == 0.0) {
+                        newValue.toInt().toString()
+                    } else {
+                        newValue.formatWithSignificantDigits(significantDigits)
+                    }
+                } else {
+                    newText
+                }
+            }
+        }
+
         // Calculate new significant digits
-        val newSignificantDigits = newText.countSignificantDigits()
+        val newSignificantDigits = updatedText.countSignificantDigits()
 
         // Only update if the numeric value has changed
-        if (!oldText.numericValueEquals(newText) || oldSignificantDigits != newSignificantDigits) {
+        if (!oldText.numericValueEquals(updatedText) || oldSignificantDigits != newSignificantDigits) {
             significantDigits = newSignificantDigits
             _text.value = TextFieldValue(
-                text = newText,
+                text = updatedText,
                 selection = TextRange(oldCursorPos)
             )
         }
@@ -75,6 +97,7 @@ class MeasurementTextFieldViewModel(
             else -> oldCursorPos
         }.coerceIn(if (finalText.startsWith("-")) 1 else 0, finalText.length)
 
+        // Update text and preserve cursor position
         _text.value = TextFieldValue(
             text = finalText,
             selection = TextRange(newCursorPos)
@@ -124,4 +147,24 @@ class MeasurementTextFieldViewModel(
         }
         return formatted.trimEnd('0').trimEnd('.')
     }
+}
+
+private fun Double.formatWithSignificantDigits(digits: Int): String {
+    // Convert to string with maximum precision
+    val fullString = toString()
+    // Split by decimal point
+    val parts = fullString.split(".")
+    if (parts.size == 1) {
+        // No decimal point, just return the integer part
+        return parts[0]
+    }
+    // Has decimal point, format with specified digits but remove trailing zeros
+    val formatted = buildString {
+        append(parts[0])
+        append(".")
+        val decimalPart = parts[1]
+        val digitsToShow = minOf(digits - parts[0].length, decimalPart.length)
+        append(decimalPart.substring(0, digitsToShow))
+    }
+    return formatted.trimEnd('0').trimEnd('.')
 }
