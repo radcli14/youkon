@@ -39,7 +39,10 @@ class MeasurementTextFieldViewModel(
 
     fun updateText(newText: String, cursorPosition: Int = newText.length) {
         val oldText = text.text
-        val oldCursorPos = cursorPosition
+        val oldCursorPos = cursorPosition.coerceIn(
+            if (newText.startsWith("-")) 1 else 0,
+            newText.length
+        )
         val oldSignificantDigits = significantDigits
 
         // Calculate new significant digits
@@ -70,7 +73,7 @@ class MeasurementTextFieldViewModel(
             // If we removed a negative sign from the middle, adjust cursor position
             !text.contains("-") && oldCursorPos > 0 && text[oldCursorPos - 1] == '-' -> oldCursorPos - 1
             else -> oldCursorPos
-        }.coerceIn(0, finalText.length)
+        }.coerceIn(if (finalText.startsWith("-")) 1 else 0, finalText.length)
 
         _text.value = TextFieldValue(
             text = finalText,
