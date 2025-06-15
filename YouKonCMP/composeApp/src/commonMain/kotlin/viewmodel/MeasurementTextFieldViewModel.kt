@@ -11,11 +11,16 @@ import countSignificantDigits
 import numericValueEquals
 import toDoubleOrZeroOrNull
 
-class MeasurementTextFieldViewModel(initialText: String = ""): ViewModel() {
+class MeasurementTextFieldViewModel(
+    initialText: String = "",
+    private val updateMeasurement: (Double) -> Unit
+) : ViewModel() {
     var text by mutableStateOf(TextFieldValue(initialText))
+        private set
     var significantDigits by mutableStateOf(initialText.countSignificantDigits())
+        private set
 
-    fun updateText(newText: String, cursorPosition: Int? = null) {
+    fun updateText(newText: String, cursorPosition: Int = newText.length) {
         val oldText = text.text
         val oldCursorPos = cursorPosition ?: text.selection.start
 
@@ -60,6 +65,25 @@ class MeasurementTextFieldViewModel(initialText: String = ""): ViewModel() {
             text = updatedText,
             selection = TextRange(newCursorPos)
         )
+    }
+
+    fun handlePlusMinusClick() {
+        val currentValue = text.text.toDoubleOrZeroOrNull() ?: 0.0
+        updateMeasurement(-currentValue)
+    }
+
+    fun handleTimesTenClick() {
+        val currentValue = text.text.toDoubleOrZeroOrNull() ?: 0.0
+        updateMeasurement(currentValue * 10)
+    }
+
+    fun handleDivideByTenClick() {
+        val currentValue = text.text.toDoubleOrZeroOrNull() ?: 0.0
+        updateMeasurement(currentValue / 10)
+    }
+
+    fun handleClearValueClick() {
+        updateMeasurement(0.0)
     }
 }
 

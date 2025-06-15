@@ -42,7 +42,7 @@ fun MeasurementTextField(
     updateMeasurement: (Double) -> Unit,
     alignedContent: @Composable (Modifier) -> Unit
 ) {
-    val viewModel = remember { MeasurementTextFieldViewModel(initialText) }
+    val viewModel = remember { MeasurementTextFieldViewModel(initialText, updateMeasurement) }
     var isFocused by remember { mutableStateOf(false) }
     val textStyle = MaterialTheme.typography.bodyLarge.copy(
         color = MaterialTheme.colorScheme.onSurface,
@@ -57,21 +57,10 @@ fun MeasurementTextField(
     Column(modifier = modifier) {
         AnimatedVisibility(controlsAreAbove && isFocused) {
             MeasurementEditingControls(
-                onPlusMinusClick = {
-                    val currentValue = viewModel.text.text.toDoubleOrZeroOrNull() ?: 0.0
-                    updateMeasurement(-currentValue)
-                },
-                onTimesTenClick = {
-                    val currentValue = viewModel.text.text.toDoubleOrZeroOrNull() ?: 0.0
-                    updateMeasurement(currentValue * 10)
-                },
-                onDivideByTenClick = {
-                    val currentValue = viewModel.text.text.toDoubleOrZeroOrNull() ?: 0.0
-                    updateMeasurement(currentValue / 10)
-                },
-                onClearValueClick = {
-                    updateMeasurement(0.0)
-                }
+                onPlusMinusClick = viewModel::handlePlusMinusClick,
+                onTimesTenClick = viewModel::handleTimesTenClick,
+                onDivideByTenClick = viewModel::handleDivideByTenClick,
+                onClearValueClick = viewModel::handleClearValueClick
             )
         }
 
@@ -107,44 +96,13 @@ fun MeasurementTextField(
 
         AnimatedVisibility(!controlsAreAbove && isFocused) {
             MeasurementEditingControls(
-                onPlusMinusClick = {
-                    val currentValue = viewModel.text.text.toDoubleOrZeroOrNull() ?: 0.0
-                    updateMeasurement(-currentValue)
-                },
-                onTimesTenClick = {
-                    val currentValue = viewModel.text.text.toDoubleOrZeroOrNull() ?: 0.0
-                    updateMeasurement(currentValue * 10)
-                },
-                onDivideByTenClick = {
-                    val currentValue = viewModel.text.text.toDoubleOrZeroOrNull() ?: 0.0
-                    updateMeasurement(currentValue / 10)
-                },
-                onClearValueClick = {
-                    updateMeasurement(0.0)
-                }
+                onPlusMinusClick = viewModel::handlePlusMinusClick,
+                onTimesTenClick = viewModel::handleTimesTenClick,
+                onDivideByTenClick = viewModel::handleDivideByTenClick,
+                onClearValueClick = viewModel::handleClearValueClick
             )
         }
     }
-}
-
-fun Double.formatWithSignificantDigits(digits: Int): String {
-    // Convert to string with maximum precision
-    val fullString = toString()
-    // Split by decimal point
-    val parts = fullString.split(".")
-    if (parts.size == 1) {
-        // No decimal point, just return the integer part
-        return parts[0]
-    }
-    // Has decimal point, format with specified digits but remove trailing zeros
-    val formatted = buildString {
-        append(parts[0])
-        append(".")
-        val decimalPart = parts[1]
-        val digitsToShow = minOf(digits - parts[0].length, decimalPart.length)
-        append(decimalPart.substring(0, digitsToShow))
-    }
-    return formatted.trimEnd('0').trimEnd('.')
 }
 
 /// Intended to hold decimal field with additional buttons over top
@@ -190,8 +148,9 @@ fun CustomDecimalTextField(
         textStyle = textStyle.copy(textAlign = TextAlign.End),
         shape = MaterialTheme.shapes.medium,
         colors = OutlinedTextFieldDefaults.colors(
-            unfocusedContainerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.69f),
-            unfocusedBorderColor = Color.Transparent
+            unfocusedContainerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.33f),
+            unfocusedBorderColor = Color.Transparent,
+            focusedContainerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.69f)
         )
     )
 }
