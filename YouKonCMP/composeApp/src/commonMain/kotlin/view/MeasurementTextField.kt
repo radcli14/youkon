@@ -159,7 +159,14 @@ fun Double.formatWithSignificantDigits(digits: Int): String {
         return parts[0]
     }
     // Has decimal point, format with specified digits but remove trailing zeros
-    return "%.${digits}f".format(this).trimEnd('0').trimEnd('.')
+    val formatted = buildString {
+        append(parts[0])
+        append(".")
+        val decimalPart = parts[1]
+        val digitsToShow = minOf(digits - parts[0].length, decimalPart.length)
+        append(decimalPart.substring(0, digitsToShow))
+    }
+    return formatted.trimEnd('0').trimEnd('.')
 }
 
 /// Intended to hold decimal field with additional buttons over top
