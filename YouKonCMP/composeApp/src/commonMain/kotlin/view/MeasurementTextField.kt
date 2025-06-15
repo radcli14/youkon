@@ -18,7 +18,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
@@ -26,10 +25,6 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import canBeInt
-import countSignificantDigits
-import numericValueEquals
-import toDoubleOrZeroOrNull
 import viewmodel.MeasurementTextFieldViewModel
 
 
@@ -42,7 +37,7 @@ fun MeasurementTextField(
     updateMeasurement: (Double) -> Unit,
     alignedContent: @Composable (Modifier) -> Unit
 ) {
-    val viewModel = remember { MeasurementTextFieldViewModel(initialText, updateMeasurement) }
+    val viewModel = remember { MeasurementTextFieldViewModel(initialText, updateMeasurement, unitText) }
     var isFocused by remember { mutableStateOf(false) }
     val textStyle = MaterialTheme.typography.bodyLarge.copy(
         color = MaterialTheme.colorScheme.onSurface,
@@ -68,28 +63,13 @@ fun MeasurementTextField(
             horizontalArrangement = Arrangement.spacedBy(8.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            var trailingIcon: @Composable (() -> Unit)? = null
-            unitText?.let {
-                trailingIcon = {
-                    TextWithSubscripts(
-                        it,
-                        style = textStyle,
-                        color = MaterialTheme.colorScheme.onSurface
-                    )
-                }
-            }
-
             CustomDecimalTextField(
                 viewModel.text,
                 textStyle,
                 Modifier.weight(1f).onFocusChanged { isFocused = it.hasFocus },
-                trailingIcon = trailingIcon
-            ) { newText ->
-                viewModel.updateText(newText.text, newText.selection.start)
-                newText.text.toDoubleOrZeroOrNull()?.let {
-                    updateMeasurement(it)
-                }
-            }
+                trailingIcon = { viewModel.TrailingIcon(textStyle) },
+                onValueChange = viewModel::handleTextChange
+            )
 
             alignedContent(Modifier.weight(1f))
         }
@@ -123,28 +103,7 @@ fun CustomDecimalTextField(
             imeAction = ImeAction.Done
         ),
         singleLine = true,
-        onValueChange = { newText ->
-            // Ensure negative sign is at the start
-            val text = newText.text
-            val hasNegativeSign = text.contains("-")
-            val withoutNegative = text.replace("-", "")
-            val finalText = if (hasNegativeSign) "-$withoutNegative" else withoutNegative
-
-            // Preserve cursor position
-            val oldCursorPos = newText.selection.start
-            val newCursorPos = when {
-                // If we moved the negative sign to the start, adjust cursor position
-                text.contains("-") && text.first() != '-' -> oldCursorPos - 1
-                // If we removed a negative sign from the middle, adjust cursor position
-                !text.contains("-") && oldCursorPos > 0 && text[oldCursorPos - 1] == '-' -> oldCursorPos - 1
-                else -> oldCursorPos
-            }.coerceIn(0, finalText.length)
-
-            onValueChange(TextFieldValue(
-                text = finalText,
-                selection = TextRange(newCursorPos)
-            ))
-        },
+        onValueChange = onValueChange,
         textStyle = textStyle.copy(textAlign = TextAlign.End),
         shape = MaterialTheme.shapes.medium,
         colors = OutlinedTextFieldDefaults.colors(
