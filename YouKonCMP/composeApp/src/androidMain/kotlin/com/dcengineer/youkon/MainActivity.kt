@@ -55,8 +55,14 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        // Initialize authentication with Google Firebase
-        Firebase.initialize(this)
+        
+        try {
+            // Initialize authentication with Google Firebase
+            Firebase.initialize(this)
+        } catch (e: Exception) {
+            Log.e(tag, "Failed to initialize Firebase: ${e.message}")
+            // Continue without Firebase - the app will work in offline mode
+        }
 
         // Get saved state of the quick convert card from last time the app was open
         val sharedPref = getPreferences(Context.MODE_PRIVATE) ?: return
@@ -70,8 +76,6 @@ class MainActivity : ComponentActivity() {
         // Specify whether the onboarding screen displays in wide (tablet) or narrow form (phones)
         val manager = getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
         onboardingScreenViewModel.isWide = manager.phoneType == TelephonyManager.PHONE_TYPE_NONE
-
-        Firebase.initialize(this)
 
         enableEdgeToEdge()
 

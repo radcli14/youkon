@@ -65,20 +65,14 @@ class ProjectsCardViewModel(
     /// Update the public list of `YkProject` items by assuring that the Kotlin version is Swift formatted
     fun updateProjects() {
         Log.d(tag, "updateProjects called in ProjectsCardViewModel")
-        user.value.projects.forEachIndexed { idx, project ->
-            val idxInState = projects.indexOf(project)
-            if (idxInState == -1) {
-                // Did not find this project in the state list of projects, add it here
-                projects.add(idx, project)
-            } else if (idx != idxInState) {
-                // Found this project, but it was at the wrong location, move it here
-                projects.removeAt(idxInState)
-                projects.add(idx, project)
-            }
+        // Clear existing projects
+        projects.clear()
+        
+        // Add all projects from user
+        user.value.projects.forEach { project ->
+            projects.add(project)
         }
-
-        // Remove any projects from the state list that don\'t exist in the user
-        projects.removeAll { project -> user.value.projects.indexOf(project) == -1 }
+        
         Log.d(tag, "updateProjects: Final projects (SnapshotStateList) = ${projects.map { it.name }}")
     }
 

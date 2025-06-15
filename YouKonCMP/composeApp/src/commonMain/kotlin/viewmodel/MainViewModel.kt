@@ -87,37 +87,86 @@ class MainViewModel(
     }
 
     private suspend fun collectAccountService() {
-        // When a user is emitted by Firebase, update our user with that list
-        account?.currentUser?.collect { accountUser ->
-            // Update ID and name using what was emitted by Firebase
-            Log.d(tag, "collectAccountService, accountUser = $accountUser")
-            user.value.id = account.currentUserId
-            user.value.isAnonymous = accountUser.isAnonymous
-            user.value.projects.forEach { project -> project.userId = account.currentUserId }
-            user.value.name = account.currentUserName
-
-            // If available, update with projects from the Firebase Firestore
-            if (!accountUser.isAnonymous) {
-                Log.d(tag, "user is not anonymous, trying cloudStorage.getUser")
-                cloudStorage?.getUser(accountUser.id)?.let { storageUser ->
-                    Log.d(tag, "storageUser from accountUser -> ${storageUser.summary}")
-                    user.value = storageUser
-                    projectsCardViewModel.value = ProjectsCardViewModel(
-                        user = user,
-                        onSaveUserToJson = { saveUserToJson() },
-                        onUpdateMainProject = { updatedProject ->
-                            if (project.value?.id == updatedProject.id) {
-                                project.value = updatedProject
-                            }
-                        }
+        try {
+            // When a user is emitted by Firebase, update our user with that list
+            account?.currentUser?.collect { accountUser ->
+                try {
+                    // Update ID and name using what was emitted by Firebase
+                    Log.d(tag, "collectAccountService, accountUser = $accountUser")
+                    
+                    // Create a new user state
+                    val newUser = YkUser(
+                        id = account.currentUserId,
+                        name = account.currentUserName,
+                        isAnonymous = accountUser.isAnonymous,
+                        projects = mutableListOf()
                     )
-                    saveUserToJson()
+                    
+                    // Update user state
+                    user.value = newUser
+                    
+                    // If available, update with projects from the Firebase Firestore
+                    if (!accountUser.isAnonymous) {
+                        try {
+                            Log.d(tag, "user is not anonymous, trying cloudStorage.getUser")
+                            val storageUser = cloudStorage?.getUser(accountUser.id)
+                            if (storageUser != null) {
+                                Log.d(tag, "Got storage user: ${storageUser.summary}")
+                                user.value = storageUser
+                                
+                                // Create a new ProjectsCardViewModel with the updated user
+                                projectsCardViewModel.value = ProjectsCardViewModel(
+                                    user = user,
+                                    onSaveUserToJson = { saveUserToJson() },
+                                    onUpdateMainProject = { updatedProject ->
+                                        if (project.value?.id == updatedProject.id) {
+                                            project.value = updatedProject
+                                        }
+                                    }
+                                )
+                                
+                                // Force update the projects list
+                                projectsCardViewModel.value.updateProjects()
+                                saveUserToJson()
+                            } else {
+                                Log.e(tag, "Failed to get user from cloud storage - null result")
+                            }
+                        } catch (e: Exception) {
+                            Log.e(tag, "Failed to get user from cloud storage: ${e.message}")
+                            // Create a new ProjectsCardViewModel even for local data
+                            projectsCardViewModel.value = ProjectsCardViewModel(
+                                user = user,
+                                onSaveUserToJson = { saveUserToJson() },
+                                onUpdateMainProject = { updatedProject ->
+                                    if (project.value?.id == updatedProject.id) {
+                                        project.value = updatedProject
+                                    }
+                                }
+                            )
+                            projectsCardViewModel.value.updateProjects()
+                        }
+                    } else {
+                        Log.d(tag, "user is anonymous")
+                        // Create a new ProjectsCardViewModel for anonymous user
+                        projectsCardViewModel.value = ProjectsCardViewModel(
+                            user = user,
+                            onSaveUserToJson = { saveUserToJson() },
+                            onUpdateMainProject = { updatedProject ->
+                                if (project.value?.id == updatedProject.id) {
+                                    project.value = updatedProject
+                                }
+                            }
+                        )
+                        projectsCardViewModel.value.updateProjects()
+                    }
+                } catch (e: Exception) {
+                    Log.e(tag, "Error processing account user: ${e.message}")
+                    // Continue with local data
                 }
-            } else {
-                Log.d(tag, "user is anonymous")
-                user.value.projects.clear()
-                projectsCardViewModel.value.updateProjects()
             }
+        } catch (e: Exception) {
+            Log.e(tag, "Error in collectAccountService: ${e.message}")
+            // Continue with local data
         }
     }
 
@@ -169,8 +218,23 @@ class MainViewModel(
     fun deleteProjectFromCloud(project: YkProject) {
         cloudStorage?.let { storage ->
             viewModelScope.launch {
-                Log.d(tag, "Deleting ${project.name} from cloud")
-                storage.delete(user.value, project.id)
+                try {
+                    // Only try to delete from cloud if the project has a userId (meaning it's been synced)
+                    if (project.userId.isNotEmpty()) {
+                        Log.d(tag, "Deleting ${project.name} from cloud")
+                        storage.delete(user.value, project.id)
+                    } else {
+                        Log.e(tag, "Project ${project.name} not yet synced to cloud, skipping cloud delete")
+                    }
+                } catch (e: Exception) {
+                    Log.d(tag, "Failed to delete project from cloud: ${e.message}")
+                } finally {
+                    // Always remove from local state
+                    val newProjects = user.value.projects.toMutableList()
+                    newProjects.removeAll { p -> p.id == project.id }
+                    user.value = user.value.copy(projects = newProjects)
+                    saveUserToJson()
+                }
             }
         }
     }

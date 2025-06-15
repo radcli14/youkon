@@ -96,18 +96,55 @@ class StorageServiceImpl(
         userCollectionDocument(userId)?.exists ?: false
 
     override suspend fun getUser(userId: String): YkUser {
-        val name = userCollectionDocument(userId)?.data(YkUser.Compact.serializer())?.name ?: ""
-        val projects = getUserProjects(userId)
-        return YkUser(name, projects, isAnonymous = name.isEmpty(), userId)
+        Log.d(tag, "getUser called for userId: $userId")
+        try {
+            val userDoc = userCollectionDocument(userId)
+            if (userDoc == null) {
+                Log.e(tag, "No user document found for userId: $userId")
+                return YkUser(name = "", projects = mutableListOf(), isAnonymous = true, id = userId)
+            }
+
+            val name = userDoc.data(YkUser.Compact.serializer())?.name ?: ""
+            Log.d(tag, "Found user document with name: $name")
+            
+            val projects = getUserProjects(userId)
+            Log.d(tag, "Retrieved ${projects.size} projects for user")
+            
+            return YkUser(name, projects, isAnonymous = name.isEmpty(), userId)
+        } catch (e: Exception) {
+            Log.e(tag, "Error getting user data: ${e.message}")
+            return YkUser(name = "", projects = mutableListOf(), isAnonymous = true, id = userId)
+        }
     }
 
     override suspend fun getUserProjects(userId: String): MutableList<YkProject> {
-        userCollectionDocument(userId)?.data(YkUser.Compact.serializer())?.let { compactUser ->
-            return compactUser.projectIds.map { projectId ->
-                getProject(compactUser.name, projectId)
+        Log.d(tag, "getUserProjects called for userId: $userId")
+        try {
+            val userDoc = userCollectionDocument(userId)
+            if (userDoc == null) {
+                Log.e(tag, "No user document found for userId: $userId")
+                return mutableListOf()
+            }
+
+            val compactUser = userDoc.data(YkUser.Compact.serializer())
+            if (compactUser == null) {
+                Log.e(tag, "Could not parse user document for userId: $userId")
+                return mutableListOf()
+            }
+
+            Log.d(tag, "Found ${compactUser.projectIds.size} project IDs for user")
+            return compactUser.projectIds.mapNotNull { projectId ->
+                try {
+                    getProject(compactUser.name, projectId)
+                } catch (e: Exception) {
+                    Log.e(tag, "Error getting project $projectId: ${e.message}")
+                    null
+                }
             }.toMutableList()
+        } catch (e: Exception) {
+            Log.e(tag, "Error getting user projects: ${e.message}")
+            return mutableListOf()
         }
-        return mutableListOf()
     }
 
     override suspend fun save(user: YkUser, project: YkProject): String =
