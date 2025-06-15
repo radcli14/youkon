@@ -16,7 +16,8 @@ import youkon.composeapp.generated.resources.recovery_email_sent
 
 data class LoginUiState(
     val email: String = "",
-    val password: String = ""
+    val password: String = "",
+    val isLoading: Boolean = false
 )
 
 class LoginViewModel(
@@ -51,9 +52,14 @@ class LoginViewModel(
             return
         }
 
+        uiState.value = uiState.value.copy(isLoading = true)
         launchCatching {
-            accountService.authenticate(email, password)
-            openAndPopUp(SETTINGS_SCREEN, LOGIN_SCREEN)
+            try {
+                accountService.authenticate(email, password)
+                openAndPopUp(SETTINGS_SCREEN, LOGIN_SCREEN)
+            } finally {
+                uiState.value = uiState.value.copy(isLoading = false)
+            }
         }
     }
 

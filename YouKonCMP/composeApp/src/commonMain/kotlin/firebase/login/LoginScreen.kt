@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
@@ -14,6 +15,7 @@ import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -63,59 +65,6 @@ fun LoginScreen(
         onSignInClick = { viewModel.onSignInClick(openAndPopUp) },
         onForgotPasswordClick = viewModel::onForgotPasswordClick
     )
-
-    // Below this line, pending deletion as I get the above up and running
-    /*
-    val scope = rememberCoroutineScope()
-    val auth = remember { Firebase.auth }
-    var firebaseUser: FirebaseUser? by remember { mutableStateOf(null) }
-    var userEmail by remember { mutableStateOf("") }
-    var userPassword by remember { mutableStateOf("") }
-
-    if (firebaseUser == null) {
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(24.dp)
-                .background(MaterialTheme.colorScheme.background),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            TextField(
-                value = userEmail,
-                onValueChange = { userEmail = it },
-                placeholder = { Text(text = "Email Address") }
-            )
-            Spacer(modifier = Modifier.height(12.dp))
-            TextField(
-                value = userPassword,
-                onValueChange = { userPassword = it },
-                placeholder = { Text(text = "Password") },
-                visualTransformation = PasswordVisualTransformation()
-            )
-            Spacer(modifier = Modifier.height(24.dp))
-            Button(onClick = {
-                scope.launch {
-                    firebaseUser = try {
-                        auth.createUserWithEmailAndPassword(
-                            email = userEmail,
-                            password = userPassword
-                        ).user
-                    } catch (e: Exception) {
-                        auth.signInWithEmailAndPassword(
-                            email = userEmail,
-                            password = userPassword
-                        ).user
-                    }
-                }
-            }) {
-                Text(text = "Sign in")
-            }
-        }
-    } else {
-        Text(firebaseUser!!.uid, modifier = Modifier.background(MaterialTheme.colorScheme.primaryContainer))
-    }
-    */
 }
 
 @Composable
@@ -141,7 +90,12 @@ fun LoginScreenContent(
         )
         EmailField(uiState.email, onEmailChange, Modifier.fieldModifier())
         PasswordField(uiState.password, onPasswordChange, Modifier.fieldModifier())
-        BasicButton(Res.string.sign_in, Modifier.basicButton()) { onSignInClick() }
+        BasicButton(
+            text = Res.string.sign_in,
+            modifier = Modifier.basicButton(),
+            action = onSignInClick,
+            isLoading = uiState.isLoading
+        )
         BasicTextButton(Res.string.forgot_password, Modifier.textButton()) {
             onForgotPasswordClick()
         }
@@ -161,13 +115,11 @@ fun EmailField(value: String, onNewValue: (String) -> Unit, modifier: Modifier =
     )
 }
 
-@OptIn(ExperimentalResourceApi::class)
 @Composable
 fun PasswordField(value: String, onNewValue: (String) -> Unit, modifier: Modifier = Modifier) {
     PasswordField(value, Res.string.password, onNewValue, modifier)
 }
 
-@OptIn(ExperimentalResourceApi::class)
 @Composable
 fun RepeatPasswordField(
     value: String,
@@ -216,17 +168,25 @@ fun BasicTextButton(text: StringResource, modifier: Modifier, action: () -> Unit
 }
 
 @Composable
-fun BasicButton(text: StringResource, modifier: Modifier, action: () -> Unit) {
+fun BasicButton(text: StringResource, modifier: Modifier, action: () -> Unit, isLoading: Boolean = false) {
     Button(
         onClick = action,
         modifier = modifier,
-        colors =
-        ButtonDefaults.buttonColors().copy(
+        enabled = !isLoading,
+        colors = ButtonDefaults.buttonColors().copy(
             containerColor = MaterialTheme.colorScheme.primary,
             contentColor = MaterialTheme.colorScheme.onPrimary
         )
     ) {
-        Text(text = stringResource(text), fontSize = 16.sp)
+        if (isLoading) {
+            CircularProgressIndicator(
+                modifier = Modifier.size(24.dp),
+                color = MaterialTheme.colorScheme.onPrimary,
+                strokeWidth = 2.dp
+            )
+        } else {
+            Text(text = stringResource(text), fontSize = 16.sp)
+        }
     }
 }
 
