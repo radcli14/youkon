@@ -1,16 +1,13 @@
 package view
 
-import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.requiredHeightIn
-import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -20,6 +17,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusChanged
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -28,9 +26,11 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.layout.AlignmentLine
-import androidx.compose.ui.layout.FirstBaseline
-import androidx.compose.ui.layout.layout
+import canBeInt
+import countSignificantDigits
+import numericValueEquals
+import toDoubleOrZeroOrNull
+
 
 @Composable
 fun MeasurementTextField(
@@ -121,41 +121,34 @@ fun MeasurementTextField(
 
         Row(
             horizontalArrangement = Arrangement.spacedBy(8.dp),
-            verticalAlignment = Alignment.Bottom
+            verticalAlignment = Alignment.CenterVertically
         ) {
-            Surface(
-                color = grayBackground.copy(alpha = 0.55f),
-                shape = MaterialTheme.shapes.medium,
-                modifier = Modifier.weight(1f).requiredHeightIn(40.dp)
-            ) {
-                Row(
-                    horizontalArrangement = Arrangement.spacedBy(8.dp),
-                    verticalAlignment = Alignment.Bottom,
-                    modifier = Modifier.alignByBaseline().padding(horizontal = 8.dp)
-                ) {
-                    CustomDecimalTextField(
-                        text,
-                        textStyle,
-                        Modifier.alignByBaseline().weight(1f).onFocusChanged { isFocused = it.hasFocus }
-                    ) { newText ->
-                        text = newText
-                        // Update significant digits on user input
-                        significantDigits = newText.text.countSignificantDigits()
-                        newText.text.toDoubleOrZeroOrNull()?.let {
-                            updateMeasurement(it)
-                        }
-                    }
-                    unitText?.let {
-                        TextWithSubscripts(it,
-                            modifier = Modifier.alignByBaseline(),
-                            style = textStyle,
-                            color = MaterialTheme.colorScheme.onSurface
-                        )
-                    }
+            var trailingIcon: @Composable (() -> Unit)? = null
+            unitText?.let {
+                trailingIcon = {
+                    TextWithSubscripts(
+                        it,
+                        style = textStyle,
+                        color = MaterialTheme.colorScheme.onSurface
+                    )
                 }
             }
 
-            alignedContent(Modifier.alignByBaseline().weight(1f))
+            CustomDecimalTextField(
+                text,
+                textStyle,
+                Modifier.weight(1f).onFocusChanged { isFocused = it.hasFocus },
+                trailingIcon = trailingIcon
+            ) { newText ->
+                text = newText
+                // Update significant digits on user input
+                significantDigits = newText.text.countSignificantDigits()
+                newText.text.toDoubleOrZeroOrNull()?.let {
+                    updateMeasurement(it)
+                }
+            }
+
+            alignedContent(Modifier.weight(1f))
         }
 
         AnimatedVisibility(!controlsAreAbove && isFocused) {
@@ -178,36 +171,6 @@ fun MeasurementTextField(
             )
         }
     }
-}
-
-fun String.toDoubleOrZeroOrNull(): Double? {
-    // First check if this can be converted to a double
-    toDoubleOrNull()?.let { return it }
-    // Otherwise see if this is blank, or a negative sign, which we assume is equivalent to zero
-    if (isBlank() || this == "-") { return 0.0 }
-    // Fall through, return null
-    return null
-}
-
-fun String.numericValueEquals(other: String): Boolean {
-    return this.toDoubleOrZeroOrNull() == other.toDoubleOrZeroOrNull()
-}
-
-val String.canBeInt: Boolean get() {
-    return toDoubleOrZeroOrNull()?.rem(1.0) == 0.0
-}
-
-fun String.countSignificantDigits(): Int {
-    // Remove any negative sign
-    val withoutSign = replace("-", "")
-    // Split by decimal point
-    val parts = withoutSign.split(".")
-    if (parts.size == 1) {
-        // No decimal point, count all digits
-        return parts[0].length
-    }
-    // Has decimal point, count all digits
-    return parts[0].length + parts[1].length
 }
 
 fun Double.formatWithSignificantDigits(digits: Int): String {
@@ -236,10 +199,12 @@ fun CustomDecimalTextField(
     value: TextFieldValue,
     textStyle: TextStyle,
     modifier: Modifier,
+    trailingIcon: @Composable (() -> Unit)? = null,
     onValueChange: (TextFieldValue) -> Unit,
 ) {
-    BasicTextField(
+    OutlinedTextField(
         value = value,
+        trailingIcon = trailingIcon,
         modifier = modifier,
         keyboardOptions = KeyboardOptions(
             keyboardType = KeyboardType.Decimal,
@@ -269,5 +234,10 @@ fun CustomDecimalTextField(
             ))
         },
         textStyle = textStyle.copy(textAlign = TextAlign.End),
+        shape = MaterialTheme.shapes.medium,
+        colors = OutlinedTextFieldDefaults.colors(
+            unfocusedContainerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.69f),
+            unfocusedBorderColor = Color.Transparent
+        )
     )
 }
