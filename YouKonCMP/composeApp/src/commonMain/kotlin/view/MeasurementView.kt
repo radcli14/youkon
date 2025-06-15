@@ -81,6 +81,7 @@ class MeasurementView(
             MeasurementTextField(
                 initialText = vm.value.value.toString(),
                 modifier = Modifier.weight(1f),
+                controlsAreAbove = true,
                 updateMeasurement = { vm.updateValue(it) }
             )
             UnitDropdown(

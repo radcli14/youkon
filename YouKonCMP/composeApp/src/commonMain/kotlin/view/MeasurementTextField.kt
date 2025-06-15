@@ -32,6 +32,7 @@ fun MeasurementTextField(
     initialText: String,
     modifier: Modifier = Modifier,
     unitText: String? = null,
+    controlsAreAbove: Boolean = false,
     updateMeasurement: (Double) -> Unit
 ) {
     var text by remember { mutableStateOf(TextFieldValue(initialText)) }
@@ -92,8 +93,7 @@ fun MeasurementTextField(
     }
 
     Column(modifier = modifier) {
-        // Show editing controls when focused
-        if (isFocused) {
+        if (controlsAreAbove && isFocused) {
             MeasurementEditingControls(
                 onPlusMinusClick = {
                     val currentValue = text.text.toDoubleOrZeroOrNull() ?: 0.0
@@ -143,6 +143,26 @@ fun MeasurementTextField(
                     )
                 }
             }
+        }
+
+        if (!controlsAreAbove && isFocused) {
+            MeasurementEditingControls(
+                onPlusMinusClick = {
+                    val currentValue = text.text.toDoubleOrZeroOrNull() ?: 0.0
+                    updateMeasurement(-currentValue)
+                },
+                onTimesTenClick = {
+                    val currentValue = text.text.toDoubleOrZeroOrNull() ?: 0.0
+                    updateMeasurement(currentValue * 10)
+                },
+                onDivideByTenClick = {
+                    val currentValue = text.text.toDoubleOrZeroOrNull() ?: 0.0
+                    updateMeasurement(currentValue / 10)
+                },
+                onClearValueClick = {
+                    updateMeasurement(0.0)
+                }
+            )
         }
     }
 }
