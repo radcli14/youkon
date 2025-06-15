@@ -1,6 +1,5 @@
 package view
 
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -8,13 +7,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.unit.dp
 import model.YkMeasurement
 import viewmodel.MeasurementViewModel
@@ -82,16 +78,18 @@ class MeasurementView(
                 initialText = vm.value.value.toString(),
                 modifier = Modifier.weight(1f),
                 controlsAreAbove = true,
-                updateMeasurement = { vm.updateValue(it) }
+                updateMeasurement = { vm.updateValue(it) },
+                alignedContent = { alignedModifier ->
+                    UnitDropdown(
+                        unit = vm.unit.value,
+                        availableUnits = vm.unit.value.allUnits,
+                        isNested = true,
+                        includeUnitless = true,
+                        modifier = alignedModifier,
+                        onClick = { it?.let { vm.updateUnit(it) } }
+                    ).Body()
+                }
             )
-            UnitDropdown(
-                unit = vm.unit.value,
-                availableUnits = vm.unit.value.allUnits,
-                isNested = true,
-                includeUnitless = true,
-                modifier = Modifier.weight(1f),
-                onClick = { it?.let { vm.updateUnit(it) } }
-            ).Body()
         }
     }
 }

@@ -1,10 +1,8 @@
 package view
 
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.MaterialTheme
@@ -16,7 +14,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
-import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import viewmodel.QuickConvertCardViewModel
@@ -80,7 +77,8 @@ class QuickConvertCard(
             horizontalArrangement = Arrangement.spacedBy(8.dp),
             verticalAlignment = Alignment.Bottom,
         ) {
-            TextField(
+            TextField(modifier = Modifier.onboardingModifier(QuickConvertViews.VALUE))
+            /*TextField(
                 modifier = Modifier
                     .onboardingModifier(QuickConvertViews.VALUE)
                     .weight(1f)
@@ -91,7 +89,7 @@ class QuickConvertCard(
                     .onboardingModifier(QuickConvertViews.CONVERTED)
                     .weight(1f)
                     .alignByBaseline()
-            )
+            )*/
         }
     }
 
@@ -130,7 +128,10 @@ class QuickConvertCard(
             initialText = data.value.toString(),
             unitText = data.unit.shortUnit,
             modifier = modifier,
-            updateMeasurement = { vm.updateValue(it) }
+            updateMeasurement = { vm.updateValue(it) },
+            alignedContent = { alignedModifier ->
+                ConvertedText(alignedModifier.onboardingModifier(QuickConvertViews.CONVERTED))
+            }
         )
     }
 

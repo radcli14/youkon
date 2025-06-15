@@ -1,5 +1,7 @@
 package view
 
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -26,6 +28,9 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.layout.AlignmentLine
+import androidx.compose.ui.layout.FirstBaseline
+import androidx.compose.ui.layout.layout
 
 @Composable
 fun MeasurementTextField(
@@ -33,7 +38,8 @@ fun MeasurementTextField(
     modifier: Modifier = Modifier,
     unitText: String? = null,
     controlsAreAbove: Boolean = false,
-    updateMeasurement: (Double) -> Unit
+    updateMeasurement: (Double) -> Unit,
+    alignedContent: @Composable (Modifier) -> Unit
 ) {
     var text by remember { mutableStateOf(TextFieldValue(initialText)) }
     var significantDigits by remember { mutableStateOf(initialText.countSignificantDigits()) }
@@ -93,7 +99,7 @@ fun MeasurementTextField(
     }
 
     Column(modifier = modifier) {
-        if (controlsAreAbove && isFocused) {
+        AnimatedVisibility(controlsAreAbove && isFocused) {
             MeasurementEditingControls(
                 onPlusMinusClick = {
                     val currentValue = text.text.toDoubleOrZeroOrNull() ?: 0.0
@@ -113,39 +119,46 @@ fun MeasurementTextField(
             )
         }
 
-        // This is the surface surrounding the text field itself
-        Surface(
-            color = grayBackground.copy(alpha = 0.55f),
-            shape = MaterialTheme.shapes.medium
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            verticalAlignment = Alignment.Bottom
         ) {
-            Row(
-                horizontalArrangement = Arrangement.spacedBy(8.dp),
-                verticalAlignment = Alignment.Bottom,
-                modifier = Modifier.padding(horizontal = 8.dp)
+            Surface(
+                color = grayBackground.copy(alpha = 0.55f),
+                shape = MaterialTheme.shapes.medium,
+                modifier = Modifier.weight(1f).requiredHeightIn(40.dp)
             ) {
-                CustomDecimalTextField(
-                    text,
-                    textStyle,
-                    Modifier.alignByBaseline().weight(1f).onFocusChanged { isFocused = it.hasFocus }
-                ) { newText ->
-                    text = newText
-                    // Update significant digits on user input
-                    significantDigits = newText.text.countSignificantDigits()
-                    newText.text.toDoubleOrZeroOrNull()?.let {
-                        updateMeasurement(it)
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    verticalAlignment = Alignment.Bottom,
+                    modifier = Modifier.alignByBaseline().padding(horizontal = 8.dp)
+                ) {
+                    CustomDecimalTextField(
+                        text,
+                        textStyle,
+                        Modifier.alignByBaseline().weight(1f).onFocusChanged { isFocused = it.hasFocus }
+                    ) { newText ->
+                        text = newText
+                        // Update significant digits on user input
+                        significantDigits = newText.text.countSignificantDigits()
+                        newText.text.toDoubleOrZeroOrNull()?.let {
+                            updateMeasurement(it)
+                        }
+                    }
+                    unitText?.let {
+                        TextWithSubscripts(it,
+                            modifier = Modifier.alignByBaseline(),
+                            style = textStyle,
+                            color = MaterialTheme.colorScheme.onSurface
+                        )
                     }
                 }
-                unitText?.let {
-                    TextWithSubscripts(it,
-                        modifier = Modifier.alignByBaseline(),
-                        style = textStyle,
-                        color = MaterialTheme.colorScheme.onSurface
-                    )
-                }
             }
+
+            alignedContent(Modifier.alignByBaseline().weight(1f))
         }
 
-        if (!controlsAreAbove && isFocused) {
+        AnimatedVisibility(!controlsAreAbove && isFocused) {
             MeasurementEditingControls(
                 onPlusMinusClick = {
                     val currentValue = text.text.toDoubleOrZeroOrNull() ?: 0.0
@@ -227,7 +240,7 @@ fun CustomDecimalTextField(
 ) {
     BasicTextField(
         value = value,
-        modifier = modifier.requiredHeightIn(40.dp).padding(top = 9.dp, bottom = 7.dp),
+        modifier = modifier,
         keyboardOptions = KeyboardOptions(
             keyboardType = KeyboardType.Decimal,
             imeAction = ImeAction.Done
