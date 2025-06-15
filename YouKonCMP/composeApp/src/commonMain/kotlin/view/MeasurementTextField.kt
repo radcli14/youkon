@@ -124,7 +124,6 @@ fun CustomDecimalTextField(
     modifier: Modifier,
     onValueChange: (TextFieldValue) -> Unit,
 ) {
-
     BasicTextField(
         value = value,
         modifier = modifier.requiredHeightIn(40.dp).padding(top = 9.dp, bottom = 7.dp),
@@ -134,7 +133,26 @@ fun CustomDecimalTextField(
         ),
         singleLine = true,
         onValueChange = { newText ->
-            onValueChange(newText)
+            // Ensure negative sign is at the start
+            val text = newText.text
+            val hasNegativeSign = text.contains("-")
+            val withoutNegative = text.replace("-", "")
+            val finalText = if (hasNegativeSign) "-$withoutNegative" else withoutNegative
+            
+            // Preserve cursor position
+            val oldCursorPos = newText.selection.start
+            val newCursorPos = when {
+                // If we moved the negative sign to the start, adjust cursor position
+                text.contains("-") && text.first() != '-' -> oldCursorPos - 1
+                // If we removed a negative sign from the middle, adjust cursor position
+                !text.contains("-") && oldCursorPos > 0 && text[oldCursorPos - 1] == '-' -> oldCursorPos - 1
+                else -> oldCursorPos
+            }.coerceIn(0, finalText.length)
+
+            onValueChange(TextFieldValue(
+                text = finalText,
+                selection = TextRange(newCursorPos)
+            ))
         },
         textStyle = textStyle.copy(textAlign = TextAlign.End),
     )
