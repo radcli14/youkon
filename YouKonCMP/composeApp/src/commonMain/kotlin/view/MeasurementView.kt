@@ -40,7 +40,6 @@ class MeasurementView(
                 NameField(vm)
                 DescriptionField(vm)
             }
-            ValueFieldControls(vm)
             ValueAndUnitStack(vm)
         }
     }
@@ -81,9 +80,7 @@ class MeasurementView(
         ) {
             MeasurementTextField(
                 initialText = vm.value.value.toString(),
-                modifier = Modifier
-                    .weight(1f)
-                    .onFocusChanged(vm::handleFocusStateChange),
+                modifier = Modifier.weight(1f),
                 updateMeasurement = { vm.updateValue(it) }
             )
             UnitDropdown(
@@ -94,20 +91,6 @@ class MeasurementView(
                 modifier = Modifier.weight(1f),
                 onClick = { it?.let { vm.updateUnit(it) } }
             ).Body()
-        }
-    }
-
-    /// The controls to switch sign, multiply or divide by ten, or clear
-    @Composable
-    private fun ValueFieldControls(vm: MeasurementViewModel) {
-        val isFocused by vm.isFocused
-        AnimatedVisibility(isFocused) {
-            MeasurementEditingControls(
-                onPlusMinusClick = vm::switchSign,
-                onTimesTenClick = vm::multiplyByTen,
-                onDivideByTenClick = vm::divideByTen,
-                onClearValueClick = vm::clearValue,
-            )
         }
     }
 }

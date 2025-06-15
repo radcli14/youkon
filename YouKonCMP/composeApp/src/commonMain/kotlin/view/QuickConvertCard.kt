@@ -42,7 +42,6 @@ class QuickConvertCard(
             ) {
                 CardLabel()
                 ContentGrid()
-                TextFieldControls()
             }
         }
     }
@@ -83,7 +82,6 @@ class QuickConvertCard(
         ) {
             TextField(
                 modifier = Modifier
-                    .onFocusChanged(vm::handleFocusStateChange)
                     .onboardingModifier(QuickConvertViews.VALUE)
                     .weight(1f)
                     .alignByBaseline()
@@ -134,20 +132,6 @@ class QuickConvertCard(
             modifier = modifier,
             updateMeasurement = { vm.updateValue(it) }
         )
-    }
-
-    /// The controls to switch sign, multiply or divide by ten, or clear
-    @Composable
-    private fun TextFieldControls() {
-        val isFocused by vm.isFocused.collectAsState()
-        AnimatedVisibility(isFocused) {
-            MeasurementEditingControls(
-                onPlusMinusClick = vm::switchSign,
-                onTimesTenClick = vm::multiplyByTen,
-                onDivideByTenClick = vm::divideByTen,
-                onClearValueClick = vm::clearValue,
-            )
-        }
     }
 
     /// The display of the measurement after conversion

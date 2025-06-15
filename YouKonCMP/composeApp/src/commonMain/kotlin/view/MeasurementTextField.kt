@@ -1,9 +1,8 @@
 package view
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredHeightIn
 import androidx.compose.foundation.text.BasicTextField
@@ -18,6 +17,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -36,6 +36,7 @@ fun MeasurementTextField(
 ) {
     var text by remember { mutableStateOf(TextFieldValue(initialText)) }
     var significantDigits by remember { mutableStateOf(initialText.countSignificantDigits()) }
+    var isFocused by remember { mutableStateOf(false) }
     val textStyle = MaterialTheme.typography.bodyLarge.copy(
         color = MaterialTheme.colorScheme.onSurface,
         fontWeight = FontWeight.SemiBold
@@ -86,34 +87,61 @@ fun MeasurementTextField(
 
         text = TextFieldValue(
             text = updatedText,
-            selection = TextRange(newCursorPos) 
+            selection = TextRange(newCursorPos)
         )
     }
 
-    Surface(
-        modifier = modifier,
-        color = grayBackground.copy(alpha = 0.55f),
-        shape = MaterialTheme.shapes.medium
-    ) {
-        Row(
-            horizontalArrangement = Arrangement.spacedBy(8.dp),
-            verticalAlignment = Alignment.Bottom,
-            modifier = Modifier.padding(horizontal = 8.dp)
-        ) {
-            CustomDecimalTextField(text, textStyle, Modifier.alignByBaseline().weight(1f)) { newText ->
-                text = newText
-                // Update significant digits on user input
-                significantDigits = newText.text.countSignificantDigits()
-                newText.text.toDoubleOrZeroOrNull()?.let {
-                    updateMeasurement(it)
+    Column(modifier = modifier) {
+        // Show editing controls when focused
+        if (isFocused) {
+            MeasurementEditingControls(
+                onPlusMinusClick = {
+                    val currentValue = text.text.toDoubleOrZeroOrNull() ?: 0.0
+                    updateMeasurement(-currentValue)
+                },
+                onTimesTenClick = {
+                    val currentValue = text.text.toDoubleOrZeroOrNull() ?: 0.0
+                    updateMeasurement(currentValue * 10)
+                },
+                onDivideByTenClick = {
+                    val currentValue = text.text.toDoubleOrZeroOrNull() ?: 0.0
+                    updateMeasurement(currentValue / 10)
+                },
+                onClearValueClick = {
+                    updateMeasurement(0.0)
                 }
-            }
-            unitText?.let {
-                TextWithSubscripts(it,
-                    modifier = Modifier.alignByBaseline(),
-                    style = textStyle,
-                    color = MaterialTheme.colorScheme.onSurface
-                )
+            )
+        }
+
+        // This is the surface surrounding the text field itself
+        Surface(
+            color = grayBackground.copy(alpha = 0.55f),
+            shape = MaterialTheme.shapes.medium
+        ) {
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                verticalAlignment = Alignment.Bottom,
+                modifier = Modifier.padding(horizontal = 8.dp)
+            ) {
+                CustomDecimalTextField(
+                    text,
+                    textStyle,
+                    Modifier.alignByBaseline().weight(1f).onFocusChanged { isFocused = it.hasFocus }
+                ) { newText ->
+                    text = newText
+                    // Update significant digits on user input
+                    significantDigits = newText.text.countSignificantDigits()
+                    newText.text.toDoubleOrZeroOrNull()?.let {
+                        updateMeasurement(it)
+                    }
+                }
+                unitText?.let {
+                    TextWithSubscripts(it,
+                        modifier = Modifier.alignByBaseline(),
+                        style = textStyle,
+                        color = MaterialTheme.colorScheme.onSurface
+                    )
+                }
             }
         }
     }
@@ -191,7 +219,7 @@ fun CustomDecimalTextField(
             val hasNegativeSign = text.contains("-")
             val withoutNegative = text.replace("-", "")
             val finalText = if (hasNegativeSign) "-$withoutNegative" else withoutNegative
-            
+
             // Preserve cursor position
             val oldCursorPos = newText.selection.start
             val newCursorPos = when {

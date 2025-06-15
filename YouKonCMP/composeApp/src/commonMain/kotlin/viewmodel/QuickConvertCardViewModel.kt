@@ -25,7 +25,6 @@ class QuickConvertCardViewModel(private val storage: Storage? = null) : ViewMode
     val allUnits get() = unit.allUnits
     private val targetUnit get() = data.value.targetUnit
 
-    var isFocused = MutableStateFlow(false)
     var convertedTextFitsOnOneLine = MutableStateFlow(true)
 
     private val tag = "QuickConvertCardViewModel"
@@ -66,28 +65,6 @@ class QuickConvertCardViewModel(private val storage: Storage? = null) : ViewMode
             }
             storage?.saveQuickDataToJson(data.value)
         }
-    }
-
-    fun handleFocusStateChange(newState: FocusState) {
-        isFocused.value = newState.isFocused
-    }
-
-    fun switchSign() {
-        if (value.absoluteValue > 0) {
-            updateValue(-value)
-        }
-    }
-
-    fun multiplyByTen() {
-        updateValue(value * 10)
-    }
-
-    fun divideByTen() {
-        updateValue(value * 0.1)
-    }
-
-    fun clearValue() {
-        updateValue(0.0)
     }
 
     /// When new text is received in the `ConvertedText`, check whether it is multiple lines, if it is, label the converted text as large
