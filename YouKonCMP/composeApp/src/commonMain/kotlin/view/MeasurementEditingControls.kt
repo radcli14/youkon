@@ -36,6 +36,7 @@ fun MeasurementEditingControls(
         IconButton(onClick = localFocusManager::clearFocus) {
             Icon(
                 imageVector = Icons.TwoTone.CheckCircle,
+                tint = MaterialTheme.colorScheme.primary,
                 contentDescription = "Confirm",
             )
         }

@@ -59,4 +59,6 @@
     <string name="choose_a_system">Choose a system for conversion</string>
     <string name="swipe_for_options">Swipe for more options</string>
     <string name="add_new_measurements">Tap here to open the project editor and add new measurements</string>
+    <string name="measurement_name_blank">New measurement</string>
+    <string name="measurement_description_blank">With description</string>
 </resources>

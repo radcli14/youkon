@@ -28,14 +28,17 @@ import androidx.compose.ui.unit.dp
 import model.ProjectExpansionLevel
 import model.YkMeasurement
 import model.YkSystem
-import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.stringResource
 import viewmodel.MainViewModel
 import viewmodel.ProjectViewModel
 import viewmodel.ProjectViewViews
 import youkon.composeapp.generated.resources.Res
+import youkon.composeapp.generated.resources.add_new_measurements
 import youkon.composeapp.generated.resources.choose_a_system
+import youkon.composeapp.generated.resources.measurement_description_blank
+import youkon.composeapp.generated.resources.measurement_name_blank
 import youkon.composeapp.generated.resources.swipe_for_options
+import androidx.compose.ui.platform.LocalWindowInfo
 
 /// The `ProjectView` displays the data from a `YkProject`.
 /// Initially shown with an icon, name, and description, in "Compact" mode.
@@ -109,12 +112,22 @@ class ProjectView(
     }
 
     /// Selection control between `YkSystem` variations, such as SI or IMPERIAL
-    @OptIn(ExperimentalResourceApi::class)
     @Composable
     private fun SystemPicker() {
         Column(Modifier.onboardingModifier(ProjectViewViews.SYSTEM_PICKER)) {
-            Text(stringResource(Res.string.choose_a_system), style = MaterialTheme.typography.titleSmall)
-            Text(stringResource(Res.string.swipe_for_options), style = MaterialTheme.typography.labelSmall)
+            Text(
+                text = stringResource(Res.string.choose_a_system),
+                color = MaterialTheme.colorScheme.onSurface,
+                style = MaterialTheme.typography.titleSmall
+            )
+            val windowInfo = LocalWindowInfo.current
+            if (windowInfo.containerSize.width.dp < 600.dp) {
+                Text(
+                    text = stringResource(Res.string.swipe_for_options),
+                    color = MaterialTheme.colorScheme.onSurface,
+                    style = MaterialTheme.typography.labelSmall
+                )
+            }
             LazyRow {
                 items(YkSystem.entries.count()) { idx ->
                     val system = YkSystem.entries[idx]
@@ -195,7 +208,7 @@ class ProjectView(
             // that both states are supposed to mean the same thing. Someone please fix.
             if (vm.measurements.value.isEmpty()) {
                 if (project.value.measurements.isEmpty()) {
-                    Text("Add New Measurements")
+                    Text(stringResource(Res.string.add_new_measurements))
                 }
             }
         }
@@ -210,13 +223,13 @@ class ProjectView(
         ) {
             HorizontalDivider()
             Text(
-                measurement.name.ifBlank { "New Measurement" },
+                measurement.name.ifBlank { stringResource(Res.string.measurement_name_blank) },
                 style = MaterialTheme.typography.bodyMedium,
                 fontWeight = FontWeight.Bold,
                 color = MaterialTheme.colorScheme.primary
             )
             Text(
-                measurement.about.ifBlank { "With Description" },
+                measurement.about.ifBlank { stringResource(Res.string.measurement_description_blank) },
                 style = MaterialTheme.typography.labelMedium,
                 color = MaterialTheme.colorScheme.onSurface
             )
@@ -240,14 +253,3 @@ class ProjectView(
         }
     }
 }
-
-/*
-@Preview
-@Composable
-fun ProjectViewPreview() {
-    val viewModel = ProjectViewModel(wembyProject())
-    viewModel.toggleExpansion()
-    ProjectView(viewModel).Body()
-}
-
- */
