@@ -4,6 +4,7 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.expandVertically
 import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -128,7 +129,7 @@ class ProjectView(
                     style = MaterialTheme.typography.labelSmall
                 )
             }
-            LazyRow {
+            LazyRow(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
                 items(YkSystem.entries.count()) { idx ->
                     val system = YkSystem.entries[idx]
                     val isSelected = vm.convertToSystem.value == system
@@ -147,14 +148,17 @@ class ProjectView(
             shape = MaterialTheme.shapes.medium,
             colors = ButtonDefaults.buttonColors(
                 containerColor = pickerColor(isSelected),
-                contentColor = pickerTextColor
+                contentColor = pickerTextColor(isSelected)
             ),
             contentPadding = PaddingValues(horizontal = 0.dp)
         ) {
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Text(text = system.toString())
+                Text(
+                    text = system.toString(),
+                    fontWeight = if (isSelected) FontWeight.Black else FontWeight.Normal
+                )
                 Text(system.text, style = MaterialTheme.typography.labelSmall)
             }
         }

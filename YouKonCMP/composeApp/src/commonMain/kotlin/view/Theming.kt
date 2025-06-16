@@ -159,16 +159,21 @@ fun Modifier.editButtonModifier(
 
 @Composable
 fun pickerColor(isSelected: Boolean): Color {
-    return if (isSelected) pickerSelectedColor else MaterialTheme.colorScheme.primaryContainer
+    return if (isSelected) pickerSelectedColor else MaterialTheme.colorScheme.secondaryContainer
 }
 
 val pickerSelectedColor: Color
     @Composable
     get() = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.onSurface else MaterialTheme.colorScheme.surface
 
-val pickerTextColor: Color
-    @Composable
-    get() = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.surface else MaterialTheme.colorScheme.onSurface
+@Composable
+fun pickerTextColor(isSelected: Boolean): Color {
+    if (isSystemInDarkTheme()) {
+        return if (isSelected) MaterialTheme.colorScheme.surface else MaterialTheme.colorScheme.secondary
+    } else {
+        return if (isSelected) MaterialTheme.colorScheme.onSurface else MaterialTheme.colorScheme.secondary
+    }
+}
 
 val animatedColor: Color
     @Composable
