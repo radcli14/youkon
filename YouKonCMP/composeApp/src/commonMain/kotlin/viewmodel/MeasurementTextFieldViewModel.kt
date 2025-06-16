@@ -27,11 +27,10 @@ class MeasurementTextFieldViewModel(
         private set
 
     @Composable
-    fun TrailingIcon(textStyle: TextStyle) {
-        unitText?.let {
+    fun TrailingIcon() {
+        unitText?.let { text ->
             TextWithSubscripts(
-                it,
-                style = textStyle,
+                " $text",
                 color = MaterialTheme.colorScheme.onSurface
             )
         }

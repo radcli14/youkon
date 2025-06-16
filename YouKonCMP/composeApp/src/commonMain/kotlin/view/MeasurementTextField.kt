@@ -67,7 +67,7 @@ fun MeasurementTextField(
                 viewModel.text,
                 textStyle,
                 Modifier.weight(1f).onFocusChanged { isFocused = it.hasFocus },
-                trailingIcon = { viewModel.TrailingIcon(textStyle) },
+                suffix = { viewModel.TrailingIcon() },
                 onValueChange = viewModel::handleTextChange
             )
 
@@ -91,12 +91,12 @@ fun CustomDecimalTextField(
     value: TextFieldValue,
     textStyle: TextStyle,
     modifier: Modifier,
-    trailingIcon: @Composable (() -> Unit)? = null,
+    suffix: @Composable (() -> Unit)? = null,
     onValueChange: (TextFieldValue) -> Unit,
 ) {
     OutlinedTextField(
         value = value,
-        trailingIcon = trailingIcon,
+        suffix = suffix,
         modifier = modifier,
         keyboardOptions = KeyboardOptions(
             keyboardType = KeyboardType.Decimal,

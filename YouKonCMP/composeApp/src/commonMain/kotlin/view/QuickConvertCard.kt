@@ -110,7 +110,7 @@ class QuickConvertCard(
             value = data.value,
             unitText = data.unit.shortUnit,
             modifier = modifier,
-            updateMeasurement = { vm.updateValue(it) },
+            updateMeasurement = vm::updateValue,
             alignedContent = { alignedModifier ->
                 ConvertedText(alignedModifier.onboardingModifier(QuickConvertViews.CONVERTED))
             }
