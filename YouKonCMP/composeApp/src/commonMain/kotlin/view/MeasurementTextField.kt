@@ -30,23 +30,23 @@ import viewmodel.MeasurementTextFieldViewModel
 
 @Composable
 fun MeasurementTextField(
-    initialText: String,
+    value: Double,
     modifier: Modifier = Modifier,
     unitText: String? = null,
     controlsAreAbove: Boolean = false,
     updateMeasurement: (Double) -> Unit,
     alignedContent: @Composable (Modifier) -> Unit
 ) {
-    val viewModel = remember { MeasurementTextFieldViewModel(initialText, updateMeasurement, unitText) }
+    val viewModel = remember { MeasurementTextFieldViewModel(value, updateMeasurement, unitText) }
     var isFocused by remember { mutableStateOf(false) }
     val textStyle = MaterialTheme.typography.bodyLarge.copy(
         color = MaterialTheme.colorScheme.onSurface,
         fontWeight = FontWeight.SemiBold
     )
 
-    // Update text when initialText changes
-    LaunchedEffect(initialText) {
-        viewModel.updateText(initialText)
+    // Update text when value changes
+    LaunchedEffect(value) {
+        viewModel.updateText(value)
     }
 
     Column(modifier = modifier) {

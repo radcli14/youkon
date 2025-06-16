@@ -125,7 +125,7 @@ class QuickConvertCard(
     private fun TextField(modifier: Modifier) {
         val data by vm.data.collectAsState()
         MeasurementTextField(
-            initialText = data.value.toString(),
+            value = data.value,
             unitText = data.unit.shortUnit,
             modifier = modifier,
             updateMeasurement = { vm.updateValue(it) },

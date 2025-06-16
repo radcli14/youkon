@@ -15,15 +15,15 @@ import toDoubleOrZeroOrNull
 import view.TextWithSubscripts
 
 class MeasurementTextFieldViewModel(
-    initialText: String = "",
+    initialValue: Double = 0.0,
     private val updateMeasurement: (Double) -> Unit,
     private val unitText: String? = null
 ) : ViewModel() {
-    private var _text = mutableStateOf(TextFieldValue(initialText))
+    private var _text = mutableStateOf(TextFieldValue(initialValue.toString()))
     val text: TextFieldValue
         get() = _text.value
 
-    var significantDigits by mutableStateOf(initialText.countSignificantDigits())
+    var significantDigits by mutableStateOf(initialValue.toString().countSignificantDigits())
         private set
 
     @Composable
@@ -37,8 +37,9 @@ class MeasurementTextFieldViewModel(
         }
     }
 
-    fun updateText(newText: String, cursorPosition: Int = newText.length) {
+    fun updateText(newValue: Double, cursorPosition: Int = newValue.toString().length) {
         val oldText = text.text
+        val newText = newValue.toString()
         val oldCursorPos = cursorPosition.coerceIn(
             if (newText.startsWith("-")) 1 else 0,
             newText.length
@@ -50,19 +51,14 @@ class MeasurementTextFieldViewModel(
             // Check whether the existing text would yield the same number, if so, don't change it
             newText.numericValueEquals(oldText) -> oldText
             // Check whether the existing text included a decimal point. If it did not, and the update doesn't require a decimal point, convert it to an integer value
-            !oldText.contains(".") && newText.toDoubleOrZeroOrNull()?.rem(1.0) == 0.0 -> newText.substringBefore(".")
+            !oldText.contains(".") && newValue.rem(1.0) == 0.0 -> newText.substringBefore(".")
             // For any other change, format with the current number of significant digits
             else -> {
-                val newValue = newText.toDoubleOrZeroOrNull()
-                if (newValue != null) {
-                    // If the result is an integer, show it without decimal places
-                    if (newValue.rem(1.0) == 0.0) {
-                        newValue.toInt().toString()
-                    } else {
-                        newValue.formatWithSignificantDigits(significantDigits)
-                    }
+                // If the result is an integer, show it without decimal places
+                if (newValue.rem(1.0) == 0.0) {
+                    newValue.toInt().toString()
                 } else {
-                    newText
+                    newValue.formatWithSignificantDigits(significantDigits)
                 }
             }
         }

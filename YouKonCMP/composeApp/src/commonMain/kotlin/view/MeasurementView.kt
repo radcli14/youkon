@@ -75,7 +75,7 @@ class MeasurementView(
             verticalAlignment = Alignment.CenterVertically
         ) {
             MeasurementTextField(
-                initialText = vm.value.value.toString(),
+                value = vm.value.value,
                 modifier = Modifier.weight(1f),
                 controlsAreAbove = true,
                 updateMeasurement = { vm.updateValue(it) },
