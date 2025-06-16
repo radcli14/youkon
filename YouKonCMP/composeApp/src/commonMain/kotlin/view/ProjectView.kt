@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.HorizontalDivider
@@ -20,7 +21,13 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
@@ -40,6 +47,7 @@ import youkon.composeapp.generated.resources.measurement_description_blank
 import youkon.composeapp.generated.resources.measurement_name_blank
 import youkon.composeapp.generated.resources.swipe_for_options
 import androidx.compose.ui.platform.LocalWindowInfo
+import androidx.compose.ui.unit.times
 
 /// The `ProjectView` displays the data from a `YkProject`.
 /// Initially shown with an icon, name, and description, in "Compact" mode.
@@ -121,15 +129,21 @@ class ProjectView(
                 color = MaterialTheme.colorScheme.onSurface,
                 style = MaterialTheme.typography.titleSmall
             )
-            val windowInfo = LocalWindowInfo.current
-            if (windowInfo.containerSize.width.dp < 600.dp) {
+
+            // Check if content is scrollable, if it is, show the "swipe_for_options" text
+            val lazyListState = rememberLazyListState()
+            if (lazyListState.canScrollForward || lazyListState.canScrollBackward) {
                 Text(
                     text = stringResource(Res.string.swipe_for_options),
                     color = MaterialTheme.colorScheme.onSurface,
                     style = MaterialTheme.typography.labelSmall
                 )
             }
-            LazyRow(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
+
+            LazyRow(
+                state = lazyListState,
+                horizontalArrangement = Arrangement.spacedBy(4.dp)
+            ) {
                 items(YkSystem.entries.count()) { idx ->
                     val system = YkSystem.entries[idx]
                     val isSelected = vm.convertToSystem.value == system
