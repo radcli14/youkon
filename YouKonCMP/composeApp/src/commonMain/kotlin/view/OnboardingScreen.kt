@@ -4,20 +4,18 @@ import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.requiredSize
+import androidx.compose.foundation.layout.requiredHeightIn
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowForward
 import androidx.compose.material.icons.automirrored.twotone.ArrowForward
-import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.twotone.Check
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
@@ -27,13 +25,17 @@ import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalWindowInfo
+import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import fullWidthSemitransparentPadded
@@ -44,29 +46,50 @@ class OnboardingScreen(
 ) {
     @Composable
     fun Body(navController: NavHostController? = null) {
-        Column(
-            modifier = Modifier.fullWidthSemitransparentPadded().fillMaxHeight(),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            AnimatedVisibility(viewModel.textIsAboveScaledMainView) {
-                OnboardText()
+
+        // Update if tablet (isWide == true)
+        val windowInfo = LocalWindowInfo.current
+        LaunchedEffect(windowInfo.containerSize) {
+            viewModel.updateIsWide(
+                windowInfo.containerSize.width.dp,
+                windowInfo.containerSize.height.dp
+            )
+        }
+
+        // Wrap everything in a box to manage placement of the tabs at the bottom
+        Box(modifier = Modifier.fullWidthSemitransparentPadded().fillMaxHeight()) {
+
+            // Wrap the text and the scaled view in a column so they are always stacked
+            Column(
+                modifier = Modifier.padding(16.dp).padding(bottom = 56.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.spacedBy(16.dp)
+            ) {
+                AnimatedVisibility(viewModel.textIsAboveScaledMainView) {
+                    OnboardText()
+                }
+
+                ScaledMainView(modifier = Modifier.weight(1f))
+
+                AnimatedVisibility(!viewModel.textIsAboveScaledMainView) {
+                    OnboardText()
+                }
             }
 
-            ScaledMainView()
+            // Indicators of position in the onboarding sequence
+            Tabs(
+                modifier = Modifier
+                    .align(Alignment.BottomCenter)
+                    .fillMaxWidth(0.69f)
+                    .padding(16.dp)
+                    .clip(MaterialTheme.shapes.large)
+            )
 
-            AnimatedVisibility(!viewModel.textIsAboveScaledMainView) {
-                OnboardText()
-            }
-
-            Spacer(modifier = Modifier.weight(1f))
-
-            Box(modifier = Modifier.fillMaxWidth()) {
-                NavButton(
-                    modifier = Modifier.align(Alignment.BottomEnd),
-                    navController = navController
-                )
-                Tabs(modifier = Modifier.align(Alignment.Center))
-            }
+            // Action button to navigate forward one screen, or exit
+            NavButton(
+                modifier = Modifier.align(Alignment.BottomEnd),
+                navController = navController
+            )
         }
     }
 
@@ -74,7 +97,9 @@ class OnboardingScreen(
     @Composable
     fun OnboardText(modifier: Modifier = Modifier) {
         Surface(
-            modifier = modifier.padding(16.dp).fillMaxWidth(),
+            modifier = modifier
+                .fillMaxWidth()
+                .requiredHeightIn(min = viewModel.onboardTextHeight),
             shape = MaterialTheme.shapes.medium,
             color = MaterialTheme.colorScheme.surface
         ) {
@@ -100,10 +125,7 @@ class OnboardingScreen(
     @Composable
     fun Tabs(modifier: Modifier = Modifier, onChangeTab: () -> Unit = {}) {
         TabRow(
-            modifier = modifier
-                .fillMaxWidth(0.69f)
-                .padding(16.dp)
-                .clip(MaterialTheme.shapes.large),
+            modifier = modifier,
             containerColor = MaterialTheme.colorScheme.surfaceVariant,
             selectedTabIndex = viewModel.currentPage.intValue,
         ) {
@@ -147,17 +169,21 @@ class OnboardingScreen(
     @Composable
     fun ScaledMainView(modifier: Modifier = Modifier) {
         Surface(
-            modifier = modifier
-                .scale(viewModel.scale)
-                .requiredSize(viewModel.width, viewModel.height),
+            modifier = modifier,
             shape = MaterialTheme.shapes.large,
             shadowElevation = 8.dp,
             border = BorderStroke(4.dp, MaterialTheme.colorScheme.primaryContainer)
         ) {
-            MainView(onboardingScreenViewModel = viewModel).Body()
+            CompositionLocalProvider(
+                LocalDensity provides Density(
+                    density = LocalDensity.current.density * viewModel.scale
+                )
+            ) {
+                MainView(onboardingScreenViewModel = viewModel).Body()
 
-            // This box sits on top of the view, and is here to disable user input
-            Box(Modifier.fillMaxSize().pointerInput(Unit) {})
+                // This box sits on top of the view, and is here to disable user input
+                Box(Modifier.fillMaxSize().pointerInput(Unit) {})
+            }
         }
     }
 

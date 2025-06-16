@@ -97,6 +97,9 @@ class OnboardingScreenViewModel : ViewModel() {
             }
             else -> projectViewModel.highlight(null)
         }
+        if (currentPage.intValue != 4) {
+            mainViewModel.stopEditing()
+        }
     }
 
     private val onLastPage: Boolean get() = currentPage.intValue >= lastHelpIndex
@@ -113,25 +116,19 @@ class OnboardingScreenViewModel : ViewModel() {
             }
         }
 
-    val navTransitionTime = 250
-
-    var isWide = true
-    val scale: Float get() = if (isWide) 0.6f else 0.69f
-    val width: Dp get() = if (isWide) 880.dp else 400.dp
+    var isWide = mutableStateOf(true)
+    val scale: Float get() = if (isWide.value) 0.69f else 0.6f
+    val width: Dp get() = if (isWide.value) 880.dp else 200.dp
     val height = 720.dp
-    val dialogFillRatio: Float get() = if (isWide) 0.75f else 0.9f
+    val dialogFillRatio: Float get() = if (isWide.value) 0.75f else 0.9f
 
     val onboardTextHeight = 160.dp
 
     val textIsAboveScaledMainView: Boolean
         get() = currentPage.value < 2
 
-    val onboardTextAlign: Alignment
-        get() = if (currentPage.value < 2) Alignment.TopStart else Alignment.BottomStart
-
-    val onboardTextOffset: Dp
-        get() = if (currentPage.value < 2) 0.dp else (-32).dp
-
-    val mainViewVerticalOffset: Dp
-        get() = if (currentPage.value < 2) 64.dp else (-128).dp
+    fun updateIsWide(windowWidth: Dp, windowHeight: Dp) {
+        isWide.value = windowWidth > (windowHeight * 0.6f)
+        Log.d(tag, "isWide = $isWide $windowWidth $windowHeight")
+    }
 }

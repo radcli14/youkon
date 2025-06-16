@@ -24,9 +24,6 @@ private val loginViewModel = LoginViewModel(accountService, logService)
 private val signUpViewModel = SignUpViewModel(accountService, logService)
 
 fun MainViewController() = ComposeUIViewController {
-    // TODO: set the isWide variable based on detecting screen geometry
-    onboardingScreenViewModel.isWide = false
-
     App(
         mainViewModel,
         quickConvertCardViewModel,

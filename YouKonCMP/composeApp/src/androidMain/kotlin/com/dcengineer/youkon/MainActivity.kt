@@ -55,7 +55,7 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        
+
         try {
             // Initialize authentication with Google Firebase
             Firebase.initialize(this)
@@ -75,7 +75,7 @@ class MainActivity : ComponentActivity() {
 
         // Specify whether the onboarding screen displays in wide (tablet) or narrow form (phones)
         val manager = getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
-        onboardingScreenViewModel.isWide = manager.phoneType == TelephonyManager.PHONE_TYPE_NONE
+        onboardingScreenViewModel.isWide.value = manager.phoneType == TelephonyManager.PHONE_TYPE_NONE
 
         enableEdgeToEdge()
 

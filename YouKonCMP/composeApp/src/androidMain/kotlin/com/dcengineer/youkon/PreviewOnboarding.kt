@@ -10,6 +10,6 @@ import viewmodel.OnboardingScreenViewModel
 @Composable
 fun OnboardingPreview() {
     val viewModel = OnboardingScreenViewModel()
-    viewModel.isWide = false
+    viewModel.isWide.value = false
     OnboardingScreen(viewModel).Body()
 }
