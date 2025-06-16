@@ -1,8 +1,7 @@
 package view
 
-import androidx.compose.animation.core.animateDpAsState
-import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.core.tween
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -11,15 +10,15 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowForward
+import androidx.compose.material.icons.automirrored.twotone.ArrowForward
 import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.twotone.Check
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -28,26 +27,17 @@ import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.Dialog
-import getPlatform
-import kotlinx.coroutines.delay
-import viewmodel.OnboardingScreenViewModel
 import androidx.navigation.NavHostController
+import fullWidthSemitransparentPadded
+import viewmodel.OnboardingScreenViewModel
 
 class OnboardingScreen(
     private val viewModel: OnboardingScreenViewModel = OnboardingScreenViewModel(),
@@ -55,105 +45,54 @@ class OnboardingScreen(
     @Composable
     fun Body(navController: NavHostController? = null) {
         Column(
-            modifier = Modifier
-                .padding(horizontal = 16.dp)
-                .padding(bottom = 32.dp)
-                .background(
-                color = MaterialTheme.colorScheme.surface.copy(alpha = 0.69f),
-                shape = MaterialTheme.shapes.large
-            ),
+            modifier = Modifier.fullWidthSemitransparentPadded().fillMaxHeight(),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            var verticalOffsetForMainView by remember {
-                mutableStateOf(viewModel.mainViewVerticalOffset)
+            AnimatedVisibility(viewModel.textIsAboveScaledMainView) {
+                OnboardText()
             }
-            val offsetForMainView by animateDpAsState(verticalOffsetForMainView)
 
-            Box(modifier = Modifier
-                //.fillMaxSize()
-                .weight(1f)
-            ) {
-                ScaledMainView(
-                    Modifier
-                        .align(Alignment.TopCenter)
-                        .offset(
-                            x = if ("iOS" in getPlatform().name) (-12).dp else 0.dp,
-                            y = offsetForMainView
-                        )
-                )
-                OnboardText(
-                    Modifier
-                        .align(viewModel.onboardTextAlign)
-                        .offset(y = viewModel.onboardTextOffset)
-                )
+            ScaledMainView()
+
+            AnimatedVisibility(!viewModel.textIsAboveScaledMainView) {
+                OnboardText()
+            }
+
+            Spacer(modifier = Modifier.weight(1f))
+
+            Box(modifier = Modifier.fillMaxWidth()) {
                 NavButton(
-                    Modifier.align(Alignment.BottomEnd)
-                ) {
-                    verticalOffsetForMainView = viewModel.mainViewVerticalOffset
-                    viewModel.incrementPage()
-                    if (viewModel.onLastBeforeExit) {
-                        navController?.navigate("main") {
-                            popUpTo("main") { inclusive = true }
-                        }
-                        viewModel.resetOnboarding()
-                    }
-                }
-                Tabs(Modifier.align(Alignment.BottomCenter)) {
-                    verticalOffsetForMainView = viewModel.mainViewVerticalOffset
-                }
+                    modifier = Modifier.align(Alignment.BottomEnd),
+                    navController = navController
+                )
+                Tabs(modifier = Modifier.align(Alignment.Center))
             }
         }
     }
 
-    /// Shows two lines of text at the top, with the title of the current screen, and some helpful text
-    //@SuppressLint("UnusedContentLambdaTargetStateParameter")
+    /// Shows two lines of text at the top or bottom, with the title of the current screen, and some helpful text
     @Composable
     fun OnboardText(modifier: Modifier = Modifier) {
-        // The header text shows up at the top, and updates when the currentPage changes
-        var helpHeader by remember { mutableStateOf(viewModel.helpHeader) }
-        var helpHeaderVisible by remember { mutableStateOf(true) }
-        val helpHeaderAlpha by animateFloatAsState(
-            targetValue = if (helpHeaderVisible) 1f else 0f,
-            animationSpec = tween(durationMillis = viewModel.navTransitionTime),
-            label = ""
-        )
-        LaunchedEffect(viewModel.helpHeader) {
-            helpHeaderVisible = false
-            delay(viewModel.navTransitionTime.toLong())
-            helpHeader = viewModel.helpHeader
-            helpHeaderVisible = true
-        }
-
-        // The help text is the secondary text, and updates when the currentPage or currentText changes
-        var helpText by remember { mutableStateOf(viewModel.helpText) }
-        var helpTextVisible by remember { mutableStateOf(true) }
-        val helpTextAlpha by animateFloatAsState(
-            targetValue = if (helpTextVisible) 1f else 0f,
-            animationSpec = tween(durationMillis = 100 + viewModel.navTransitionTime),
-            label = ""
-        )
-        LaunchedEffect(viewModel.helpText) {
-            helpTextVisible = false
-            delay(100 + viewModel.navTransitionTime.toLong())
-            helpText = viewModel.helpText
-            helpTextVisible = true
-        }
-
-        Column(
-            modifier = modifier
-                .padding(16.dp)
-                .height(viewModel.onboardTextHeight)
+        Surface(
+            modifier = modifier.padding(16.dp).fillMaxWidth(),
+            shape = MaterialTheme.shapes.medium,
+            color = MaterialTheme.colorScheme.surface
         ) {
-            Text(helpHeader,
-                style = MaterialTheme.typography.titleLarge,
-                color = MaterialTheme.colorScheme.onSurface,
-                modifier = Modifier.alpha(helpHeaderAlpha)
-            )
-            Text(helpText,
-                style = MaterialTheme.typography.bodyLarge,
-                color = MaterialTheme.colorScheme.onSurface,
-                modifier = Modifier.alpha(helpTextAlpha)
-            )
+            Column(modifier = modifier.padding(16.dp)) {
+                AnimatedContent(viewModel.helpHeader) { helpHeader ->
+                    Text(helpHeader,
+                        style = MaterialTheme.typography.titleLarge,
+                        color = MaterialTheme.colorScheme.onSurface,
+                    )
+                }
+
+                AnimatedContent(viewModel.helpText) { helpText ->
+                    Text(helpText,
+                        style = MaterialTheme.typography.bodyLarge,
+                        color = MaterialTheme.colorScheme.onSurface,
+                    )
+                }
+            }
         }
     }
 
@@ -165,7 +104,7 @@ class OnboardingScreen(
                 .fillMaxWidth(0.69f)
                 .padding(16.dp)
                 .clip(MaterialTheme.shapes.large),
-            containerColor = MaterialTheme.colorScheme.surface,
+            containerColor = MaterialTheme.colorScheme.surfaceVariant,
             selectedTabIndex = viewModel.currentPage.intValue,
         ) {
             for (index in 0 .. viewModel.lastHelpIndex) {
@@ -226,22 +165,29 @@ class OnboardingScreen(
     @Composable
     fun NavButton(
         modifier: Modifier = Modifier,
-        onNavigate: () -> Unit = {}
+        navController: NavHostController?
     ) {
         FloatingActionButton(
             modifier = modifier.padding(8.dp),
-            onClick = onNavigate
+            onClick = {
+                viewModel.incrementPage()
+                if (viewModel.onLastBeforeExit) {
+                    navController?.navigate("main") {
+                        popUpTo("main") { inclusive = true }
+                    }
+                    viewModel.resetOnboarding()
+                }
+            }
         ) {
             Icon(navButtonIcon(),
                 contentDescription = viewModel.navButtonDescription,
-                modifier = Modifier.size(40.dp)
             )
         }
     }
 
     @Composable
     fun navButtonIcon(): ImageVector {
-        return if (viewModel.onLastBeforeExit) Icons.Default.Check else Icons.AutoMirrored.Filled.ArrowForward
+        return if (viewModel.onLastBeforeExit) Icons.TwoTone.Check else Icons.AutoMirrored.TwoTone.ArrowForward
     }
 }
 

@@ -123,6 +123,9 @@ class OnboardingScreenViewModel : ViewModel() {
 
     val onboardTextHeight = 160.dp
 
+    val textIsAboveScaledMainView: Boolean
+        get() = currentPage.value < 2
+
     val onboardTextAlign: Alignment
         get() = if (currentPage.value < 2) Alignment.TopStart else Alignment.BottomStart
 
