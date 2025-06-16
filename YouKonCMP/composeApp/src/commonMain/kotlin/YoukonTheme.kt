@@ -14,7 +14,7 @@ fun YoukonTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     content: @Composable () -> Unit
 ) {
-    val colorScheme = if (darkTheme) {
+    val baseColorScheme = if (darkTheme) {
         darkColorScheme(
             primary = Color(YkColors.LIGHT_PURPLE.hex),
             secondary = Color(YkColors.PINK.hex)
@@ -25,6 +25,11 @@ fun YoukonTheme(
             secondary = Color(YkColors.LIGHT_PURPLE.hex)
         )
     }
+
+    val colorScheme = baseColorScheme.copy(
+        surface = baseColorScheme.surface.copy(alpha = 0.69f),
+        surfaceVariant = baseColorScheme.surfaceVariant.copy(alpha = 0.69f)
+    )
 
     val shapes = Shapes(
         small = RoundedCornerShape(4.dp),

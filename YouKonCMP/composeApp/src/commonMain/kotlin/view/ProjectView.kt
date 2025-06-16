@@ -56,7 +56,7 @@ class ProjectView(
     @Composable
     fun Body() {
         Surface(
-            color = grayBackground.copy(alpha = Constants.bodyBackgroundAlpha),
+            color = MaterialTheme.colorScheme.surfaceVariant,
             shape = MaterialTheme.shapes.medium,
             modifier = Modifier.onboardingModifier(ProjectViewViews.COMPACT)
         ) {

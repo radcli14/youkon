@@ -117,7 +117,7 @@ fun UpDownButtons(
                     padding = 4.dp,
                     shape = MaterialTheme.shapes.medium
                 ),
-                onClick = { onClick(direction) } // vm.value.onReorderControlButtonTap(project, direction) }
+                onClick = { onClick(direction) }
             ) {
                 Icon(
                     imageVector = if (direction == "up") Icons.Default.KeyboardArrowUp else Icons.Default.KeyboardArrowDown,
@@ -130,7 +130,7 @@ fun UpDownButtons(
 
 @Composable
 fun Modifier.editButtonModifier(
-    color: Color = grayBackground,
+    color: Color = MaterialTheme.colorScheme.primaryContainer,
     alpha: Float = 0.7f,
     width: Dp = 36.dp,
     height: Dp = 36.dp,
@@ -149,7 +149,7 @@ fun Modifier.editButtonModifier(
 
 @Composable
 fun pickerColor(isSelected: Boolean): Color {
-    return if (isSelected) pickerSelectedColor else grayBackground
+    return if (isSelected) pickerSelectedColor else MaterialTheme.colorScheme.primaryContainer
 }
 
 val pickerSelectedColor: Color

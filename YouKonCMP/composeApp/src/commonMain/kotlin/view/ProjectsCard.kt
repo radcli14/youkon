@@ -44,7 +44,7 @@ class ProjectsCard(
     fun Body() {
         val vm = mainViewModel.projectsCardViewModel.collectAsState()
         Surface(
-            color = MaterialTheme.colorScheme.surface.copy(alpha = Constants.SURFACE_ALPHA),
+            color = MaterialTheme.colorScheme.surface,
             shape = MaterialTheme.shapes.medium,
             modifier = Modifier
                 .onboardingModifier(ProjectsCardViews.SURFACE)

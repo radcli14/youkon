@@ -165,7 +165,7 @@ class OnboardingScreen(
                 .fillMaxWidth(0.69f)
                 .padding(16.dp)
                 .clip(MaterialTheme.shapes.large),
-            containerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.4f),
+            containerColor = MaterialTheme.colorScheme.surface,
             selectedTabIndex = viewModel.currentPage.intValue,
         ) {
             for (index in 0 .. viewModel.lastHelpIndex) {

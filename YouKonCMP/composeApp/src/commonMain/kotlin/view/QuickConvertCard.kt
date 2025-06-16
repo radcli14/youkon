@@ -26,7 +26,7 @@ class QuickConvertCard(
     @Composable
     fun Body() {
         Surface(
-            color = MaterialTheme.colorScheme.surface.copy(alpha = 0.4f),
+            color = MaterialTheme.colorScheme.surface,
             shape = MaterialTheme.shapes.medium,
             modifier = Modifier
                 .onboardingModifier(QuickConvertViews.SURFACE)

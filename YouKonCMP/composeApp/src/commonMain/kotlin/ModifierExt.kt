@@ -35,7 +35,7 @@ fun Modifier.fullWidthSemitransparentPadded() = composed {
         .padding(horizontal = 16.dp)
         .padding(bottom = 32.dp)
         .background(
-            color = MaterialTheme.colorScheme.surface.copy(alpha = 0.69f),
+            color = MaterialTheme.colorScheme.surface,
             shape = MaterialTheme.shapes.large
         )
 }

@@ -108,9 +108,9 @@ fun CustomDecimalTextField(
         textStyle = textStyle.copy(textAlign = TextAlign.End),
         shape = MaterialTheme.shapes.medium,
         colors = OutlinedTextFieldDefaults.colors(
-            unfocusedContainerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.69f),
+            unfocusedContainerColor = MaterialTheme.colorScheme.surfaceVariant,
             unfocusedBorderColor = Color.Transparent,
-            focusedContainerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.69f)
+            focusedContainerColor = MaterialTheme.colorScheme.surfaceVariant
         )
     )
 }
