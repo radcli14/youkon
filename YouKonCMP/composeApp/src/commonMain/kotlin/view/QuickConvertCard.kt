@@ -11,7 +11,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.text.font.FontWeight
@@ -73,24 +72,7 @@ class QuickConvertCard(
                     .weight(1f)
             )
         }
-        Row(
-            horizontalArrangement = Arrangement.spacedBy(8.dp),
-            verticalAlignment = Alignment.Bottom,
-        ) {
-            TextField(modifier = Modifier.onboardingModifier(QuickConvertViews.VALUE))
-            /*TextField(
-                modifier = Modifier
-                    .onboardingModifier(QuickConvertViews.VALUE)
-                    .weight(1f)
-                    .alignByBaseline()
-            )
-            ConvertedText(
-                modifier = Modifier
-                    .onboardingModifier(QuickConvertViews.CONVERTED)
-                    .weight(1f)
-                    .alignByBaseline()
-            )*/
-        }
+        TextFieldAndConversion(modifier = Modifier.onboardingModifier(QuickConvertViews.VALUE))
     }
 
     /// Selection for which type of unit to convert from
@@ -122,7 +104,7 @@ class QuickConvertCard(
 
     /// The field that takes the user input on the numeric value of the measurement
     @Composable
-    private fun TextField(modifier: Modifier) {
+    private fun TextFieldAndConversion(modifier: Modifier) {
         val data by vm.data.collectAsState()
         MeasurementTextField(
             value = data.value,
