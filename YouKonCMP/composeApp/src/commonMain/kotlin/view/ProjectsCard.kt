@@ -1,6 +1,5 @@
 package view
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -12,10 +11,11 @@ import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.items
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.twotone.Add
+import androidx.compose.material.icons.twotone.Delete
+import androidx.compose.material.icons.twotone.SwapVert
+import androidx.compose.material3.FilledIconButton
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -30,12 +30,8 @@ import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import model.YkProject
-import org.jetbrains.compose.resources.ExperimentalResourceApi
-import org.jetbrains.compose.resources.painterResource
 import viewmodel.MainViewModel
 import viewmodel.ProjectsCardViews
-import youkon.composeapp.generated.resources.Res
-import youkon.composeapp.generated.resources.swap_vert_24dp_E8EAED_FILL0_wght400_GRAD0_opsz24
 
 class ProjectsCard(
     private val mainViewModel: MainViewModel = MainViewModel()
@@ -98,7 +94,7 @@ class ProjectsCard(
 
     @Composable
     fun ControlButtons() {
-        Row(horizontalArrangement = Arrangement.spacedBy(Constants.controlButtonSpacing)) {
+        Row {
             PlusButton()
             MinusButton()
             ReorderButton()
@@ -109,17 +105,19 @@ class ProjectsCard(
     @Composable
     fun PlusButton() {
         val vm = mainViewModel.projectsCardViewModel.collectAsState()
-        IconButton(
-            modifier = Modifier.editButtonModifier().onboardingModifier(ProjectsCardViews.PLUS),
+        FilledIconButton(
+            modifier = Modifier.onboardingModifier(ProjectsCardViews.PLUS),
+            enabled = !(vm.value.canSubtract.value || vm.value.canReorder.value),
+            shape = MaterialTheme.shapes.medium,
+            colors = editButtonColors,
             onClick = {
                 vm.value.addProject()
                 mainViewModel.saveUserToAll()
             }
         ) {
             Icon(
-                imageVector = Icons.Default.Add,
-                contentDescription = "Add a new project",
-                tint = MaterialTheme.colorScheme.primary
+                imageVector = Icons.TwoTone.Add,
+                contentDescription = "Add a new project"
             )
         }
     }
@@ -128,39 +126,36 @@ class ProjectsCard(
     @Composable
     fun MinusButton() {
         val vm = mainViewModel.projectsCardViewModel.collectAsState()
-        IconButton(
+        FilledIconButton(
             enabled = !vm.value.canReorder.value,
-            modifier = Modifier.editButtonModifier(
-                color = pickerColor(vm.value.canSubtract.value)
-            ).onboardingModifier(ProjectsCardViews.MINUS),
+            modifier = Modifier.onboardingModifier(ProjectsCardViews.MINUS),
+            shape = MaterialTheme.shapes.medium,
+            colors = editButtonColors,
             onClick = vm.value::onSubtractButtonTap
         ) {
             Icon(
-                imageVector = Icons.Default.Delete, // .Remove,
-                contentDescription = "Allow deleting projects",
-                tint = MaterialTheme.colorScheme.primary
+                imageVector = Icons.TwoTone.Delete,
+                contentDescription = "Allow deleting projects"
             )
         }
     }
 
-    @OptIn(ExperimentalResourceApi::class)
     @Composable
     fun ReorderButton() {
         val vm = mainViewModel.projectsCardViewModel.collectAsState()
-        IconButton(
+        FilledIconButton(
             enabled = !vm.value.canSubtract.value,
-            modifier = Modifier.editButtonModifier(
-                color = pickerColor(vm.value.canReorder.value)
-            ).onboardingModifier(ProjectsCardViews.REORDER),
+            modifier = Modifier.onboardingModifier(ProjectsCardViews.REORDER),
+            shape = MaterialTheme.shapes.medium,
+            colors = editButtonColors,
             onClick = {
                 vm.value.onReorderButtonTap()
                 mainViewModel.saveUserToAll()
             }
         ) {
             Icon(
-                painter = painterResource(Res.drawable.swap_vert_24dp_E8EAED_FILL0_wght400_GRAD0_opsz24),
-                contentDescription = "Allow reordering projects",
-                tint = MaterialTheme.colorScheme.primary
+                imageVector = Icons.TwoTone.SwapVert,
+                contentDescription = "Allow reordering projects"
             )
         }
     }
@@ -218,11 +213,9 @@ class ProjectsCard(
 
     private class Constants {
         companion object {
-            const val SURFACE_ALPHA = 0.4f
             val horizontalPadding = 16.dp
             val verticalPadding = 8.dp
             val verticalSpacing = 16.dp
-            val controlButtonSpacing = 8.dp
             val projectRowWidth = 360.dp
             val widthForTwoColumns = 1440.dp
         }

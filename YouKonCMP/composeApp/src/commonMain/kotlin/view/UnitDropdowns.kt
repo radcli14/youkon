@@ -161,7 +161,7 @@ class UnitDropdown(
         Text(
             unit.lowercasedString,
             style = MaterialTheme.typography.titleMedium,
-            color = MaterialTheme.colorScheme.surface,
+            color = MaterialTheme.colorScheme.onPrimary,
             textAlign = TextAlign.Start,
             modifier = Modifier.fillMaxWidth()
         )

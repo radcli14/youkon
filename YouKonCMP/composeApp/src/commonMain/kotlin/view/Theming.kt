@@ -25,8 +25,11 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
+import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.IconButtonColors
+import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -128,14 +131,21 @@ fun UpDownButtons(
     }
 }
 
+val editButtonColors: IconButtonColors
+    @Composable
+    get() = IconButtonDefaults.filledIconButtonColors(
+        containerColor = MaterialTheme.colorScheme.secondaryContainer,
+        contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
+    )
+
 @Composable
 fun Modifier.editButtonModifier(
     color: Color = MaterialTheme.colorScheme.primaryContainer,
-    alpha: Float = 0.7f,
+    alpha: Float = 1f,
     width: Dp = 36.dp,
     height: Dp = 36.dp,
     padding: Dp = 8.dp,
-    shape: Shape = CircleShape
+    shape: Shape = MaterialTheme.shapes.medium
 ) = composed {
     this
         .background(

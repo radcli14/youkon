@@ -11,6 +11,10 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.twotone.Add
+import androidx.compose.material.icons.twotone.Delete
+import androidx.compose.material.icons.twotone.SwapVert
+import androidx.compose.material3.FilledIconButton
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -147,52 +151,51 @@ class ProjectViewWhenEditing(
 
     @Composable
     fun PlusButton() {
-        IconButton(
-            onClick = { vm.addMeasurement() }
+        val isEnabled = !(vm.canSubtract.value || vm.canReorder.value)
+        FilledIconButton(
+            enabled = isEnabled,
+            shape = MaterialTheme.shapes.medium,
+            colors = editButtonColors,
+            onClick = vm::addMeasurement
         ) {
             Icon(
-                imageVector = Icons.Default.Add,
+                imageVector = Icons.TwoTone.Add,
                 contentDescription = "Add a new measurement",
-                modifier = Modifier.editButtonModifier(),
-                tint = MaterialTheme.colorScheme.primary
             )
         }
     }
 
     @Composable
     fun MinusButton() {
-        IconButton(
-            onClick = { vm.subtractMeasurement() }
+        FilledIconButton(
+            enabled = !vm.canReorder.value,
+            shape = MaterialTheme.shapes.medium,
+            colors = editButtonColors,
+            onClick = vm::subtractMeasurement,
         ) {
             Icon(
-                imageVector = Icons.Default.Delete, // .Remove,
+                imageVector = Icons.TwoTone.Delete,
                 contentDescription = "Allow deleting measurements",
-                modifier = Modifier.editButtonModifier(color = pickerColor(vm.canSubtract.value)),
-                tint = MaterialTheme.colorScheme.primary
             )
         }
     }
 
-    @OptIn(ExperimentalResourceApi::class)
     @Composable
     fun ReorderButton() {
-        IconButton(
+        FilledIconButton(
             enabled = !vm.canSubtract.value,
-            modifier = Modifier.editButtonModifier(
-                color = pickerColor(vm.canReorder.value)
-            ),
+            shape = MaterialTheme.shapes.medium,
+            colors = editButtonColors,
             onClick = vm::onReorderButtonTap
         ) {
             Icon(
-                painter = painterResource(Res.drawable.swap_vert_24dp_E8EAED_FILL0_wght400_GRAD0_opsz24),
+                imageVector = Icons.TwoTone.SwapVert,
                 contentDescription = "Allow reordering measurements",
-                tint = MaterialTheme.colorScheme.primary
             )
         }
     }
 
     /// A `ForEach` corresponding to each of the measurements, in either editable or static form
-    @OptIn(ExperimentalFoundationApi::class)
     @Composable
     private fun ExpansionMeasurementsList() {
         val project = vm.project.collectAsState()
