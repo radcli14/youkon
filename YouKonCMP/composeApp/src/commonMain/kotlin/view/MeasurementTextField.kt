@@ -8,6 +8,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -37,7 +38,7 @@ fun MeasurementTextField(
     updateMeasurement: (Double) -> Unit,
     alignedContent: @Composable (Modifier) -> Unit
 ) {
-    val viewModel = remember { MeasurementTextFieldViewModel(value, updateMeasurement, unitText) }
+    val viewModel = remember { MeasurementTextFieldViewModel(value, updateMeasurement) }
     var isFocused by remember { mutableStateOf(false) }
     val textStyle = MaterialTheme.typography.bodyLarge.copy(
         color = MaterialTheme.colorScheme.onSurface,
@@ -67,7 +68,7 @@ fun MeasurementTextField(
                 viewModel.text,
                 textStyle,
                 Modifier.weight(1f).onFocusChanged { isFocused = it.hasFocus },
-                suffix = { viewModel.TrailingIcon() },
+                suffix = { unitText?.let { TextWithSubscripts(" $it") } },
                 onValueChange = viewModel::handleTextChange
             )
 

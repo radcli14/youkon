@@ -1,23 +1,18 @@
 package viewmodel
 
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.text.TextRange
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.lifecycle.ViewModel
 import countSignificantDigits
 import numericValueEquals
 import toDoubleOrZeroOrNull
-import view.TextWithSubscripts
 
 class MeasurementTextFieldViewModel(
     initialValue: Double = 0.0,
-    private val updateMeasurement: (Double) -> Unit,
-    private val unitText: String? = null
+    private val updateMeasurement: (Double) -> Unit
 ) : ViewModel() {
     private var _text = mutableStateOf(TextFieldValue(initialValue.toString()))
     val text: TextFieldValue
@@ -25,16 +20,6 @@ class MeasurementTextFieldViewModel(
 
     var significantDigits by mutableStateOf(initialValue.toString().countSignificantDigits())
         private set
-
-    @Composable
-    fun TrailingIcon() {
-        unitText?.let { text ->
-            TextWithSubscripts(
-                " $text",
-                color = MaterialTheme.colorScheme.onSurface
-            )
-        }
-    }
 
     fun updateText(newValue: Double, cursorPosition: Int = newValue.toString().length) {
         val oldText = text.text
