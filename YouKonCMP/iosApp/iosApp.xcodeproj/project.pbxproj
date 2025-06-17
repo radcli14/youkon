@@ -90,6 +90,8 @@
 		8A5A43922BBADAF200AACB45 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 8A11FC892B910FB000DCE3C1 /* FirebaseStorage */; };
 		8A5A43932BBADAF200AACB45 /* FirebaseStorageCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = 8A11FC8A2B910FB000DCE3C1 /* FirebaseStorageCombine-Community */; };
 		8A8F99FD2B8FA59B0048BCF9 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8A8F99FC2B8FA59B0048BCF9 /* GoogleService-Info.plist */; };
+		8AEC13E32E01D27F00109351 /* PurchasesHybridCommon in Frameworks */ = {isa = PBXBuildFile; productRef = 8AEC13E22E01D27F00109351 /* PurchasesHybridCommon */; };
+		8AEC13E52E01D27F00109351 /* PurchasesHybridCommonUI in Frameworks */ = {isa = PBXBuildFile; productRef = 8AEC13E42E01D27F00109351 /* PurchasesHybridCommonUI */; };
 		8AFD34FA2BBC4EC600A3CA8A /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 8AFD34F92BBC4EC600A3CA8A /* FirebaseAnalytics */; };
 		8AFD34FC2BBC4EC600A3CA8A /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 8AFD34FB2BBC4EC600A3CA8A /* FirebaseAuth */; };
 		8AFD34FE2BBC4EC600A3CA8A /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = 8AFD34FD2BBC4EC600A3CA8A /* FirebaseCrashlytics */; };
@@ -150,6 +152,7 @@
 				8A5A43862BBADAF200AACB45 /* FirebaseAuthCombine-Community in Frameworks */,
 				8A5A43852BBADAF200AACB45 /* FirebaseAuth in Frameworks */,
 				8A5A43832BBADAF200AACB45 /* FirebaseAppCheck in Frameworks */,
+				8AEC13E32E01D27F00109351 /* PurchasesHybridCommon in Frameworks */,
 				8AFD35022BBC4EC600A3CA8A /* FirebasePerformance in Frameworks */,
 				8A5A43822BBADAF200AACB45 /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */,
 				8A5A43802BBADAF200AACB45 /* FirebaseAnalytics in Frameworks */,
@@ -192,6 +195,7 @@
 				8A5A43522BBADAF200AACB45 /* FirebaseDynamicLinks in Frameworks */,
 				8A5A43502BBADAF200AACB45 /* FirebaseDatabase in Frameworks */,
 				8A5A434F2BBADAF200AACB45 /* FirebaseCrashlytics in Frameworks */,
+				8AEC13E52E01D27F00109351 /* PurchasesHybridCommonUI in Frameworks */,
 				8A5A434E2BBADAF200AACB45 /* FirebaseAuthCombine-Community in Frameworks */,
 				8A5A434D2BBADAF200AACB45 /* FirebaseAuth in Frameworks */,
 				8A5A434C2BBADAF200AACB45 /* FirebaseAppDistribution-Beta in Frameworks */,
@@ -387,6 +391,8 @@
 				8AFD34FF2BBC4EC600A3CA8A /* FirebaseFirestore */,
 				8AFD35012BBC4EC600A3CA8A /* FirebasePerformance */,
 				8AFD35032BBC4EC600A3CA8A /* FirebaseStorage */,
+				8AEC13E22E01D27F00109351 /* PurchasesHybridCommon */,
+				8AEC13E42E01D27F00109351 /* PurchasesHybridCommonUI */,
 			);
 			productName = iosApp;
 			productReference = 7555FF7B242A565900829871 /* YouKon.app */;
@@ -419,6 +425,7 @@
 			mainGroup = 7555FF72242A565900829871;
 			packageReferences = (
 				8AFD34F82BBC4EC600A3CA8A /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				8AEC13E12E01D27F00109351 /* XCRemoteSwiftPackageReference "purchases-hybrid-common" */,
 			);
 			productRefGroup = 7555FF7C242A565900829871 /* Products */;
 			projectDirPath = "";
@@ -737,6 +744,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		8AEC13E12E01D27F00109351 /* XCRemoteSwiftPackageReference "purchases-hybrid-common" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/RevenueCat/purchases-hybrid-common";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 13.36.0;
+			};
+		};
 		8AFD34F82BBC4EC600A3CA8A /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk.git";
@@ -975,6 +990,16 @@
 		8A11FC8A2B910FB000DCE3C1 /* FirebaseStorageCombine-Community */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = "FirebaseStorageCombine-Community";
+		};
+		8AEC13E22E01D27F00109351 /* PurchasesHybridCommon */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 8AEC13E12E01D27F00109351 /* XCRemoteSwiftPackageReference "purchases-hybrid-common" */;
+			productName = PurchasesHybridCommon;
+		};
+		8AEC13E42E01D27F00109351 /* PurchasesHybridCommonUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 8AEC13E12E01D27F00109351 /* XCRemoteSwiftPackageReference "purchases-hybrid-common" */;
+			productName = PurchasesHybridCommonUI;
 		};
 		8AFD34F92BBC4EC600A3CA8A /* FirebaseAnalytics */ = {
 			isa = XCSwiftPackageProductDependency;

@@ -57,6 +57,12 @@ kotlin {
             implementation(libs.gitlive.firebase.firestore)
             implementation(libs.gitlive.firebase.common)
             implementation(libs.lifecycle.viewmodel.compose)
+
+            // Add the purchases-kmp dependencies.
+            implementation(libs.purchases.core)
+            implementation(libs.purchases.datetime)   // Optional
+            implementation(libs.purchases.either)     // Optional
+            implementation(libs.purchases.result)     // Optional
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
@@ -77,8 +83,8 @@ android {
         applicationId = "com.dcengineer.youkon"
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.targetSdk.get().toInt()
-        versionCode = 10
-        versionName = "1.0.0"
+        versionCode = 102
+        versionName = "1.0.2"
     }
     packaging {
         resources {

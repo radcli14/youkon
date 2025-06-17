@@ -140,7 +140,7 @@ class ProjectViewWhenEditing(
         ) {
             Text("Edit Measurements",
                 color = MaterialTheme.colorScheme.primary,
-                style = MaterialTheme.typography.titleLarge
+                style = MaterialTheme.typography.titleMedium
             )
             Spacer(Modifier.weight(1f))
             PlusButton()
