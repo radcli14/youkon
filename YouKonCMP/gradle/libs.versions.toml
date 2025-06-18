@@ -93,6 +93,7 @@ purchases-core = { module = "com.revenuecat.purchases:purchases-kmp-core", versi
 purchases-datetime = { module = "com.revenuecat.purchases:purchases-kmp-datetime", version.ref = "purchases-kmp" }
 purchases-either = { module = "com.revenuecat.purchases:purchases-kmp-either", version.ref = "purchases-kmp" }
 purchases-result = { module = "com.revenuecat.purchases:purchases-kmp-result", version.ref = "purchases-kmp" }
+purchases-ui = { module = "com.revenuecat.purchases:purchases-kmp-ui", version.ref = "purchases-kmp"}
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
