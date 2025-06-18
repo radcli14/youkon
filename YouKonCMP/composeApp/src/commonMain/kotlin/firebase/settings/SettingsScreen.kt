@@ -1,7 +1,6 @@
 package firebase.settings
 
 import Log
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -13,8 +12,10 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -28,6 +29,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.unit.dp
+import defaultPadding
 import fullWidthSemitransparentPadded
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.ExperimentalResourceApi
@@ -104,6 +106,9 @@ fun SettingsScreenContent(
             DeleteMyAccountCard { onDeleteMyAccountClick() }
         }
 
+        HorizontalDivider()
+        PremiumFeaturesContent()
+        HorizontalDivider()
         PrivacyPolicyButton()
     }
 }
@@ -134,7 +139,6 @@ private fun SignOutCard(signOut: () -> Unit) {
 }
 
 
-@OptIn(ExperimentalResourceApi::class)
 @Composable
 private fun DeleteMyAccountCard(deleteMyAccount: () -> Unit) {
     var showWarningDialog by remember { mutableStateOf(false) }
@@ -172,7 +176,6 @@ fun Modifier.card(): Modifier {
     return this.padding(16.dp, 0.dp, 16.dp, 8.dp)
 }
 
-@OptIn(ExperimentalResourceApi::class)
 @Composable
 fun RegularCardEditor(
     title: StringResource,
@@ -185,7 +188,6 @@ fun RegularCardEditor(
 }
 
 
-@OptIn(ExperimentalResourceApi::class)
 @Composable
 fun DangerousCardEditor(
     title: StringResource,
@@ -198,7 +200,6 @@ fun DangerousCardEditor(
 }
 
 
-@OptIn(ExperimentalResourceApi::class)
 @Composable
 private fun CardEditor(
     title: StringResource,
@@ -235,7 +236,6 @@ private fun CardEditor(
 }
 
 
-@OptIn(ExperimentalResourceApi::class)
 @Composable
 fun DialogConfirmButton(text: StringResource, action: () -> Unit) {
     Button(
@@ -251,7 +251,6 @@ fun DialogConfirmButton(text: StringResource, action: () -> Unit) {
 }
 
 
-@OptIn(ExperimentalResourceApi::class)
 @Composable
 fun DialogCancelButton(text: StringResource, action: () -> Unit) {
     Button(
@@ -266,7 +265,6 @@ fun DialogCancelButton(text: StringResource, action: () -> Unit) {
     }
 }
 
-@OptIn(ExperimentalResourceApi::class)
 @Composable
 fun PrivacyPolicyButton() {
     val url = stringResource(Res.string.privacy_policy_url)

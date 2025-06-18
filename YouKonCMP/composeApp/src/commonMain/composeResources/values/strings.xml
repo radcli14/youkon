@@ -41,6 +41,8 @@
     <string name="delete_my_account">Delete my account</string>
     <string name="privacy_policy_button">Privacy Policy</string>
     <string name="privacy_policy_url">https://radcli14.github.io/youkon/privacypolicy/</string>
+    <string name="want_new_features">Want to add additional measurement units and systems?</string>
+    <string name="extend_youkon">Extend YouKon</string>
 
     <!-- Dialogs -->
     <string name="sign_out_title">Sign out?</string>

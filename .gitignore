@@ -5,7 +5,7 @@ GoogleService-Info.plist
 assets/storemedia
 key/
 youkon/YouKon/release/
-RevenueCatApiKey.kt
+RevenueCatApiKey.*
 
 # Gradle files
 .gradle/

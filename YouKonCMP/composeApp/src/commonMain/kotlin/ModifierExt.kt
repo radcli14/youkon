@@ -39,3 +39,7 @@ fun Modifier.fullWidthSemitransparentPadded() = composed {
             shape = MaterialTheme.shapes.large
         )
 }
+
+fun Modifier.defaultPadding() = composed {
+    Modifier.padding(16.dp)
+}
