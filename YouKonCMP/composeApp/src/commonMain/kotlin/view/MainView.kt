@@ -64,6 +64,7 @@ import kotlinx.coroutines.launch
 import model.ProjectExpansionLevel
 import org.jetbrains.compose.resources.painterResource
 import purchases.PurchasesRepository
+import purchases.PurchasesViewModel
 import purchases.YouKonExtendedPaywall
 import viewmodel.MainViewModel
 import viewmodel.OnboardingScreenViewModel
@@ -78,7 +79,8 @@ class MainView(
     private var onboardingScreenViewModel: OnboardingScreenViewModel? = null,
     private var loginViewModel: LoginViewModel? = null,
     private var settingsViewModel: SettingsViewModel? = null,
-    private var signupViewModel: SignUpViewModel? = null
+    private var signupViewModel: SignUpViewModel? = null,
+    private var purchasesViewModel: PurchasesViewModel = PurchasesViewModel()
 ) {
     /// Initialize using the fake view models inside the onboarding screen
     constructor(onboardingScreenViewModel: OnboardingScreenViewModel): this(
@@ -93,7 +95,7 @@ class MainView(
             BackgroundBox {
                 val navController = rememberNavController()
 
-                val showPaywall by PurchasesRepository.sharedInstance.shouldShowPaywall.collectAsState()
+                val showPaywall by purchasesViewModel.shouldShowPaywall.collectAsState()
 
                 /// Holds state and the bottom sheet scaffold to allow the editing screen to appear
                 /// as a sheet from the bottom of the screen.
@@ -128,14 +130,11 @@ class MainView(
                         composable(SIGN_UP_SCREEN) {
                             CreateAccountScreen()
                         }
-                        composable(PAYWALL_SCREEN) {
-                            YouKonExtendedPaywall()
-                        }
                     }
                 }
 
                 AnimatedVisibility(showPaywall) {
-                    YouKonExtendedPaywall()
+                    YouKonExtendedPaywall(dismissRequest = purchasesViewModel::hidePaywall)
                 }
             }
         }
@@ -233,10 +232,13 @@ class MainView(
 
     @Composable
     private fun SettingsScreen(navController: NavHostController) {
+        val extendedPurchaseState by purchasesViewModel.extendedPurchaseState.collectAsState()
         settingsViewModel?.let { viewModel ->
             firebase.settings.SettingsScreen(
                 restartApp = mainViewModel::restartAppFromSettingsScreen,
                 openScreen = { route -> navController.navigate(route) },
+                extendedPurchaseState = extendedPurchaseState,
+                showPaywall = purchasesViewModel::showPaywall,
                 viewModel
             )
         }

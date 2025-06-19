@@ -36,6 +36,7 @@ import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import purchases.PremiumFeaturesContent
+import purchases.PurchasesRepository
 import youkon.composeapp.generated.resources.Res
 import youkon.composeapp.generated.resources.cancel
 import youkon.composeapp.generated.resources.create_account
@@ -58,6 +59,8 @@ import youkon.composeapp.generated.resources.sign_out_title
 fun SettingsScreen(
     restartApp: (String) -> Unit,
     openScreen: (String) -> Unit,
+    extendedPurchaseState: PurchasesRepository.ExtendedPurchaseState,
+    showPaywall: () -> Unit,
     viewModel: SettingsViewModel
 ) {
     val uiState by viewModel.uiState.collectAsState(
@@ -69,7 +72,8 @@ fun SettingsScreen(
         onSignUpClick = { viewModel.onSignUpClick(openScreen) },
         onSignOutClick = { viewModel.onSignOutClick(restartApp) },
         onDeleteMyAccountClick = { viewModel.onDeleteMyAccountClick(restartApp) },
-        openScreen = openScreen
+        extendedPurchaseState = extendedPurchaseState,
+        showPaywall = showPaywall
     )
 }
 
@@ -82,7 +86,8 @@ fun SettingsScreenContent(
     onSignUpClick: () -> Unit,
     onSignOutClick: () -> Unit,
     onDeleteMyAccountClick: () -> Unit,
-    openScreen: (String) -> Unit
+    extendedPurchaseState: PurchasesRepository.ExtendedPurchaseState,
+    showPaywall: () -> Unit
 ) {
     Column(
         modifier = modifier
@@ -110,7 +115,7 @@ fun SettingsScreenContent(
         }
 
         HorizontalDivider()
-        PremiumFeaturesContent(openScreen = openScreen)
+        PremiumFeaturesContent(extendedPurchaseState, showPaywall)
         HorizontalDivider()
         PrivacyPolicyButton()
     }

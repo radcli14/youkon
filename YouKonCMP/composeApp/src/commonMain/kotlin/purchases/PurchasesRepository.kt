@@ -21,15 +21,6 @@ class PurchasesRepository {
 
     private val tag = "PurchasesRepository"
 
-    private val _shouldShowPaywall = MutableStateFlow(false)
-    var shouldShowPaywall: StateFlow<Boolean> = _shouldShowPaywall.asStateFlow()
-    fun showPaywall() {
-        _shouldShowPaywall.value = true
-    }
-    fun hidePaywall() {
-        _shouldShowPaywall.value = false
-    }
-
     private val _error = MutableStateFlow<PurchasesError?>(null)
     var error: StateFlow<PurchasesError?> = _error.asStateFlow()
     val errorMessage: String get() {

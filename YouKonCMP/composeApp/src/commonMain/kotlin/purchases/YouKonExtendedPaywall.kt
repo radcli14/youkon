@@ -9,7 +9,7 @@ import com.revenuecat.purchases.kmp.ui.revenuecatui.PaywallListener
 import com.revenuecat.purchases.kmp.ui.revenuecatui.PaywallOptions
 
 @Composable
-fun YouKonExtendedPaywall() {
+fun YouKonExtendedPaywall(dismissRequest: () -> Unit) {
     // Create the listener which will update the customer entitlements on successful purchase
     val paywallListener = object : PaywallListener {
         override fun onPurchaseCompleted(customerInfo: CustomerInfo, storeTransaction: StoreTransaction) {
@@ -19,9 +19,7 @@ fun YouKonExtendedPaywall() {
     }
 
     // Use the builder to create the options which include the listener
-    val builder = PaywallOptions.Builder(
-        dismissRequest = PurchasesRepository.sharedInstance::hidePaywall
-    )
+    val builder = PaywallOptions.Builder(dismissRequest)
     builder.listener = paywallListener
     val options = builder.build()
 
