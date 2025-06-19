@@ -69,7 +69,8 @@ fun SettingsScreen(
         onLoginClick = { viewModel.onLoginClick(openScreen) },
         onSignUpClick = { viewModel.onSignUpClick(openScreen) },
         onSignOutClick = { viewModel.onSignOutClick(restartApp) },
-        onDeleteMyAccountClick = { viewModel.onDeleteMyAccountClick(restartApp) }
+        onDeleteMyAccountClick = { viewModel.onDeleteMyAccountClick(restartApp) },
+        openScreen = openScreen
     )
 }
 
@@ -81,7 +82,8 @@ fun SettingsScreenContent(
     onLoginClick: () -> Unit,
     onSignUpClick: () -> Unit,
     onSignOutClick: () -> Unit,
-    onDeleteMyAccountClick: () -> Unit
+    onDeleteMyAccountClick: () -> Unit,
+    openScreen: (String) -> Unit
 ) {
     Column(
         modifier = modifier
@@ -109,7 +111,7 @@ fun SettingsScreenContent(
         }
 
         HorizontalDivider()
-        PremiumFeaturesContent()
+        PremiumFeaturesContent(openScreen = openScreen)
         HorizontalDivider()
         PrivacyPolicyButton()
     }

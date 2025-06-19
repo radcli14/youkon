@@ -3,6 +3,7 @@ package view
 import LOGIN_SCREEN
 import SETTINGS_SCREEN
 import SIGN_UP_SCREEN
+import PAYWALL_SCREEN
 import YoukonTheme
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
@@ -54,6 +55,7 @@ import closeKeyboardOnTapOutside
 import closeSheetOnTapOutside
 import firebase.login.LoginScreen
 import firebase.login.LoginViewModel
+import firebase.settings.PremiumFeaturesScreen
 import firebase.settings.SettingsViewModel
 import firebase.sign_up.SignUpScreen
 import firebase.sign_up.SignUpViewModel
@@ -120,6 +122,9 @@ class MainView(
                         }
                         composable(SIGN_UP_SCREEN) {
                             CreateAccountScreen()
+                        }
+                        composable(PAYWALL_SCREEN) {
+                            PremiumFeaturesScreen(navController)
                         }
                     }
                 }
@@ -232,7 +237,7 @@ class MainView(
     private fun SignInScreen(navController: NavHostController) {
         loginViewModel?.let { viewModel ->
             LoginScreen(
-                openAndPopUp = { open, popup -> 
+                openAndPopUp = { open, popup ->
                     navController.popBackStack()
                 },
                 viewModel

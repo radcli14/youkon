@@ -1,6 +1,7 @@
 package firebase.settings
 
 import Log
+import PAYWALL_SCREEN
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.material3.AlertDialog
@@ -32,11 +33,13 @@ import youkon.composeapp.generated.resources.Res
 import youkon.composeapp.generated.resources.extend_youkon
 import youkon.composeapp.generated.resources.purchase_error_generic
 import youkon.composeapp.generated.resources.want_new_features
+import youkon.composeapp.generated.resources.extend_youkon
+import youkon.composeapp.generated.resources.purchase_error_generic
+import youkon.composeapp.generated.resources.want_new_features
 
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun PremiumFeaturesContent() {
+fun PremiumFeaturesContent(openScreen: (String) -> Unit) {
     Purchases.logLevel = LogLevel.DEBUG
     Purchases.configure(apiKey = getRevenueCatApiKey())
 
@@ -98,7 +101,7 @@ fun PremiumFeaturesContent() {
             } else {
                 Text(stringResource(Res.string.want_new_features))
                 Button(
-                    onClick = { paywallIsShown = true }
+                    onClick = { openScreen(PAYWALL_SCREEN) }
                 ) {
                     Text(stringResource(Res.string.extend_youkon))
                 }
