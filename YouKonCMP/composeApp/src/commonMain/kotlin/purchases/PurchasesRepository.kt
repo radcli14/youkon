@@ -17,8 +17,6 @@ class PurchasesRepository {
     init {
         Purchases.logLevel = LogLevel.DEBUG
         Purchases.configure(apiKey = getRevenueCatApiKey())
-        getOfferings()
-        getCustomer()
     }
 
     private val tag = "PurchasesRepository"
@@ -31,6 +29,12 @@ class PurchasesRepository {
 
     private val _customer = MutableStateFlow<CustomerInfo?>(null)
     val customer: StateFlow<CustomerInfo?> = _customer.asStateFlow()
+
+    /// New method to start fetching data
+    fun startFetchingData() {
+        getOfferings()
+        getCustomer()
+    }
 
     /// When an error is received, add it to the StateFlow, and log it at the error level
     private fun updateError(newError: PurchasesError) {
@@ -65,7 +69,9 @@ class PurchasesRepository {
 
     companion object {
         val sharedInstance: PurchasesRepository by lazy {
-            PurchasesRepository()
+            val instance = PurchasesRepository()
+            instance.startFetchingData() // Call after instance is fully constructed
+            instance
         }
     }
 }
