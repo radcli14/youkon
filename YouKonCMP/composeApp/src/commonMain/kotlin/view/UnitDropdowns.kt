@@ -25,6 +25,7 @@ class UnitDropdown(
     val availableUnits: Array<YkUnit>,
     val headerText: String? = null,
     val isNested: Boolean = false,
+    val isExtended: Boolean = false,
     val includeUnitless: Boolean = false,
     val modifier: Modifier = Modifier,
     val onClick: (YkUnit?) -> Unit = {}
@@ -93,7 +94,7 @@ class UnitDropdown(
             ) {
                 selectedType?.let {
                     HeaderText("Choose the ${it.lowercasedString} Unit")
-                    UnitMenuItems(it.units)
+                    UnitMenuItems(it.units.filter { availableUnits.contains(it) }.toTypedArray())
                 }
             }
         }
@@ -120,7 +121,8 @@ class UnitDropdown(
             )
         }
 
-        YkType.entries.forEach { unitType ->
+        val types: Array<YkType> = if (isExtended) YkType.entries.toTypedArray() else YkType.MASS.basicTypes
+        types.forEach { unitType ->
             DropdownMenuItem(
                 text = {
                     Text(

@@ -25,6 +25,10 @@ class PurchasesViewModel: ViewModel() {
     private val _extendedPurchaseState = MutableStateFlow(repository.extendedPurchaseState)
     val extendedPurchaseState: StateFlow<PurchasesRepository.ExtendedPurchaseState> = _extendedPurchaseState.asStateFlow()
 
+    val isExtended: Boolean get() {
+        return extendedPurchaseState.value == PurchasesRepository.ExtendedPurchaseState.EXTENDED
+    }
+
     init {
         viewModelScope.launch {
             repository.customer.collect {

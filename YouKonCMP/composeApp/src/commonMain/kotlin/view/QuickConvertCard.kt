@@ -15,11 +15,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import purchases.PurchasesViewModel
 import viewmodel.QuickConvertCardViewModel
 import viewmodel.QuickConvertViews
 
 class QuickConvertCard(
-    private val vm: QuickConvertCardViewModel = QuickConvertCardViewModel()
+    private val vm: QuickConvertCardViewModel = QuickConvertCardViewModel(),
+    private val purchases: PurchasesViewModel? = null
 ) {
     private val tag = "QuickConvertCard"
 
@@ -81,9 +83,10 @@ class QuickConvertCard(
         val data by vm.data.collectAsState()
         UnitDropdown(
             unit = data.unit,
-            availableUnits = vm.allUnits,
+            availableUnits = vm.allUnits(purchases?.isExtended == true),
             headerText = "From",
             isNested = true,
+            isExtended = purchases?.isExtended == true,
             modifier = modifier,
             onClick = { vm.updateUnit(it) }
         ).Body()
@@ -95,8 +98,9 @@ class QuickConvertCard(
         val data by vm.data.collectAsState()
         UnitDropdown(
             unit = data.targetUnit,
-            availableUnits = data.equivalentUnits,
+            availableUnits = vm.equivalentUnits(purchases?.isExtended == true),
             headerText = "To",
+            isExtended = purchases?.isExtended == true,
             modifier = modifier,
             onClick = { vm.updateTargetUnit(it) }
         ).Body()

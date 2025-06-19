@@ -330,7 +330,7 @@ class MainView(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(Constants.mainContentSpacing)
         ) {
-            QuickConvertCard(quickConvertCardViewModel).Body()
+            QuickConvertCard(quickConvertCardViewModel, purchasesViewModel).Body()
             ProjectsCard(mainViewModel).Body()
         }
     }

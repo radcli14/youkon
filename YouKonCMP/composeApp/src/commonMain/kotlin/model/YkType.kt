@@ -39,6 +39,8 @@ enum class YkType(val units: Array<YkUnit>) {
     TEMPERATURE(arrayOf(YkUnit.CELSIUS, YkUnit.FAHRENHEIT, YkUnit.KELVIN, YkUnit.RANKINE))
     ;
 
+    val basicTypes: Array<YkType> get() = arrayOf(MASS, LENGTH, SPEED, FORCE)
+
     val lowercasedString: String get() = this
         .toString()
         .replace("_", " ")

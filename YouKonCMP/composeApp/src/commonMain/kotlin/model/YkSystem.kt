@@ -55,6 +55,8 @@ enum class YkSystem(val text: String, private val units: Array<YkUnit>) {
     ))
     ;
 
+    val basicSystems: Array<YkSystem> get() = arrayOf(SI, IMPERIAL)
+
     val mass get() = units[0]
     val length get() = units[1]
     val speed get() = units[2]

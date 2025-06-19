@@ -86,6 +86,15 @@ enum class YkUnit(private val toBase: Double, val shortUnit: String, private val
     RANKINE(5.0/9.0, "R", 491.67)
     ;
 
+    val basicUnits: Array<YkUnit> get() {
+        return arrayOf(UNITLESS,
+            KILOGRAMS, POUNDS, SLUGS,
+            METERS, FEET, INCHES,
+            KILOMETERS_PER_HOUR, MILES_PER_HOUR,
+            NEWTONS, POUND_FORCE
+        )
+    }
+
     /// Convert a numeric value from this unit to a target unit
     fun convert(value: Double, targetUnit: YkUnit): Double {
         return conversionFactor(targetUnit) * (value - offsetToBase) + targetUnit.offsetToBase
@@ -127,14 +136,19 @@ enum class YkUnit(private val toBase: Double, val shortUnit: String, private val
 
     /// Check that the target unit is not a duplicate of the selected unit,
     /// and is valid as the same type of measure
-    fun getNewTargetUnit(oldTarget: YkUnit): YkUnit {
+    fun getNewTargetUnit(oldTarget: YkUnit, isExtended: Boolean = false): YkUnit {
         if (oldTarget == this || oldTarget !in equivalentUnits()) {
-            return newTargetUnit
+            return newTargetUnit(isExtended)
         }
         return oldTarget
     }
 
     /// When the user modifies the `From` dropdown, this provides the first option for a target unit
     /// that can be converted from the `measurement.unit` but is not the same unit
-    val newTargetUnit: YkUnit get() = equivalentUnits().first { it != this }
+    fun newTargetUnit(isExtended: Boolean): YkUnit {
+        return when(isExtended) {
+            true -> equivalentUnits().first { it != this }
+            false -> equivalentUnits().filter{ basicUnits.contains(it) }.first { it != this }
+        }
+    }
 }

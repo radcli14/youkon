@@ -22,7 +22,15 @@ class QuickConvertCardViewModel(private val storage: Storage? = null) : ViewMode
 
     val unit: YkUnit get() = data.value.unit
     val value: Double get() = data.value.value
-    val allUnits get() = unit.allUnits
+    fun allUnits(isExtended: Boolean = false): Array<YkUnit> {
+        return if (isExtended) unit.allUnits else unit.basicUnits
+    }
+    fun equivalentUnits(isExtended: Boolean = false): Array<YkUnit> {
+        return when (isExtended) {
+            true -> unit.equivalentUnits()
+            false -> unit.equivalentUnits().filter { unit.basicUnits.contains(it) }.toTypedArray()
+        }
+    }
     private val targetUnit get() = data.value.targetUnit
 
     var convertedTextFitsOnOneLine = MutableStateFlow(true)
