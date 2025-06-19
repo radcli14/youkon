@@ -21,8 +21,20 @@ class PurchasesRepository {
 
     private val tag = "PurchasesRepository"
 
+    private val _shouldShowPaywall = MutableStateFlow(false)
+    var shouldShowPaywall: StateFlow<Boolean> = _shouldShowPaywall.asStateFlow()
+    fun showPaywall() {
+        _shouldShowPaywall.value = true
+    }
+
     private val _error = MutableStateFlow<PurchasesError?>(null)
     var error: StateFlow<PurchasesError?> = _error.asStateFlow()
+    val errorMessage: String get() {
+        error.value?.underlyingErrorMessage?.let {
+            return "Error: $it"
+        }
+        return "No Error"
+    }
 
     private val _offerings = MutableStateFlow<Offerings?>(null)
     var offerings: StateFlow<Offerings?> = _offerings.asStateFlow()
@@ -65,6 +77,18 @@ class PurchasesRepository {
     private fun updateCustomerInfo(info: CustomerInfo) {
         _customer.value = info
         Log.d(tag, "Customer: Extended=${info.hasExtendedPurchase}")
+    }
+
+    enum class ExtendedPurchaseState {
+        EXTENDED, BASIC, ERROR
+    }
+
+    val extendedPurchaseState: ExtendedPurchaseState get() {
+        return when {
+            customer.value?.hasExtendedPurchase == true -> ExtendedPurchaseState.EXTENDED
+            error.value != null -> ExtendedPurchaseState.ERROR
+            else -> ExtendedPurchaseState.BASIC
+        }
     }
 
     companion object {

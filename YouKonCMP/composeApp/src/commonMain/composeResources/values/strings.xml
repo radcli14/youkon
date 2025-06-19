@@ -43,6 +43,7 @@
     <string name="privacy_policy_url">https://radcli14.github.io/youkon/privacypolicy/</string>
     <string name="want_new_features">Want to add additional measurement units and systems?</string>
     <string name="extend_youkon">Extend YouKon</string>
+    <string name="have_extended">✅ You've upgraded to YouKon extended!</string>
     <string name="purchase_error_generic">There was an error loading in-app purchases, try again later</string>
 
     <!-- Dialogs -->

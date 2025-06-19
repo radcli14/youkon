@@ -1,9 +1,9 @@
 package view
 
 import LOGIN_SCREEN
+import PAYWALL_SCREEN
 import SETTINGS_SCREEN
 import SIGN_UP_SCREEN
-import PAYWALL_SCREEN
 import YoukonTheme
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
@@ -53,9 +53,10 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import closeKeyboardOnTapOutside
 import closeSheetOnTapOutside
+import com.revenuecat.purchases.kmp.ui.revenuecatui.Paywall
+import com.revenuecat.purchases.kmp.ui.revenuecatui.PaywallOptions
 import firebase.login.LoginScreen
 import firebase.login.LoginViewModel
-import purchases.PremiumFeaturesScreen
 import firebase.settings.SettingsViewModel
 import firebase.sign_up.SignUpScreen
 import firebase.sign_up.SignUpViewModel
@@ -124,7 +125,10 @@ class MainView(
                             CreateAccountScreen()
                         }
                         composable(PAYWALL_SCREEN) {
-                            PremiumFeaturesScreen(navController)
+                            val options = PaywallOptions(
+                                dismissRequest = navController::popBackStack
+                            )
+                            Paywall(options)
                         }
                     }
                 }
