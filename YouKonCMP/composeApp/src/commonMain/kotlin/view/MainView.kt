@@ -63,6 +63,8 @@ import firebase.sign_up.SignUpViewModel
 import kotlinx.coroutines.launch
 import model.ProjectExpansionLevel
 import org.jetbrains.compose.resources.painterResource
+import purchases.PurchasesRepository
+import purchases.YouKonExtendedPaywall
 import viewmodel.MainViewModel
 import viewmodel.OnboardingScreenViewModel
 import viewmodel.QuickConvertCardViewModel
@@ -90,6 +92,8 @@ class MainView(
         YoukonTheme {
             BackgroundBox {
                 val navController = rememberNavController()
+
+                val showPaywall by PurchasesRepository.sharedInstance.shouldShowPaywall.collectAsState()
 
                 /// Holds state and the bottom sheet scaffold to allow the editing screen to appear
                 /// as a sheet from the bottom of the screen.
@@ -125,12 +129,13 @@ class MainView(
                             CreateAccountScreen()
                         }
                         composable(PAYWALL_SCREEN) {
-                            val options = PaywallOptions(
-                                dismissRequest = navController::popBackStack
-                            )
-                            Paywall(options)
+                            YouKonExtendedPaywall()
                         }
                     }
+                }
+
+                AnimatedVisibility(showPaywall) {
+                    YouKonExtendedPaywall()
                 }
             }
         }

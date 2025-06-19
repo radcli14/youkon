@@ -26,6 +26,9 @@ class PurchasesRepository {
     fun showPaywall() {
         _shouldShowPaywall.value = true
     }
+    fun hidePaywall() {
+        _shouldShowPaywall.value = false
+    }
 
     private val _error = MutableStateFlow<PurchasesError?>(null)
     var error: StateFlow<PurchasesError?> = _error.asStateFlow()

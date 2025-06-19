@@ -27,19 +27,6 @@ import youkon.composeapp.generated.resources.want_new_features
 @Composable
 fun PremiumFeaturesContent(openScreen: (String) -> Unit) {
     val repository = PurchasesRepository.sharedInstance
-    val offerings by repository.offerings.collectAsState()
-    val customer by repository.customer.collectAsState()
-    val error by repository.error.collectAsState()
-
-    val tag = "PremiumFeaturesContent"
-
-    var paywallIsShown by remember { mutableStateOf(false) }
-
-    val options = remember {
-        PaywallOptions(dismissRequest = { paywallIsShown = false }) {
-            shouldDisplayDismissButton = true
-        }
-    }
 
     Column(
         modifier = Modifier.defaultPadding(),
