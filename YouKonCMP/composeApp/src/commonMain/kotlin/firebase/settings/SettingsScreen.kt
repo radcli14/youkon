@@ -3,6 +3,7 @@ package firebase.settings
 import Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
@@ -85,11 +86,12 @@ fun SettingsScreenContent(
     Column(
         modifier = modifier
             .fullWidthSemitransparentPadded()
+            .fillMaxHeight()
             .verticalScroll(rememberScrollState()),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(if (uiState.isAnonymousAccount) "Log in or create an account" else "Logged in as ${uiState.name}",
-            modifier = Modifier.padding(16.dp),
+            modifier = Modifier.defaultPadding(),
             color = MaterialTheme.colorScheme.onSurface
         )
 
@@ -273,6 +275,6 @@ fun PrivacyPolicyButton() {
         Log.d("Settings Screen","Tapped Privacy Policy Button: $url")
         uriHandler.openUri(url)
     }) {
-        Text(stringResource(Res.string.privacy_policy_button), modifier = Modifier.padding(16.dp))
+        Text(stringResource(Res.string.privacy_policy_button), modifier = Modifier.defaultPadding())
     }
 }

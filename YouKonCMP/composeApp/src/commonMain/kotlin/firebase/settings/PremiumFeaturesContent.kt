@@ -2,7 +2,11 @@ package firebase.settings
 
 import Log
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.BasicAlertDialog
 import androidx.compose.material3.Button
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -16,6 +20,7 @@ import androidx.compose.ui.Modifier
 import com.revenuecat.purchases.kmp.LogLevel
 import com.revenuecat.purchases.kmp.Purchases
 import com.revenuecat.purchases.kmp.configure
+import com.revenuecat.purchases.kmp.models.CustomerInfo
 import com.revenuecat.purchases.kmp.models.Offerings
 import com.revenuecat.purchases.kmp.models.PurchasesError
 import com.revenuecat.purchases.kmp.ui.revenuecatui.Paywall
@@ -29,6 +34,7 @@ import youkon.composeapp.generated.resources.purchase_error_generic
 import youkon.composeapp.generated.resources.want_new_features
 
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PremiumFeaturesContent() {
     Purchases.logLevel = LogLevel.DEBUG
@@ -46,15 +52,30 @@ fun PremiumFeaturesContent() {
 
     // Determine if there are purchases available
     var error: PurchasesError? = null
-    var offerings: Offerings? = null
+    val initialOfferings: Offerings? = null
+    val offerings = remember { mutableStateOf(initialOfferings) }
+    val initialCustomer: CustomerInfo? = null
+    val customer = remember { mutableStateOf(initialCustomer) }
+
     Purchases.sharedInstance.getOfferings(
         onError = {
             error = it
             error?.underlyingErrorMessage?.let { message -> Log.d(tag, message) }
         },
         onSuccess = {
-            offerings = it
-            Log.d(tag, it.all.toString())
+            offerings.value = it
+            Log.d(tag, "Offerings: ${it.all}")
+        }
+    )
+
+    Purchases.sharedInstance.getCustomerInfo(
+        onError = {
+            error = it
+            error?.underlyingErrorMessage?.let { message -> Log.d(tag, message) }
+        },
+        onSuccess = {
+            customer.value = it
+            Log.d(tag, "Customer: ${it.entitlements.get("Extended")?.isActive}")
         }
     )
 
@@ -67,38 +88,32 @@ fun PremiumFeaturesContent() {
             modifier = Modifier.defaultPadding(),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(stringResource(Res.string.want_new_features))
+            Text("Purchases", style = MaterialTheme.typography.titleLarge)
 
-            Button(
-                onClick = {
-                paywallIsShown = true
-
-                /*Purchases.sharedInstance.purchase(
-                    packageToPurchase = Package(),
-                    onError = { error, userCancelled ->
-                        // No purchase
-                    },
-                    onSuccess = { storeTransaction, customerInfo ->
-                        if (customerInfo.entitlements["my_entitlement_identifier"]?.isActive == true) {
-                            // Unlock that great "pro" content
-                        }
-                    }
-                )*/
-
-                },
-                enabled = error == null
-            ) {
-                Text(stringResource(Res.string.extend_youkon))
-            }
-
-            if (paywallIsShown) {
-                if (error != null) {
-                    //error?.underlyingErrorMessage?.let { Text(it) }
-                    Text(stringResource(Res.string.purchase_error_generic))
-                } else if (offerings != null) {
-                    Paywall(options)
+            if (customer.value?.hasExtendedPurchase == true) {
+                Text("✅ You've got extended!")
+            } else if (error != null) {
+                //error?.underlyingErrorMessage?.let { Text(it) }
+                Text(stringResource(Res.string.purchase_error_generic))
+            } else {
+                Text(stringResource(Res.string.want_new_features))
+                Button(
+                    onClick = { paywallIsShown = true }
+                ) {
+                    Text(stringResource(Res.string.extend_youkon))
                 }
             }
         }
     }
+
+    if (paywallIsShown) {
+        // Uncaught Kotlin exception: kotlin.IllegalStateException: Currently, UIKitViewController cannot be used within Popups or Dialogs
+        /*BasicAlertDialog(onDismissRequest = { paywallIsShown = false }) {
+            Paywall(options)
+        }*/
+    }
+}
+
+val CustomerInfo.hasExtendedPurchase: Boolean get() {
+    return entitlements.get("Extended")?.isActive == true
 }
