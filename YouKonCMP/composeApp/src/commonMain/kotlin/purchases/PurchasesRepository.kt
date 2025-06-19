@@ -77,7 +77,7 @@ class PurchasesRepository {
     }
 
     // Call this when customer info updates from RevenueCat SDK callbacks
-    private fun updateCustomerInfo(info: CustomerInfo) {
+    fun updateCustomerInfo(info: CustomerInfo) {
         _customer.value = info
         Log.d(tag, "Customer: Extended=${info.hasExtendedPurchase}")
     }

@@ -1,14 +1,30 @@
 package purchases
 
+import Log
 import androidx.compose.runtime.Composable
-import androidx.navigation.NavHostController
+import com.revenuecat.purchases.kmp.models.CustomerInfo
+import com.revenuecat.purchases.kmp.models.StoreTransaction
 import com.revenuecat.purchases.kmp.ui.revenuecatui.Paywall
+import com.revenuecat.purchases.kmp.ui.revenuecatui.PaywallListener
 import com.revenuecat.purchases.kmp.ui.revenuecatui.PaywallOptions
 
 @Composable
 fun YouKonExtendedPaywall() {
-    val options = PaywallOptions(
+    // Create the listener which will update the customer entitlements on successful purchase
+    val paywallListener = object : PaywallListener {
+        override fun onPurchaseCompleted(customerInfo: CustomerInfo, storeTransaction: StoreTransaction) {
+            PurchasesRepository.sharedInstance.updateCustomerInfo(customerInfo)
+            Log.d( "YouKonPaywallListener","Purchase completed: ${storeTransaction.productIds}")
+        }
+    }
+
+    // Use the builder to create the options which include the listener
+    val builder = PaywallOptions.Builder(
         dismissRequest = PurchasesRepository.sharedInstance::hidePaywall
     )
+    builder.listener = paywallListener
+    val options = builder.build()
+
+    // Display the paywall composable
     Paywall(options)
 }
