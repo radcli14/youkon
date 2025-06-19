@@ -1,6 +1,5 @@
 package view
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -9,39 +8,30 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.twotone.Add
 import androidx.compose.material.icons.twotone.Delete
 import androidx.compose.material.icons.twotone.SwapVert
 import androidx.compose.material3.FilledIconButton
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import model.YkMeasurement
-import org.jetbrains.compose.resources.ExperimentalResourceApi
-import org.jetbrains.compose.resources.painterResource
-import viewmodel.MainViewModel
+import purchases.PurchasesViewModel
 import viewmodel.ProjectViewModel
 import viewmodel.ProjectViewViews
-import youkon.composeapp.generated.resources.Res
-import youkon.composeapp.generated.resources.swap_vert_24dp_E8EAED_FILL0_wght400_GRAD0_opsz24
-import kotlinx.coroutines.flow.MutableStateFlow
 
 /// Upon tapping on the measurements, a bottom sheet will open into "Editable" mode.
 class ProjectViewWhenEditing(
     private val vm: ProjectViewModel,
+    private val purchases: PurchasesViewModel? = null
 ) {
     /// The list of editable measurements when the project is opened in a sheet for editing
     @Composable
@@ -239,6 +229,7 @@ class ProjectViewWhenEditing(
                 measurement = measurement,
                 highlightNameAndDescription = vm.highlightedView.value == ProjectViewViews.MEASUREMENT_LABEL,
                 highlightValueAndUnit = vm.highlightedView.value == ProjectViewViews.MEASUREMENT_FIELDS,
+                purchases = purchases,
                 onMeasurementUpdated = { updatedMeasurement ->
                     vm.updateMeasurement(updatedMeasurement)
                 }

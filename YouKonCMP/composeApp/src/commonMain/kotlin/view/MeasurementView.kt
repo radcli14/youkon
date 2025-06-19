@@ -13,6 +13,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import model.YkMeasurement
+import purchases.PurchasesViewModel
 import viewmodel.MeasurementViewModel
 
 /// The editable form of a single measurement, with a name, description, value, and unit. Name and
@@ -21,6 +22,7 @@ class MeasurementView(
     val measurement: YkMeasurement,
     private val highlightNameAndDescription: Boolean = false,
     private val highlightValueAndUnit: Boolean = false,
+    private val purchases: PurchasesViewModel? = null,
     private val onMeasurementUpdated: (YkMeasurement) -> Unit = {}
 ) {
     @Composable
@@ -74,6 +76,8 @@ class MeasurementView(
             horizontalArrangement = Arrangement.spacedBy(8.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
+            val isExtended = purchases?.isExtended == true
+            val availableUnits = if (isExtended) vm.unit.value.allUnits else vm.unit.value.basicUnits
             MeasurementTextField(
                 value = vm.value.value,
                 modifier = Modifier.weight(1f),
@@ -82,8 +86,9 @@ class MeasurementView(
                 alignedContent = { alignedModifier ->
                     UnitDropdown(
                         unit = vm.unit.value,
-                        availableUnits = vm.unit.value.allUnits,
+                        availableUnits = availableUnits,
                         isNested = true,
+                        isExtended = isExtended,
                         includeUnitless = true,
                         modifier = alignedModifier,
                         onClick = { it?.let { vm.updateUnit(it) } }

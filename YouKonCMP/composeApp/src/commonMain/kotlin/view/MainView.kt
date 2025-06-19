@@ -346,7 +346,7 @@ class MainView(
                 val pcvm = mainViewModel.projectsCardViewModel.collectAsState()
                 val pvm = pcvm.value.projectViewModel(project)
                 pvm.expansion.value = ProjectExpansionLevel.EDITABLE
-                ProjectViewWhenEditing(pvm).Body()
+                ProjectViewWhenEditing(pvm, purchasesViewModel).Body()
             }
             Spacer(Modifier.weight(1f))
         }
