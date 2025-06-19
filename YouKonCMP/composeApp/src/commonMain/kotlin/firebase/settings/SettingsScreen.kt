@@ -16,7 +16,6 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -33,10 +32,10 @@ import androidx.compose.ui.unit.dp
 import defaultPadding
 import fullWidthSemitransparentPadded
 import org.jetbrains.compose.resources.DrawableResource
-import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
+import purchases.PremiumFeaturesContent
 import youkon.composeapp.generated.resources.Res
 import youkon.composeapp.generated.resources.cancel
 import youkon.composeapp.generated.resources.create_account

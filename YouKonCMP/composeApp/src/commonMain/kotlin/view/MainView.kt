@@ -55,7 +55,7 @@ import closeKeyboardOnTapOutside
 import closeSheetOnTapOutside
 import firebase.login.LoginScreen
 import firebase.login.LoginViewModel
-import firebase.settings.PremiumFeaturesScreen
+import purchases.PremiumFeaturesScreen
 import firebase.settings.SettingsViewModel
 import firebase.sign_up.SignUpScreen
 import firebase.sign_up.SignUpViewModel

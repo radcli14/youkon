@@ -1,17 +1,14 @@
-package firebase.settings
+package purchases
 
 import Log
 import PAYWALL_SCREEN
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.BasicAlertDialog
 import androidx.compose.material3.Button
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -24,7 +21,6 @@ import com.revenuecat.purchases.kmp.configure
 import com.revenuecat.purchases.kmp.models.CustomerInfo
 import com.revenuecat.purchases.kmp.models.Offerings
 import com.revenuecat.purchases.kmp.models.PurchasesError
-import com.revenuecat.purchases.kmp.ui.revenuecatui.Paywall
 import com.revenuecat.purchases.kmp.ui.revenuecatui.PaywallOptions
 import defaultPadding
 import getRevenueCatApiKey
@@ -33,15 +29,14 @@ import youkon.composeapp.generated.resources.Res
 import youkon.composeapp.generated.resources.extend_youkon
 import youkon.composeapp.generated.resources.purchase_error_generic
 import youkon.composeapp.generated.resources.want_new_features
-import youkon.composeapp.generated.resources.extend_youkon
-import youkon.composeapp.generated.resources.purchase_error_generic
-import youkon.composeapp.generated.resources.want_new_features
 
 
 @Composable
 fun PremiumFeaturesContent(openScreen: (String) -> Unit) {
-    Purchases.logLevel = LogLevel.DEBUG
-    Purchases.configure(apiKey = getRevenueCatApiKey())
+    val repository = PurchasesRepository.sharedInstance
+    val offerings by repository.offerings.collectAsState()
+    val customer by repository.customer.collectAsState()
+    val error by repository.error.collectAsState()
 
     val tag = "PremiumFeaturesContent"
 
@@ -52,35 +47,6 @@ fun PremiumFeaturesContent(openScreen: (String) -> Unit) {
             shouldDisplayDismissButton = true
         }
     }
-
-    // Determine if there are purchases available
-    var error: PurchasesError? = null
-    val initialOfferings: Offerings? = null
-    val offerings = remember { mutableStateOf(initialOfferings) }
-    val initialCustomer: CustomerInfo? = null
-    val customer = remember { mutableStateOf(initialCustomer) }
-
-    Purchases.sharedInstance.getOfferings(
-        onError = {
-            error = it
-            error?.underlyingErrorMessage?.let { message -> Log.d(tag, message) }
-        },
-        onSuccess = {
-            offerings.value = it
-            Log.d(tag, "Offerings: ${it.all}")
-        }
-    )
-
-    Purchases.sharedInstance.getCustomerInfo(
-        onError = {
-            error = it
-            error?.underlyingErrorMessage?.let { message -> Log.d(tag, message) }
-        },
-        onSuccess = {
-            customer.value = it
-            Log.d(tag, "Customer: ${it.entitlements.get("Extended")?.isActive}")
-        }
-    )
 
     Surface(
         modifier = Modifier.defaultPadding(),
@@ -93,7 +59,7 @@ fun PremiumFeaturesContent(openScreen: (String) -> Unit) {
         ) {
             Text("Purchases", style = MaterialTheme.typography.titleLarge)
 
-            if (customer.value?.hasExtendedPurchase == true) {
+            if (customer?.hasExtendedPurchase == true) {
                 Text("✅ You've got extended!")
             } else if (error != null) {
                 //error?.underlyingErrorMessage?.let { Text(it) }
@@ -108,15 +74,4 @@ fun PremiumFeaturesContent(openScreen: (String) -> Unit) {
             }
         }
     }
-
-    if (paywallIsShown) {
-        // Uncaught Kotlin exception: kotlin.IllegalStateException: Currently, UIKitViewController cannot be used within Popups or Dialogs
-        /*BasicAlertDialog(onDismissRequest = { paywallIsShown = false }) {
-            Paywall(options)
-        }*/
-    }
-}
-
-val CustomerInfo.hasExtendedPurchase: Boolean get() {
-    return entitlements.get("Extended")?.isActive == true
 }
