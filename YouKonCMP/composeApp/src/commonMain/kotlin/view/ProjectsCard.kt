@@ -34,7 +34,8 @@ import viewmodel.MainViewModel
 import viewmodel.ProjectsCardViews
 
 class ProjectsCard(
-    private val mainViewModel: MainViewModel = MainViewModel()
+    private val mainViewModel: MainViewModel = MainViewModel(),
+    private val isExtended: Boolean = false
 ) {
     @Composable
     fun Body() {
@@ -184,7 +185,7 @@ class ProjectsCard(
                     val pvm = vm.projectViewModel(project, onProjectUpdated = {
                         mainViewModel.projectsCardViewModel.value.updateProject(it)
                     })
-                    ProjectView(pvm, mainViewModel).Body()
+                    ProjectView(pvm, mainViewModel, isExtended).Body()
                 }
             }
         }

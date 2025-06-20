@@ -36,7 +36,7 @@ class QuickConvertCardController: ObservableObject {
     func updateUnit(to unit: YkUnit) {
         measurement.unit = unit
         equivalentUnits = unit.equivalentUnits().asSwiftArray
-        targetUnit = unit.getNewTargetUnit(oldTarget: targetUnit)
+        targetUnit = unit.getNewTargetUnit(oldTarget: targetUnit, isExtended: true)
         setConvertedText()
     }
 }

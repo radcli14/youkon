@@ -331,7 +331,7 @@ class MainView(
             verticalArrangement = Arrangement.spacedBy(Constants.mainContentSpacing)
         ) {
             QuickConvertCard(quickConvertCardViewModel, purchasesViewModel).Body()
-            ProjectsCard(mainViewModel).Body()
+            ProjectsCard(mainViewModel, purchasesViewModel.isExtended).Body()
         }
     }
 

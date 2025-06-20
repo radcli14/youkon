@@ -54,7 +54,8 @@ import androidx.compose.ui.unit.times
 /// When tapped, the view will expand similar to show the measurements in "Static" mode.
 class ProjectView(
     private val vm: ProjectViewModel,
-    private val mainViewModel: MainViewModel? = null
+    private val mainViewModel: MainViewModel? = null,
+    private val unitsAreExtended: Boolean = false
 ) {
     /// Provides a view modifier for a colored shadow if the selected view is highlighted in the onboarding screen
     private fun Modifier.onboardingModifier(view: ProjectViewViews): Modifier = composed {
@@ -147,7 +148,9 @@ class ProjectView(
                 items(YkSystem.entries.count()) { idx ->
                     val system = YkSystem.entries[idx]
                     val isSelected = vm.convertToSystem.value == system
-                    SystemPickerButton(system, isSelected)
+                    if (unitsAreExtended || system.basicSystems.contains(system)) {
+                        SystemPickerButton(system, isSelected)
+                    }
                 }
             }
         }
