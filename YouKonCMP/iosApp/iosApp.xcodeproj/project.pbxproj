@@ -34,7 +34,6 @@
 		8A1D2D0D2B64FCDA006C8922 /* MeasurementTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A1D2CFF2B64FCDA006C8922 /* MeasurementTextField.swift */; };
 		8A5A43482BBADAF200AACB45 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 8A11FC3F2B910F7300DCE3C1 /* FirebaseAnalytics */; };
 		8A5A434A2BBADAF200AACB45 /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */ = {isa = PBXBuildFile; productRef = 8A11FC412B910F7300DCE3C1 /* FirebaseAnalyticsWithoutAdIdSupport */; };
-		8A5A434B2BBADAF200AACB45 /* FirebaseAppCheck in Frameworks */ = {isa = PBXBuildFile; productRef = 8A11FC422B910F7300DCE3C1 /* FirebaseAppCheck */; };
 		8A5A434C2BBADAF200AACB45 /* FirebaseAppDistribution-Beta in Frameworks */ = {isa = PBXBuildFile; productRef = 8A11FC432B910F7300DCE3C1 /* FirebaseAppDistribution-Beta */; };
 		8A5A434D2BBADAF200AACB45 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 8A11FC442B910F7300DCE3C1 /* FirebaseAuth */; };
 		8A5A434E2BBADAF200AACB45 /* FirebaseAuthCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = 8A11FC452B910F7300DCE3C1 /* FirebaseAuthCombine-Community */; };
@@ -56,7 +55,6 @@
 		8A5A43622BBADAF200AACB45 /* FirebaseStorageCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = 8A11FC592B910F7300DCE3C1 /* FirebaseStorageCombine-Community */; };
 		8A5A43642BBADAF200AACB45 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 8A11FC5B2B910F9500DCE3C1 /* FirebaseAnalytics */; };
 		8A5A43662BBADAF200AACB45 /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */ = {isa = PBXBuildFile; productRef = 8A11FC5D2B910F9500DCE3C1 /* FirebaseAnalyticsWithoutAdIdSupport */; };
-		8A5A43672BBADAF200AACB45 /* FirebaseAppCheck in Frameworks */ = {isa = PBXBuildFile; productRef = 8A11FC5E2B910F9500DCE3C1 /* FirebaseAppCheck */; };
 		8A5A43682BBADAF200AACB45 /* FirebaseAppDistribution-Beta in Frameworks */ = {isa = PBXBuildFile; productRef = 8A11FC5F2B910F9500DCE3C1 /* FirebaseAppDistribution-Beta */; };
 		8A5A43692BBADAF200AACB45 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 8A11FC602B910F9500DCE3C1 /* FirebaseAuth */; };
 		8A5A436A2BBADAF200AACB45 /* FirebaseAuthCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = 8A11FC612B910F9500DCE3C1 /* FirebaseAuthCombine-Community */; };
@@ -76,7 +74,6 @@
 		8A5A437E2BBADAF200AACB45 /* FirebaseStorageCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = 8A11FC752B910F9500DCE3C1 /* FirebaseStorageCombine-Community */; };
 		8A5A43802BBADAF200AACB45 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 8A11FC772B910FB000DCE3C1 /* FirebaseAnalytics */; };
 		8A5A43822BBADAF200AACB45 /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */ = {isa = PBXBuildFile; productRef = 8A11FC792B910FB000DCE3C1 /* FirebaseAnalyticsWithoutAdIdSupport */; };
-		8A5A43832BBADAF200AACB45 /* FirebaseAppCheck in Frameworks */ = {isa = PBXBuildFile; productRef = 8A11FC7A2B910FB000DCE3C1 /* FirebaseAppCheck */; };
 		8A5A43852BBADAF200AACB45 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 8A11FC7C2B910FB000DCE3C1 /* FirebaseAuth */; };
 		8A5A43862BBADAF200AACB45 /* FirebaseAuthCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = 8A11FC7D2B910FB000DCE3C1 /* FirebaseAuthCombine-Community */; };
 		8A5A43872BBADAF200AACB45 /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = 8A11FC7E2B910FB000DCE3C1 /* FirebaseCrashlytics */; };
@@ -152,7 +149,6 @@
 				8A5A43872BBADAF200AACB45 /* FirebaseCrashlytics in Frameworks */,
 				8A5A43862BBADAF200AACB45 /* FirebaseAuthCombine-Community in Frameworks */,
 				8A5A43852BBADAF200AACB45 /* FirebaseAuth in Frameworks */,
-				8A5A43832BBADAF200AACB45 /* FirebaseAppCheck in Frameworks */,
 				8AEC13E32E01D27F00109351 /* PurchasesHybridCommon in Frameworks */,
 				8AFD35022BBC4EC600A3CA8A /* FirebasePerformance in Frameworks */,
 				8A5A43822BBADAF200AACB45 /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */,
@@ -175,7 +171,6 @@
 				8A5A436A2BBADAF200AACB45 /* FirebaseAuthCombine-Community in Frameworks */,
 				8A5A43692BBADAF200AACB45 /* FirebaseAuth in Frameworks */,
 				8A5A43682BBADAF200AACB45 /* FirebaseAppDistribution-Beta in Frameworks */,
-				8A5A43672BBADAF200AACB45 /* FirebaseAppCheck in Frameworks */,
 				8A5A43662BBADAF200AACB45 /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */,
 				8A5A43642BBADAF200AACB45 /* FirebaseAnalytics in Frameworks */,
 				8AFD34FC2BBC4EC600A3CA8A /* FirebaseAuth in Frameworks */,
@@ -200,7 +195,6 @@
 				8A5A434E2BBADAF200AACB45 /* FirebaseAuthCombine-Community in Frameworks */,
 				8A5A434D2BBADAF200AACB45 /* FirebaseAuth in Frameworks */,
 				8A5A434C2BBADAF200AACB45 /* FirebaseAppDistribution-Beta in Frameworks */,
-				8A5A434B2BBADAF200AACB45 /* FirebaseAppCheck in Frameworks */,
 				8A5A434A2BBADAF200AACB45 /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */,
 				8AFD34FE2BBC4EC600A3CA8A /* FirebaseCrashlytics in Frameworks */,
 				8A5A43482BBADAF200AACB45 /* FirebaseAnalytics in Frameworks */,
@@ -332,7 +326,6 @@
 			packageProductDependencies = (
 				8A11FC3F2B910F7300DCE3C1 /* FirebaseAnalytics */,
 				8A11FC412B910F7300DCE3C1 /* FirebaseAnalyticsWithoutAdIdSupport */,
-				8A11FC422B910F7300DCE3C1 /* FirebaseAppCheck */,
 				8A11FC432B910F7300DCE3C1 /* FirebaseAppDistribution-Beta */,
 				8A11FC442B910F7300DCE3C1 /* FirebaseAuth */,
 				8A11FC452B910F7300DCE3C1 /* FirebaseAuthCombine-Community */,
@@ -354,7 +347,6 @@
 				8A11FC592B910F7300DCE3C1 /* FirebaseStorageCombine-Community */,
 				8A11FC5B2B910F9500DCE3C1 /* FirebaseAnalytics */,
 				8A11FC5D2B910F9500DCE3C1 /* FirebaseAnalyticsWithoutAdIdSupport */,
-				8A11FC5E2B910F9500DCE3C1 /* FirebaseAppCheck */,
 				8A11FC5F2B910F9500DCE3C1 /* FirebaseAppDistribution-Beta */,
 				8A11FC602B910F9500DCE3C1 /* FirebaseAuth */,
 				8A11FC612B910F9500DCE3C1 /* FirebaseAuthCombine-Community */,
@@ -374,7 +366,6 @@
 				8A11FC752B910F9500DCE3C1 /* FirebaseStorageCombine-Community */,
 				8A11FC772B910FB000DCE3C1 /* FirebaseAnalytics */,
 				8A11FC792B910FB000DCE3C1 /* FirebaseAnalyticsWithoutAdIdSupport */,
-				8A11FC7A2B910FB000DCE3C1 /* FirebaseAppCheck */,
 				8A11FC7C2B910FB000DCE3C1 /* FirebaseAuth */,
 				8A11FC7D2B910FB000DCE3C1 /* FirebaseAuthCombine-Community */,
 				8A11FC7E2B910FB000DCE3C1 /* FirebaseCrashlytics */,
@@ -773,10 +764,6 @@
 			isa = XCSwiftPackageProductDependency;
 			productName = FirebaseAnalyticsWithoutAdIdSupport;
 		};
-		8A11FC422B910F7300DCE3C1 /* FirebaseAppCheck */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = FirebaseAppCheck;
-		};
 		8A11FC432B910F7300DCE3C1 /* FirebaseAppDistribution-Beta */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = "FirebaseAppDistribution-Beta";
@@ -861,10 +848,6 @@
 			isa = XCSwiftPackageProductDependency;
 			productName = FirebaseAnalyticsWithoutAdIdSupport;
 		};
-		8A11FC5E2B910F9500DCE3C1 /* FirebaseAppCheck */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = FirebaseAppCheck;
-		};
 		8A11FC5F2B910F9500DCE3C1 /* FirebaseAppDistribution-Beta */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = "FirebaseAppDistribution-Beta";
@@ -940,10 +923,6 @@
 		8A11FC792B910FB000DCE3C1 /* FirebaseAnalyticsWithoutAdIdSupport */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = FirebaseAnalyticsWithoutAdIdSupport;
-		};
-		8A11FC7A2B910FB000DCE3C1 /* FirebaseAppCheck */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = FirebaseAppCheck;
 		};
 		8A11FC7C2B910FB000DCE3C1 /* FirebaseAuth */ = {
 			isa = XCSwiftPackageProductDependency;

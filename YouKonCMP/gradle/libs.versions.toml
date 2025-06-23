@@ -39,6 +39,7 @@ purchases-kmp = "1.8.3+13.36.0"
 
 [libraries]
 androidx-material-icons-extended = { module = "androidx.compose.material:material-icons-extended", version.ref = "materialIconsExtended" }
+firebase-appcheck-playintegrity = { module = "com.google.firebase:firebase-appcheck-playintegrity" }
 firebase-common = { module = "com.google.firebase:firebase-common", version.ref = "firebaseCommon" }
 firebase-auth = { module = "com.google.firebase:firebase-auth", version.ref = "firebaseAuth"}
 firebase-firestore = { module = "com.google.firebase:firebase-firestore", version.ref = "firebaseFirestore"}

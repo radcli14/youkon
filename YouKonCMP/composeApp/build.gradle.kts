@@ -39,6 +39,8 @@ kotlin {
         androidMain.dependencies {
             implementation(libs.compose.ui.tooling.preview)
             implementation(libs.androidx.activity.compose)
+            //implementation(project.dependencies.platform("com.google.firebase:firebase-bom:latest")) // Use the latest Firebase BoM
+            //implementation(libs.firebase.appcheck.playintegrity)
         }
         commonMain.dependencies {
             implementation(compose.runtime)
