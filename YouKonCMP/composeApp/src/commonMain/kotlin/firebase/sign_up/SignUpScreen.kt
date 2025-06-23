@@ -11,6 +11,11 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -21,10 +26,13 @@ import firebase.login.RepeatPasswordField
 import firebase.login.basicButton
 import firebase.login.fieldModifier
 import fullWidthSemitransparentPadded
+import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.stringResource
 import youkon.composeapp.generated.resources.Res
 import youkon.composeapp.generated.resources.create_account
 import youkon.composeapp.generated.resources.create_account_hint
+import kotlinx.coroutines.delay
 
 
 @Composable
@@ -33,13 +41,16 @@ fun SignUpScreen(
     viewModel: SignUpViewModel
 ) {
     val uiState by viewModel.uiState
+    val message by viewModel.message.collectAsState()
 
     SignUpScreenContent(
         uiState = uiState,
+        message = message,
         onEmailChange = viewModel::onEmailChange,
         onPasswordChange = viewModel::onPasswordChange,
         onRepeatPasswordChange = viewModel::onRepeatPasswordChange,
-        onSignUpClick = { viewModel.onSignUpClick(openAndPopUp) }
+        onSignUpClick = { viewModel.onSignUpClick(openAndPopUp) },
+        clearMessage = viewModel::clearMessage
     )
 }
 
@@ -47,10 +58,12 @@ fun SignUpScreen(
 fun SignUpScreenContent(
     modifier: Modifier = Modifier,
     uiState: SignUpUiState,
+    message: StringResource?,
     onEmailChange: (String) -> Unit,
     onPasswordChange: (String) -> Unit,
     onRepeatPasswordChange: (String) -> Unit,
-    onSignUpClick: () -> Unit
+    onSignUpClick: () -> Unit,
+    clearMessage: () -> Unit
 ) {
     val fieldModifier = Modifier.fieldModifier()
 
@@ -76,5 +89,16 @@ fun SignUpScreenContent(
             action = onSignUpClick,
             isLoading = uiState.isLoading
         )
+        if (message != null) {
+            Text(
+                text = stringResource(message),
+                color = MaterialTheme.colorScheme.error,
+                modifier = Modifier.padding(bottom = 8.dp)
+            )
+            LaunchedEffect(message) {
+                delay(3000L)
+                clearMessage()
+            }
+        }
     }
 }

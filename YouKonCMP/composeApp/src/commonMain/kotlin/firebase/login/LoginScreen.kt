@@ -28,6 +28,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
@@ -50,6 +52,7 @@ import youkon.composeapp.generated.resources.login_details
 import youkon.composeapp.generated.resources.password
 import youkon.composeapp.generated.resources.repeat_password
 import youkon.composeapp.generated.resources.sign_in
+import kotlinx.coroutines.delay
 
 @Composable
 fun LoginScreen(
@@ -57,13 +60,16 @@ fun LoginScreen(
     viewModel: LoginViewModel
 ) {
     val uiState by viewModel.uiState
+    val message by viewModel.message.collectAsState()
 
     LoginScreenContent(
         uiState = uiState,
+        message = message,
         onEmailChange = viewModel::onEmailChange,
         onPasswordChange = viewModel::onPasswordChange,
         onSignInClick = { viewModel.onSignInClick(openAndPopUp) },
-        onForgotPasswordClick = viewModel::onForgotPasswordClick
+        onForgotPasswordClick = viewModel::onForgotPasswordClick,
+        clearMessage = viewModel::clearMessage
     )
 }
 
@@ -71,10 +77,12 @@ fun LoginScreen(
 fun LoginScreenContent(
     modifier: Modifier = Modifier,
     uiState: LoginUiState,
+    message: StringResource?,
     onEmailChange: (String) -> Unit,
     onPasswordChange: (String) -> Unit,
     onSignInClick: () -> Unit,
-    onForgotPasswordClick: () -> Unit
+    onForgotPasswordClick: () -> Unit,
+    clearMessage: () -> Unit
 ) {
     Column(
         modifier = modifier
@@ -96,6 +104,17 @@ fun LoginScreenContent(
             action = onSignInClick,
             isLoading = uiState.isLoading
         )
+        if (message != null) {
+            Text(
+                text = stringResource(message),
+                color = MaterialTheme.colorScheme.error,
+                modifier = Modifier.padding(bottom = 8.dp)
+            )
+            LaunchedEffect(message) {
+                delay(3000L)
+                clearMessage()
+            }
+        }
         BasicTextButton(Res.string.forgot_password, Modifier.textButton()) {
             onForgotPasswordClick()
         }

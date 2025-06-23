@@ -25,20 +25,23 @@ fun PremiumFeaturesContent(
         modifier = Modifier.defaultPadding(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text("Purchases", style = MaterialTheme.typography.titleLarge)
+        Text("Purchases",
+            style = MaterialTheme.typography.titleLarge,
+            color = MaterialTheme.colorScheme.onSurface
+        )
 
         when (extendedPurchaseState) {
             PurchasesRepository.ExtendedPurchaseState.BASIC -> {
-                Text(stringResource(Res.string.want_new_features))
+                Text(stringResource(Res.string.want_new_features), color = MaterialTheme.colorScheme.onSurface)
                 Button(onClick = showPaywall) {
-                    Text(stringResource(Res.string.extend_youkon))
+                    Text(stringResource(Res.string.extend_youkon), color = MaterialTheme.colorScheme.onSurface)
                 }
             }
             PurchasesRepository.ExtendedPurchaseState.EXTENDED -> {
-                Text(stringResource(Res.string.have_extended))
+                Text(stringResource(Res.string.have_extended), color = MaterialTheme.colorScheme.onSurface)
             }
             PurchasesRepository.ExtendedPurchaseState.ERROR -> {
-                Text(stringResource(Res.string.purchase_error_generic))
+                Text(stringResource(Res.string.purchase_error_generic), color = MaterialTheme.colorScheme.onSurface)
             }
         }
     }

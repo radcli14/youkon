@@ -24,6 +24,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -53,6 +54,7 @@ import youkon.composeapp.generated.resources.sign_in
 import youkon.composeapp.generated.resources.sign_out
 import youkon.composeapp.generated.resources.sign_out_description
 import youkon.composeapp.generated.resources.sign_out_title
+import kotlinx.coroutines.delay
 
 
 @Composable
@@ -66,14 +68,18 @@ fun SettingsScreen(
     val uiState by viewModel.uiState.collectAsState(
         initial = SettingsUiState("Anonymous User",true)
     )
+    val message by viewModel.message.collectAsState()
+
     SettingsScreenContent(
         uiState = uiState,
+        message = message,
         onLoginClick = { viewModel.onLoginClick(openScreen) },
         onSignUpClick = { viewModel.onSignUpClick(openScreen) },
         onSignOutClick = { viewModel.onSignOutClick(restartApp) },
         onDeleteMyAccountClick = { viewModel.onDeleteMyAccountClick(restartApp) },
         extendedPurchaseState = extendedPurchaseState,
-        showPaywall = showPaywall
+        showPaywall = showPaywall,
+        clearMessage = viewModel::clearMessage
     )
 }
 
@@ -82,12 +88,14 @@ fun SettingsScreen(
 fun SettingsScreenContent(
     modifier: Modifier = Modifier,
     uiState: SettingsUiState,
+    message: StringResource?,
     onLoginClick: () -> Unit,
     onSignUpClick: () -> Unit,
     onSignOutClick: () -> Unit,
     onDeleteMyAccountClick: () -> Unit,
     extendedPurchaseState: PurchasesRepository.ExtendedPurchaseState,
-    showPaywall: () -> Unit
+    showPaywall: () -> Unit,
+    clearMessage: () -> Unit
 ) {
     Column(
         modifier = modifier
@@ -100,6 +108,18 @@ fun SettingsScreenContent(
             modifier = Modifier.defaultPadding(),
             color = MaterialTheme.colorScheme.onSurface
         )
+
+        if (message != null) {
+            Text(
+                text = stringResource(message),
+                color = MaterialTheme.colorScheme.onSurface,
+                modifier = Modifier.padding(bottom = 8.dp)
+            )
+            LaunchedEffect(message) {
+                delay(3000L)
+                clearMessage()
+            }
+        }
 
         if (uiState.isAnonymousAccount) {
             RegularCardEditor(Res.string.sign_in, Res.drawable.ic_sign_in, "", Modifier.card()) {

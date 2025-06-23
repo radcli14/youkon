@@ -52,6 +52,12 @@
     <string name="delete_account_title">Delete account?</string>
     <string name="delete_account_description">You will lose all your projects and your account will be deleted. This action is irreversible.</string>
 
+    <!-- Success messages -->
+    <string name="account_created_successfully">Account created successfully!</string>
+    <string name="logged_in_successfully">Logged in successfully!</string>
+    <string name="account_deleted_successfully">Account deleted successfully!</string>
+    <string name="signed_out_successfully">Signed out successfully!</string>
+
     <!-- FCM -->
     <string name="default_notification_channel_id" translatable="false">fcm_default_channel</string>
     <string name="request_notification_permission">Request permission</string>

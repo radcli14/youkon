@@ -7,8 +7,13 @@ import SIGN_UP_SCREEN
 import androidx.compose.runtime.mutableStateOf
 import firebase.service.LogService
 import isValidEmail
-import view.SnackbarManager
+import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.StringResource
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import youkon.composeapp.generated.resources.Res
+import youkon.composeapp.generated.resources.account_created_successfully
 import youkon.composeapp.generated.resources.email_error
 import youkon.composeapp.generated.resources.password_error
 import youkon.composeapp.generated.resources.password_match_error
@@ -29,6 +34,9 @@ class SignUpViewModel(
     var uiState = mutableStateOf(SignUpUiState())
         private set
 
+    private val _message = MutableStateFlow<StringResource?>(null)
+    val message: StateFlow<StringResource?> = _message.asStateFlow()
+
     private val email
         get() = uiState.value.email
     private val password
@@ -38,29 +46,32 @@ class SignUpViewModel(
 
     fun onEmailChange(newValue: String) {
         uiState.value = uiState.value.copy(email = newValue)
+        clearMessage()
     }
 
     fun onPasswordChange(newValue: String) {
         uiState.value = uiState.value.copy(password = newValue)
+        clearMessage()
     }
 
     fun onRepeatPasswordChange(newValue: String) {
         uiState.value = uiState.value.copy(repeatPassword = newValue)
+        clearMessage()
     }
 
     fun onSignUpClick(openAndPopUp: (String, String) -> Unit) {
         if (!email.isValidEmail()) {
-            SnackbarManager.showMessage(Res.string.email_error)
+            _message.value = Res.string.email_error
             return
         }
 
         if (password.isBlank()) {
-            SnackbarManager.showMessage(Res.string.password_error)
+            _message.value = Res.string.password_error
             return
         }
 
         if (password != repeatPassword) {
-            SnackbarManager.showMessage(Res.string.password_match_error)
+            _message.value = Res.string.password_match_error
             return
         }
 
@@ -68,10 +79,15 @@ class SignUpViewModel(
         launchCatching {
             try {
                 accountService.linkAccount(email, password)
+                _message.value = Res.string.account_created_successfully
                 openAndPopUp(SETTINGS_SCREEN, SIGN_UP_SCREEN)
             } finally {
                 uiState.value = uiState.value.copy(isLoading = false)
             }
         }
+    }
+
+    fun clearMessage() {
+        _message.value = null
     }
 }

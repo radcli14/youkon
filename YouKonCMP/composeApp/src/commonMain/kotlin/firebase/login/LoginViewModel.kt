@@ -8,10 +8,14 @@ import androidx.compose.runtime.mutableStateOf
 import isValidEmail
 import firebase.service.LogService
 import org.jetbrains.compose.resources.ExperimentalResourceApi
-import view.SnackbarManager
+import org.jetbrains.compose.resources.StringResource
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import youkon.composeapp.generated.resources.Res
 import youkon.composeapp.generated.resources.email_error
 import youkon.composeapp.generated.resources.empty_password_error
+import youkon.composeapp.generated.resources.logged_in_successfully
 import youkon.composeapp.generated.resources.recovery_email_sent
 
 data class LoginUiState(
@@ -27,6 +31,9 @@ class LoginViewModel(
     var uiState = mutableStateOf(LoginUiState())
         private set
 
+    private val _message = MutableStateFlow<StringResource?>(null)
+    val message: StateFlow<StringResource?> = _message.asStateFlow()
+
     private val email
         get() = uiState.value.email
     private val password
@@ -34,21 +41,23 @@ class LoginViewModel(
 
     fun onEmailChange(newValue: String) {
         uiState.value = uiState.value.copy(email = newValue)
+        clearMessage()
     }
 
     fun onPasswordChange(newValue: String) {
         uiState.value = uiState.value.copy(password = newValue)
+        clearMessage()
     }
 
     @OptIn(ExperimentalResourceApi::class)
     fun onSignInClick(openAndPopUp: (String, String) -> Unit) {
         if (!email.isValidEmail()) {
-            SnackbarManager.showMessage(Res.string.email_error)
+            _message.value = Res.string.email_error
             return
         }
 
         if (password.isBlank()) {
-            SnackbarManager.showMessage(Res.string.empty_password_error)
+            _message.value = Res.string.empty_password_error
             return
         }
 
@@ -56,6 +65,7 @@ class LoginViewModel(
         launchCatching {
             try {
                 accountService.authenticate(email, password)
+                _message.value = Res.string.logged_in_successfully
                 openAndPopUp(SETTINGS_SCREEN, LOGIN_SCREEN)
             } finally {
                 uiState.value = uiState.value.copy(isLoading = false)
@@ -66,13 +76,17 @@ class LoginViewModel(
     @OptIn(ExperimentalResourceApi::class)
     fun onForgotPasswordClick() {
         if (!email.isValidEmail()) {
-            SnackbarManager.showMessage(Res.string.email_error)
+            _message.value = Res.string.email_error
             return
         }
 
         launchCatching {
             accountService.sendRecoveryEmail(email)
-            SnackbarManager.showMessage(Res.string.recovery_email_sent)
+            _message.value = Res.string.recovery_email_sent
         }
+    }
+
+    fun clearMessage() {
+        _message.value = null
     }
 }
