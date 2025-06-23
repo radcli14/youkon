@@ -203,10 +203,11 @@ class MainViewModel(
     }
 
     private fun saveUserToCloud() {
+        Log.d(tag, "saveUserToCloud")
         ensureUserNameIsEmail()
 
         viewModelScope.launch {
-            if (cloudStorage?.userExists(user.value.name) == true) {
+            if (cloudStorage?.userExists(user.value.id) == true) {
                 Log.d(tag, "Updating cloud user")
                 cloudStorage.update(user.value)
             } else if (!user.value.isAnonymous) {
@@ -217,12 +218,14 @@ class MainViewModel(
     }
 
     private fun saveProjectToCloud(project: YkProject) {
+        Log.d(tag, "saveProjectToCloud ${project.name} ${project.id}")
         ensureUserNameIsEmail()
+
         cloudStorage?.let { storage ->
             viewModelScope.launch {
                 try {
                     // Ensure user exists before updating project
-                    if (cloudStorage.userExists(user.value.name) == false) {
+                    if (cloudStorage.userExists(user.value.id) == false) {
                         Log.d(tag, "User does not exist in Firestore, creating user before updating project.")
                         cloudStorage.save(user.value)
                     }
