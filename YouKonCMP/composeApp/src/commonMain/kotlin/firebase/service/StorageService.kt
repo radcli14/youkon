@@ -21,7 +21,7 @@ interface StorageService {
 
     suspend fun getProject(user: YkUser, projectId: String): YkProject?
     suspend fun userExists(userId: String): Boolean
-    suspend fun getUser(userId: String): YkUser?
+    suspend fun getUser(userId: String, email: String? = null): YkUser
     suspend fun getUserProjects(userId: String): MutableList<YkProject>
     suspend fun save(user: YkUser, project: YkProject): String
     suspend fun save(user: YkUser): String
@@ -64,18 +64,28 @@ class StorageServiceImpl(
                 }
         }
 
-    private fun projectCollection(userName: String): CollectionReference =
-        firestore
-            .collection(USER_DATA_COLLECTION).document(userName)
+    private fun projectCollection(user: YkUser): CollectionReference {
+        if (user.name.isEmpty() || user.name == "Anonymous User") {
+            Log.e(tag, "Attempted to access project collection with invalid userName: '${user.name}'. Only a valid email should be used as the document ID.")
+            throw IllegalArgumentException("User name cannot be empty or 'Anonymous User' for Firestore document path. Use a valid email.")
+        }
+        return firestore
+            .collection(USER_DATA_COLLECTION).document(user.name)
             .collection(PROJECT_COLLECTION)
+    }
 
     override suspend fun getProject(user: YkUser, projectId: String): YkProject =
         getProject(user.name, projectId)
 
-    private suspend fun getProject(userName: String, projectId: String): YkProject =
-        projectCollection(userName)
+    private suspend fun getProject(userName: String, projectId: String): YkProject {
+        if (projectId.isEmpty()) {
+            Log.e(tag, "Attempted to fetch project with empty projectId for user $userName")
+            throw IllegalArgumentException("Project ID cannot be empty")
+        }
+        return projectCollection(YkUser(name = userName))
             .document(projectId)
             .get().data(YkProject.serializer())
+    }
 
     private suspend fun userCollectionDocument(userId: String): DocumentSnapshot? =
         try {
@@ -95,25 +105,29 @@ class StorageServiceImpl(
     override suspend fun userExists(userId: String): Boolean =
         userCollectionDocument(userId)?.exists ?: false
 
-    override suspend fun getUser(userId: String): YkUser {
+    override suspend fun getUser(userId: String, email: String?): YkUser {
         Log.d(tag, "getUser called for userId: $userId")
         try {
             val userDoc = userCollectionDocument(userId)
             if (userDoc == null) {
                 Log.e(tag, "No user document found for userId: $userId")
-                return YkUser(name = "", projects = mutableListOf(), isAnonymous = true, id = userId)
+                return YkUser(name = email ?: "Anonymous User", projects = mutableListOf(), isAnonymous = true, id = userId)
             }
 
-            val name = userDoc.data(YkUser.Compact.serializer())?.name ?: ""
+            var name = userDoc.data(YkUser.Compact.serializer())?.name ?: ""
+            if (name.isBlank()) {
+                Log.e(tag, "User document for userId: $userId has blank or missing name. Falling back to email or 'Anonymous User'.")
+                name = email ?: "Anonymous User"
+            }
             Log.d(tag, "Found user document with name: $name")
-            
+
             val projects = getUserProjects(userId)
             Log.d(tag, "Retrieved ${projects.size} projects for user")
-            
-            return YkUser(name, projects, isAnonymous = name.isEmpty(), userId)
+
+            return YkUser(name, projects, isAnonymous = name == "Anonymous User", id = userId)
         } catch (e: Exception) {
             Log.e(tag, "Error getting user data: ${e.message}")
-            return YkUser(name = "", projects = mutableListOf(), isAnonymous = true, id = userId)
+            return YkUser(name = email ?: "Anonymous User", projects = mutableListOf(), isAnonymous = true, id = userId)
         }
     }
 
@@ -134,11 +148,16 @@ class StorageServiceImpl(
 
             Log.d(tag, "Found ${compactUser.projectIds.size} project IDs for user")
             return compactUser.projectIds.mapNotNull { projectId ->
-                try {
-                    getProject(compactUser.name, projectId)
-                } catch (e: Exception) {
-                    Log.e(tag, "Error getting project $projectId: ${e.message}")
+                if (projectId.isNullOrEmpty()) {
+                    Log.e(tag, "Encountered empty projectId for user ${compactUser.name}")
                     null
+                } else {
+                    try {
+                        getProject(compactUser.name, projectId)
+                    } catch (e: Exception) {
+                        Log.e(tag, "Error getting project $projectId: ${e.message}")
+                        null
+                    }
                 }
             }.toMutableList()
         } catch (e: Exception) {
@@ -163,27 +182,46 @@ class StorageServiceImpl(
 
     override suspend fun update(user: YkUser, project: YkProject): Unit =
         trace(UPDATE_PROJECT_TRACE) {
-            projectCollection(user.name).document(project.id).set(project)
+            if (user.name.isEmpty() || user.name == "Anonymous User") {
+                Log.e(tag, "Attempted to update project for invalid userName: '${user.name}'. Only a valid email should be used as the document ID.")
+                throw IllegalArgumentException("User name cannot be empty or 'Anonymous User' for Firestore document path. Use a valid email.")
+            }
+            val projectDoc = firestore.collection(USER_DATA_COLLECTION).document(user.name).collection(PROJECT_COLLECTION).document(project.id).get()
+            if (!projectDoc.exists) {
+                Log.d(tag, "Project document does not exist for id: \\${project.id}, creating new project document.")
+                firestore.collection(USER_DATA_COLLECTION).document(user.name).collection(PROJECT_COLLECTION).document(project.id).set(project)
+            } else {
+                Log.d(tag, "Project document exists for id: \\${project.id}, updating project document.")
+                firestore.collection(USER_DATA_COLLECTION).document(user.name).collection(PROJECT_COLLECTION).document(project.id).set(project)
+            }
         }
 
     override suspend fun update(user: YkUser): Unit =
         trace(UPDATE_USER_TRACE) {
-            firestore.collection(USER_DATA_COLLECTION).document(user.name).set(user.compact)
+            if (user.name.isEmpty() || user.name == "Anonymous User") {
+                Log.e(tag, "Attempted to update user with invalid userName: '${user.name}'. Only a valid email should be used as the document ID.")
+                throw IllegalArgumentException("User name cannot be empty or 'Anonymous User' for Firestore document path. Use a valid email.")
+            }
+            val userDoc = userCollectionDocument(user.name) // EJR note: we use name for the ID, which should be the email
+            if (userDoc == null || !userDoc.exists) {
+                Log.d(tag, "User document does not exist for id: \\${user.name}, creating new user document.")
+                firestore.collection(USER_DATA_COLLECTION).document(user.name).set(user.compact)
+            } else {
+                Log.d(tag, "User document exists for id: \\${user.name}, updating user document.")
+                firestore.collection(USER_DATA_COLLECTION).document(user.name).set(user.compact)
+            }
             user.projects.forEach { project ->
                 update(user, project)
             }
-            /*userCollectionDocument(user.id)?.let {
-                firestore.collection(USER_DATA_COLLECTION).document(it.id).set(user)
-            }*/
         }
 
     override suspend fun delete(user: YkUser, projectId: String) {
-        projectCollection(user.name).document(projectId).delete()
+        projectCollection(user).document(projectId).delete()
         //firestore.collection(PROJECT_COLLECTION).document(projectId).delete()
     }
 
     override suspend fun delete(user: YkUser) {
-        firestore.collection(USER_DATA_COLLECTION).document(user.id).delete()
+        firestore.collection(USER_DATA_COLLECTION).document(user.name).delete()
     }
 
     companion object {

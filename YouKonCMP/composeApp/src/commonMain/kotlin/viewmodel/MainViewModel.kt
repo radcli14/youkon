@@ -93,7 +93,7 @@ class MainViewModel(
                 try {
                     // Update ID and name using what was emitted by Firebase
                     Log.d(tag, "collectAccountService, accountUser = $accountUser")
-                    
+
                     // Create a new user state
                     val newUser = YkUser(
                         id = account.currentUserId,
@@ -101,10 +101,10 @@ class MainViewModel(
                         isAnonymous = accountUser.isAnonymous,
                         projects = mutableListOf()
                     )
-                    
+
                     // Update user state
                     user.value = newUser
-                    
+
                     // If available, update with projects from the Firebase Firestore
                     if (!accountUser.isAnonymous) {
                         try {
@@ -113,7 +113,7 @@ class MainViewModel(
                             if (storageUser != null) {
                                 Log.d(tag, "Got storage user: ${storageUser.summary}")
                                 user.value = storageUser
-                                
+
                                 // Create a new ProjectsCardViewModel with the updated user
                                 projectsCardViewModel.value = ProjectsCardViewModel(
                                     user = user,
@@ -124,7 +124,7 @@ class MainViewModel(
                                         }
                                     }
                                 )
-                                
+
                                 // Force update the projects list
                                 projectsCardViewModel.value.updateProjects()
                                 saveUserToJson()
@@ -194,9 +194,19 @@ class MainViewModel(
         localStorage?.saveUserToJson(user.value)
     }
 
+    fun ensureUserNameIsEmail() {
+        val currentUser = user.value
+        if ((currentUser.name.isEmpty() || currentUser.name == "Anonymous User") && account?.currentUserName != null) {
+            user.value = currentUser.copy(name = account.currentUserName)
+            Log.d(tag, "Updated user.name to email: ${account.currentUserName}")
+        }
+    }
+
     private fun saveUserToCloud() {
+        ensureUserNameIsEmail()
+
         viewModelScope.launch {
-            if (cloudStorage?.userExists(user.value.id) == true) {
+            if (cloudStorage?.userExists(user.value.name) == true) {
                 Log.d(tag, "Updating cloud user")
                 cloudStorage.update(user.value)
             } else if (!user.value.isAnonymous) {
@@ -207,10 +217,21 @@ class MainViewModel(
     }
 
     private fun saveProjectToCloud(project: YkProject) {
+        ensureUserNameIsEmail()
         cloudStorage?.let { storage ->
             viewModelScope.launch {
-                Log.d(tag, "Saving ${project.name} to cloud")
-                storage.update(user.value, project)
+                try {
+                    // Ensure user exists before updating project
+                    if (cloudStorage.userExists(user.value.name) == false) {
+                        Log.d(tag, "User does not exist in Firestore, creating user before updating project.")
+                        cloudStorage.save(user.value)
+                    }
+                    Log.d(tag, "Saving ${project.name} to cloud")
+                    storage.update(user.value, project)
+                } catch (e: Exception) {
+                    Log.e(tag, "Failed to save project to cloud: ${e.message}")
+                    // Optionally notify the UI or user here
+                }
             }
         }
     }
@@ -221,13 +242,14 @@ class MainViewModel(
                 try {
                     // Only try to delete from cloud if the project has a userId (meaning it's been synced)
                     if (project.userId.isNotEmpty()) {
-                        Log.d(tag, "Deleting ${project.name} from cloud")
+                        Log.d(tag, "Deleting \\${project.name} from cloud")
                         storage.delete(user.value, project.id)
                     } else {
-                        Log.e(tag, "Project ${project.name} not yet synced to cloud, skipping cloud delete")
+                        Log.e(tag, "Project \\${project.name} not yet synced to cloud, skipping cloud delete")
                     }
-                } catch (e: Exception) {
-                    Log.d(tag, "Failed to delete project from cloud: ${e.message}")
+                } catch (e: IllegalArgumentException) {
+                    Log.e(tag, "Failed to delete project from cloud: \\${e.message}")
+                    // Optionally notify the UI or user here
                 } finally {
                     // Always remove from local state
                     val newProjects = user.value.projects.toMutableList()
