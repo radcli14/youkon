@@ -138,10 +138,6 @@ class StorageServiceImpl(
                 return mutableListOf()
             }
             val userNameForPath = userDoc.data(YkUser.Compact.serializer())?.name
-            if (userNameForPath.isNullOrEmpty()) {
-                Log.e(tag, "User name is missing in user document for userId: $userId, cannot retrieve projects.")
-                return mutableListOf()
-            }
 
             return firestore.collection(USER_DATA_COLLECTION)
                 .document(userId)
