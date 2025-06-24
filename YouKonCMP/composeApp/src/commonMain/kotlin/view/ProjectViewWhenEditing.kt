@@ -188,15 +188,16 @@ class ProjectViewWhenEditing(
     /// A `ForEach` corresponding to each of the measurements, in either editable or static form
     @Composable
     private fun ExpansionMeasurementsList() {
+        val measurements = vm.measurements.collectAsState()
         val project = vm.project.collectAsState()
 
         Column {
             LazyColumn {
-                items(project.value.measurements.count(),
-                    key = { project.value.measurements[it].id }
+                items(measurements.value.count(),
+                    key = { measurements.value[it].id }
                 ) {
                     EditableMeasurement(
-                        measurement = project.value.measurements[it],
+                        measurement = measurements.value[it],
                         modifier = Modifier.animateItem()
                     )
                 }

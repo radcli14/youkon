@@ -80,13 +80,16 @@ class ProjectViewModel(
     }
 
     fun addMeasurement() {
-        project.value.addMeasurement(
+        val newMeasurement = YkMeasurement(
             value = 0.0,
             unit = YkUnit.METERS,
             name = "New Measurement",
             about = "A new measurement"
         )
-        updateMeasurements()
+        val updatedMeasurements = project.value.measurements.toMutableList().apply { add(newMeasurement) }
+        project.value = project.value.copy(measurements = updatedMeasurements)
+        measurements.value = updatedMeasurements.toList()
+        onProjectUpdated(project.value)
     }
 
     fun subtractMeasurement() {
@@ -99,9 +102,11 @@ class ProjectViewModel(
     }
 
     fun confirmDelete() {
-        measurementToDelete.value?.let {
-            project.value.removeMeasurement(measurement = it)
-            updateMeasurements()
+        measurementToDelete.value?.let { measurementToRemove ->
+            val updatedMeasurements = project.value.measurements.toMutableList().apply { removeAll { it.id == measurementToRemove.id } }
+            project.value = project.value.copy(measurements = updatedMeasurements)
+            measurements.value = updatedMeasurements.toList()
+            onProjectUpdated(project.value)
         }
         cleanupDelete()
     }
