@@ -7,6 +7,9 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.stateIn
 
 class PurchasesViewModel: ViewModel() {
     val repository = PurchasesRepository.sharedInstance
@@ -25,9 +28,12 @@ class PurchasesViewModel: ViewModel() {
     private val _extendedPurchaseState = MutableStateFlow(repository.extendedPurchaseState)
     val extendedPurchaseState: StateFlow<PurchasesRepository.ExtendedPurchaseState> = _extendedPurchaseState.asStateFlow()
 
-    val isExtended: Boolean get() {
-        return extendedPurchaseState.value == PurchasesRepository.ExtendedPurchaseState.EXTENDED
-    }
+    val isExtended: StateFlow<Boolean> = extendedPurchaseState.map { it == PurchasesRepository.ExtendedPurchaseState.EXTENDED }
+        .stateIn(
+            viewModelScope,
+            SharingStarted.WhileSubscribed(5000),
+            extendedPurchaseState.value == PurchasesRepository.ExtendedPurchaseState.EXTENDED
+        )
 
     init {
         viewModelScope.launch {

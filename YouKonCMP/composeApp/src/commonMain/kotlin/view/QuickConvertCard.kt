@@ -83,10 +83,10 @@ class QuickConvertCard(
         val data by vm.data.collectAsState()
         UnitDropdown(
             unit = data.unit,
-            availableUnits = vm.allUnits(purchases?.isExtended == true),
+            availableUnits = vm.allUnits(purchases?.isExtended?.value == true),
             headerText = "From",
             isNested = true,
-            isExtended = purchases?.isExtended == true,
+            isExtended = purchases?.isExtended?.value == true,
             modifier = modifier,
             onClick = { vm.updateUnit(it) }
         ).Body()
@@ -98,9 +98,9 @@ class QuickConvertCard(
         val data by vm.data.collectAsState()
         UnitDropdown(
             unit = data.targetUnit,
-            availableUnits = vm.equivalentUnits(purchases?.isExtended == true),
+            availableUnits = vm.equivalentUnits(purchases?.isExtended?.value == true),
             headerText = "To",
-            isExtended = purchases?.isExtended == true,
+            isExtended = purchases?.isExtended?.value == true,
             modifier = modifier,
             onClick = { vm.updateTargetUnit(it) }
         ).Body()

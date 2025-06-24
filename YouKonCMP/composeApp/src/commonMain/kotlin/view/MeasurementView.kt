@@ -76,7 +76,7 @@ class MeasurementView(
             horizontalArrangement = Arrangement.spacedBy(8.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            val isExtended = purchases?.isExtended == true
+            val isExtended = purchases?.isExtended?.value == true
             val availableUnits = if (isExtended) vm.unit.value.allUnits else vm.unit.value.basicUnits
             MeasurementTextField(
                 value = vm.value.value,

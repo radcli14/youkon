@@ -331,7 +331,8 @@ class MainView(
             verticalArrangement = Arrangement.spacedBy(Constants.mainContentSpacing)
         ) {
             QuickConvertCard(quickConvertCardViewModel, purchasesViewModel).Body()
-            ProjectsCard(mainViewModel, purchasesViewModel.isExtended).Body()
+            val isExtended by purchasesViewModel.isExtended.collectAsState()
+            ProjectsCard(mainViewModel, isExtended).Body()
         }
     }
 
