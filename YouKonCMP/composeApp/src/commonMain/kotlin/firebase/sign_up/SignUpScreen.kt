@@ -21,8 +21,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import firebase.login.BasicButton
 import firebase.login.EmailField
+import firebase.login.MessageType
 import firebase.login.PasswordField
 import firebase.login.RepeatPasswordField
+import firebase.login.UserMessage
 import firebase.login.basicButton
 import firebase.login.fieldModifier
 import fullWidthSemitransparentPadded
@@ -32,6 +34,7 @@ import org.jetbrains.compose.resources.stringResource
 import youkon.composeapp.generated.resources.Res
 import youkon.composeapp.generated.resources.create_account
 import youkon.composeapp.generated.resources.create_account_hint
+import youkon.composeapp.generated.resources.password_match_error
 import kotlinx.coroutines.delay
 
 
@@ -58,7 +61,7 @@ fun SignUpScreen(
 fun SignUpScreenContent(
     modifier: Modifier = Modifier,
     uiState: SignUpUiState,
-    message: StringResource?,
+    message: UserMessage?,
     onEmailChange: (String) -> Unit,
     onPasswordChange: (String) -> Unit,
     onRepeatPasswordChange: (String) -> Unit,
@@ -91,8 +94,11 @@ fun SignUpScreenContent(
         )
         if (message != null) {
             Text(
-                text = stringResource(message),
-                color = MaterialTheme.colorScheme.error,
+                text = stringResource(message.text),
+                color = when (message.type) {
+                    MessageType.SUCCESS -> MaterialTheme.colorScheme.primary
+                    MessageType.ERROR -> MaterialTheme.colorScheme.error
+                },
                 modifier = Modifier.padding(bottom = 8.dp)
             )
             LaunchedEffect(message) {

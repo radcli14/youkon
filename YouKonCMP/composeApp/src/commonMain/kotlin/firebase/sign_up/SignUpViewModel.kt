@@ -12,11 +12,14 @@ import org.jetbrains.compose.resources.StringResource
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import firebase.login.MessageType
+import firebase.login.UserMessage
 import youkon.composeapp.generated.resources.Res
 import youkon.composeapp.generated.resources.account_created_successfully
 import youkon.composeapp.generated.resources.email_error
 import youkon.composeapp.generated.resources.password_error
 import youkon.composeapp.generated.resources.password_match_error
+import youkon.composeapp.generated.resources.generic_error
 
 
 data class SignUpUiState(
@@ -34,8 +37,8 @@ class SignUpViewModel(
     var uiState = mutableStateOf(SignUpUiState())
         private set
 
-    private val _message = MutableStateFlow<StringResource?>(null)
-    val message: StateFlow<StringResource?> = _message.asStateFlow()
+    private val _message = MutableStateFlow<UserMessage?>(null)
+    val message: StateFlow<UserMessage?> = _message.asStateFlow()
 
     private val email
         get() = uiState.value.email
@@ -61,26 +64,28 @@ class SignUpViewModel(
 
     fun onSignUpClick(openAndPopUp: (String, String) -> Unit) {
         if (!email.isValidEmail()) {
-            _message.value = Res.string.email_error
+            _message.value = UserMessage(Res.string.email_error, MessageType.ERROR)
             return
         }
 
         if (password.isBlank()) {
-            _message.value = Res.string.password_error
+            _message.value = UserMessage(Res.string.password_error, MessageType.ERROR)
             return
         }
 
         if (password != repeatPassword) {
-            _message.value = Res.string.password_match_error
+            _message.value = UserMessage(Res.string.password_match_error, MessageType.ERROR)
             return
         }
 
         uiState.value = uiState.value.copy(isLoading = true)
-        launchCatching {
+        launchCatching(snackbar = false) {
             try {
-                accountService.linkAccount(email, password)
-                _message.value = Res.string.account_created_successfully
+                accountService.createUser(email, password)
+                _message.value = UserMessage(Res.string.account_created_successfully, MessageType.SUCCESS)
                 openAndPopUp(SETTINGS_SCREEN, SIGN_UP_SCREEN)
+            } catch (e: Exception) {
+                _message.value = UserMessage(Res.string.generic_error, MessageType.ERROR)
             } finally {
                 uiState.value = uiState.value.copy(isLoading = false)
             }

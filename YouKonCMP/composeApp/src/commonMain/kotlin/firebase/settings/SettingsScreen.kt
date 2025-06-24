@@ -19,18 +19,20 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.unit.dp
 import defaultPadding
+import firebase.login.MessageType
+import firebase.login.UserMessage
 import fullWidthSemitransparentPadded
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.StringResource
@@ -54,8 +56,6 @@ import youkon.composeapp.generated.resources.sign_in
 import youkon.composeapp.generated.resources.sign_out
 import youkon.composeapp.generated.resources.sign_out_description
 import youkon.composeapp.generated.resources.sign_out_title
-import kotlinx.coroutines.delay
-
 
 @Composable
 fun SettingsScreen(
@@ -65,10 +65,12 @@ fun SettingsScreen(
     showPaywall: () -> Unit,
     viewModel: SettingsViewModel
 ) {
-    val uiState by viewModel.uiState.collectAsState(
-        initial = SettingsUiState("Anonymous User",true)
-    )
+    val uiState by viewModel.uiState.collectAsState(initial = SettingsUiState(""))
     val message by viewModel.message.collectAsState()
+
+    LaunchedEffect(Unit) {
+        viewModel.clearMessage()
+    }
 
     SettingsScreenContent(
         uiState = uiState,
@@ -83,12 +85,11 @@ fun SettingsScreen(
     )
 }
 
-
 @Composable
 fun SettingsScreenContent(
     modifier: Modifier = Modifier,
     uiState: SettingsUiState,
-    message: StringResource?,
+    message: UserMessage?,
     onLoginClick: () -> Unit,
     onSignUpClick: () -> Unit,
     onSignOutClick: () -> Unit,
@@ -111,14 +112,13 @@ fun SettingsScreenContent(
 
         if (message != null) {
             Text(
-                text = stringResource(message),
-                color = MaterialTheme.colorScheme.onSurface,
+                text = stringResource(message.text),
+                color = when (message.type) {
+                    MessageType.SUCCESS -> MaterialTheme.colorScheme.primary
+                    MessageType.ERROR -> MaterialTheme.colorScheme.error
+                },
                 modifier = Modifier.padding(bottom = 8.dp)
             )
-            LaunchedEffect(message) {
-                delay(3000L)
-                clearMessage()
-            }
         }
 
         if (uiState.isAnonymousAccount) {
@@ -140,7 +140,6 @@ fun SettingsScreenContent(
         PrivacyPolicyButton()
     }
 }
-
 
 @Composable
 private fun SignOutCard(signOut: () -> Unit) {
@@ -165,7 +164,6 @@ private fun SignOutCard(signOut: () -> Unit) {
         )
     }
 }
-
 
 @Composable
 private fun DeleteMyAccountCard(deleteMyAccount: () -> Unit) {
@@ -215,7 +213,6 @@ fun RegularCardEditor(
     CardEditor(title, icon, content, onEditClick, MaterialTheme.colorScheme.onSurface, modifier)
 }
 
-
 @Composable
 fun DangerousCardEditor(
     title: StringResource,
@@ -226,7 +223,6 @@ fun DangerousCardEditor(
 ) {
     CardEditor(title, icon, content, onEditClick, MaterialTheme.colorScheme.primary, modifier)
 }
-
 
 @Composable
 private fun CardEditor(
@@ -263,7 +259,6 @@ private fun CardEditor(
     }
 }
 
-
 @Composable
 fun DialogConfirmButton(text: StringResource, action: () -> Unit) {
     Button(
@@ -277,7 +272,6 @@ fun DialogConfirmButton(text: StringResource, action: () -> Unit) {
         Text(text = stringResource(text))
     }
 }
-
 
 @Composable
 fun DialogCancelButton(text: StringResource, action: () -> Unit) {

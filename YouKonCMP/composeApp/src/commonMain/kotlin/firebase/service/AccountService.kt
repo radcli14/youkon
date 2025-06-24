@@ -17,6 +17,7 @@ interface AccountService {
     suspend fun authenticate(email: String, password: String)
     suspend fun sendRecoveryEmail(email: String)
     suspend fun createAnonymousAccount()
+    suspend fun createUser(email: String, password: String)
     suspend fun linkAccount(email: String, password: String)
     suspend fun deleteAccount()
     suspend fun signOut()
@@ -65,6 +66,10 @@ class AccountServiceImpl(private val auth: FirebaseAuth) : AccountService {
 
     override suspend fun createAnonymousAccount() {
         auth.signInAnonymously() //.await()
+    }
+
+    override suspend fun createUser(email: String, password: String) {
+        auth.createUserWithEmailAndPassword(email, password)
     }
 
     override suspend fun linkAccount(email: String, password: String) {

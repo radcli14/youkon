@@ -77,7 +77,7 @@ fun LoginScreen(
 fun LoginScreenContent(
     modifier: Modifier = Modifier,
     uiState: LoginUiState,
-    message: StringResource?,
+    message: UserMessage?,
     onEmailChange: (String) -> Unit,
     onPasswordChange: (String) -> Unit,
     onSignInClick: () -> Unit,
@@ -106,8 +106,11 @@ fun LoginScreenContent(
         )
         if (message != null) {
             Text(
-                text = stringResource(message),
-                color = MaterialTheme.colorScheme.error,
+                text = stringResource(message.text),
+                color = when (message.type) {
+                    MessageType.SUCCESS -> MaterialTheme.colorScheme.primary
+                    MessageType.ERROR -> MaterialTheme.colorScheme.error
+                },
                 modifier = Modifier.padding(bottom = 8.dp)
             )
             LaunchedEffect(message) {
