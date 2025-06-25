@@ -273,6 +273,7 @@ class ProjectView(
     fun AddMeasurementSuggestion() {
         Surface(
             modifier = Modifier.fillMaxWidth().padding(top = 16.dp, end = 8.dp),
+            color = MaterialTheme.colorScheme.surfaceVariant,
             shape = MaterialTheme.shapes.medium,
         ) {
             Row(

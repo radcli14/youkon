@@ -91,82 +91,86 @@ class MainViewModel(
             // When a user is emitted by Firebase, update our user with that list
             account?.currentUser?.collect { accountUser ->
                 try {
-                    // Update ID and name using what was emitted by Firebase
                     Log.d(tag, "collectAccountService, accountUser = $accountUser")
 
-                    // Create a new user state
-                    val newUser = YkUser(
-                        id = account.currentUserId,
-                        name = account.currentUserName,
-                        isAnonymous = accountUser.isAnonymous,
-                        projects = mutableListOf()
-                    )
+                    // Preserve current projects and update user details from Firebase account
+                    var currentUserProjects = user.value.projects
 
-                    // Update user state
-                    user.value = newUser
-
-                    // If available, update with projects from the Firebase Firestore
                     if (!accountUser.isAnonymous) {
                         try {
                             Log.d(tag, "user is not anonymous, trying cloudStorage.getUser")
                             val storageUser = cloudStorage?.getUser(accountUser.id)
                             if (storageUser != null) {
                                 Log.d(tag, "Got storage user: ${storageUser.summary}")
-                                user.value = storageUser
-
-                                // Create a new ProjectsCardViewModel with the updated user
-                                projectsCardViewModel.value = ProjectsCardViewModel(
-                                    user = user,
-                                    onSaveUserToJson = { saveUserToJson() },
-                                    onUpdateMainProject = { updatedProject ->
-                                        if (project.value?.id == updatedProject.id) {
-                                            project.value = updatedProject
-                                        }
-                                    }
-                                )
-
-                                // Force update the projects list
-                                projectsCardViewModel.value.updateProjects()
-                                saveUserToJson()
+                                currentUserProjects = storageUser.projects // Use projects from cloud
                             } else {
-                                Log.e(tag, "Failed to get user from cloud storage - null result")
+                                Log.e(tag, "Failed to get user from cloud storage - null result. Retaining local projects.")
+                                // currentUserProjects remains as the locally loaded projects
                             }
                         } catch (e: Exception) {
-                            Log.e(tag, "Failed to get user from cloud storage: ${e.message}")
-                            // Create a new ProjectsCardViewModel even for local data
-                            projectsCardViewModel.value = ProjectsCardViewModel(
-                                user = user,
-                                onSaveUserToJson = { saveUserToJson() },
-                                onUpdateMainProject = { updatedProject ->
-                                    if (project.value?.id == updatedProject.id) {
-                                        project.value = updatedProject
-                                    }
-                                }
-                            )
-                            projectsCardViewModel.value.updateProjects()
+                            Log.e(tag, "Failed to get user from cloud storage: ${e.message}. Retaining local projects.")
+                            // currentUserProjects remains as the locally loaded projects
                         }
                     } else {
-                        Log.d(tag, "user is anonymous")
-                        // Create a new ProjectsCardViewModel for anonymous user
-                        projectsCardViewModel.value = ProjectsCardViewModel(
-                            user = user,
-                            onSaveUserToJson = { saveUserToJson() },
-                            onUpdateMainProject = { updatedProject ->
-                                if (project.value?.id == updatedProject.id) {
-                                    project.value = updatedProject
-                                }
-                            }
-                        )
-                        projectsCardViewModel.value.updateProjects()
+                        Log.d(tag, "user is anonymous. Retaining local projects.")
+                        // currentUserProjects remains as the locally loaded projects
                     }
+
+                    // Update user state with the determined projects and Firebase auth details
+                    user.value = YkUser(
+                        id = account.currentUserId,
+                        name = account.currentUserName,
+                        isAnonymous = accountUser.isAnonymous,
+                        projects = currentUserProjects
+                    )
+
+                    // Re-initialize projectsCardViewModel with the updated user
+                    projectsCardViewModel.value = ProjectsCardViewModel(
+                        user = user,
+                        onSaveUserToJson = { saveUserToJson() },
+                        onUpdateMainProject = { updatedProject ->
+                            if (project.value?.id == updatedProject.id) {
+                                project.value = updatedProject
+                            }
+                        }
+                    )
+
+                    // Force update the projects list if necessary and save to JSON
+                    projectsCardViewModel.value.updateProjects()
+                    saveUserToJson()
+
                 } catch (e: Exception) {
                     Log.e(tag, "Error processing account user: ${e.message}")
-                    // Continue with local data
+                    // If an error occurs within the inner try-catch, ensure projectsCardViewModel is still initialized with local data
+                    // user.value should still be savedUser, so just update ProjectsCardViewModel
+                    projectsCardViewModel.value = ProjectsCardViewModel(
+                        user = user,
+                        onSaveUserToJson = { saveUserToJson() },
+                        onUpdateMainProject = { updatedProject ->
+                            if (project.value?.id == updatedProject.id) {
+                                project.value = updatedProject
+                            }
+                        }
+                    )
+                    projectsCardViewModel.value.updateProjects()
+                    saveUserToJson()
                 }
             }
         } catch (e: Exception) {
             Log.e(tag, "Error in collectAccountService: ${e.message}")
-            // Continue with local data
+            // If there's an error in the account service stream itself, ensure we still use local data
+            // user.value should already be savedUser, so just update ProjectsCardViewModel
+            projectsCardViewModel.value = ProjectsCardViewModel(
+                user = user,
+                onSaveUserToJson = { saveUserToJson() },
+                onUpdateMainProject = { updatedProject ->
+                    if (project.value?.id == updatedProject.id) {
+                        project.value = updatedProject
+                    }
+                }
+            )
+            projectsCardViewModel.value.updateProjects()
+            saveUserToJson()
         }
     }
 
