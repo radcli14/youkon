@@ -5,10 +5,14 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.twotone.WorkspacePremium
 import androidx.compose.material3.Button
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.MenuDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -28,7 +32,8 @@ class UnitDropdown(
     val isExtended: Boolean = false,
     val includeUnitless: Boolean = false,
     val modifier: Modifier = Modifier,
-    val onClick: (YkUnit?) -> Unit = {}
+    val onClick: (YkUnit?) -> Unit = {},
+    val onShowPaywall: () -> Unit = {}
 ) {
     private val isExpanded = mutableStateOf(false)
     private val typeIsExpanded = mutableStateOf(false)
@@ -80,6 +85,23 @@ class UnitDropdown(
                     TypeMenuItems()
                 } else {
                     UnitMenuItems(availableUnits)
+                }
+
+                if (!isExtended) {
+                    DropdownMenuItem(
+                        text = { Text("Want More?") },
+                        onClick = {
+                            isExpanded.value = false
+                            onShowPaywall()
+                        },
+                        trailingIcon = {
+                            Icon(Icons.TwoTone.WorkspacePremium, contentDescription = "Purchase Upgrade")
+                        },
+                        colors = MenuDefaults.itemColors(
+                            textColor = MaterialTheme.colorScheme.primary,
+                            trailingIconColor = MaterialTheme.colorScheme.primary
+                        )
+                    )
                 }
             }
 

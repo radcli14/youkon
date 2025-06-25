@@ -8,5 +8,5 @@ import view.UnitDropdown
 @Preview
 @Composable
 fun UnitDropdownPreview() {
-    UnitDropdown(YkUnit.METERS, YkUnit.METERS.allUnits).Body()
+    UnitDropdown(YkUnit.METERS, YkUnit.METERS.allUnits, onShowPaywall = {}).Body()
 }

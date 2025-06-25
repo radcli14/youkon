@@ -88,7 +88,8 @@ class QuickConvertCard(
             isNested = true,
             isExtended = purchases?.isExtended?.value == true,
             modifier = modifier,
-            onClick = { vm.updateUnit(it) }
+            onClick = { vm.updateUnit(it) },
+            onShowPaywall = { purchases?.showPaywall() }
         ).Body()
     }
 
@@ -102,7 +103,8 @@ class QuickConvertCard(
             headerText = "To",
             isExtended = purchases?.isExtended?.value == true,
             modifier = modifier,
-            onClick = { vm.updateTargetUnit(it) }
+            onClick = { vm.updateTargetUnit(it) },
+            onShowPaywall = { purchases?.showPaywall() }
         ).Body()
     }
 

@@ -91,7 +91,8 @@ class MeasurementView(
                         isExtended = isExtended,
                         includeUnitless = true,
                         modifier = alignedModifier,
-                        onClick = { it?.let { vm.updateUnit(it) } }
+                        onClick = { it?.let { vm.updateUnit(it) } },
+                        onShowPaywall = { purchases?.showPaywall() }
                     ).Body()
                 }
             )
