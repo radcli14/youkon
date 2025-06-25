@@ -25,6 +25,10 @@ enum class YkUnit(private val toBase: Double, val shortUnit: String, private val
     SLUGS(14.5939, "slug"),
     SLINCH(175.126836, "lbf·s²/in"),
     RMU(21.952, "RMU"),
+    MILLIGRAMS(1e-6, "mg"),
+    STONES(6.35029318, "st"),
+    AVOIRDUPOIS_OUNCES(0.028349523125, "oz"),
+    TROY_POUNDS(0.3732417216, "lb t"),
     // Length
     METERS(1.0, "m"),
     KILOMETERS(1e3, "km"),
@@ -75,9 +79,18 @@ enum class YkUnit(private val toBase: Double, val shortUnit: String, private val
     INCHES_PER_SECOND(0.0254, "in/s"),
     MILES_PER_HOUR(0.3048 * 5280.0 / 3600.0, "mph"),
     STUDS_PER_SECOND(0.28, "studs/s"),
+    KNOTS(0.5144444444, "knots"),
+    // Acceleration
+    METERS_PER_SECOND_SQUARED(1.0, "m/s²"),
+    FEET_PER_SECOND_SQUARED(0.3048, "ft/s²"),
+    INCHES_PER_SECOND_SQUARED(0.0254, "in/s²"),
+    STUDS_PER_SECOND_SQUARED(0.28, "stud/s²"),
+    EARTH_GRAVITY(9.80665, "g"),
     // Force
     NEWTONS(1.0, "N"),
-    POUND_FORCE(4.44822, "lbf"),
+    KILONEWTONS(1000.0, "kN"),
+    POUND_FORCE(4.4482216152548, "lbf"),
+    KILOPOUNDS_FORCE(4448.2216152548, "kipf"),
     DYNES(1e-5, "dyne"),
     ROWTONS(1.0/0.163, "Rowtons"),
     // Density
@@ -96,10 +109,12 @@ enum class YkUnit(private val toBase: Double, val shortUnit: String, private val
     ROWTON_STUD_PER_SECOND(1.0/0.581, "R·S/s"),
     // Energy
     JOULES(1.0, "J"),
+    KILOJOULES(1e3, "kJ"),
+    MEGAJOULES(1e6, "MJ"),
     FOOT_POUND_ENERGY(1.35582, "ft·lbf"),
     INCH_POUND_ENERGY(1.35582/12.0, "in·lbf"),
     BRITISH_THERMAL_UNIT(1055.06, "BTU"),
-    ROWTON_STUD(1.0/0.581, "R·S"),
+    ROWTON_STUD_ENERGY(1.0/0.581, "R·S"),
     // Pressure
     PASCALS(1.0, "Pa"),
     KILOPASCALS(1e3, "kPa"),
@@ -116,7 +131,23 @@ enum class YkUnit(private val toBase: Double, val shortUnit: String, private val
     CELSIUS(1.0, "C"),
     FAHRENHEIT(5.0/9.0, "F", 32.0),
     KELVIN(1.0, "K", 273.15),
-    RANKINE(5.0/9.0, "R", 491.67)
+    RANKINE(5.0/9.0, "R", 491.67),
+    // Torque
+    NEWTON_METERS(1.0, "N·m"),
+    FOOT_POUNDS_TORQUE(1.3558179483, "ft·lbf"),
+    INCH_POUNDS_TORQUE(0.112985, "in·lbf"),
+    KILONEWTON_METERS(1000.0, "kN·m"),
+    KILOFOOT_POUNDS_TORQUE(1355.8179483, "kft·lbf"),
+    KILOINCH_POUNDS_TORQUE(112.985, "kin·lbf"),
+    ROWTON_STUD_TORQUE(0.28 / 0.163, "R·S"),
+    // Stiffness
+    NEWTONS_PER_METER(1.0, "N/m"),
+    POUNDS_PER_FOOT(14.593902887139, "lbf/ft"),
+    POUNDS_PER_INCH(175.126835, "lbf/in"),
+    ROWTONS_PER_STUD(21.91060473, "R/S"),
+    KILONEWTONS_PER_METER(1000.0, "kN/m"),
+    KILOPOUNDS_PER_FOOT(14593.902887139, "klbf/ft"),
+    KILOPOUNDS_PER_INCH(175126.835, "klbf/in"),
     ;
 
     val basicUnits: Array<YkUnit> get() {
@@ -124,7 +155,9 @@ enum class YkUnit(private val toBase: Double, val shortUnit: String, private val
             KILOGRAMS, POUNDS, SLUGS,
             METERS, FEET, INCHES,
             KILOMETERS_PER_HOUR, MILES_PER_HOUR,
-            NEWTONS, POUND_FORCE
+            METERS_PER_SECOND_SQUARED, FEET_PER_SECOND_SQUARED, INCHES_PER_SECOND_SQUARED, EARTH_GRAVITY,
+            NEWTONS, POUND_FORCE,
+            CELSIUS, FAHRENHEIT
         )
     }
 
@@ -157,9 +190,12 @@ enum class YkUnit(private val toBase: Double, val shortUnit: String, private val
             in YkType.POWER.units -> YkType.POWER.units
             in YkType.ENERGY.units -> YkType.ENERGY.units
             in YkType.PRESSURE.units -> YkType.PRESSURE.units
+            in YkType.TORQUE.units -> YkType.TORQUE.units
+            in YkType.STIFFNESS.units -> YkType.STIFFNESS.units
             in YkType.TEMPERATURE.units -> YkType.TEMPERATURE.units
             in YkType.AREA.units -> YkType.AREA.units
             in YkType.VOLUME.units -> YkType.VOLUME.units
+            in YkType.ACCELERATION.units -> YkType.ACCELERATION.units
             else -> arrayOf()
         }
     }

@@ -34,6 +34,7 @@ data class YkMeasurement(
             in YkType.MASS.units -> convertTo(targetSystem.mass)
             in YkType.LENGTH.units -> convertTo(targetSystem.length)
             in YkType.SPEED.units -> convertTo(targetSystem.speed)
+            in YkType.ACCELERATION.units -> convertTo(targetSystem.acceleration)
             in YkType.FORCE.units -> convertTo(targetSystem.force)
             in YkType.DENSITY.units -> convertTo(targetSystem.density)
             in YkType.POWER.units -> convertTo(targetSystem.power)
@@ -42,6 +43,8 @@ data class YkMeasurement(
             in YkType.TEMPERATURE.units -> convertTo(targetSystem.temperature)
             in YkType.AREA.units -> convertTo(targetSystem.area)
             in YkType.VOLUME.units -> convertTo(targetSystem.volume)
+            in YkType.TORQUE.units -> convertTo(targetSystem.torque)
+            in YkType.STIFFNESS.units -> convertTo(targetSystem.stiffness)
             else -> return this
         }
     }
