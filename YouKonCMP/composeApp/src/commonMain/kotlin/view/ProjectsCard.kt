@@ -2,9 +2,11 @@ package view
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
@@ -13,7 +15,10 @@ import androidx.compose.foundation.lazy.staggeredgrid.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.twotone.Add
 import androidx.compose.material.icons.twotone.Delete
+import androidx.compose.material.icons.twotone.PlusOne
 import androidx.compose.material.icons.twotone.SwapVert
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.FilledIconButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -30,8 +35,11 @@ import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import model.YkProject
+import org.jetbrains.compose.resources.stringResource
 import viewmodel.MainViewModel
 import viewmodel.ProjectsCardViews
+import youkon.composeapp.generated.resources.Res
+import youkon.composeapp.generated.resources.add_new_projects
 
 class ProjectsCard(
     private val mainViewModel: MainViewModel = MainViewModel(),
@@ -54,6 +62,7 @@ class ProjectsCard(
             ) {
                 LabelStack()
                 ProjectContent()
+                AddProjectSuggestion()
             }
         }
 
@@ -209,6 +218,36 @@ class ProjectsCard(
                 contentDescriptionLeader = "Reorder ${project.name} project",
                 onClick = { direction -> vm.value.onReorderControlButtonTap(project, direction) }
             )
+        }
+    }
+
+    @Composable
+    fun AddProjectSuggestion() {
+        val vm = mainViewModel.projectsCardViewModel.collectAsState()
+        Button(
+            onClick = {
+                vm.value.addProject()
+                mainViewModel.saveUserToAll()
+            },
+            modifier = Modifier.fillMaxWidth(),
+            shape = MaterialTheme.shapes.medium,
+            colors = ButtonDefaults.buttonColors(
+                contentColor = MaterialTheme.colorScheme.primary,
+                containerColor = MaterialTheme.colorScheme.primaryContainer
+            ),
+            contentPadding = PaddingValues(vertical = 16.dp)
+        ) {
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(16.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Icon(
+                    imageVector = Icons.TwoTone.PlusOne,
+                    contentDescription = "Add a new project"
+                )
+                Text(stringResource(Res.string.add_new_projects))
+            }
+
         }
     }
 

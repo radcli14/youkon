@@ -11,12 +11,19 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.requiredHeightIn
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.twotone.PlusOne
+import androidx.compose.material.icons.twotone.RuleFolder
+import androidx.compose.material.icons.twotone.Straighten
+import androidx.compose.material.icons.twotone.Tapas
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -48,6 +55,7 @@ import youkon.composeapp.generated.resources.measurement_name_blank
 import youkon.composeapp.generated.resources.swipe_for_options
 import androidx.compose.ui.platform.LocalWindowInfo
 import androidx.compose.ui.unit.times
+import youkon.composeapp.generated.resources.add_new_projects
 
 /// The `ProjectView` displays the data from a `YkProject`.
 /// Initially shown with an icon, name, and description, in "Compact" mode.
@@ -229,7 +237,8 @@ class ProjectView(
             // that both states are supposed to mean the same thing. Someone please fix.
             if (vm.measurements.value.isEmpty()) {
                 if (project.value.measurements.isEmpty()) {
-                    Text(stringResource(Res.string.add_new_measurements))
+                    AddMeasurementSuggestion()
+                    //Text(stringResource(Res.string.add_new_measurements))
                 }
             }
         }
@@ -260,9 +269,31 @@ class ProjectView(
         }
     }
 
+    @Composable
+    fun AddMeasurementSuggestion() {
+        Surface(
+            modifier = Modifier.fillMaxWidth().padding(top = 16.dp, end = 8.dp),
+            shape = MaterialTheme.shapes.medium,
+        ) {
+            Row(
+                modifier = Modifier.requiredHeightIn(min = 56.dp),
+                horizontalArrangement = Arrangement.Center,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Icon(
+                    imageVector = Icons.TwoTone.Straighten,
+                    contentDescription = "Add a new measurement"
+                )
+                Text(
+                    stringResource(Res.string.add_new_measurements),
+                    modifier = Modifier.padding(horizontal = 16.dp)
+                )
+            }
+        }
+    }
+
     private class Constants {
         companion object {
-            val bodyBackgroundAlpha = 0.4f
             val bodyStartPadding = 16.dp
             val bodyEndPadding = 8.dp
             val labelSpacerWidth = 8.dp

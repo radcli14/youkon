@@ -16,8 +16,6 @@ import kotlinx.coroutines.flow.asStateFlow
 import youkon.composeapp.generated.resources.Res
 import youkon.composeapp.generated.resources.account_deleted_successfully
 import youkon.composeapp.generated.resources.signed_out_successfully
-import firebase.login.MessageType
-import firebase.login.UserMessage
 
 data class SettingsUiState(
     val name: String,
@@ -33,8 +31,8 @@ class SettingsViewModel(
         SettingsUiState(it.name, it.isAnonymous)
     }
 
-    private val _message = MutableStateFlow<UserMessage?>(null)
-    val message: StateFlow<UserMessage?> = _message.asStateFlow()
+    private val _message = MutableStateFlow<StringResource?>(null)
+    val message: StateFlow<StringResource?> = _message.asStateFlow()
 
     fun onLoginClick(openScreen: (String) -> Unit) = openScreen(LOGIN_SCREEN)
 
@@ -44,7 +42,7 @@ class SettingsViewModel(
     fun onSignOutClick(restartApp: (String) -> Unit) {
         launchCatching {
             accountService.signOut()
-            _message.value = UserMessage(Res.string.signed_out_successfully, MessageType.SUCCESS)
+            _message.value = Res.string.signed_out_successfully
             restartApp(SPLASH_SCREEN)
         }
     }
@@ -53,7 +51,7 @@ class SettingsViewModel(
     fun onDeleteMyAccountClick(restartApp: (String) -> Unit) {
         launchCatching {
             accountService.deleteAccount()
-            _message.value = UserMessage(Res.string.account_deleted_successfully, MessageType.SUCCESS)
+            _message.value = Res.string.account_deleted_successfully
             restartApp(SPLASH_SCREEN)
         }
     }
