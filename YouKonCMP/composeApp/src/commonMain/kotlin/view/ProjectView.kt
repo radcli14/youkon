@@ -11,15 +11,13 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.requiredHeightIn
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.twotone.PlusOne
-import androidx.compose.material.icons.twotone.RuleFolder
+import androidx.compose.material.icons.twotone.AssignmentInd
+import androidx.compose.material.icons.twotone.NoteAlt
 import androidx.compose.material.icons.twotone.Straighten
-import androidx.compose.material.icons.twotone.Tapas
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.HorizontalDivider
@@ -28,18 +26,13 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
-import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import defaultPadding
 import model.ProjectExpansionLevel
 import model.YkMeasurement
 import model.YkSystem
@@ -52,10 +45,8 @@ import youkon.composeapp.generated.resources.add_new_measurements
 import youkon.composeapp.generated.resources.choose_a_system
 import youkon.composeapp.generated.resources.measurement_description_blank
 import youkon.composeapp.generated.resources.measurement_name_blank
+import youkon.composeapp.generated.resources.open_project_editor
 import youkon.composeapp.generated.resources.swipe_for_options
-import androidx.compose.ui.platform.LocalWindowInfo
-import androidx.compose.ui.unit.times
-import youkon.composeapp.generated.resources.add_new_projects
 
 /// The `ProjectView` displays the data from a `YkProject`.
 /// Initially shown with an icon, name, and description, in "Compact" mode.
@@ -237,7 +228,7 @@ class ProjectView(
             // that both states are supposed to mean the same thing. Someone please fix.
             if (vm.measurements.value.isEmpty()) {
                 if (project.value.measurements.isEmpty()) {
-                    AddMeasurementSuggestion()
+                    OpenProjectEditorSuggestion()
                     //Text(stringResource(Res.string.add_new_measurements))
                 }
             }
@@ -270,23 +261,23 @@ class ProjectView(
     }
 
     @Composable
-    fun AddMeasurementSuggestion() {
+    fun OpenProjectEditorSuggestion() {
         Surface(
             modifier = Modifier.fillMaxWidth().padding(top = 16.dp, end = 8.dp),
             color = MaterialTheme.colorScheme.surfaceVariant,
             shape = MaterialTheme.shapes.medium,
         ) {
             Row(
-                modifier = Modifier.requiredHeightIn(min = 56.dp),
+                modifier = Modifier.defaultPadding(),
                 horizontalArrangement = Arrangement.Center,
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Icon(
-                    imageVector = Icons.TwoTone.Straighten,
-                    contentDescription = "Add a new measurement"
+                    imageVector = Icons.TwoTone.NoteAlt,
+                    contentDescription = "Open Project Editor"
                 )
                 Text(
-                    stringResource(Res.string.add_new_measurements),
+                    stringResource(Res.string.open_project_editor),
                     modifier = Modifier.padding(horizontal = 16.dp)
                 )
             }

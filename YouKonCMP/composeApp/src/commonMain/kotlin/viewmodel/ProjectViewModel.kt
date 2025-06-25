@@ -79,6 +79,9 @@ class ProjectViewModel(
         convertToSystem.value = toSystem
     }
 
+    val addButtonIsEnabled: Boolean
+        get() = !(canSubtract.value || canReorder.value)
+
     fun addMeasurement() {
         val newMeasurement = YkMeasurement(
             value = 0.0,
@@ -91,6 +94,9 @@ class ProjectViewModel(
         measurements.value = updatedMeasurements.toList()
         onProjectUpdated(project.value)
     }
+
+    val subtractButtonIsEnabled: Boolean
+        get() = measurements.value.isNotEmpty() && !canReorder.value
 
     fun subtractMeasurement() {
         canSubtract.value = !canSubtract.value
@@ -121,6 +127,9 @@ class ProjectViewModel(
         measurementToDelete.value = null
         canSubtract.value = false
     }
+
+    val reorderButtonIsEnabled: Boolean
+        get() = measurements.value.count() > 1 && !canSubtract.value
 
     /// When tapping the swap button, this will open the controls to allow user to reorder projects
     fun onReorderButtonTap() {

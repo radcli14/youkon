@@ -1,6 +1,8 @@
 package view
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -10,7 +12,10 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.twotone.Add
 import androidx.compose.material.icons.twotone.Delete
+import androidx.compose.material.icons.twotone.Straighten
 import androidx.compose.material.icons.twotone.SwapVert
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.FilledIconButton
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -24,9 +29,12 @@ import androidx.compose.ui.composed
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import model.YkMeasurement
+import org.jetbrains.compose.resources.stringResource
 import purchases.PurchasesViewModel
 import viewmodel.ProjectViewModel
 import viewmodel.ProjectViewViews
+import youkon.composeapp.generated.resources.Res
+import youkon.composeapp.generated.resources.add_new_measurements
 
 /// Upon tapping on the measurements, a bottom sheet will open into "Editable" mode.
 class ProjectViewWhenEditing(
@@ -134,16 +142,15 @@ class ProjectViewWhenEditing(
             )
             Spacer(Modifier.weight(1f))
             PlusButton()
-            MinusButton()
+            SubtractButton()
             ReorderButton()
         }
     }
 
     @Composable
     fun PlusButton() {
-        val isEnabled = !(vm.canSubtract.value || vm.canReorder.value)
         FilledIconButton(
-            enabled = isEnabled,
+            enabled = vm.addButtonIsEnabled,
             shape = MaterialTheme.shapes.medium,
             colors = editButtonColors,
             onClick = vm::addMeasurement
@@ -156,9 +163,9 @@ class ProjectViewWhenEditing(
     }
 
     @Composable
-    fun MinusButton() {
+    fun SubtractButton() {
         FilledIconButton(
-            enabled = !vm.canReorder.value,
+            enabled = vm.subtractButtonIsEnabled,
             shape = MaterialTheme.shapes.medium,
             colors = editButtonColors,
             onClick = vm::subtractMeasurement,
@@ -173,7 +180,7 @@ class ProjectViewWhenEditing(
     @Composable
     fun ReorderButton() {
         FilledIconButton(
-            enabled = !vm.canSubtract.value,
+            enabled = vm.reorderButtonIsEnabled,
             shape = MaterialTheme.shapes.medium,
             colors = editButtonColors,
             onClick = vm::onReorderButtonTap
@@ -211,7 +218,7 @@ class ProjectViewWhenEditing(
             // that both states are supposed to mean the same thing. Someone please fix.
             if (vm.measurements.value.isEmpty()) {
                 if (project.value.measurements.isEmpty()) {
-                    Text("Add New Measurements")
+                    AddMeasurementSuggestion()
                 }
             }
         }
@@ -255,6 +262,35 @@ class ProjectViewWhenEditing(
                 contentDescriptionLeader = "Reorder ${measurement.name} measurement",
                 onClick = { direction -> vm.onReorderControlButtonTap(measurement, direction) }
             )
+        }
+    }
+
+    @Composable
+    fun AddMeasurementSuggestion() {
+        Button(
+            onClick = vm::addMeasurement,
+            modifier = Modifier.fillMaxWidth().padding(top = 8.dp),
+            colors = ButtonDefaults.buttonColors(
+                contentColor = MaterialTheme.colorScheme.primary,
+                containerColor = MaterialTheme.colorScheme.primaryContainer
+            ),
+            shape = MaterialTheme.shapes.medium,
+            contentPadding = PaddingValues(vertical = 16.dp)
+        ) {
+            Row(
+                //modifier = Modifier.defaultPadding(),
+                horizontalArrangement = Arrangement.Center,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Icon(
+                    imageVector = Icons.TwoTone.Straighten,
+                    contentDescription = "Add a new measurement"
+                )
+                Text(
+                    stringResource(Res.string.add_new_measurements),
+                    modifier = Modifier.padding(horizontal = 16.dp)
+                )
+            }
         }
     }
 

@@ -67,14 +67,17 @@ class ProjectsCardViewModel(
         Log.d(tag, "updateProjects called in ProjectsCardViewModel")
         // Clear existing projects
         projects.clear()
-        
+
         // Add all projects from user
         user.value.projects.forEach { project ->
             projects.add(project)
         }
-        
+
         Log.d(tag, "updateProjects: Final projects (SnapshotStateList) = ${projects.map { it.name }}")
     }
+
+    val addButtonIsEnabled: Boolean
+        get() = !(canSubtract.value || canReorder.value)
 
     /// Add a new, blank, `YkProject` to the `YkUser`
     fun addProject() {
@@ -112,6 +115,9 @@ class ProjectsCardViewModel(
             projectViewModel(projects.first())
         } else ProjectViewModel()
     }
+
+    val subtractButtonIsEnabled: Boolean
+        get() = projects.isNotEmpty() && !canReorder.value
 
     /// Make the button to remove any of the `YkProject`s visible
     fun onSubtractButtonTap() {
@@ -158,6 +164,9 @@ class ProjectsCardViewModel(
         canSubtract.value = false
         Log.d(tag, "cleanupDelete: showSubtractAlert = ${showSubtractAlert.value}, projectToDelete = ${projectToDelete.value}, canSubtract = ${canSubtract.value}")
     }
+
+    val reorderButtonIsEnabled: Boolean
+        get() = projects.count() > 1 && !canSubtract.value
 
     /// When tapping the swap button, this will open the controls to allow user to reorder projects
     fun onReorderButtonTap() {

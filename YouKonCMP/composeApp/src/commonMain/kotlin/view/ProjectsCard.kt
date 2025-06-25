@@ -47,7 +47,7 @@ class ProjectsCard(
 ) {
     @Composable
     fun Body() {
-        val vm = mainViewModel.projectsCardViewModel.collectAsState()
+        val vm by mainViewModel.projectsCardViewModel.collectAsState()
         Surface(
             color = MaterialTheme.colorScheme.surface,
             shape = MaterialTheme.shapes.medium,
@@ -66,17 +66,17 @@ class ProjectsCard(
             }
         }
 
-        if (vm.value.showSubtractAlert.value) {
+        if (vm.showSubtractAlert.value) {
             SubtractAlert(
-                title = vm.value.projectToDelete.value?.name ?: "",
+                title = vm.projectToDelete.value?.name ?: "",
                 confirmAction = {
-                    vm.value.projectToDelete.value?.let {
+                    vm.projectToDelete.value?.let {
                         mainViewModel.deleteProjectFromCloud(it)
                     }
-                    vm.value.confirmDelete()
+                    vm.confirmDelete()
                     mainViewModel.saveUserToAll()
                 },
-                cancelAction = { vm.value.cancelDelete() }
+                cancelAction = vm::cancelDelete
             )
         }
     }
@@ -105,23 +105,23 @@ class ProjectsCard(
     @Composable
     fun ControlButtons() {
         Row {
-            PlusButton()
-            MinusButton()
+            AddButton()
+            SubtractButton()
             ReorderButton()
         }
     }
 
     /// A button that, when tapped, adds a new, empty project
     @Composable
-    fun PlusButton() {
-        val vm = mainViewModel.projectsCardViewModel.collectAsState()
+    fun AddButton() {
+        val vm by mainViewModel.projectsCardViewModel.collectAsState()
         FilledIconButton(
             modifier = Modifier.onboardingModifier(ProjectsCardViews.PLUS),
-            enabled = !(vm.value.canSubtract.value || vm.value.canReorder.value),
+            enabled = vm.addButtonIsEnabled,
             shape = MaterialTheme.shapes.medium,
             colors = editButtonColors,
             onClick = {
-                vm.value.addProject()
+                vm.addProject()
                 mainViewModel.saveUserToAll()
             }
         ) {
@@ -134,14 +134,14 @@ class ProjectsCard(
 
     /// A button that, when tapped, toggles the projects to show red "X" to delete them
     @Composable
-    fun MinusButton() {
-        val vm = mainViewModel.projectsCardViewModel.collectAsState()
+    fun SubtractButton() {
+        val vm by mainViewModel.projectsCardViewModel.collectAsState()
         FilledIconButton(
-            enabled = !vm.value.canReorder.value,
+            enabled = vm.subtractButtonIsEnabled,
             modifier = Modifier.onboardingModifier(ProjectsCardViews.MINUS),
             shape = MaterialTheme.shapes.medium,
             colors = editButtonColors,
-            onClick = vm.value::onSubtractButtonTap
+            onClick = vm::onSubtractButtonTap
         ) {
             Icon(
                 imageVector = Icons.TwoTone.Delete,
@@ -152,14 +152,14 @@ class ProjectsCard(
 
     @Composable
     fun ReorderButton() {
-        val vm = mainViewModel.projectsCardViewModel.collectAsState()
+        val vm by mainViewModel.projectsCardViewModel.collectAsState()
         FilledIconButton(
-            enabled = !vm.value.canSubtract.value,
+            enabled = vm.reorderButtonIsEnabled,
             modifier = Modifier.onboardingModifier(ProjectsCardViews.REORDER),
             shape = MaterialTheme.shapes.medium,
             colors = editButtonColors,
             onClick = {
-                vm.value.onReorderButtonTap()
+                vm.onReorderButtonTap()
                 mainViewModel.saveUserToAll()
             }
         ) {
@@ -203,42 +203,43 @@ class ProjectsCard(
     /// The red `X` that shows up to the left of a project when the user has enabled subtracting projects
     @Composable
     fun SubtractProjectButton(project: YkProject) {
-        val vm = mainViewModel.projectsCardViewModel.collectAsState()
-        AnimatedVisibilityForControls(vm.value.canSubtract.value) {
-            SubtractButton(onClick = { vm.value.subtract(project) })
+        val vm by mainViewModel.projectsCardViewModel.collectAsState()
+        AnimatedVisibilityForControls(vm.canSubtract.value) {
+            SubtractButton(onClick = { vm.subtract(project) })
         }
     }
 
     /// Up and Down buttons for changing the position of a project in the card
     @Composable
     fun ReorderControls(project: YkProject) {
-        val vm = mainViewModel.projectsCardViewModel.collectAsState()
-        AnimatedVisibilityForControls(vm.value.canReorder.value) {
+        val vm by mainViewModel.projectsCardViewModel.collectAsState()
+        AnimatedVisibilityForControls(vm.canReorder.value) {
             UpDownButtons(
                 contentDescriptionLeader = "Reorder ${project.name} project",
-                onClick = { direction -> vm.value.onReorderControlButtonTap(project, direction) }
+                onClick = { direction -> vm.onReorderControlButtonTap(project, direction) }
             )
         }
     }
 
     @Composable
     fun AddProjectSuggestion() {
-        val vm = mainViewModel.projectsCardViewModel.collectAsState()
+        val vm by mainViewModel.projectsCardViewModel.collectAsState()
         Button(
             onClick = {
-                vm.value.addProject()
+                vm.addProject()
                 mainViewModel.saveUserToAll()
             },
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth().padding(top = Constants.verticalPadding),
+            enabled = vm.addButtonIsEnabled,
             shape = MaterialTheme.shapes.medium,
             colors = ButtonDefaults.buttonColors(
                 contentColor = MaterialTheme.colorScheme.primary,
                 containerColor = MaterialTheme.colorScheme.primaryContainer
             ),
-            contentPadding = PaddingValues(vertical = 16.dp)
+            contentPadding = PaddingValues(vertical = Constants.verticalSpacing)
         ) {
             Row(
-                horizontalArrangement = Arrangement.spacedBy(16.dp),
+                horizontalArrangement = Arrangement.spacedBy(Constants.horizontalPadding),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Icon(
