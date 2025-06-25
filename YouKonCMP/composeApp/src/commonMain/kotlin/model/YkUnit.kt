@@ -35,6 +35,25 @@ enum class YkUnit(private val toBase: Double, val shortUnit: String, private val
     MILES(0.3048*5280.0, "miles"),
     MILS(2.54e-5, "mils"),
     STUDS(0.28, "stud"),
+    // Area
+    METERS_SQUARED(1.0, "m²"),
+    KILOMETERS_SQUARED(1e6, "km²"),
+    CENTIMETERS_SQUARED(1e-4, "cm²"),
+    MILLIMETERS_SQUARED(1e-6, "mm²"),
+    FEET_SQUARED(0.092903, "ft²"),
+    INCHES_SQUARED(6.4516e-4, "in²"),
+    MILES_SQUARED(2589988.11, "miles²"),
+    ACRES(4046.86, "acres"),
+    HECTARES(10000.0, "hectares"),
+    STUDS_SQUARED(0.0784, "stud²"),
+    // Volume
+    METERS_CUBED(1.0, "m³"),
+    CENTIMETERS_CUBED(1e-6, "cm³"),
+    MILLIMETERS_CUBED(1e-9, "mm³"),
+    FEET_CUBED(0.0283168, "ft³"),
+    INCHES_CUBED(1.63871e-5, "in³"),
+    MILES_CUBED(4.16818e9, "miles³"),
+    STUDS_CUBED(0.021952, "stud³"),
     // Speed
     METERS_PER_SECOND(1.0, "m/s"),
     KILOMETERS_PER_HOUR(1.0/3.6, "km/h"),
@@ -125,6 +144,8 @@ enum class YkUnit(private val toBase: Double, val shortUnit: String, private val
             in YkType.ENERGY.units -> YkType.ENERGY.units
             in YkType.PRESSURE.units -> YkType.PRESSURE.units
             in YkType.TEMPERATURE.units -> YkType.TEMPERATURE.units
+            in YkType.AREA.units -> YkType.AREA.units
+            in YkType.VOLUME.units -> YkType.VOLUME.units
             else -> arrayOf()
         }
     }

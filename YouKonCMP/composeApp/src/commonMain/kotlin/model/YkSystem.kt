@@ -18,7 +18,9 @@ enum class YkSystem(val text: String, private val units: Array<YkUnit>) {
         YkUnit.WATTS,
         YkUnit.JOULES,
         YkUnit.PASCALS,
-        YkUnit.CELSIUS
+        YkUnit.CELSIUS,
+        YkUnit.METERS_SQUARED,
+        YkUnit.METERS_CUBED
     )),
     IMPERIAL(text = "slug-ft-lbf", units = arrayOf(
         YkUnit.SLUGS,
@@ -29,7 +31,9 @@ enum class YkSystem(val text: String, private val units: Array<YkUnit>) {
         YkUnit.FOOT_POUND_PER_SECOND,
         YkUnit.FOOT_POUND_ENERGY,
         YkUnit.POUNDS_PER_SQUARE_FOOT,
-        YkUnit.FAHRENHEIT
+        YkUnit.FAHRENHEIT,
+        YkUnit.FEET_SQUARED,
+        YkUnit.FEET_CUBED
     )),
     INCH(text = "in-lbf", units = arrayOf(
         YkUnit.SLINCH,
@@ -40,7 +44,9 @@ enum class YkSystem(val text: String, private val units: Array<YkUnit>) {
         YkUnit.INCH_POUND_PER_SECOND,
         YkUnit.INCH_POUND_ENERGY,
         YkUnit.POUNDS_PER_SQUARE_INCH,
-        YkUnit.FAHRENHEIT
+        YkUnit.FAHRENHEIT,
+        YkUnit.INCHES_SQUARED,
+        YkUnit.INCHES_CUBED
     )),
     ROBLOX(text = "RMU-s-R", units = arrayOf(
         YkUnit.RMU,
@@ -51,7 +57,9 @@ enum class YkSystem(val text: String, private val units: Array<YkUnit>) {
         YkUnit.ROWTON_STUD_PER_SECOND,
         YkUnit.ROWTON_STUD,
         YkUnit.ROWTON_PER_STUD_SQUARED,
-        YkUnit.CELSIUS
+        YkUnit.CELSIUS,
+        YkUnit.STUDS_SQUARED,
+        YkUnit.STUDS_CUBED
     ))
     ;
 
@@ -66,4 +74,6 @@ enum class YkSystem(val text: String, private val units: Array<YkUnit>) {
     val energy get() = units[6]
     val pressure get() = units[7]
     val temperature get() = units[8]
+    val area get() = units[9]
+    val volume get() = units[10]
 }

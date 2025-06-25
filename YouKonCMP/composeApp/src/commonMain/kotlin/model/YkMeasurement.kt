@@ -40,6 +40,8 @@ data class YkMeasurement(
             in YkType.ENERGY.units -> convertTo(targetSystem.energy)
             in YkType.PRESSURE.units -> convertTo(targetSystem.pressure)
             in YkType.TEMPERATURE.units -> convertTo(targetSystem.temperature)
+            in YkType.AREA.units -> convertTo(targetSystem.area)
+            in YkType.VOLUME.units -> convertTo(targetSystem.volume)
             else -> return this
         }
     }

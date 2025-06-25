@@ -10,6 +10,7 @@ enum class YkType(val units: Array<YkUnit>) {
     MASS(arrayOf(YkUnit.KILOGRAMS, YkUnit.GRAMS, YkUnit.METRIC_TONS,
         YkUnit.POUNDS, YkUnit.SLUGS, YkUnit.SLINCH,
         YkUnit.RMU)),
+    FORCE(arrayOf(YkUnit.NEWTONS, YkUnit.POUND_FORCE, YkUnit.DYNES, YkUnit.ROWTONS)),
     LENGTH(arrayOf(
         YkUnit.METERS, YkUnit.KILOMETERS, YkUnit.CENTIMETERS, YkUnit.MILLIMETERS,
         YkUnit.FEET, YkUnit.INCHES, YkUnit.MILES, YkUnit.MILS,
@@ -18,7 +19,17 @@ enum class YkType(val units: Array<YkUnit>) {
         YkUnit.METERS_PER_SECOND, YkUnit.KILOMETERS_PER_HOUR,
         YkUnit.FEET_PER_SECOND, YkUnit.INCHES_PER_SECOND, YkUnit.MILES_PER_HOUR,
         YkUnit.STUDS_PER_SECOND)),
-    FORCE(arrayOf(YkUnit.NEWTONS, YkUnit.POUND_FORCE, YkUnit.DYNES, YkUnit.ROWTONS)),
+    AREA(arrayOf(
+        YkUnit.METERS_SQUARED, YkUnit.KILOMETERS_SQUARED, YkUnit.CENTIMETERS_SQUARED, YkUnit.MILLIMETERS_SQUARED,
+        YkUnit.FEET_SQUARED, YkUnit.INCHES_SQUARED, YkUnit.MILES_SQUARED,
+        YkUnit.ACRES, YkUnit.HECTARES, YkUnit.STUDS_SQUARED
+    )),
+    VOLUME(arrayOf(
+        YkUnit.METERS_CUBED, YkUnit.CENTIMETERS_CUBED, YkUnit.MILLIMETERS_CUBED,
+        YkUnit.FEET_CUBED, YkUnit.INCHES_CUBED, YkUnit.MILES_CUBED,
+        YkUnit.STUDS_CUBED
+    )),
+    TEMPERATURE(arrayOf(YkUnit.CELSIUS, YkUnit.FAHRENHEIT, YkUnit.KELVIN, YkUnit.RANKINE)),
     DENSITY(arrayOf(
         YkUnit.KILOGRAMS_PER_METER_CUBED,
         YkUnit.SLUGS_PER_FOOT_CUBED, YkUnit.SLINCH_PER_INCH_CUBED,
@@ -36,7 +47,6 @@ enum class YkType(val units: Array<YkUnit>) {
         YkUnit.POUNDS_PER_SQUARE_INCH, YkUnit.KILOPOUNDS_PER_SQUARE_INCH,
         YkUnit.ATMOSPHERES, YkUnit.BARS,
         YkUnit.ROWTON_PER_STUD_SQUARED)),
-    TEMPERATURE(arrayOf(YkUnit.CELSIUS, YkUnit.FAHRENHEIT, YkUnit.KELVIN, YkUnit.RANKINE))
     ;
 
     val basicTypes: Array<YkType> get() = arrayOf(MASS, LENGTH, SPEED, FORCE)
