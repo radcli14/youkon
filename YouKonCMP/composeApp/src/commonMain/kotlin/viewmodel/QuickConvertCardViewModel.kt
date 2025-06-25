@@ -51,13 +51,13 @@ class QuickConvertCardViewModel(private val storage: Storage? = null) : ViewMode
     }
 
     /// When the user modifies the `From` dropdown, update the `measurement.unit`
-    fun updateUnit(newUnit: YkUnit?) {
-        newUnit?.let { newUnit ->
+    fun updateUnit(newUnit: YkUnit?, isExtended: Boolean = true) {
+        newUnit?.let { newNonNullUnit ->
             Log.d(tag, "unit updated from $unit to $newUnit")
             convertedTextFitsOnOneLine.value = true
             data.update { currentData ->
-                val newTargetUnit = newUnit.getNewTargetUnit(targetUnit)
-                currentData.copy(unit = newUnit, targetUnit = newTargetUnit)
+                val newTargetUnit = newNonNullUnit.getNewTargetUnit(targetUnit, isExtended)
+                currentData.copy(unit = newNonNullUnit, targetUnit = newTargetUnit)
             }
             storage?.saveQuickDataToJson(data.value)
         }
@@ -65,11 +65,11 @@ class QuickConvertCardViewModel(private val storage: Storage? = null) : ViewMode
 
     /// When the user modifies the `To` dropdown, update the `targetUnit`
     fun updateTargetUnit(newTargetUnit: YkUnit?) {
-        newTargetUnit?.let {newTargetUnit ->
-            Log.d(tag, "targetUnit updated from $targetUnit to $newTargetUnit")
+        newTargetUnit?.let { newNonNullTargetUnit ->
+            Log.d(tag, "targetUnit updated from $targetUnit to $newNonNullTargetUnit")
             convertedTextFitsOnOneLine.value = true
             data.update { currentData ->
-                currentData.copy(targetUnit = newTargetUnit)
+                currentData.copy(targetUnit = newNonNullTargetUnit)
             }
             storage?.saveQuickDataToJson(data.value)
         }

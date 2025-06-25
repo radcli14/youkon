@@ -136,7 +136,7 @@ enum class YkUnit(private val toBase: Double, val shortUnit: String, private val
 
     /// Check that the target unit is not a duplicate of the selected unit,
     /// and is valid as the same type of measure
-    fun getNewTargetUnit(oldTarget: YkUnit, isExtended: Boolean = false): YkUnit {
+    fun getNewTargetUnit(oldTarget: YkUnit, isExtended: Boolean = true): YkUnit {
         if (oldTarget == this || oldTarget !in equivalentUnits()) {
             return newTargetUnit(isExtended)
         }
@@ -146,9 +146,14 @@ enum class YkUnit(private val toBase: Double, val shortUnit: String, private val
     /// When the user modifies the `From` dropdown, this provides the first option for a target unit
     /// that can be converted from the `measurement.unit` but is not the same unit
     fun newTargetUnit(isExtended: Boolean): YkUnit {
-        return when(isExtended) {
-            true -> equivalentUnits().first { it != this }
-            false -> equivalentUnits().filter{ basicUnits.contains(it) }.first { it != this }
+        return try {
+            when(isExtended) {
+                true -> equivalentUnits().first { it != this }
+                false -> equivalentUnits().filter { basicUnits.contains(it) }.first { it != this }
+            }
+        } catch(error: NoSuchElementException) {
+            Log.e("YkUnit", "newTargetUnit could not find a unit matching filter, returning itself")
+            this
         }
     }
 }
