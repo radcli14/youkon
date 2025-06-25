@@ -136,7 +136,7 @@ class QuickConvertCard(
             if (isOneLine) {
                 // Initially try a one line representation, and detect its layout size.
                 // If it fits one one line, then we will stay with this.
-                TextWithSubscripts(data.convertedText,
+                Text(data.convertedText,
                     style = MaterialTheme.typography.bodyLarge,
                     color = MaterialTheme.colorScheme.onSurface,
                     onTextLayout = vm::handleConvertedTextLayout
@@ -148,7 +148,7 @@ class QuickConvertCard(
                     color = MaterialTheme.colorScheme.onSurface
                 )
                 // TODO: currently this looks good on Android, but leaves too much space on iPhone
-                TextWithSubscripts("      ${data.targetUnit.shortUnit}",
+                Text("      ${data.targetUnit.shortUnit}",
                     style = MaterialTheme.typography.bodyLarge,
                     color = MaterialTheme.colorScheme.onSurface
                 )

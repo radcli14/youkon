@@ -251,10 +251,16 @@ class ProjectView(
             )
             Text(
                 measurement.about.ifBlank { stringResource(Res.string.measurement_description_blank) },
-                style = MaterialTheme.typography.labelMedium,
+                style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurface
             )
-            TextWithSubscripts(measurement.convertToSystem(vm.convertToSystem.value).valueString,
+            Text(measurement.value.toString() + " " + measurement.unit.shortUnit)
+            Text(
+                text = "→ ",
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurface
+            )
+            Text(measurement.convertToSystem(vm.convertToSystem.value).valueString,
                 color = MaterialTheme.colorScheme.onSurface
             )
         }

@@ -10,7 +10,6 @@ enum class YkType(val units: Array<YkUnit>) {
     MASS(arrayOf(YkUnit.KILOGRAMS, YkUnit.GRAMS, YkUnit.METRIC_TONS,
         YkUnit.POUNDS, YkUnit.SLUGS, YkUnit.SLINCH,
         YkUnit.RMU)),
-    FORCE(arrayOf(YkUnit.NEWTONS, YkUnit.POUND_FORCE, YkUnit.DYNES, YkUnit.ROWTONS)),
     LENGTH(arrayOf(
         YkUnit.METERS, YkUnit.KILOMETERS, YkUnit.CENTIMETERS, YkUnit.MILLIMETERS,
         YkUnit.FEET, YkUnit.INCHES, YkUnit.MILES, YkUnit.MILS,
@@ -19,6 +18,7 @@ enum class YkType(val units: Array<YkUnit>) {
         YkUnit.METERS_PER_SECOND, YkUnit.KILOMETERS_PER_HOUR,
         YkUnit.FEET_PER_SECOND, YkUnit.INCHES_PER_SECOND, YkUnit.MILES_PER_HOUR,
         YkUnit.STUDS_PER_SECOND)),
+    FORCE(arrayOf(YkUnit.NEWTONS, YkUnit.POUND_FORCE, YkUnit.DYNES, YkUnit.ROWTONS)),
     AREA(arrayOf(
         YkUnit.METERS_SQUARED, YkUnit.KILOMETERS_SQUARED, YkUnit.CENTIMETERS_SQUARED, YkUnit.MILLIMETERS_SQUARED,
         YkUnit.FEET_SQUARED, YkUnit.INCHES_SQUARED, YkUnit.MILES_SQUARED,
@@ -26,8 +26,15 @@ enum class YkType(val units: Array<YkUnit>) {
     )),
     VOLUME(arrayOf(
         YkUnit.METERS_CUBED, YkUnit.CENTIMETERS_CUBED, YkUnit.MILLIMETERS_CUBED,
-        YkUnit.FEET_CUBED, YkUnit.INCHES_CUBED, YkUnit.MILES_CUBED,
-        YkUnit.STUDS_CUBED
+        YkUnit.FEET_CUBED, YkUnit.INCHES_CUBED,
+        YkUnit.STUDS_CUBED,
+        YkUnit.LITERS, YkUnit.US_GALLONS, YkUnit.IMPERIAL_GALLONS,
+        YkUnit.US_QUARTS, YkUnit.IMPERIAL_QUARTS,
+        YkUnit.US_PINTS, YkUnit.IMPERIAL_PINTS,
+        YkUnit.US_CUPS, YkUnit.IMPERIAL_CUPS,
+        YkUnit.US_FLUID_OUNCES, YkUnit.IMPERIAL_FLUID_OUNCES,
+        YkUnit.US_TABLESPOONS, YkUnit.IMPERIAL_TABLESPOONS,
+        YkUnit.US_TEASPOONS, YkUnit.IMPERIAL_TEASPOONS
     )),
     TEMPERATURE(arrayOf(YkUnit.CELSIUS, YkUnit.FAHRENHEIT, YkUnit.KELVIN, YkUnit.RANKINE)),
     DENSITY(arrayOf(
@@ -49,7 +56,7 @@ enum class YkType(val units: Array<YkUnit>) {
         YkUnit.ROWTON_PER_STUD_SQUARED)),
     ;
 
-    val basicTypes: Array<YkType> get() = arrayOf(MASS, LENGTH, SPEED, FORCE)
+    val basicTypes: Array<YkType> get() = arrayOf(MASS, LENGTH, SPEED, FORCE, AREA, VOLUME)
 
     val lowercasedString: String get() = this
         .toString()

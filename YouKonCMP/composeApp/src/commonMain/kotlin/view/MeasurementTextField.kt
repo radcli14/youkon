@@ -68,7 +68,7 @@ fun MeasurementTextField(
                 viewModel.text,
                 textStyle,
                 Modifier.weight(1f).onFocusChanged { isFocused = it.hasFocus },
-                suffix = { unitText?.let { TextWithSubscripts(" $it") } },
+                suffix = { unitText?.let { Text(" $it") } },
                 onValueChange = viewModel::handleTextChange
             )
 
