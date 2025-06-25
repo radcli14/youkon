@@ -5,7 +5,7 @@ YouKon                                    :                                     
 ios_app_id                                : 6477476799                                # Updated for com.dcengineer.youkon, update when release approved
 ios_app_country                           : us                                        # Required outside USA. Enter 2 letter country code as in https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2
 
-appstore_link                             : https://testflight.apple.com/join/aKAd0AwD # Automatically populates if not set and if iOS app ID is set. Otherwise enter manually.
+appstore_link                             :                                           # Automatically populates if not set and if iOS app ID is set. Otherwise enter manually.
 playstore_link                            : https://play.google.com/store/apps/details?id=com.dcengineer.youkon # Enter Google Play Store URL.
 presskit_download_link                    :                                           # Enter a link to downloadable file or (e.g. public Dropbox link to a .zip file).
                                                                                       # Or upload your press kit file to assets and set path accordingly (e.g. "assets/your_press_kit.zip").
@@ -41,6 +41,10 @@ features                                  :
   - title                                 : Unit Conversion Made Simple
     description                           : Convert measurements between different unit systems with ease.
     fontawesome_icon_name                 : exchange-alt
+
+  - title                                 : User-Friendly Interface
+    description                           : Clean, intuitive design with quick conversion tools and expandable project tiles for easy navigation.
+    fontawesome_icon_name                 : user-check
     
   - title                                 : Designed for Technical Professionals
     description                           : Perfect for engineers and scientists working with various measurement standards.
@@ -66,18 +70,13 @@ features                                  :
     description                           : Specialized support for aerospace vehicle mass properties and dimensions with relevant unit conversions.
     fontawesome_icon_name                 : rocket
 
-  # - title                                 : Recipe Measurements
-  #   description                           : Convert cooking measurements between different systems, making recipe scaling and adaptation simple.
-  #   fontawesome_icon_name                 : utensils
+  - title                                 : Recipe Measurements
+    description                           : Convert cooking measurements between different systems, making recipe scaling and adaptation simple.
+    fontawesome_icon_name                 : utensils
 
   # - title                                 : Image Support
   #   description                           : Attach images to your projects for better documentation and reference.
   #   fontawesome_icon_name                 : image
-
-  - title                                 : User-Friendly Interface
-    description                           : Clean, intuitive design with quick conversion tools and expandable project tiles for easy navigation.
-    fontawesome_icon_name                 : user-check
-
 
 
 # Theme Settings
