@@ -55,6 +55,8 @@ import youkon.composeapp.generated.resources.sign_out
 import youkon.composeapp.generated.resources.sign_out_description
 import youkon.composeapp.generated.resources.sign_out_title
 import kotlinx.coroutines.delay
+import youkon.composeapp.generated.resources.logged_in_as
+import youkon.composeapp.generated.resources.login_or_create_account
 
 
 @Composable
@@ -104,7 +106,11 @@ fun SettingsScreenContent(
             .verticalScroll(rememberScrollState()),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(if (uiState.isAnonymousAccount) "Log in or create an account" else "Logged in as ${uiState.name}",
+        val loginText = when(uiState.isAnonymousAccount) {
+            true -> stringResource(Res.string.login_or_create_account)
+            false -> stringResource(Res.string.logged_in_as, uiState.name)
+        }
+        Text(loginText,
             modifier = Modifier.defaultPadding(),
             color = MaterialTheme.colorScheme.onSurface
         )

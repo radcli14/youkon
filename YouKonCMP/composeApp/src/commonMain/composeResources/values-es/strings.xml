@@ -1,0 +1,142 @@
+<resources>
+    <!-- Common -->
+    <string name="email">Correo Electronico</string>
+    <string name="password">Contraseña</string>
+    <string name="repeat_password">Contraseña Otra Vez</string>
+    <string name="generic_error">Algo salió mal, por favor, inténtalo otra vez.</string>
+    <string name="email_error">Please insert a valid email.</string>
+    <string name="cancel">Cancelar</string>
+    <string name="try_again">Inténtalo otra vez</string>
+    <string name="ok">OK</string>
+    <string name="close">Cerrar</string>
+    <string name="description">Descripción</string>
+    <string name="title">Título</string>
+    <string name="url">URL</string>
+    <string name="date">Fecha</string>
+    <string name="app_icon_decoration">Icono de app solo para decoración</string>
+    <string name="navigate_to">Navegar a: </string>
+    <string name="save_changes">Guardar</string>
+    <string name="help">Ayuda</string>
+    <string name="confirm">Confirmar</string>
+    <string name="delete">Borrar</string>
+    <string name="delete_named">Borrar $1%s</string>
+    <string name="are_you_sure">¿Estás Seguro?</string>
+
+    <!-- LoginScreen -->
+    <string name="sign_in">Iniciar sesión</string>
+    <string name="login_details">Ingrese tus datao</string>
+    <string name="forgot_password">¿Olvidaste la contraseña? Haz click para obtener un correo electrónico de recuperación</string>
+    <string name="recovery_email_sent">Revisa tu buzón para el correo electrónico de recuperación</string>
+    <string name="empty_password_error">Contraseña no puede estar vacía.</string>
+
+    <!-- SignUpScreen -->
+    <string name="create_account">Crear cuenta</string>
+    <string name="create_account_hint">Proporcionar datos por un usario nuevo.</string>
+    <string name="password_error">Tu contraseña debe tener al menos seis dígitos e incluir un dígito, una letra minúscula y una letra mayúscula.</string>
+    <string name="password_match_error">Las contraseñas no coinciden.</string>
+
+    <!-- SettingsScreen -->
+    <string name="settings">Configuración</string>
+    <string name="sign_out">Cerrar sesión</string>
+    <string name="login_or_create_account">Iniciar sesión o crear una cuenta</string>
+    <string name="logged_in_as">Registrado como: $1%s</string>
+    <string name="delete_my_account">Borrar mi cuenta</string>
+    <string name="privacy_policy_button">Política de Privacidad</string>
+    <string name="privacy_policy_url">https://radcli14.github.io/youkon/privacypolicy/</string>
+    <string name="want_new_features">¿Quieres más unidades de medida y sistemas?</string>
+    <string name="extend_youkon">Extender a YouKon</string>
+    <string name="have_extended">✅ ¡Has ascendido a YouKon Extendido!</string>
+    <string name="purchase_error_generic">Hubo un error al cargar las compras, inténtalo de nuevo más tarde.</string>
+
+    <!-- Dialogs -->
+    <string name="sign_out_title">¿Cerrar sesión?</string>
+    <string name="sign_out_description">You will have to sign in again to see your projects.</string>
+    <string name="delete_account_title">¿Borrar tu cuenta?</string>
+    <string name="delete_account_description">You will lose all your projects and your account will be deleted. This action is irreversible.</string>
+
+    <!-- Success messages -->
+    <string name="account_created_successfully">Account created successfully!</string>
+    <string name="logged_in_successfully">Logged in successfully!</string>
+    <string name="account_deleted_successfully">Account deleted successfully!</string>
+    <string name="signed_out_successfully">Signed out successfully!</string>
+
+    <!-- Paywall -->
+    <string name="want_more">¿Quieres más?</string>
+    <string name="purchase_upgrade">Purchase Upgrade</string>
+
+    <!-- Quick Convert Card -->
+    <string name="quick_convert">Conversión Rapída</string>
+    <string name="from">de</string>
+    <string name="into">a</string>
+
+    <!-- Project View -->
+    <string name="projects">Proyectos</string>
+    <string name="choose_a_system">Eligir a una sistema para la conversión</string>
+    <string name="swipe_for_options">Swipe for more options</string>
+    <string name="add_new_projects">Toca aquí para crear un proyecto nuevo</string>
+    <string name="add_new_project">Añadir un proyecto nuevo</string>
+    <string name="allow_delete_projects">Permetir a borrar proyectos</string>
+    <string name="allow_reorder_projects">Permetir a reordenar</string>
+    <string name="reorder_project">Reordenar proyecto $1%s</string>
+    <string name="open_project_editor">Toca aquí para abrir el editor de proyectos</string>
+    <string name="add_new_measurements">Toca aquí para añadir una medida nueva</string>
+    <string name="measurement_name_blank">Medida nueva</string>
+    <string name="measurement_description_blank">Con descripción</string>
+    <string name="icon_for_project">Icono para proyecto $1%s</string>
+
+    <!-- Measurement Editing -->
+    <string name="edit_measurements">Editar Medidas</string>
+    <string name="add_new_measurement">Añadir una medida nueva</string>
+    <string name="allow_delete_measurement">Permitir a borrar medidas</string>
+    <string name="allow_reorder_measurement">Permitir a reordenar medidas</string>
+    <string name="reorder_measurement">Reorderar medida $1%s</string>
+    <string name="change_sign">Cambia el signo</string>
+    <string name="multiply_by_ten">Multiplicar por diez</string>
+    <string name="divide_by_ten">Dividir por diez</string>
+    <string name="clear_value">Borrar el número</string>
+    <string name="name_hint">nombre</string>
+    <string name="description_hint">descripción</string>
+    <string name="choose_unit_type">Elegir a un tipo de unidad</string>
+    <string name="choose_unit">"Elegir the unidad $1%s"</string>
+
+    <!-- Onboarding -->
+    <string name="onboarding_animation">Transition color to draw attention to sections of the view in the onboarding</string>
+    <string name="onboarding_welcome_header">Welcome</string>
+    <string-array name="onboarding_welcome_content">
+        <item>Thank you for trying the unit converter app designed for engineers</item>
+    </string-array>
+    <string name="onboarding_quick_convert_header">Quick Convert Card</string>
+    <string-array name="onboarding_quick_convert_content">
+        <item>Here you may instantly convert a single measurement to an equivalent unit</item>
+        <item>1. Tap the `From` button in the upper left to select from a list of all available units in the app</item>
+        <item>2. Tap the `To` button in the upper right to select from a list of units that may be converted given the `From` unit</item>
+        <item>3. Enter a number in the lower left for a value in the `From` unit</item>
+        <item>4. The converted value and unit are displayed in the lower right</item>
+    </string-array>
+    <string name="onboarding_projects_header">Projects Card</string>
+    <string-array name="onboarding_projects_content">
+        <item>Here you may store all of your projects, each with multiple measurements, all converted to a consistent system of units</item>
+        <item>1. Tap the `Plus` (+) button to add a new project</item>
+        <item>2. Tap the `Minus` (-) button to enable subtracting a project, then tap the `X` button alongside to delete that project</item>
+    </string-array>
+    <string name="onboarding_project_view_header">Project View</string>
+    <string-array name="onboarding_project_view_content">
+        <item>Here you will view the name, description, and measurements for an individual project</item>
+        <item>1. Tap once on a project to expand it to show its list of measurements, and select a system of units</item>
+        <item>2. Use the picker to toggle between multiple systems of units</item>
+        <item>3. Tap on the list of measurements to open the editing screen for that project</item>
+    </string-array>
+    <string name="onboarding_editable_project_header">Editable Project</string>
+    <string-array name="onboarding_editable_project_content">
+        <item>The bottom sheet expands to show a menu where you may modify data in this project</item>
+        <item>1. Name and description fields for this project are at the top</item>
+        <item>2. `Plus` (+) and `Minus` (-) are used to add and subtract measurements</item>
+        <item>3. Each measurement has its own name and description field</item>
+        <item>4. Number value and a unit may be selected for each measurement</item>
+    </string-array>
+    <string name="onboarding_thank_you_header">Thank You</string>
+    <string-array name="onboarding_thank_you_content">
+        <item>Thank you for trying YouKon, the unit converter app designed for engineers</item>
+        <item>Goodbye!</item>
+    </string-array>
+</resources>
