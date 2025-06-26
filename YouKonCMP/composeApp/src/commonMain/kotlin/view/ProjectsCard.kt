@@ -39,7 +39,12 @@ import org.jetbrains.compose.resources.stringResource
 import viewmodel.MainViewModel
 import viewmodel.ProjectsCardViews
 import youkon.composeapp.generated.resources.Res
+import youkon.composeapp.generated.resources.add_new_project
 import youkon.composeapp.generated.resources.add_new_projects
+import youkon.composeapp.generated.resources.allow_delete_projects
+import youkon.composeapp.generated.resources.allow_reorder_projects
+import youkon.composeapp.generated.resources.projects
+import youkon.composeapp.generated.resources.reorder_project
 
 class ProjectsCard(
     private val mainViewModel: MainViewModel = MainViewModel(),
@@ -92,7 +97,7 @@ class ProjectsCard(
     fun LabelStack() {
         Row(verticalAlignment = Alignment.CenterVertically) {
             Text(
-                text = "Projects",
+                text = stringResource(Res.string.projects),
                 style = MaterialTheme.typography.titleLarge,
                 color = MaterialTheme.colorScheme.onSurface,
                 fontWeight = FontWeight.SemiBold
@@ -127,7 +132,7 @@ class ProjectsCard(
         ) {
             Icon(
                 imageVector = Icons.TwoTone.Add,
-                contentDescription = "Add a new project"
+                contentDescription = stringResource(Res.string.add_new_project)
             )
         }
     }
@@ -145,7 +150,7 @@ class ProjectsCard(
         ) {
             Icon(
                 imageVector = Icons.TwoTone.Delete,
-                contentDescription = "Allow deleting projects"
+                contentDescription = stringResource(Res.string.allow_delete_projects)
             )
         }
     }
@@ -165,7 +170,7 @@ class ProjectsCard(
         ) {
             Icon(
                 imageVector = Icons.TwoTone.SwapVert,
-                contentDescription = "Allow reordering projects"
+                contentDescription = stringResource(Res.string.allow_reorder_projects)
             )
         }
     }
@@ -215,7 +220,7 @@ class ProjectsCard(
         val vm by mainViewModel.projectsCardViewModel.collectAsState()
         AnimatedVisibilityForControls(vm.canReorder.value) {
             UpDownButtons(
-                contentDescriptionLeader = "Reorder ${project.name} project",
+                contentDescriptionLeader = stringResource(Res.string.reorder_project, project.name),
                 onClick = { direction -> vm.onReorderControlButtonTap(project, direction) }
             )
         }
@@ -244,7 +249,7 @@ class ProjectsCard(
             ) {
                 Icon(
                     imageVector = Icons.TwoTone.PlusOne,
-                    contentDescription = "Add a new project"
+                    contentDescription = null
                 )
                 Text(stringResource(Res.string.add_new_projects))
             }

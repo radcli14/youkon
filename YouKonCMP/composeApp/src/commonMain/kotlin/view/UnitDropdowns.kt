@@ -23,6 +23,11 @@ import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import model.YkType
 import model.YkUnit
+import org.jetbrains.compose.resources.stringResource
+import youkon.composeapp.generated.resources.Res
+import youkon.composeapp.generated.resources.choose_unit
+import youkon.composeapp.generated.resources.choose_unit_type
+import youkon.composeapp.generated.resources.want_more
 
 class UnitDropdown(
     val unit: YkUnit,
@@ -89,13 +94,13 @@ class UnitDropdown(
 
                 if (!isExtended) {
                     DropdownMenuItem(
-                        text = { Text("Want More?") },
+                        text = { Text(stringResource(Res.string.want_more)) },
                         onClick = {
                             isExpanded.value = false
                             onShowPaywall()
                         },
                         trailingIcon = {
-                            Icon(Icons.TwoTone.WorkspacePremium, contentDescription = "Purchase Upgrade")
+                            Icon(Icons.TwoTone.WorkspacePremium, contentDescription = null)
                         },
                         colors = MenuDefaults.itemColors(
                             textColor = MaterialTheme.colorScheme.primary,
@@ -115,7 +120,7 @@ class UnitDropdown(
                 }
             ) {
                 selectedType?.let {
-                    HeaderText("Choose the ${it.lowercasedString} Unit")
+                    HeaderText(stringResource(Res.string.choose_unit, it.lowercasedString))
                     UnitMenuItems(it.units.filter { availableUnits.contains(it) }.toTypedArray())
                 }
             }
@@ -126,7 +131,7 @@ class UnitDropdown(
     // (Mass, Length, ...), rather than the list of all existing units
     @Composable
     fun TypeMenuItems() {
-        HeaderText("Choose a Unit Type")
+        HeaderText(stringResource(Res.string.choose_unit_type))
 
         if (includeUnitless) {
             DropdownMenuItem(

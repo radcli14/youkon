@@ -2,10 +2,10 @@ package view
 
 import androidx.compose.animation.core.Animatable
 import androidx.compose.foundation.layout.size
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
@@ -13,6 +13,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.unit.dp
 import model.ProjectExpansionLevel
+import org.jetbrains.compose.resources.stringResource
+import youkon.composeapp.generated.resources.Res
+import youkon.composeapp.generated.resources.close
 
 /// A right arrow icon that rotates 90 deg when the project is expanded, to achieve an effect
 /// similar to a `DisclosureGroup` in iOS
@@ -35,8 +38,8 @@ fun CloseIcon(
     }
 
     Icon(
-        imageVector = Icons.Default.KeyboardArrowRight,
-        contentDescription = "Close",
+        imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
+        contentDescription = stringResource(Res.string.close),
         modifier = Modifier.rotate(rotation.value).size(24.dp),
         tint = MaterialTheme.colorScheme.primary
     )

@@ -34,7 +34,13 @@ import purchases.PurchasesViewModel
 import viewmodel.ProjectViewModel
 import viewmodel.ProjectViewViews
 import youkon.composeapp.generated.resources.Res
+import youkon.composeapp.generated.resources.add_new_measurement
 import youkon.composeapp.generated.resources.add_new_measurements
+import youkon.composeapp.generated.resources.allow_reorder_measurement
+import youkon.composeapp.generated.resources.description_hint
+import youkon.composeapp.generated.resources.edit_measurements
+import youkon.composeapp.generated.resources.name_hint
+import youkon.composeapp.generated.resources.reorder_measurement
 
 /// Upon tapping on the measurements, a bottom sheet will open into "Editable" mode.
 class ProjectViewWhenEditing(
@@ -107,7 +113,7 @@ class ProjectViewWhenEditing(
     private fun NameField() {
         BasicTextFieldWithHint(
             value = vm.editedName.value,
-            hint = "name",
+            hint = stringResource(Res.string.name_hint),
             textStyle = MaterialTheme.typography.titleLarge.copy(
                 color = MaterialTheme.colorScheme.onSurface,
                 fontWeight = FontWeight.SemiBold
@@ -121,7 +127,7 @@ class ProjectViewWhenEditing(
     private fun DescriptionField() {
         BasicTextFieldWithHint(
             value = vm.editedDescription.value,
-            hint = "description",
+            hint = stringResource(Res.string.description_hint),
             textStyle = MaterialTheme.typography.bodyMedium.copy(
                 color = MaterialTheme.colorScheme.onSurface
             ),
@@ -136,7 +142,8 @@ class ProjectViewWhenEditing(
             modifier = Modifier.onboardingModifier(ProjectViewViews.PLUS_MINUS),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Text("Edit Measurements",
+            Text(
+                text = stringResource(Res.string.edit_measurements),
                 color = MaterialTheme.colorScheme.primary,
                 style = MaterialTheme.typography.titleMedium
             )
@@ -157,7 +164,7 @@ class ProjectViewWhenEditing(
         ) {
             Icon(
                 imageVector = Icons.TwoTone.Add,
-                contentDescription = "Add a new measurement",
+                contentDescription = stringResource(Res.string.add_new_measurement),
             )
         }
     }
@@ -187,7 +194,7 @@ class ProjectViewWhenEditing(
         ) {
             Icon(
                 imageVector = Icons.TwoTone.SwapVert,
-                contentDescription = "Allow reordering measurements",
+                contentDescription = stringResource(Res.string.allow_reorder_measurement),
             )
         }
     }
@@ -256,10 +263,9 @@ class ProjectViewWhenEditing(
     /// Up and Down buttons for changing the position of a measurement in the card
     @Composable
     fun ReorderControls(measurement: YkMeasurement) {
-        //val vm = mainViewModel.projectsCardViewModel.collectAsState()
         AnimatedVisibilityForControls(vm.canReorder.value) {
             UpDownButtons(
-                contentDescriptionLeader = "Reorder ${measurement.name} measurement",
+                contentDescriptionLeader = stringResource(Res.string.reorder_measurement, measurement.name),
                 onClick = { direction -> vm.onReorderControlButtonTap(measurement, direction) }
             )
         }
@@ -278,13 +284,12 @@ class ProjectViewWhenEditing(
             contentPadding = PaddingValues(vertical = 16.dp)
         ) {
             Row(
-                //modifier = Modifier.defaultPadding(),
                 horizontalArrangement = Arrangement.Center,
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Icon(
                     imageVector = Icons.TwoTone.Straighten,
-                    contentDescription = "Add a new measurement"
+                    contentDescription = null
                 )
                 Text(
                     stringResource(Res.string.add_new_measurements),

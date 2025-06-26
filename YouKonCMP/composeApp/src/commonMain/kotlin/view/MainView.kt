@@ -1,7 +1,6 @@
 package view
 
 import LOGIN_SCREEN
-import PAYWALL_SCREEN
 import SETTINGS_SCREEN
 import SIGN_UP_SCREEN
 import YoukonTheme
@@ -53,8 +52,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import closeKeyboardOnTapOutside
 import closeSheetOnTapOutside
-import com.revenuecat.purchases.kmp.ui.revenuecatui.Paywall
-import com.revenuecat.purchases.kmp.ui.revenuecatui.PaywallOptions
+import defaultPadding
 import firebase.login.LoginScreen
 import firebase.login.LoginViewModel
 import firebase.settings.SettingsViewModel
@@ -63,14 +61,19 @@ import firebase.sign_up.SignUpViewModel
 import kotlinx.coroutines.launch
 import model.ProjectExpansionLevel
 import org.jetbrains.compose.resources.painterResource
-import purchases.PurchasesRepository
+import org.jetbrains.compose.resources.stringResource
 import purchases.PurchasesViewModel
 import purchases.YouKonExtendedPaywall
 import viewmodel.MainViewModel
 import viewmodel.OnboardingScreenViewModel
 import viewmodel.QuickConvertCardViewModel
 import youkon.composeapp.generated.resources.Res
+import youkon.composeapp.generated.resources.app_icon_decoration
+import youkon.composeapp.generated.resources.help
 import youkon.composeapp.generated.resources.icon_clearbackground
+import youkon.composeapp.generated.resources.navigate_to
+import youkon.composeapp.generated.resources.save_changes
+import youkon.composeapp.generated.resources.settings
 
 
 class MainView(
@@ -172,7 +175,7 @@ class MainView(
                 AnimatedVisibility(currentRoute == "main") {
                     Image(
                         painter = painterResource(Res.drawable.icon_clearbackground),
-                        contentDescription = "App icon",
+                        contentDescription = stringResource(Res.string.app_icon_decoration),
                         contentScale = ContentScale.Fit,
                         colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground)
                     )
@@ -197,7 +200,7 @@ class MainView(
         ) {
             Icon(
                 imageVector = Icons.TwoTone.Settings,
-                contentDescription = "Settings",
+                contentDescription = stringResource(Res.string.navigate_to, Res.string.settings),
             )
         }
     }
@@ -222,9 +225,9 @@ class MainView(
                     Icons.TwoTone.Info
                 },
                 contentDescription = if (mainViewModel.isEditingProject.value) {
-                    "Save changes"
+                    stringResource(Res.string.save_changes)
                 } else {
-                    "Show help"
+                    stringResource(Res.string.navigate_to, Res.string.help)
                 }
             )
         }
@@ -328,7 +331,7 @@ class MainView(
     fun MainContentStack() {
         Column(
             modifier = Modifier
-                .padding(Constants.mainContentPadding)
+                .defaultPadding()
                 .padding(bottom = Constants.mainContentPadding)
                 .fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -361,7 +364,6 @@ class MainView(
         companion object {
             val mainContentPadding = 16.dp
             val mainContentSpacing = 16.dp
-            val settingsBoxHeight = 420.dp
             val sheetPeakHeight = 500.dp
         }
     }

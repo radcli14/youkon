@@ -293,7 +293,7 @@ class ProjectView(
             ) {
                 Icon(
                     imageVector = Icons.TwoTone.NoteAlt,
-                    contentDescription = "Open Project Editor"
+                    contentDescription = null
                 )
                 Text(
                     stringResource(Res.string.open_project_editor),

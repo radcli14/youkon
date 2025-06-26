@@ -15,9 +15,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import org.jetbrains.compose.resources.stringResource
 import purchases.PurchasesViewModel
 import viewmodel.QuickConvertCardViewModel
 import viewmodel.QuickConvertViews
+import youkon.composeapp.generated.resources.Res
+import youkon.composeapp.generated.resources.from
+import youkon.composeapp.generated.resources.into
+import youkon.composeapp.generated.resources.quick_convert
 
 class QuickConvertCard(
     private val vm: QuickConvertCardViewModel = QuickConvertCardViewModel(),
@@ -52,7 +57,8 @@ class QuickConvertCard(
     /// The label at the top of the card
     @Composable
     private fun CardLabel() {
-        Text("Quick Convert",
+        Text(
+            text = stringResource(Res.string.quick_convert),
             fontWeight = FontWeight.SemiBold,
             color = MaterialTheme.colorScheme.onSurface,
             style = MaterialTheme.typography.titleLarge
@@ -84,7 +90,7 @@ class QuickConvertCard(
         UnitDropdown(
             unit = data.unit,
             availableUnits = vm.allUnits(purchases?.isExtended?.value == true),
-            headerText = "From",
+            headerText = stringResource(Res.string.from),
             isNested = true,
             isExtended = purchases?.isExtended?.value == true,
             modifier = modifier,
@@ -100,7 +106,7 @@ class QuickConvertCard(
         UnitDropdown(
             unit = data.targetUnit,
             availableUnits = vm.equivalentUnits(purchases?.isExtended?.value == true),
-            headerText = "To",
+            headerText = stringResource(Res.string.into),
             isExtended = purchases?.isExtended?.value == true,
             modifier = modifier,
             onClick = { vm.updateTargetUnit(it) },

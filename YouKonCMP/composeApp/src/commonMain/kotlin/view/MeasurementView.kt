@@ -13,8 +13,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import model.YkMeasurement
+import org.jetbrains.compose.resources.stringResource
 import purchases.PurchasesViewModel
 import viewmodel.MeasurementViewModel
+import youkon.composeapp.generated.resources.Res
+import youkon.composeapp.generated.resources.description_hint
+import youkon.composeapp.generated.resources.name_hint
 
 /// The editable form of a single measurement, with a name, description, value, and unit. Name and
 /// description are editable text fields, value is a numeric field, and unit is a dropdown.
@@ -47,7 +51,7 @@ class MeasurementView(
     private fun NameField(vm: MeasurementViewModel) {
         BasicTextFieldWithHint(
             value = vm.measurementName.value,
-            hint = "name",
+            hint = stringResource(Res.string.name_hint),
             onValueChange = { vm.updateName(it) },
             textStyle = MaterialTheme.typography.titleMedium.copy(
                 color = MaterialTheme.colorScheme.secondary
@@ -60,7 +64,7 @@ class MeasurementView(
     private fun DescriptionField(vm: MeasurementViewModel) {
         BasicTextFieldWithHint(
             value = vm.measurementDescription.value,
-            hint = "description",
+            hint = stringResource(Res.string.description_hint),
             onValueChange = { vm.updateDescription(it) },
             textStyle = MaterialTheme.typography.bodyMedium.copy(
                 color = MaterialTheme.colorScheme.onSurface

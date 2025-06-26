@@ -23,7 +23,7 @@ fun BackgroundBox(content: @Composable () -> Unit) {
     ) {
         Image(
             painter = painterResource(Res.drawable.background),
-            contentDescription = "Background image of mountains",
+            contentDescription = null,
             modifier = Modifier.fillMaxSize(),
             contentScale = ContentScale.Crop,
             colorFilter = ColorFilter.colorMatrix(

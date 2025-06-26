@@ -43,7 +43,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.Font
+import org.jetbrains.compose.resources.stringResource
 import youkon.composeapp.generated.resources.Res
+import youkon.composeapp.generated.resources.onboarding_animation
 import youkon.composeapp.generated.resources.philosopher_bold
 import youkon.composeapp.generated.resources.philosopher_bolditalic
 import youkon.composeapp.generated.resources.philosopher_italic
@@ -186,7 +188,7 @@ val animatedColor: Color
                 animation = tween(750, easing = LinearEasing),
                 repeatMode = RepeatMode.Reverse
             ),
-            label = "Transition color to draw attention to sections of the view in the onboarding"
+            label = stringResource(Res.string.onboarding_animation)
         )
         return color
     }

@@ -3,11 +3,24 @@
     <string name="email">Email</string>
     <string name="password">Password</string>
     <string name="repeat_password">Repeat password</string>
-    <string name="generic_error">Something wrong happened. Please try again.</string>
+    <string name="generic_error">Something went wrong. Please try again.</string>
     <string name="email_error">Please insert a valid email.</string>
     <string name="cancel">Cancel</string>
     <string name="try_again">Try again</string>
     <string name="ok">OK</string>
+    <string name="close">Close</string>
+    <string name="description">Description</string>
+    <string name="title">Title</string>
+    <string name="url">URL</string>
+    <string name="date">Date</string>
+    <string name="app_icon_decoration">App icon for decoration purpose only</string>
+    <string name="navigate_to">Navigate to: </string>
+    <string name="save_changes">Save changes</string>
+    <string name="help">Help</string>
+    <string name="confirm">Confirm</string>
+    <string name="delete">Delete</string>
+    <string name="delete_named">Delete $1%s</string>
+    <string name="are_you_sure">Are you sure?</string>
 
     <!-- LoginScreen -->
     <string name="sign_in">Sign in</string>
@@ -21,19 +34,6 @@
     <string name="create_account_hint">Provide login details for a new user.</string>
     <string name="password_error">Your password should have at least six digits and include one digit, one lower case letter and one upper case letter.</string>
     <string name="password_match_error">Passwords do not match.</string>
-
-    <!-- TasksScreen -->
-    <string name="tasks">Tasks</string>
-
-    <!-- EditTaskScreen -->
-    <string name="edit_task">Edit your task</string>
-    <string name="title">Title</string>
-    <string name="description">Description</string>
-    <string name="url">URL</string>
-    <string name="date">Date</string>
-    <string name="time">Time</string>
-    <string name="flag">Flag</string>
-    <string name="priority">Priority</string>
 
     <!-- SettingsScreen -->
     <string name="settings">Settings</string>
@@ -58,19 +58,45 @@
     <string name="account_deleted_successfully">Account deleted successfully!</string>
     <string name="signed_out_successfully">Signed out successfully!</string>
 
-    <!-- FCM -->
-    <string name="default_notification_channel_id" translatable="false">fcm_default_channel</string>
-    <string name="request_notification_permission">Request permission</string>
-    <string name="notification_permission_title">Notification permission</string>
-    <string name="notification_permission_description">The notification permission is important for this app. Please grant the permission.</string>
-    <string name="notification_permission_settings">The notification permission is important for this app. Please navigate to your device settings and enable notifications for YouKon.</string>
+    <!-- Paywall -->
+    <string name="want_more">Want more?</string>
+    <string name="purchase_upgrade">Purchase Upgrade</string>
+
+    <!-- Quick Convert Card -->
+    <string name="quick_convert">Quick Convert</string>
+    <string name="from">From</string>
+    <string name="into">To</string>
 
     <!-- Project View -->
+    <string name="projects">Projects</string>
     <string name="choose_a_system">Choose a system for conversion</string>
     <string name="swipe_for_options">Swipe for more options</string>
     <string name="add_new_projects">Tap here to create a new project</string>
+    <string name="add_new_project">Add a new project</string>
+    <string name="allow_delete_projects">Allow deleting projects</string>
+    <string name="allow_reorder_projects">Allow reordering projects</string>
+    <string name="reorder_project">Reorder $1%s project</string>
     <string name="open_project_editor">Tap here to open the project editor</string>
     <string name="add_new_measurements">Tap here to add a new measurement</string>
     <string name="measurement_name_blank">New measurement</string>
     <string name="measurement_description_blank">With description</string>
+    <string name="icon_for_project">Icon for project $1%s</string>
+
+    <!-- Measurement Editing -->
+    <string name="edit_measurements">Edit Measurements</string>
+    <string name="add_new_measurement">Add a new measurement</string>
+    <string name="allow_delete_measurement">Allow deleting measurements</string>
+    <string name="allow_reorder_measurement">Allow reordering measurements</string>
+    <string name="reorder_measurement">Reorder $1%s measurement</string>
+    <string name="change_sign">Change sign</string>
+    <string name="multiply_by_ten">Multiply by ten</string>
+    <string name="divide_by_ten">Divide by ten</string>
+    <string name="clear value">Clear Value</string>
+    <string name="name_hint">name</string>
+    <string name="description_hint">description</string>
+    <string name="choose_unit_type">Choose a Unit Type</string>
+    <string name="choose_unit">"Choose the $1%s Unit"</string>
+
+    <!-- Onboarding -->
+    <string name="onboarding_animation">Transition color to draw attention to sections of the view in the onboarding</string>
 </resources>
