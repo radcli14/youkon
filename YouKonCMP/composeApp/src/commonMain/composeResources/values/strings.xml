@@ -101,6 +101,7 @@
     <string name="choose_unit">"Choose the $1%s Unit"</string>
 
     <!-- Onboarding -->
+    <string name="onboarding">Onboarding</string>
     <string name="onboarding_animation">Transition color to draw attention to sections of the view in the onboarding</string>
     <string name="onboarding_welcome_header">Welcome</string>
     <string-array name="onboarding_welcome_content">
