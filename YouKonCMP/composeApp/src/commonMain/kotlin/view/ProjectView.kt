@@ -1,5 +1,6 @@
 package view
 
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.expandVertically
 import androidx.compose.animation.shrinkVertically
@@ -15,6 +16,11 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowForward
+import androidx.compose.material.icons.automirrored.filled.ArrowRight
+import androidx.compose.material.icons.automirrored.filled.ArrowRightAlt
+import androidx.compose.material.icons.automirrored.twotone.ArrowRight
+import androidx.compose.material.icons.twotone.ArrowRight
 import androidx.compose.material.icons.twotone.AssignmentInd
 import androidx.compose.material.icons.twotone.NoteAlt
 import androidx.compose.material.icons.twotone.Straighten
@@ -229,7 +235,6 @@ class ProjectView(
             if (vm.measurements.value.isEmpty()) {
                 if (project.value.measurements.isEmpty()) {
                     OpenProjectEditorSuggestion()
-                    //Text(stringResource(Res.string.add_new_measurements))
                 }
             }
         }
@@ -254,15 +259,23 @@ class ProjectView(
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurface
             )
-            Text(measurement.value.toString() + " " + measurement.unit.shortUnit)
-            Text(
-                text = "→ ",
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurface
-            )
-            Text(measurement.convertToSystem(vm.convertToSystem.value).valueString,
-                color = MaterialTheme.colorScheme.onSurface
-            )
+
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Text(
+                    text = "${measurement.value} ${measurement.unit.shortUnit}",
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurface
+                )
+                Icon(Icons.AutoMirrored.Default.ArrowRightAlt, contentDescription = null)
+                AnimatedContent(vm.convertToSystem.value) { system ->
+                    Text(
+                        text = measurement.convertToSystem(system).valueString,
+                        style = MaterialTheme.typography.bodyMedium,
+                        fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.colorScheme.onSurface
+                    )
+                }
+            }
         }
     }
 
