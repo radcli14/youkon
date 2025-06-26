@@ -1,6 +1,6 @@
 <resources>
     <!-- Common -->
-    <string name="email">Correo Electronico</string>
+    <string name="email">Correo Electrónico</string>
     <string name="password">Contraseña</string>
     <string name="repeat_password">Contraseña Otra Vez</string>
     <string name="generic_error">Algo salió mal, por favor, inténtalo otra vez.</string>
@@ -52,7 +52,7 @@
     <string name="sign_out_title">¿Cerrar sesión?</string>
     <string name="sign_out_description">Habría iniciar sesión otra vez para ver tus proyectos</string>
     <string name="delete_account_title">¿Borrar tu cuenta?</string>
-    <string name="delete_account_description">Perderas todos tus proyectos y borrara tu cuenta. Esta acción no es reversible.</string>
+    <string name="delete_account_description">Perderás todos tus proyectos y borrará tu cuenta. Esta acción no es reversible.</string>
 
     <!-- Success messages -->
     <string name="account_created_successfully">¡La creación de tu cuenta es exitosa!</string>
@@ -66,7 +66,7 @@
     <string name="purchase_upgrade">Comprar YouKon Extendido</string>
 
     <!-- Quick Convert Card -->
-    <string name="quick_convert">Conversión Rapída</string>
+    <string name="quick_convert">Conversión Rápida</string>
     <string name="from">de</string>
     <string name="into">a</string>
 
@@ -107,11 +107,11 @@
     <string-array name="onboarding_welcome_content">
         <item>Gracias para tratar la aplicación de conversión de unidades que ha diseñada para la ingeniería</item>
     </string-array>
-    <string name="onboarding_quick_convert_header">Tarjete de Conversión Rapída</string>
+    <string name="onboarding_quick_convert_header">Tarjeta de Conversión Rápida</string>
     <string-array name="onboarding_quick_convert_content">
-        <item>Aquí puedes convertir instantemente una medida individual a una unidad equivalente</item>
-        <item>1. Toca la botón de `de` para eligir de una lista de unidades equivalentes</item>
-        <item>2. Toca la botón de `a` para eligir de una lista de unidades para la conversión</item>
+        <item>Aquí puedes convertir instantáneamente una medida individual a una unidad equivalente</item>
+        <item>1. Toca la botón de `de` para elegir de una lista de unidades equivalentes</item>
+        <item>2. Toca la botón de `a` para elegir de una lista de unidades para la conversión</item>
         <item>3. Introduzca una número que represente la medida original</item>
         <item>4. Se muestra el valor y unidad convertido por la derecha</item>
     </string-array>
