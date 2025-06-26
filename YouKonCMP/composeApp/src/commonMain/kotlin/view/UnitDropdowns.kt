@@ -120,7 +120,7 @@ class UnitDropdown(
                 }
             ) {
                 selectedType?.let {
-                    HeaderText(stringResource(Res.string.choose_unit, it.lowercasedString))
+                    HeaderText(stringResource(Res.string.choose_unit).replace("$1%s", stringResource(it.stringResId))) // TODO: I should not have to use replace here
                     UnitMenuItems(it.units.filter { availableUnits.contains(it) }.toTypedArray())
                 }
             }
@@ -137,7 +137,7 @@ class UnitDropdown(
             DropdownMenuItem(
                 text = {
                     Text(
-                        YkUnit.UNITLESS.lowercasedString,
+                        stringResource(YkUnit.UNITLESS.stringResId),
                         color = MaterialTheme.colorScheme.onSurface
                     )
                 },
@@ -153,7 +153,7 @@ class UnitDropdown(
             DropdownMenuItem(
                 text = {
                     Text(
-                        unitType.lowercasedString,
+                        stringResource(unitType.stringResId),
                         color = MaterialTheme.colorScheme.onSurface
                     )
                 },
@@ -172,7 +172,7 @@ class UnitDropdown(
             DropdownMenuItem(
                 text = {
                     Text(
-                        unit.lowercasedString,
+                        stringResource(unit.stringResId),
                         color = MaterialTheme.colorScheme.onSurface
                     )
                 },
@@ -188,7 +188,7 @@ class UnitDropdown(
     @Composable
     fun MenuButton() {
         Text(
-            unit.lowercasedString,
+            stringResource(unit.stringResId),
             style = MaterialTheme.typography.titleMedium,
             color = MaterialTheme.colorScheme.onPrimary,
             textAlign = TextAlign.Start,
