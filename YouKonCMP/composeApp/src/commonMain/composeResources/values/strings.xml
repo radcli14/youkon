@@ -91,7 +91,7 @@
     <string name="change_sign">Change sign</string>
     <string name="multiply_by_ten">Multiply by ten</string>
     <string name="divide_by_ten">Divide by ten</string>
-    <string name="clear value">Clear Value</string>
+    <string name="clear_value">Clear Value</string>
     <string name="name_hint">name</string>
     <string name="description_hint">description</string>
     <string name="choose_unit_type">Choose a Unit Type</string>

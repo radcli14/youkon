@@ -20,7 +20,7 @@ import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.stringResource
 import youkon.composeapp.generated.resources.Res
 import youkon.composeapp.generated.resources.change_sign
-import youkon.composeapp.generated.resources.`clear value`
+import youkon.composeapp.generated.resources.clear_value
 import youkon.composeapp.generated.resources.confirm
 import youkon.composeapp.generated.resources.divide_by_ten
 import youkon.composeapp.generated.resources.multiply_by_ten
@@ -41,7 +41,7 @@ fun MeasurementEditingControls(
         MeasurementEditingButton(text = "±", contentDescriptionRes = Res.string.change_sign, onClick = onPlusMinusClick)
         MeasurementEditingButton(text = "×10", contentDescriptionRes = Res.string.multiply_by_ten, onClick = onTimesTenClick)
         MeasurementEditingButton(text = "÷10", contentDescriptionRes = Res.string.divide_by_ten, onClick = onDivideByTenClick)
-        MeasurementEditingButton(icon = Icons.TwoTone.DeleteSweep, contentDescriptionRes = Res.string.`clear value`, onClick = onClearValueClick)
+        MeasurementEditingButton(icon = Icons.TwoTone.DeleteSweep, contentDescriptionRes = Res.string.clear_value, onClick = onClearValueClick)
         IconButton(onClick = localFocusManager::clearFocus) {
             Icon(
                 imageVector = Icons.TwoTone.CheckCircle,
