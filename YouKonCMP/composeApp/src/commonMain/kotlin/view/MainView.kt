@@ -72,6 +72,7 @@ import youkon.composeapp.generated.resources.app_icon_decoration
 import youkon.composeapp.generated.resources.help
 import youkon.composeapp.generated.resources.icon_clearbackground
 import youkon.composeapp.generated.resources.navigate_to
+import youkon.composeapp.generated.resources.onboarding
 import youkon.composeapp.generated.resources.save_changes
 import youkon.composeapp.generated.resources.settings
 
@@ -153,7 +154,12 @@ class MainView(
         CenterAlignedTopAppBar(
             title = {
                 AnimatedContent(
-                    if (currentRoute == "main") "YouKon" else currentRouteTitle
+                    when (currentRoute) {
+                        "main" -> "YouKon"
+                        SETTINGS_SCREEN -> stringResource(Res.string.settings)
+                        "onboarding" -> stringResource(Res.string.onboarding)
+                        else -> currentRouteTitle
+                    }
                 ) { titleText ->
                     Text(
                         text = titleText,

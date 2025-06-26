@@ -220,7 +220,7 @@ class ProjectsCard(
         val vm by mainViewModel.projectsCardViewModel.collectAsState()
         AnimatedVisibilityForControls(vm.canReorder.value) {
             UpDownButtons(
-                contentDescriptionLeader = stringResource(Res.string.reorder_project, project.name),
+                contentDescriptionLeader = stringResource(Res.string.reorder_project).replace("$1%s", project.name), // TODO: shouldn't need the replace, try again after updating gradle
                 onClick = { direction -> vm.onReorderControlButtonTap(project, direction) }
             )
         }

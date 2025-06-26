@@ -1,7 +1,7 @@
 package view
 
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.twotone.Delete
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -23,8 +23,8 @@ fun SubtractAlert(
     cancelAction: () -> Unit
 ) {
     AlertDialog(
-        icon = { Icon(Icons.Default.Delete, contentDescription = null) },
-        title = { Text(stringResource(Res.string.delete_named, title)) },
+        icon = { Icon(Icons.TwoTone.Delete, contentDescription = null) },
+        title = { Text(stringResource(Res.string.delete_named).replace("$1%s", title)) },  // TODO: this shouldn't require replace, try again after updating compose
         text = { Text(stringResource(Res.string.are_you_sure)) },
         onDismissRequest = { cancelAction() },
         confirmButton = {

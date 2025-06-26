@@ -16,14 +16,8 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowForward
-import androidx.compose.material.icons.automirrored.filled.ArrowRight
 import androidx.compose.material.icons.automirrored.filled.ArrowRightAlt
-import androidx.compose.material.icons.automirrored.twotone.ArrowRight
-import androidx.compose.material.icons.twotone.ArrowRight
-import androidx.compose.material.icons.twotone.AssignmentInd
 import androidx.compose.material.icons.twotone.NoteAlt
-import androidx.compose.material.icons.twotone.Straighten
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.HorizontalDivider
@@ -47,7 +41,6 @@ import viewmodel.MainViewModel
 import viewmodel.ProjectViewModel
 import viewmodel.ProjectViewViews
 import youkon.composeapp.generated.resources.Res
-import youkon.composeapp.generated.resources.add_new_measurements
 import youkon.composeapp.generated.resources.choose_a_system
 import youkon.composeapp.generated.resources.measurement_description_blank
 import youkon.composeapp.generated.resources.measurement_name_blank

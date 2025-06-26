@@ -51,7 +51,7 @@ fun ProjectImage(project: YkProject, imageSize: Dp, imageShape: CornerBasedShape
     ) {
         Image(
             painter = painterResource(noImageIcon(project.id)),
-            contentDescription = stringResource(Res.string.icon_for_project, project.name),
+            contentDescription = stringResource(Res.string.icon_for_project).replace("$1%s", project.name),  // TODO: this shouldn't require replace, try again after updating compose
             modifier = Modifier
                 .size(imageSize)
                 .padding(imageSize / 8)

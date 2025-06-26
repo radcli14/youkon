@@ -265,7 +265,7 @@ class ProjectViewWhenEditing(
     fun ReorderControls(measurement: YkMeasurement) {
         AnimatedVisibilityForControls(vm.canReorder.value) {
             UpDownButtons(
-                contentDescriptionLeader = stringResource(Res.string.reorder_measurement, measurement.name),
+                contentDescriptionLeader = stringResource(Res.string.reorder_measurement).replace("$1%s", measurement.name),  // TODO: this shouldn't require replace, try again after updating compose in gradle
                 onClick = { direction -> vm.onReorderControlButtonTap(measurement, direction) }
             )
         }
