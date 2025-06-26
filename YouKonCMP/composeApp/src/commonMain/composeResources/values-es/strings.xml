@@ -24,14 +24,14 @@
 
     <!-- LoginScreen -->
     <string name="sign_in">Iniciar sesión</string>
-    <string name="login_details">Ingrese tus datao</string>
+    <string name="login_details">Ingrese tus datos</string>
     <string name="forgot_password">¿Olvidaste la contraseña? Haz click para obtener un correo electrónico de recuperación</string>
     <string name="recovery_email_sent">Revisa tu buzón para el correo electrónico de recuperación</string>
     <string name="empty_password_error">Contraseña no puede estar vacía.</string>
 
     <!-- SignUpScreen -->
     <string name="create_account">Crear cuenta</string>
-    <string name="create_account_hint">Proporcionar datos por un usario nuevo.</string>
+    <string name="create_account_hint">Proporcionar datos por un usuario nuevo.</string>
     <string name="password_error">Tu contraseña debe tener al menos seis dígitos e incluir un dígito, una letra minúscula y una letra mayúscula.</string>
     <string name="password_match_error">Las contraseñas no coinciden.</string>
 
@@ -56,8 +56,8 @@
 
     <!-- Success messages -->
     <string name="account_created_successfully">¡La creación de tu cuenta es exitosa!</string>
-    <string name="logged_in_successfully">¡La inición de tu sesión es exitosa!</string>
-    <string name="account_deleted_successfully">¡La borración de tu cuenta es exitosa!</string>
+    <string name="logged_in_successfully">¡La inicio de tu sesión es exitosa!</string>
+    <string name="account_deleted_successfully">¡La eliminación de tu cuenta es exitosa!</string>
     <string name="signed_out_successfully">¡Has cerrado tu sesión exitosamente!</string>
 
     <!-- Paywall -->
@@ -72,12 +72,12 @@
 
     <!-- Project View -->
     <string name="projects">Proyectos</string>
-    <string name="choose_a_system">Eligir a una sistema para la conversión</string>
+    <string name="choose_a_system">Elegir a una sistema para la conversión</string>
     <string name="swipe_for_options">Deslizar para ver más opciones</string>
     <string name="add_new_projects">Toca aquí para crear un proyecto nuevo</string>
     <string name="add_new_project">Añadir un proyecto nuevo</string>
-    <string name="allow_delete_projects">Permetir a borrar proyectos</string>
-    <string name="allow_reorder_projects">Permetir a reordenar</string>
+    <string name="allow_delete_projects">Permitir a borrar proyectos</string>
+    <string name="allow_reorder_projects">Permitir a reordenar</string>
     <string name="reorder_project">Reordenar proyecto $1%s</string>
     <string name="open_project_editor">Toca aquí para abrir el editor de proyectos</string>
     <string name="add_new_measurements">Toca aquí para añadir una medida nueva</string>
@@ -90,7 +90,7 @@
     <string name="add_new_measurement">Añadir una medida nueva</string>
     <string name="allow_delete_measurement">Permitir a borrar medidas</string>
     <string name="allow_reorder_measurement">Permitir a reordenar medidas</string>
-    <string name="reorder_measurement">Reorderar medida $1%s</string>
+    <string name="reorder_measurement">Reordenar medida $1%s</string>
     <string name="change_sign">Cambia el signo</string>
     <string name="multiply_by_ten">Multiplicar por diez</string>
     <string name="divide_by_ten">Dividir por diez</string>
