@@ -98,7 +98,7 @@
     <string name="name_hint">nombre</string>
     <string name="description_hint">descripción</string>
     <string name="choose_unit_type">Elegir a un tipo de unidad</string>
-    <string name="choose_unit">"Elige la unidad $1%s"</string>
+    <string name="choose_unit">Elige la unidad de $1%s</string>
 
     <!-- Onboarding -->
     <string name="onboarding">Incorporación</string>
@@ -150,7 +150,7 @@
     <string name="unit_pounds">libras</string>
     <string name="unit_slugs">slugs</string>
     <string name="unit_slinch">slinch</string>
-    <string name="unit_rmu">rmu</string>
+    <string name="unit_rmu">RMU</string>
     <string name="unit_milligrams">miligramos</string>
     <string name="unit_stones">stones</string>
     <string name="unit_avoirdupois_ounces">onzas avoirdupois</string>
