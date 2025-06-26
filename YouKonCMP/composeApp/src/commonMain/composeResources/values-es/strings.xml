@@ -2,7 +2,7 @@
     <!-- Common -->
     <string name="email">Correo Electrónico</string>
     <string name="password">Contraseña</string>
-    <string name="repeat_password">Contraseña Otra Vez</string>
+    <string name="repeat_password">Repetir contraseña</string>
     <string name="generic_error">Algo salió mal, por favor, inténtalo otra vez.</string>
     <string name="email_error">Please insert a valid email.</string>
     <string name="cancel">Cancelar</string>
@@ -13,7 +13,7 @@
     <string name="title">Título</string>
     <string name="url">URL</string>
     <string name="date">Fecha</string>
-    <string name="app_icon_decoration">Icono de app solo para decoración</string>
+    <string name="app_icon_decoration">Icono de la aplicación solo para decoración</string>
     <string name="navigate_to">Navegar a: </string>
     <string name="save_changes">Guardar</string>
     <string name="help">Ayuda</string>
@@ -24,14 +24,14 @@
 
     <!-- LoginScreen -->
     <string name="sign_in">Iniciar sesión</string>
-    <string name="login_details">Ingrese tus datos</string>
-    <string name="forgot_password">¿Olvidaste la contraseña? Haz click para obtener un correo electrónico de recuperación</string>
+    <string name="login_details">Ingresa tus datos</string>
+    <string name="forgot_password">¿Olvidaste la contraseña? Haz clic para obtener un correo electrónico de recuperación</string>
     <string name="recovery_email_sent">Revisa tu buzón para el correo electrónico de recuperación</string>
-    <string name="empty_password_error">Contraseña no puede estar vacía.</string>
+    <string name="empty_password_error">La contraseña no puede estar vacía.</string>
 
     <!-- SignUpScreen -->
     <string name="create_account">Crear cuenta</string>
-    <string name="create_account_hint">Proporcionar datos por un usuario nuevo.</string>
+    <string name="create_account_hint">Proporcionar datos para un usuario nuevo.</string>
     <string name="password_error">Tu contraseña debe tener al menos seis dígitos e incluir un dígito, una letra minúscula y una letra mayúscula.</string>
     <string name="password_match_error">Las contraseñas no coinciden.</string>
 
@@ -44,19 +44,19 @@
     <string name="privacy_policy_button">Política de Privacidad</string>
     <string name="privacy_policy_url">https://radcli14.github.io/youkon/privacypolicy/</string>
     <string name="want_new_features">¿Quieres más unidades de medida y sistemas?</string>
-    <string name="extend_youkon">Extender a YouKon</string>
+    <string name="extend_youkon">Extender YouKon</string>
     <string name="have_extended">✅ ¡Has ascendido a YouKon Extendido!</string>
     <string name="purchase_error_generic">Hubo un error al cargar las compras, inténtalo de nuevo más tarde.</string>
 
     <!-- Dialogs -->
     <string name="sign_out_title">¿Cerrar sesión?</string>
-    <string name="sign_out_description">Habría iniciar sesión otra vez para ver tus proyectos</string>
+    <string name="sign_out_description">Tendrás que iniciar sesión de nuevo para ver tus proyectos</string>
     <string name="delete_account_title">¿Borrar tu cuenta?</string>
     <string name="delete_account_description">Perderás todos tus proyectos y borrará tu cuenta. Esta acción no es reversible.</string>
 
     <!-- Success messages -->
     <string name="account_created_successfully">¡La creación de tu cuenta es exitosa!</string>
-    <string name="logged_in_successfully">¡La inicio de tu sesión es exitosa!</string>
+    <string name="logged_in_successfully">¡El inicio de tu sesión es exitosa!</string>
     <string name="account_deleted_successfully">¡La eliminación de tu cuenta es exitosa!</string>
     <string name="signed_out_successfully">¡Has cerrado tu sesión exitosamente!</string>
 
@@ -72,7 +72,7 @@
 
     <!-- Project View -->
     <string name="projects">Proyectos</string>
-    <string name="choose_a_system">Elegir a una sistema para la conversión</string>
+    <string name="choose_a_system">Elegir un sistema para la conversión</string>
     <string name="swipe_for_options">Deslizar para ver más opciones</string>
     <string name="add_new_projects">Toca aquí para crear un proyecto nuevo</string>
     <string name="add_new_project">Añadir un proyecto nuevo</string>
@@ -98,47 +98,47 @@
     <string name="name_hint">nombre</string>
     <string name="description_hint">descripción</string>
     <string name="choose_unit_type">Elegir a un tipo de unidad</string>
-    <string name="choose_unit">"Elegir the unidad $1%s"</string>
+    <string name="choose_unit">"Elige la unidad $1%s"</string>
 
     <!-- Onboarding -->
     <string name="onboarding">Incorporación</string>
     <string name="onboarding_animation">Una transición colorida para invitar la atención durante la incorporación</string>
     <string name="onboarding_welcome_header">Bienvenidos</string>
     <string-array name="onboarding_welcome_content">
-        <item>Gracias para tratar la aplicación de conversión de unidades que ha diseñada para la ingeniería</item>
+        <item>Gracias por probar la aplicación de conversión de unidades que ha sido diseñada para la ingeniería</item>
     </string-array>
     <string name="onboarding_quick_convert_header">Tarjeta de Conversión Rápida</string>
     <string-array name="onboarding_quick_convert_content">
         <item>Aquí puedes convertir instantáneamente una medida individual a una unidad equivalente</item>
-        <item>1. Toca la botón de `de` para elegir de una lista de unidades equivalentes</item>
-        <item>2. Toca la botón de `a` para elegir de una lista de unidades para la conversión</item>
-        <item>3. Introduzca una número que represente la medida original</item>
-        <item>4. Se muestra el valor y unidad convertido por la derecha</item>
+        <item>1. Toca el botón de `de` para elegir de una lista de unidades equivalentes</item>
+        <item>2. Toca el botón de `a` para elegir de una lista de unidades para la conversión</item>
+        <item>3. Introduce un número que represente la medida original</item>
+        <item>4. Se muestra el valor y la unidad convertida por la derecha</item>
     </string-array>
     <string name="onboarding_projects_header">Tarjeta de Proyectos</string>
     <string-array name="onboarding_projects_content">
-        <item>Aquí puedes guardar todos tus proyectos, con varias medidas, convertido a una sistema consistente</item>
-        <item>1. Toca la botón de `más` (+) para añadir un proyecto nuevo</item>
-        <item>2. Toca la botón de `menos` (-) para permitir la sustracción de proyectos, y toca la botón de `X` para borrar uno</item>
+        <item>Aquí puedes guardar todos tus proyectos, con varias medidas, convertidos a un sistema consistente</item>
+        <item>1. Toca el botón de `más` (+) para añadir un proyecto nuevo</item>
+        <item>2. Toca el botón de `menos` (-) para permitir la sustracción de proyectos, y toca el botón de `X` para borrar uno</item>
     </string-array>
     <string name="onboarding_project_view_header">Vista de Proyectos</string>
     <string-array name="onboarding_project_view_content">
         <item>Aquí verás el nombre, descripción, y medidas de un proyecto individual</item>
-        <item>1. Toca un proyecto para expandirlo y mostra su lista de medidas</item>
-        <item>2. Usa el menu para eligir una sistema de unidades</item>
+        <item>1. Toca un proyecto para expandirlo y mostrar su lista de medidas</item>
+        <item>2. Usa el menú para elegir un sistema de unidades</item>
         <item>3. Toca la lista de medidas para abrir la pantalla de edición de ese proyecto</item>
     </string-array>
     <string name="onboarding_editable_project_header">Proyecto Para la Edición</string>
     <string-array name="onboarding_editable_project_content">
-        <item>La hoja inferior se expande para mostrar un menu donde pueda modificar los datos del proyecto</item>
-        <item>1. Nombre and descripción del proyecto esta por arriba</item>
-        <item>2. `Más` (+) and `Menos` (-) se usan para añadir y substraer medidas</item>
-        <item>3. Cada medida tiene su propia nombre y descripción</item>
-        <item>4. Puedes poner un valor de numero y una unidad para cada medida</item>
+        <item>La hoja inferior se expande para mostrar un menú donde puedas modificar los datos del proyecto</item>
+        <item>1. El nombre y la descripción del proyecto están en la parte superior</item>
+        <item>2. `Más` (+) y `Menos` (-) se usan para añadir y sustraer medidas</item>
+        <item>3. Cada medida tiene su propio nombre y descripción</item>
+        <item>4. Puedes introducir un número y una unidad para cada medida</item>
     </string-array>
     <string name="onboarding_thank_you_header">Gracias</string>
     <string-array name="onboarding_thank_you_content">
-        <item>Gracias para tratar YouKon, la aplicación de conversión de unidades ha diseñada para la ingeniería</item>
+        <item>Gracias por probar YouKon, la aplicación de conversión de unidades que ha sido diseñada para la ingeniería</item>
         <item>Eskerrik Asko!</item>
     </string-array>
 </resources>
