@@ -61,6 +61,7 @@
     <string name="signed_out_successfully">Signed out successfully!</string>
 
     <!-- Paywall -->
+    <string name="purchases">Purchases</string>
     <string name="want_more">Want more?</string>
     <string name="purchase_upgrade">Purchase Upgrade</string>
 

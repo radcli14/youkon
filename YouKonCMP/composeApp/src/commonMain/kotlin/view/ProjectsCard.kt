@@ -241,7 +241,7 @@ class ProjectsCard(
                 contentColor = MaterialTheme.colorScheme.primary,
                 containerColor = MaterialTheme.colorScheme.primaryContainer
             ),
-            contentPadding = PaddingValues(vertical = Constants.verticalSpacing)
+            contentPadding = PaddingValues(all = Constants.verticalSpacing)
         ) {
             Row(
                 horizontalArrangement = Arrangement.spacedBy(Constants.horizontalPadding),

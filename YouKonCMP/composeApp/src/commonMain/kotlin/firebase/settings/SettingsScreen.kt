@@ -108,7 +108,7 @@ fun SettingsScreenContent(
     ) {
         val loginText = when(uiState.isAnonymousAccount) {
             true -> stringResource(Res.string.login_or_create_account)
-            false -> stringResource(Res.string.logged_in_as, uiState.name)
+            false -> stringResource(Res.string.logged_in_as).replace("$1%s", uiState.name) // TODO, the replace shouldn't be required, I should just be able to provide the name as the second argument to stringResource
         }
         Text(loginText,
             modifier = Modifier.defaultPadding(),

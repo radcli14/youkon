@@ -13,6 +13,7 @@ import youkon.composeapp.generated.resources.Res
 import youkon.composeapp.generated.resources.extend_youkon
 import youkon.composeapp.generated.resources.have_extended
 import youkon.composeapp.generated.resources.purchase_error_generic
+import youkon.composeapp.generated.resources.purchases
 import youkon.composeapp.generated.resources.want_new_features
 
 
@@ -25,7 +26,8 @@ fun PremiumFeaturesContent(
         modifier = Modifier.defaultPadding(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text("Purchases",
+        Text(
+            text = stringResource(Res.string.purchases),
             style = MaterialTheme.typography.titleLarge,
             color = MaterialTheme.colorScheme.onSurface
         )
