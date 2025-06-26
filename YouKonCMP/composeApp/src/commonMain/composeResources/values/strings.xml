@@ -99,4 +99,42 @@
 
     <!-- Onboarding -->
     <string name="onboarding_animation">Transition color to draw attention to sections of the view in the onboarding</string>
+    <string name="onboarding_welcome_header">Welcome</string>
+    <string-array name="onboarding_welcome_content">
+        <item>Thank you for trying the unit converter app designed for engineers</item>
+    </string-array>
+    <string name="onboarding_quick_convert_header">Quick Convert Card</string>
+    <string-array name="onboarding_quick_convert_content">
+        <item>Here you may instantly convert a single measurement to an equivalent unit</item>
+        <item>1. Tap the `From` button in the upper left to select from a list of all available units in the app</item>
+        <item>2. Tap the `To` button in the upper right to select from a list of units that may be converted given the `From` unit</item>
+        <item>3. Enter a number in the lower left for a value in the `From` unit</item>
+        <item>4. The converted value and unit are displayed in the lower right</item>
+    </string-array>
+    <string name="onboarding_projects_header">Projects Card</string>
+    <string-array name="onboarding_projects_content">
+        <item>Here you may store all of your projects, each with multiple measurements, all converted to a consistent system of units</item>
+        <item>1. Tap the `Plus` (+) button to add a new project</item>
+        <item>2. Tap the `Minus` (-) button to enable subtracting a project, then tap the `X` button alongside to delete that project</item>
+    </string-array>
+    <string name="onboarding_project_view_header">Project View</string>
+    <string-array name="onboarding_project_view_content">
+        <item>Here you will view the name, description, and measurements for an individual project</item>
+        <item>1. Tap once on a project to expand it to show its list of measurements, and select a system of units</item>
+        <item>2. Use the picker to toggle between multiple systems of units</item>
+        <item>3. Tap on the list of measurements to open the editing screen for that project</item>
+    </string-array>
+    <string name="onboarding_editable_project_header">Editable Project</string>
+    <string-array name="onboarding_editable_project_content">
+        <item>The bottom sheet expands to show a menu where you may modify data in this project</item>
+        <item>1. Name and description fields for this project are at the top</item>
+        <item>2. `Plus` (+) and `Minus` (-) are used to add and subtract measurements</item>
+        <item>3. Each measurement has its own name and description field</item>
+        <item>4. Number value and a unit may be selected for each measurement</item>
+    </string-array>
+    <string name="onboarding_thank_you_header">Thank You</string>
+    <string-array name="onboarding_thank_you_content">
+        <item>Thank you for trying YouKon, the unit converter app designed for engineers</item>
+        <item>Goodbye!</item>
+    </string-array>
 </resources>

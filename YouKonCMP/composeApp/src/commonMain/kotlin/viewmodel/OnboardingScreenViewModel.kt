@@ -1,12 +1,30 @@
 package viewmodel
 
 import Log
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModel
+import org.jetbrains.compose.resources.StringArrayResource
+import org.jetbrains.compose.resources.StringResource
+import org.jetbrains.compose.resources.stringArrayResource
+import org.jetbrains.compose.resources.stringResource
+import youkon.composeapp.generated.resources.Res
+import youkon.composeapp.generated.resources.allStringArrayResources
+import youkon.composeapp.generated.resources.onboarding_editable_project_content
+import youkon.composeapp.generated.resources.onboarding_editable_project_header
+import youkon.composeapp.generated.resources.onboarding_project_view_content
+import youkon.composeapp.generated.resources.onboarding_project_view_header
+import youkon.composeapp.generated.resources.onboarding_projects_content
+import youkon.composeapp.generated.resources.onboarding_projects_header
+import youkon.composeapp.generated.resources.onboarding_quick_convert_content
+import youkon.composeapp.generated.resources.onboarding_quick_convert_header
+import youkon.composeapp.generated.resources.onboarding_thank_you_content
+import youkon.composeapp.generated.resources.onboarding_thank_you_header
+import youkon.composeapp.generated.resources.onboarding_welcome_content
+import youkon.composeapp.generated.resources.onboarding_welcome_header
 
 class OnboardingScreenViewModel : ViewModel() {
     private val tag = "OnboardingScreenViewModel"
@@ -28,47 +46,36 @@ class OnboardingScreenViewModel : ViewModel() {
     }
 
     private val helps = arrayOf(
-        "Welcome" to arrayOf("Thank you for trying the unit converter app designed for engineers"),
-        "Quick Convert Card" to arrayOf(
-            "Here you may instantly convert a single measurement to an equivalent unit",
-            "1. Tap the `From` button in the upper left to select from a list of all available units in the app",
-            "2. Tap the `To` button in the upper right to select from a list of units that may be converted given the `From` unit",
-            "3. Enter a number in the lower left for a value in the `From` unit",
-            "4. The converted value and unit are displayed in the lower right"
-        ),
-        "Projects Card" to arrayOf(
-            "Here you may store all of your projects, each with multiple measurements, all converted to a consistent system of units",
-            "1. Tap the `Plus` (+) button to add a new project",
-            "2. Tap the `Minus` (-) button to enable subtracting a project, then tap the `X` button alongside to delete that project"
-        ),
-        "Project View" to arrayOf(
-            "Here you will view the name, description, and measurements for an individual project",
-            "1. Tap once on a project to expand it to show its list of measurements, and select a system of units",
-            "2. Use the picker to toggle between multiple systems of units",
-            "3. Tap on the list of measurements to open the editing screen for that project"
-        ),
-        "Editable Project" to arrayOf(
-            "The bottom sheet expands to show a menu where you may modify data in this project",
-            "1. Name and description fields for this project are at the top",
-            "2. `Plus` (+) and `Minus` (-) are used to add and subtract measurements",
-            "3. Each measurement has its own name and description field",
-            "4. Number value and a unit may be selected for each measurement"
-        ),
-        "Thank You" to arrayOf(
-            "Thank you for trying YouKon, the unit converter app designed for engineers",
-            "", // TODO: this is a hack accounting for the app exiting onboarding one screen too early
-        )
+        Triple(Res.string.onboarding_welcome_header, Res.array.onboarding_welcome_content, 1),
+        Triple(Res.string.onboarding_quick_convert_header, Res.array.onboarding_quick_convert_content, 5),
+        Triple(Res.string.onboarding_projects_header, Res.array.onboarding_projects_content, 3),
+        Triple(Res.string.onboarding_project_view_header, Res.array.onboarding_project_view_content, 4),
+        Triple(Res.string.onboarding_editable_project_header, Res.array.onboarding_editable_project_content, 5),
+        Triple(Res.string.onboarding_thank_you_header, Res.array.onboarding_thank_you_content, 2),
     )
-    val helpHeader: String get() = helps[currentPage.intValue].first
 
-    private val helpContent: Array<String> get() = helps[currentPage.intValue].second
-    val helpText: String get() = helpContent[currentText.intValue]
+    private val helpHeaderResource: StringResource get() = helps[currentPage.intValue].first
+    val helpHeader: String
+        @Composable
+        get() = stringResource(helpHeaderResource)
+
+    private val helpContentResource: StringArrayResource get() = helps[currentPage.intValue].second
+    private val helpContent: List<String>
+        @Composable
+        get() = stringArrayResource(helpContentResource).toList()
+
+    val helpText: String
+        @Composable
+        get() = helpContent[currentText.intValue]
 
     val lastHelpIndex = helps.count() - 1
-    private val lastTextIndex: Int get() = helpContent.count() - 1
+
+    private val lastTextIndex: Int
+        get() = helps[currentPage.intValue].third - 1
 
     var currentPage = mutableIntStateOf(0)
     var currentText = mutableIntStateOf(0)
+
     fun incrementPage() {
         Log.d(tag, "Incrementing onboarding page\n  From: ${currentPage.intValue}-${currentText.intValue}")
         if (onLastBeforeExit) {
@@ -104,9 +111,11 @@ class OnboardingScreenViewModel : ViewModel() {
 
     private val onLastPage: Boolean get() = currentPage.intValue >= lastHelpIndex
 
-    private val onLastText: Boolean get() = currentText.intValue >= lastTextIndex
+    val onLastText: Boolean
+        get() = currentText.intValue >= lastTextIndex
 
-    val onLastBeforeExit: Boolean get() = onLastPage && onLastText
+    val onLastBeforeExit: Boolean
+        get() = onLastPage && onLastText
 
     val navButtonDescription: String
         get() {
