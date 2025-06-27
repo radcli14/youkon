@@ -7,11 +7,13 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.twotone.Add
+import androidx.compose.material.icons.twotone.Badge
 import androidx.compose.material.icons.twotone.Delete
+import androidx.compose.material.icons.twotone.Description
+import androidx.compose.material.icons.twotone.PermIdentity
 import androidx.compose.material.icons.twotone.Straighten
 import androidx.compose.material.icons.twotone.SwapVert
 import androidx.compose.material3.Button
@@ -20,6 +22,7 @@ import androidx.compose.material3.FilledIconButton
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -28,6 +31,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import defaultPadding
 import model.YkMeasurement
 import org.jetbrains.compose.resources.stringResource
 import purchases.PurchasesViewModel
@@ -40,6 +44,10 @@ import youkon.composeapp.generated.resources.allow_reorder_measurement
 import youkon.composeapp.generated.resources.description_hint
 import youkon.composeapp.generated.resources.edit_measurements
 import youkon.composeapp.generated.resources.name_hint
+import youkon.composeapp.generated.resources.project_description_label
+import youkon.composeapp.generated.resources.project_description_placeholder
+import youkon.composeapp.generated.resources.project_name_label
+import youkon.composeapp.generated.resources.project_name_placeholder
 import youkon.composeapp.generated.resources.reorder_measurement
 
 /// Upon tapping on the measurements, a bottom sheet will open into "Editable" mode.
@@ -51,8 +59,8 @@ class ProjectViewWhenEditing(
     @Composable
     fun Body() {
         Column(
-            horizontalAlignment = Alignment.Start,
-            modifier = Modifier.padding(16.dp)
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier.padding(horizontal = Constants.padding)
         ) {
             LabelStack()
             ExpansionStack()
@@ -77,24 +85,18 @@ class ProjectViewWhenEditing(
     /// The name and description shown at the top of the project
     @Composable
     private fun LabelStack() {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .onboardingModifier(ProjectViewViews.LABEL_STACK),
-            verticalAlignment = Alignment.CenterVertically
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(Constants.labelStackSpacing),
+            modifier = Modifier.fillMaxWidth()
         ) {
             ProjectImage(
                 project = vm.project.value,
                 imageSize = Constants.imageSize,
                 imageShape = MaterialTheme.shapes.large
             )
-            Spacer(Modifier.width(8.dp))
-            Column(
-                modifier = Modifier.weight(1f)
-            ) {
-                NameField()
-                DescriptionField()
-            }
+            NameField()
+            DescriptionField()
         }
     }
 
@@ -102,7 +104,7 @@ class ProjectViewWhenEditing(
     @Composable
     private fun ExpansionStack() {
         Column {
-            HorizontalDivider(Modifier.padding(top = Constants.divTopPadding))
+            HorizontalDivider(Modifier.padding(top = Constants.padding))
             ExpansionPlusMinusStack()
             ExpansionMeasurementsList()
         }
@@ -111,27 +113,33 @@ class ProjectViewWhenEditing(
     /// The title of the project, which is the `.name` field in the `YkProject`
     @Composable
     private fun NameField() {
-        BasicTextFieldWithHint(
+        OutlinedTextField(
             value = vm.editedName.value,
-            hint = stringResource(Res.string.name_hint),
-            textStyle = MaterialTheme.typography.titleLarge.copy(
+            onValueChange = vm::updateName,
+            modifier = Modifier.fillMaxWidth(),
+            label = { Text(stringResource(Res.string.project_name_label)) },
+            placeholder = { Text(stringResource(Res.string.project_name_placeholder)) },
+            trailingIcon = { Icon(Icons.TwoTone.Badge, contentDescription = null) },
+            textStyle = MaterialTheme.typography.titleMedium.copy(
                 color = MaterialTheme.colorScheme.onSurface,
                 fontWeight = FontWeight.SemiBold
             ),
-            onValueChange = { vm.updateName(it) }
         )
     }
 
     /// The subtitle of the project, which is the `.about` field in the `YkProject`
     @Composable
     private fun DescriptionField() {
-        BasicTextFieldWithHint(
+        OutlinedTextField(
             value = vm.editedDescription.value,
-            hint = stringResource(Res.string.description_hint),
+            onValueChange = vm::updateDescription,
+            modifier = Modifier.fillMaxWidth(),
+            label = { Text(stringResource(Res.string.project_description_label)) },
+            placeholder = { Text(stringResource(Res.string.project_description_placeholder)) },
+            trailingIcon = { Icon(Icons.TwoTone.Description, contentDescription = null) },
             textStyle = MaterialTheme.typography.bodyMedium.copy(
                 color = MaterialTheme.colorScheme.onSurface
             ),
-            onValueChange = { vm.updateDescription(it) },
         )
     }
 
@@ -301,18 +309,9 @@ class ProjectViewWhenEditing(
 
     private class Constants {
         companion object {
-            val imageSize = 48.dp
-            val divTopPadding = 16.dp
+            val imageSize = 128.dp
+            val padding = 16.dp
+            val labelStackSpacing = 8.dp
         }
     }
 }
-
-/*
-@Preview
-@Composable
-fun ProjectViewWhenEditingPreview() {
-    val viewModel = ProjectViewModel(wembyProject())
-    viewModel.toggleExpansion()
-    ProjectViewWhenEditing(viewModel).Body()
-}
- */

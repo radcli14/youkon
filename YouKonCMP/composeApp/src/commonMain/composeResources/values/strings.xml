@@ -72,6 +72,11 @@
 
     <!-- Project View -->
     <string name="projects">Projects</string>
+    <string name="project_editor">Project Editor</string>
+    <string name="project_name_label">Project Name</string>
+    <string name="project_name_placeholder">"Provide a name for your project"</string>
+    <string name="project_description_label">Project Description</string>
+    <string name="project_description_placeholder">Provide a description for your project</string>
     <string name="choose_a_system">Choose a system for conversion</string>
     <string name="swipe_for_options">Swipe for more options</string>
     <string name="add_new_projects">Tap here to create a new project</string>

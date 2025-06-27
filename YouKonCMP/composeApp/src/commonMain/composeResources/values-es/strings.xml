@@ -72,6 +72,11 @@
 
     <!-- Project View -->
     <string name="projects">Proyectos</string>
+    <string name="project_editor">Editor de Proyectos</string>
+    <string name="project_name_label">nombre del proyecto</string>
+    <string name="project_name_placeholder">Dale un nombre a tu proyecto</string>
+    <string name="project_description_label">descripción del proyecto</string>
+    <string name="project_description_placeholder">Dale un descripción a tu proyecto</string>
     <string name="choose_a_system">Elegir un sistema para la conversión</string>
     <string name="swipe_for_options">Deslizar para ver más opciones</string>
     <string name="add_new_projects">Toca aquí para crear un proyecto nuevo</string>
