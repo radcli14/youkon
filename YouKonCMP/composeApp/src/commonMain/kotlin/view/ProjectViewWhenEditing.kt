@@ -13,7 +13,6 @@ import androidx.compose.material.icons.twotone.Add
 import androidx.compose.material.icons.twotone.Badge
 import androidx.compose.material.icons.twotone.Delete
 import androidx.compose.material.icons.twotone.Description
-import androidx.compose.material.icons.twotone.PermIdentity
 import androidx.compose.material.icons.twotone.Straighten
 import androidx.compose.material.icons.twotone.SwapVert
 import androidx.compose.material3.Button
@@ -31,7 +30,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import defaultPadding
 import model.YkMeasurement
 import org.jetbrains.compose.resources.stringResource
 import purchases.PurchasesViewModel
@@ -41,11 +39,10 @@ import youkon.composeapp.generated.resources.Res
 import youkon.composeapp.generated.resources.add_new_measurement
 import youkon.composeapp.generated.resources.add_new_measurements
 import youkon.composeapp.generated.resources.allow_reorder_measurement
-import youkon.composeapp.generated.resources.description_hint
 import youkon.composeapp.generated.resources.edit_measurements
-import youkon.composeapp.generated.resources.name_hint
 import youkon.composeapp.generated.resources.project_description_label
 import youkon.composeapp.generated.resources.project_description_placeholder
+import youkon.composeapp.generated.resources.project_editor
 import youkon.composeapp.generated.resources.project_name_label
 import youkon.composeapp.generated.resources.project_name_placeholder
 import youkon.composeapp.generated.resources.reorder_measurement
@@ -60,8 +57,15 @@ class ProjectViewWhenEditing(
     fun Body() {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(Constants.spacing),
             modifier = Modifier.padding(horizontal = Constants.padding)
         ) {
+            Text(
+                text = stringResource(Res.string.project_editor),
+                style = MaterialTheme.typography.titleLarge,
+                color = MaterialTheme.colorScheme.primary
+            )
+            HorizontalDivider()
             LabelStack()
             ExpansionStack()
         }
@@ -87,7 +91,7 @@ class ProjectViewWhenEditing(
     private fun LabelStack() {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(Constants.labelStackSpacing),
+            verticalArrangement = Arrangement.spacedBy(Constants.spacing),
             modifier = Modifier.fillMaxWidth()
         ) {
             ProjectImage(
@@ -103,8 +107,10 @@ class ProjectViewWhenEditing(
     /// The content that is displayed when the `DisclosureGroup` is expanded
     @Composable
     private fun ExpansionStack() {
-        Column {
-            HorizontalDivider(Modifier.padding(top = Constants.padding))
+        Column(
+            verticalArrangement = Arrangement.spacedBy(Constants.spacing)
+        ) {
+            HorizontalDivider()
             ExpansionPlusMinusStack()
             ExpansionMeasurementsList()
         }
@@ -214,7 +220,9 @@ class ProjectViewWhenEditing(
         val project = vm.project.collectAsState()
 
         Column {
-            LazyColumn {
+            LazyColumn(
+                verticalArrangement = Arrangement.spacedBy(Constants.spacing)
+            ) {
                 items(measurements.value.count(),
                     key = { measurements.value[it].id }
                 ) {
@@ -311,7 +319,7 @@ class ProjectViewWhenEditing(
         companion object {
             val imageSize = 128.dp
             val padding = 16.dp
-            val labelStackSpacing = 8.dp
+            val spacing = 8.dp
         }
     }
 }

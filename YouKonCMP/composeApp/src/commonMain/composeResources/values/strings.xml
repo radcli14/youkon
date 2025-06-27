@@ -102,6 +102,7 @@
     <string name="clear_value">Clear Value</string>
     <string name="name_hint">name</string>
     <string name="description_hint">description</string>
+    <string name="value">value</string>
     <string name="choose_unit_type">Choose a Unit Type</string>
     <string name="choose_unit">"Choose the $1%s Unit"</string>
 

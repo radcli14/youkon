@@ -32,8 +32,10 @@ import viewmodel.MeasurementTextFieldViewModel
 @Composable
 fun MeasurementTextField(
     value: Double,
+    label: String? = null,
     modifier: Modifier = Modifier,
     unitText: String? = null,
+    borderColor: Color = Color.Transparent,
     controlsAreAbove: Boolean = false,
     updateMeasurement: (Double) -> Unit,
     alignedContent: @Composable (Modifier) -> Unit
@@ -65,9 +67,11 @@ fun MeasurementTextField(
             verticalAlignment = Alignment.CenterVertically
         ) {
             CustomDecimalTextField(
-                viewModel.text,
-                textStyle,
-                Modifier.weight(1f).onFocusChanged { isFocused = it.hasFocus },
+                value = viewModel.text,
+                label = label,
+                modifier = Modifier.weight(1f).onFocusChanged { isFocused = it.hasFocus },
+                textStyle = textStyle,
+                borderColor = borderColor,
                 suffix = { unitText?.let { Text(" $it") } },
                 onValueChange = viewModel::handleTextChange
             )
@@ -90,13 +94,16 @@ fun MeasurementTextField(
 @Composable
 fun CustomDecimalTextField(
     value: TextFieldValue,
-    textStyle: TextStyle,
+    label: String? = null,
     modifier: Modifier,
+    textStyle: TextStyle,
+    borderColor: Color = Color.Transparent,
     suffix: @Composable (() -> Unit)? = null,
     onValueChange: (TextFieldValue) -> Unit,
 ) {
     OutlinedTextField(
         value = value,
+        label = @Composable { label?.let { Text(label) } },
         suffix = suffix,
         modifier = modifier,
         keyboardOptions = KeyboardOptions(
@@ -109,7 +116,7 @@ fun CustomDecimalTextField(
         shape = MaterialTheme.shapes.medium,
         colors = OutlinedTextFieldDefaults.colors(
             unfocusedContainerColor = MaterialTheme.colorScheme.surfaceVariant,
-            unfocusedBorderColor = Color.Transparent,
+            unfocusedBorderColor = borderColor,
             focusedContainerColor = MaterialTheme.colorScheme.surfaceVariant
         )
     )
