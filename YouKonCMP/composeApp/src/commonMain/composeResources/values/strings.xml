@@ -73,6 +73,7 @@
     <!-- Project View -->
     <string name="projects">Projects</string>
     <string name="project_editor">Project Editor</string>
+    <string name="close_project_editor">Close project editor</string>
     <string name="project_name_label">Project Name</string>
     <string name="project_name_placeholder">"Provide a name for your project"</string>
     <string name="project_description_label">Project Description</string>

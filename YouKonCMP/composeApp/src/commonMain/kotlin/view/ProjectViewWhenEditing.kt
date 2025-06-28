@@ -1,6 +1,7 @@
 package view
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -9,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.twotone.Add
 import androidx.compose.material.icons.twotone.Badge
 import androidx.compose.material.icons.twotone.Delete
@@ -20,6 +22,7 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.FilledIconButton
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -39,10 +42,10 @@ import youkon.composeapp.generated.resources.Res
 import youkon.composeapp.generated.resources.add_new_measurement
 import youkon.composeapp.generated.resources.add_new_measurements
 import youkon.composeapp.generated.resources.allow_reorder_measurement
+import youkon.composeapp.generated.resources.close_project_editor
 import youkon.composeapp.generated.resources.edit_measurements
 import youkon.composeapp.generated.resources.project_description_label
 import youkon.composeapp.generated.resources.project_description_placeholder
-import youkon.composeapp.generated.resources.project_editor
 import youkon.composeapp.generated.resources.project_name_label
 import youkon.composeapp.generated.resources.project_name_placeholder
 import youkon.composeapp.generated.resources.reorder_measurement
@@ -50,33 +53,38 @@ import youkon.composeapp.generated.resources.reorder_measurement
 /// Upon tapping on the measurements, a bottom sheet will open into "Editable" mode.
 class ProjectViewWhenEditing(
     private val vm: ProjectViewModel,
-    private val purchases: PurchasesViewModel? = null
+    private val purchases: PurchasesViewModel? = null,
+    private val onCloseButtonClick: () -> Unit
 ) {
     /// The list of editable measurements when the project is opened in a sheet for editing
     @Composable
     fun Body() {
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(Constants.spacing),
-            modifier = Modifier.padding(horizontal = Constants.padding)
-        ) {
-            Text(
-                text = stringResource(Res.string.project_editor),
-                style = MaterialTheme.typography.titleLarge,
-                color = MaterialTheme.colorScheme.primary
-            )
-            HorizontalDivider()
-            LabelStack()
-            ExpansionStack()
+        Box {
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.spacedBy(Constants.spacing),
+                modifier = Modifier.padding(horizontal = Constants.padding)
+            ) {
+                LabelStack()
+                ExpansionStack()
+            }
+
+            IconButton(
+                onClick = onCloseButtonClick,
+                modifier = Modifier.align(Alignment.TopEnd)
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Close,
+                    contentDescription = stringResource(Res.string.close_project_editor)
+                )
+            }
         }
 
         if (vm.showSubtractAlert.value) {
             SubtractAlert(
                 title = vm.measurementToDelete.value?.name ?: "",
-                confirmAction = {
-                    vm.confirmDelete()
-                },
-                cancelAction = { vm.cancelDelete() }
+                confirmAction = vm::confirmDelete,
+                cancelAction = vm::cancelDelete
             )
         }
     }

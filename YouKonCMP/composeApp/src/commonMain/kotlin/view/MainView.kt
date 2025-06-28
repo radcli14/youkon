@@ -15,7 +15,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.twotone.CheckCircle
 import androidx.compose.material.icons.twotone.Info
 import androidx.compose.material.icons.twotone.Settings
@@ -111,10 +110,11 @@ class MainView(
                         ProjectEditingSheet()
                     },
                     modifier = Modifier
+                        //.windowInsetsPadding(WindowInsets.safeContent)
                         .closeSheetOnTapOutside(mainViewModel::stopEditing)
                         .closeKeyboardOnTapOutside(),
                     topBar = { TopBar(navController) },
-                    containerColor = Color.Transparent
+                    containerColor = Color.Transparent,
                 ) {
                     NavHost(
                         navController = navController,
@@ -355,13 +355,16 @@ class MainView(
     private fun ProjectEditingSheet() {
         val activeProject by mainViewModel.project.collectAsState()
         Column(
-            Modifier.closeKeyboardOnTapOutside()
+            Modifier
+                .closeKeyboardOnTapOutside()
         ) {
             activeProject?.let { project ->
                 val pcvm = mainViewModel.projectsCardViewModel.collectAsState()
                 val pvm = pcvm.value.projectViewModel(project)
                 pvm.expansion.value = ProjectExpansionLevel.EDITABLE
-                ProjectViewWhenEditing(pvm, purchasesViewModel).Body()
+                ProjectViewWhenEditing(pvm, purchasesViewModel, onCloseButtonClick = {
+                    mainViewModel.stopEditing(saveAfterStopping = true)
+                }).Body()
             }
             Spacer(Modifier.weight(1f))
         }

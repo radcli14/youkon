@@ -73,6 +73,7 @@
     <!-- Project View -->
     <string name="projects">Proyectos</string>
     <string name="project_editor">Editor de Proyectos</string>
+    <string name="close_project_editor">cerrar el editor de proyectosr</string>
     <string name="project_name_label">nombre del proyecto</string>
     <string name="project_name_placeholder">dale un nombre a tu proyecto</string>
     <string name="project_description_label">descripción del proyecto</string>

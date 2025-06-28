@@ -14,7 +14,7 @@ fun ProjectViewWhenEditingPreview() {
     val viewModel = ProjectViewModel(wembyProject())
     val purchases = PurchasesViewModel()
     viewModel.toggleExpansion()
-    ProjectViewWhenEditing(viewModel, purchases).Body()
+    ProjectViewWhenEditing(viewModel, purchases, onCloseButtonClick = {}).Body()
 }
 
 
