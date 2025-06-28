@@ -1,10 +1,10 @@
 package firebase.settings
 
 import AccountService
-import LOGIN_SCREEN
+import navigation.LOGIN_SCREEN
 import LaunchCatchingViewModel
-import SIGN_UP_SCREEN
-import SPLASH_SCREEN
+import navigation.SIGN_UP_SCREEN
+import navigation.SPLASH_SCREEN
 import kotlinx.coroutines.flow.map
 import firebase.service.LogService
 import firebase.service.StorageService

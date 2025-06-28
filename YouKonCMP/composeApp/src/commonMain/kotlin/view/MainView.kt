@@ -1,9 +1,9 @@
 package view
 
-import LOGIN_SCREEN
-import SETTINGS_SCREEN
-import SIGN_UP_SCREEN
-import YoukonTheme
+import navigation.LOGIN_SCREEN
+import navigation.SETTINGS_SCREEN
+import navigation.SIGN_UP_SCREEN
+import theming.YoukonTheme
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Image
@@ -50,9 +50,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import closeKeyboardOnTapOutside
-import closeSheetOnTapOutside
-import defaultPadding
+import theming.closeKeyboardOnTapOutside
+import theming.closeSheetOnTapOutside
+import theming.defaultPadding
 import firebase.login.LoginScreen
 import firebase.login.LoginViewModel
 import firebase.settings.SettingsViewModel
@@ -64,6 +64,7 @@ import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import purchases.PurchasesViewModel
 import purchases.YouKonExtendedPaywall
+import theming.philosopherFont
 import viewmodel.MainViewModel
 import viewmodel.OnboardingScreenViewModel
 import viewmodel.QuickConvertCardViewModel

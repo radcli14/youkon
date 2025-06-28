@@ -23,6 +23,8 @@ import androidx.compose.material3.FilledIconButton
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.IconButtonColors
+import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -36,6 +38,10 @@ import androidx.compose.ui.unit.dp
 import model.YkMeasurement
 import org.jetbrains.compose.resources.stringResource
 import purchases.PurchasesViewModel
+import theming.AnimatedVisibilityForControls
+import theming.UpDownButtons
+import theming.editButtonColors
+import theming.onboardingModifier
 import viewmodel.ProjectViewModel
 import viewmodel.ProjectViewViews
 import youkon.composeapp.generated.resources.Res
@@ -69,9 +75,13 @@ class ProjectViewWhenEditing(
                 ExpansionStack()
             }
 
-            IconButton(
+            FilledIconButton(
                 onClick = onCloseButtonClick,
-                modifier = Modifier.align(Alignment.TopEnd)
+                modifier = Modifier.align(Alignment.TopEnd).padding(end = Constants.padding),
+                shape = MaterialTheme.shapes.large,
+                colors = IconButtonDefaults.filledIconButtonColors(
+                    containerColor = MaterialTheme.colorScheme.surfaceVariant
+                )
             ) {
                 Icon(
                     imageVector = Icons.Default.Close,
@@ -280,7 +290,7 @@ class ProjectViewWhenEditing(
     @Composable
     private fun SubtractMeasurementButton(measurement: YkMeasurement) {
         AnimatedVisibilityForControls(vm.canSubtract.value) {
-            SubtractButton(onClick = { vm.subtract(measurement) })
+            theming.SubtractButton(onClick = { vm.subtract(measurement) })
         }
     }
 

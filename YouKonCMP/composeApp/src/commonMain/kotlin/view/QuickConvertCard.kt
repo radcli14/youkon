@@ -17,6 +17,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.stringResource
 import purchases.PurchasesViewModel
+import theming.onboardingModifier
 import viewmodel.QuickConvertCardViewModel
 import viewmodel.QuickConvertViews
 import youkon.composeapp.generated.resources.Res

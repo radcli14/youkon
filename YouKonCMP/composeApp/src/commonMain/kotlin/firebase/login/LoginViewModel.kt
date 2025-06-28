@@ -1,9 +1,9 @@
 package firebase.login
 
 import AccountService
-import LOGIN_SCREEN
+import navigation.LOGIN_SCREEN
 import LaunchCatchingViewModel
-import SETTINGS_SCREEN
+import navigation.SETTINGS_SCREEN
 import androidx.compose.runtime.mutableStateOf
 import isValidEmail
 import firebase.service.LogService

@@ -1,3 +1,5 @@
+package navigation
+
 const val SPLASH_SCREEN = "Splash Screen"
 const val SETTINGS_SCREEN = "Settings"
 const val LOGIN_SCREEN = "Sign In"

@@ -36,6 +36,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import model.YkProject
 import org.jetbrains.compose.resources.stringResource
+import theming.AnimatedVisibilityForControls
+import theming.UpDownButtons
+import theming.editButtonColors
+import theming.onboardingModifier
 import viewmodel.MainViewModel
 import viewmodel.ProjectsCardViews
 import youkon.composeapp.generated.resources.Res
@@ -210,7 +214,7 @@ class ProjectsCard(
     fun SubtractProjectButton(project: YkProject) {
         val vm by mainViewModel.projectsCardViewModel.collectAsState()
         AnimatedVisibilityForControls(vm.canSubtract.value) {
-            SubtractButton(onClick = { vm.subtract(project) })
+            theming.SubtractButton(onClick = { vm.subtract(project) })
         }
     }
 

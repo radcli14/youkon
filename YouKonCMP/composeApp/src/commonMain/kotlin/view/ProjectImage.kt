@@ -17,6 +17,7 @@ import model.YkProject
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
+import theming.grayBackground
 import youkon.composeapp.generated.resources.Res
 import youkon.composeapp.generated.resources.icon_for_project
 import youkon.composeapp.generated.resources.noimageicons0

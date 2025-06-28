@@ -38,7 +38,7 @@ import androidx.compose.ui.platform.LocalWindowInfo
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import fullWidthSemitransparentPadded
+import theming.fullWidthSemitransparentPadded
 import viewmodel.OnboardingScreenViewModel
 
 class OnboardingScreen(

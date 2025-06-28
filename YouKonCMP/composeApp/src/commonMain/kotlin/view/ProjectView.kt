@@ -32,11 +32,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import defaultPadding
+import theming.defaultPadding
 import model.ProjectExpansionLevel
 import model.YkMeasurement
 import model.YkSystem
 import org.jetbrains.compose.resources.stringResource
+import theming.onboardingModifier
+import theming.pickerColor
+import theming.pickerTextColor
 import viewmodel.MainViewModel
 import viewmodel.ProjectViewModel
 import viewmodel.ProjectViewViews

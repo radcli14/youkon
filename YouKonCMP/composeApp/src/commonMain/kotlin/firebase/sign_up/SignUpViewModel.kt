@@ -2,13 +2,11 @@ package firebase.sign_up
 
 import AccountService
 import LaunchCatchingViewModel
-import SETTINGS_SCREEN
-import SIGN_UP_SCREEN
+import navigation.SETTINGS_SCREEN
+import navigation.SIGN_UP_SCREEN
 import androidx.compose.runtime.mutableStateOf
 import firebase.service.LogService
 import isValidEmail
-import org.jetbrains.compose.resources.ExperimentalResourceApi
-import org.jetbrains.compose.resources.StringResource
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow

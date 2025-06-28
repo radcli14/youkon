@@ -15,10 +15,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import defaultPadding
+import theming.defaultPadding
 import model.YkMeasurement
 import org.jetbrains.compose.resources.stringResource
 import purchases.PurchasesViewModel
+import theming.onboardingModifier
 import viewmodel.MeasurementViewModel
 import youkon.composeapp.generated.resources.Res
 import youkon.composeapp.generated.resources.description_hint

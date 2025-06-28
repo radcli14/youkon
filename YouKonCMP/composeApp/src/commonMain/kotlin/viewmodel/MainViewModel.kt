@@ -1,10 +1,10 @@
 package viewmodel
 
 import AccountService
-import LOGIN_SCREEN
+import navigation.LOGIN_SCREEN
 import Log
-import SETTINGS_SCREEN
-import SIGN_UP_SCREEN
+import navigation.SETTINGS_SCREEN
+import navigation.SIGN_UP_SCREEN
 import Storage
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel

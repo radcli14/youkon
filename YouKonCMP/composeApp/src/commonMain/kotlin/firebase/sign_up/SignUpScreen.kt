@@ -1,9 +1,7 @@
 package firebase.sign_up
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -11,9 +9,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
@@ -27,14 +22,11 @@ import firebase.login.RepeatPasswordField
 import firebase.login.UserMessage
 import firebase.login.basicButton
 import firebase.login.fieldModifier
-import fullWidthSemitransparentPadded
-import org.jetbrains.compose.resources.ExperimentalResourceApi
-import org.jetbrains.compose.resources.StringResource
+import theming.fullWidthSemitransparentPadded
 import org.jetbrains.compose.resources.stringResource
 import youkon.composeapp.generated.resources.Res
 import youkon.composeapp.generated.resources.create_account
 import youkon.composeapp.generated.resources.create_account_hint
-import youkon.composeapp.generated.resources.password_match_error
 import kotlinx.coroutines.delay
 
 
