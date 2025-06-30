@@ -36,6 +36,7 @@ class MainViewModel(
     var user: MutableStateFlow<YkUser> = MutableStateFlow(YkUser())
 
     val userSaveActions = mutableStateOf(0)
+    var hasRequestedReview: Boolean = false
     val shouldRequestReview: Boolean get() = userSaveActions.value > 7
 
     private val tag = "MainViewModel"

@@ -107,8 +107,9 @@ class MainView(
 
                 // A review should be requested if the user has taken enough actions, or enough time elapsed with the app open
                 LaunchedEffect(mainViewModel.userSaveActions.value) {
-                    if (mainViewModel.shouldRequestReview) {
+                    if (mainViewModel.shouldRequestReview && !mainViewModel.hasRequestedReview) {
                         requestReview(context)
+                        mainViewModel.hasRequestedReview = true
                     }
                 }
                 LaunchedEffect(Unit) {
