@@ -22,14 +22,13 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.FilledIconButton
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.IconButtonColors
 import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
@@ -37,9 +36,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import model.YkMeasurement
 import org.jetbrains.compose.resources.stringResource
+import projects.ProjectImage
 import purchases.PurchasesViewModel
 import theming.AnimatedVisibilityForControls
 import theming.UpDownButtons
+import theming.defaultPadding
 import theming.editButtonColors
 import theming.onboardingModifier
 import viewmodel.ProjectViewModel
@@ -69,7 +70,7 @@ class ProjectViewWhenEditing(
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.spacedBy(Constants.spacing),
-                modifier = Modifier.padding(horizontal = Constants.padding)
+                modifier = Modifier.defaultPadding()
             ) {
                 LabelStack()
                 ExpansionStack()
@@ -112,10 +113,12 @@ class ProjectViewWhenEditing(
             verticalArrangement = Arrangement.spacedBy(Constants.spacing),
             modifier = Modifier.fillMaxWidth()
         ) {
+            val project by vm.project.collectAsState()
             ProjectImage(
-                project = vm.project.value,
+                project = project,
                 imageSize = Constants.imageSize,
-                imageShape = MaterialTheme.shapes.large
+                imageShape = MaterialTheme.shapes.large,
+                onSelectNewImage = vm::updateImage
             )
             NameField()
             DescriptionField()

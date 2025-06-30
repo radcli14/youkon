@@ -37,6 +37,7 @@ import model.ProjectExpansionLevel
 import model.YkMeasurement
 import model.YkSystem
 import org.jetbrains.compose.resources.stringResource
+import projects.ProjectImage
 import theming.onboardingModifier
 import theming.pickerColor
 import theming.pickerTextColor

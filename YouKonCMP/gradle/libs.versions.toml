@@ -12,6 +12,7 @@ androidx-material = "1.12.0"
 androidx-test-junit = "1.2.1"
 compose = "1.8.2"
 compose-plugin = "1.8.1"
+filekitCore = "0.10.0-beta04"
 firebaseCommon = "21.0.0"
 firebaseAuth = "23.2.1"
 firebaseFirestore = "25.1.4"
@@ -39,6 +40,10 @@ purchases-kmp = "1.8.3+13.36.0"
 
 [libraries]
 androidx-material-icons-extended = { module = "androidx.compose.material:material-icons-extended", version.ref = "materialIconsExtended" }
+filekit-coil = { module = "io.github.vinceglb:filekit-coil", version.ref = "filekitCore" }
+filekit-core = { module = "io.github.vinceglb:filekit-core", version.ref = "filekitCore" }
+filekit-dialogs = { module = "io.github.vinceglb:filekit-dialogs", version.ref = "filekitCore" }
+filekit-dialogs-compose = { module = "io.github.vinceglb:filekit-dialogs-compose", version.ref = "filekitCore" }
 firebase-appcheck-playintegrity = { module = "com.google.firebase:firebase-appcheck-playintegrity" }
 firebase-common = { module = "com.google.firebase:firebase-common", version.ref = "firebaseCommon" }
 firebase-auth = { module = "com.google.firebase:firebase-auth", version.ref = "firebaseAuth"}

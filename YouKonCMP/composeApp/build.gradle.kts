@@ -65,6 +65,12 @@ kotlin {
             implementation(libs.purchases.datetime)   // Optional
             implementation(libs.purchases.either)     // Optional
             implementation(libs.purchases.result)     // Optional
+
+            // Add the FileKit support for image selection
+            implementation(libs.filekit.core)
+            implementation(libs.filekit.dialogs)
+            implementation(libs.filekit.dialogs.compose)
+            implementation(libs.filekit.coil)
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)

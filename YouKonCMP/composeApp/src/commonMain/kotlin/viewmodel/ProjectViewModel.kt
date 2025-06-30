@@ -3,12 +3,17 @@ package viewmodel
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import io.github.vinceglb.filekit.PlatformFile
+import io.github.vinceglb.filekit.readBytes
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.launch
 import model.ProjectExpansionLevel
 import model.YkMeasurement
 import model.YkProject
 import model.YkSystem
 import model.YkUnit
+import okio.ByteString.Companion.toByteString
 
 enum class ProjectViewViews {
     COMPACT, STATIC, SYSTEM_PICKER, STATIC_MEASUREMENTS,
@@ -34,6 +39,16 @@ class ProjectViewModel(
     val canReorder = mutableStateOf(false)
 
     private val tag = "ProjectsCardViewModel"
+
+    fun updateImage(image: PlatformFile) {
+        viewModelScope.launch {
+            val byteString = image.readBytes().toByteString().base64()
+            project.value = project.value.copy(
+                images = mutableListOf(byteString)
+            )
+            Log.d(tag, "Updated image, ${project.value.images.first()}")
+        }
+    }
 
     /// Update the public list of `YkProject` items by assuring that the Kotlin version is Swift formatted
     private fun updateMeasurements() {

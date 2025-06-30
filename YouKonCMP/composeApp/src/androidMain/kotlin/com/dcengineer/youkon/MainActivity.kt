@@ -20,6 +20,8 @@ import firebase.service.LogServiceImpl
 import firebase.service.StorageServiceImpl
 import firebase.settings.SettingsViewModel
 import firebase.sign_up.SignUpViewModel
+import io.github.vinceglb.filekit.FileKit
+import io.github.vinceglb.filekit.dialogs.init
 import viewmodel.MainViewModel
 import viewmodel.OnboardingScreenViewModel
 import viewmodel.QuickConvertCardViewModel
@@ -63,6 +65,9 @@ class MainActivity : ComponentActivity() {
             Log.e(tag, "Failed to initialize Firebase: ${e.message}")
             // Continue without Firebase - the app will work in offline mode
         }
+
+        // Initialize FileKit, used for an image picker
+        FileKit.init(this)
 
         // Get saved state of the quick convert card from last time the app was open
         val sharedPref = getPreferences(Context.MODE_PRIVATE) ?: return
