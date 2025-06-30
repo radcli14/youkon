@@ -131,6 +131,8 @@ class MainViewModel(
                         onUpdateMainProject = { updatedProject ->
                             if (project.value?.id == updatedProject.id) {
                                 project.value = updatedProject
+                                saveUserToJson()
+                                project.value?.let { saveProjectToCloud(it) }
                             }
                         }
                     )
@@ -149,6 +151,8 @@ class MainViewModel(
                         onUpdateMainProject = { updatedProject ->
                             if (project.value?.id == updatedProject.id) {
                                 project.value = updatedProject
+                                saveUserToJson()
+                                project.value?.let { saveProjectToCloud(it) }
                             }
                         }
                     )
@@ -166,6 +170,8 @@ class MainViewModel(
                 onUpdateMainProject = { updatedProject ->
                     if (project.value?.id == updatedProject.id) {
                         project.value = updatedProject
+                        saveUserToJson()
+                        project.value?.let { saveProjectToCloud(it) }
                     }
                 }
             )
@@ -294,6 +300,8 @@ class MainViewModel(
         onUpdateMainProject = { updatedProject ->
             if (project.value?.id == updatedProject.id) {
                 project.value = updatedProject
+                saveUserToJson()
+                project.value?.let { saveProjectToCloud(it) }
             }
         }
     ))

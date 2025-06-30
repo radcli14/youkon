@@ -72,6 +72,7 @@ class ProjectViewModel(
                 images = mutableListOf(byteString)
             )
             Log.d(tag, "Updated image, ${project.value.images.first().count()} thumbnail = ${thumbnail.value}")
+            onProjectUpdated(project.value)
         }
     }
 
