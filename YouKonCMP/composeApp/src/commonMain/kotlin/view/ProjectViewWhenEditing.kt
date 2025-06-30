@@ -114,11 +114,15 @@ class ProjectViewWhenEditing(
             modifier = Modifier.fillMaxWidth()
         ) {
             val project by vm.project.collectAsState()
+            val image by vm.thumbnail.collectAsState()
             ProjectImage(
-                project = project,
+                image = image,
+                modifier = Modifier.padding(top = Constants.spacing),
+                name = vm.editedName.value,
+                seed = project.id,
                 imageSize = Constants.imageSize,
                 imageShape = MaterialTheme.shapes.large,
-                onSelectNewImage = vm::updateImage
+                onClick = vm::onClickImageWhenEditing
             )
             NameField()
             DescriptionField()

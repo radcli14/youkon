@@ -27,6 +27,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
@@ -90,13 +91,23 @@ class ProjectView(
             modifier = Modifier
                 .fillMaxWidth()
                 .onboardingModifier(ProjectViewViews.STATIC)
-                .clickable { vm.toggleExpansion() },
+                .clickable(onClick = vm::toggleExpansion),
             verticalAlignment = Alignment.CenterVertically
         ) {
+            val image by vm.thumbnail.collectAsState()
             ProjectImage(
-                project = vm.project.value,
+                image = image,
+                name = vm.editedName.value,
+                seed = vm.project.value.id,
                 imageSize = Constants.imageSize,
-                imageShape = MaterialTheme.shapes.medium
+                imageShape = MaterialTheme.shapes.medium,
+                onClick = {
+                    if (vm.expansion.value == ProjectExpansionLevel.COMPACT) {
+                        vm.toggleExpansion()
+                    } else {
+                        mainViewModel?.startEditing(vm.project.value)
+                    }
+                }
             )
             Spacer(Modifier.width(Constants.labelSpacerWidth))
             Column(modifier = Modifier.weight(1f)) {

@@ -1,10 +1,18 @@
 package viewmodel
 
+import Log
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.graphics.decodeToImageBitmap
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import io.github.vinceglb.filekit.FileKit
+import io.github.vinceglb.filekit.ImageFormat
 import io.github.vinceglb.filekit.PlatformFile
+import io.github.vinceglb.filekit.compressImage
+import io.github.vinceglb.filekit.dialogs.FileKitType
+import io.github.vinceglb.filekit.dialogs.openFilePicker
 import io.github.vinceglb.filekit.readBytes
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
@@ -14,6 +22,8 @@ import model.YkProject
 import model.YkSystem
 import model.YkUnit
 import okio.ByteString.Companion.toByteString
+import kotlin.io.encoding.Base64
+import kotlin.io.encoding.ExperimentalEncodingApi
 
 enum class ProjectViewViews {
     COMPACT, STATIC, SYSTEM_PICKER, STATIC_MEASUREMENTS,
@@ -40,14 +50,54 @@ class ProjectViewModel(
 
     private val tag = "ProjectsCardViewModel"
 
+    var thumbnail: MutableStateFlow<ImageBitmap?> = MutableStateFlow(
+        getThumbnailImageFromProject()
+    )
+
+    fun onClickImageWhenEditing() {
+        viewModelScope.launch {
+            val imageFile = FileKit.openFilePicker(type = FileKitType.Image)
+            imageFile?.let { updateImage(it) }
+        }
+    }
+
     fun updateImage(image: PlatformFile) {
         viewModelScope.launch {
-            val byteString = image.readBytes().toByteString().base64()
+            val thumbnailBytes = getThumbnailBytesFromImageFile(image)
+            thumbnail.value = thumbnailBytes.decodeToImageBitmap()
+
+            // Add the byte string to the project model for data persistence
+            val byteString = thumbnailBytes.toByteString().base64()
             project.value = project.value.copy(
                 images = mutableListOf(byteString)
             )
-            Log.d(tag, "Updated image, ${project.value.images.first()}")
+            Log.d(tag, "Updated image, ${project.value.images.first().count()} thumbnail = ${thumbnail.value}")
         }
+    }
+
+    /// Create a thumbnail by compressing and resizing
+    private suspend fun getThumbnailBytesFromImageFile(image: PlatformFile, quality: Int = 80, size: Int = 256): ByteArray {
+        val imageBytes = image.readBytes()
+        return FileKit.compressImage(
+            bytes = imageBytes,
+            quality = quality,
+            maxWidth = size,
+            maxHeight = size,
+            imageFormat = ImageFormat.JPEG
+        )
+    }
+
+    @OptIn(ExperimentalEncodingApi::class)
+    private fun getThumbnailImageFromProject(): ImageBitmap? {
+        if (project.value.images.isNotEmpty()) {
+            try {
+                val imageBytes = Base64.decode(project.value.images.first())
+                return imageBytes.decodeToImageBitmap()
+            }  catch (e: Exception) {
+                Log.e(tag, "Failed to decode base64 string to image: ${e.message}")
+            }
+        }
+        return null
     }
 
     /// Update the public list of `YkProject` items by assuring that the Kotlin version is Swift formatted
