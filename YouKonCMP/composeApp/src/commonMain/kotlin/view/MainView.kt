@@ -105,8 +105,14 @@ class MainView(
 
                 val showPaywall by purchasesViewModel.shouldShowPaywall.collectAsState()
 
+                // A review should be requested if the user has taken enough actions, or enough time elapsed with the app open
+                LaunchedEffect(mainViewModel.userSaveActions.value) {
+                    if (mainViewModel.shouldRequestReview) {
+                        requestReview(context)
+                    }
+                }
                 LaunchedEffect(Unit) {
-                    delay(10000)
+                    delay(69696)
                     requestReview(context)
                 }
 

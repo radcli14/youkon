@@ -117,7 +117,6 @@ class ProjectViewWhenEditing(
             val image by vm.thumbnail.collectAsState()
             ProjectImage(
                 image = image,
-                modifier = Modifier.padding(top = Constants.spacing),
                 name = vm.editedName.value,
                 seed = project.id,
                 imageSize = Constants.imageSize,

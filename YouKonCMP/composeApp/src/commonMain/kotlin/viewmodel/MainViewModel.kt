@@ -6,6 +6,7 @@ import Log
 import navigation.SETTINGS_SCREEN
 import navigation.SIGN_UP_SCREEN
 import Storage
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -33,6 +34,9 @@ class MainViewModel(
     val settingsScreenState = mutableStateOf(SettingsScreenState.HIDDEN)
     var project: MutableStateFlow<YkProject?> = MutableStateFlow(null)
     var user: MutableStateFlow<YkUser> = MutableStateFlow(YkUser())
+
+    val userSaveActions = mutableStateOf(0)
+    val shouldRequestReview: Boolean get() = userSaveActions.value > 7
 
     private val tag = "MainViewModel"
 
@@ -178,6 +182,7 @@ class MainViewModel(
             projectsCardViewModel.value.updateProjects()
             saveUserToJson()
         }
+        userSaveActions.value++
     }
 
     private suspend fun collectStorageService() {
@@ -202,6 +207,7 @@ class MainViewModel(
 
     fun saveUserToJson() {
         localStorage?.saveUserToJson(user.value)
+        userSaveActions.value++
     }
 
     fun ensureUserNameIsEmail() {
@@ -272,6 +278,7 @@ class MainViewModel(
                 }
             }
         }
+        userSaveActions.value++
     }
 
     /// The user tapped the measurements in a project's disclosure group, toggle editable measurements sheet
