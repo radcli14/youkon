@@ -11,6 +11,7 @@ import viewmodel.OnboardingScreenViewModel
 import viewmodel.QuickConvertCardViewModel
 import firebase.settings.SettingsViewModel
 import firebase.sign_up.SignUpViewModel
+import purchases.PurchasesViewModel
 
 @Composable
 fun App(
@@ -19,7 +20,9 @@ fun App(
     onboardingScreenViewModel: OnboardingScreenViewModel = OnboardingScreenViewModel(),
     loginViewModel: LoginViewModel? = null,
     settingsViewModel: SettingsViewModel? = null,
-    signUpViewModel: SignUpViewModel? = null
+    signUpViewModel: SignUpViewModel? = null,
+    purchasesViewModel: PurchasesViewModel = PurchasesViewModel(),
+    context: Any? = null,
 ) {
     MainView(
         mainViewModel,
@@ -27,6 +30,8 @@ fun App(
         onboardingScreenViewModel,
         loginViewModel,
         settingsViewModel,
-        signUpViewModel
+        signUpViewModel,
+        purchasesViewModel,
+        context
     ).Body()
 }

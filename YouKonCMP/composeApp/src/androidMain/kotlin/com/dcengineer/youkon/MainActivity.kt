@@ -11,6 +11,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
+import androidx.compose.ui.platform.LocalContext
 import dev.gitlive.firebase.Firebase
 import dev.gitlive.firebase.auth.auth
 import dev.gitlive.firebase.firestore.firestore
@@ -22,6 +23,7 @@ import firebase.settings.SettingsViewModel
 import firebase.sign_up.SignUpViewModel
 import io.github.vinceglb.filekit.FileKit
 import io.github.vinceglb.filekit.dialogs.init
+import purchases.PurchasesViewModel
 import viewmodel.MainViewModel
 import viewmodel.OnboardingScreenViewModel
 import viewmodel.QuickConvertCardViewModel
@@ -51,6 +53,7 @@ class MainActivity : ComponentActivity() {
     private val signUpViewModel: SignUpViewModel by viewModels {
         SignUpViewModelFactory(accountService, logService)
     }
+    private val purchasesViewModel: PurchasesViewModel by viewModels()
 
     private val tag = "MainActivity"
     private val showOnboardingKey = "showOnboarding"
@@ -91,7 +94,9 @@ class MainActivity : ComponentActivity() {
                 onboardingScreenViewModel,
                 loginViewModel,
                 settingsViewModel,
-                signUpViewModel
+                signUpViewModel,
+                purchasesViewModel,
+                LocalContext.current
             )
         }
     }

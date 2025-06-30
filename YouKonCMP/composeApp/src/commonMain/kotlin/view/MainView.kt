@@ -58,6 +58,7 @@ import firebase.login.LoginViewModel
 import firebase.settings.SettingsViewModel
 import firebase.sign_up.SignUpScreen
 import firebase.sign_up.SignUpViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import model.ProjectExpansionLevel
 import org.jetbrains.compose.resources.painterResource
@@ -76,6 +77,7 @@ import youkon.composeapp.generated.resources.navigate_to
 import youkon.composeapp.generated.resources.onboarding
 import youkon.composeapp.generated.resources.save_changes
 import youkon.composeapp.generated.resources.settings
+import utilities.requestReview
 
 
 class MainView(
@@ -85,7 +87,8 @@ class MainView(
     private var loginViewModel: LoginViewModel? = null,
     private var settingsViewModel: SettingsViewModel? = null,
     private var signupViewModel: SignUpViewModel? = null,
-    private var purchasesViewModel: PurchasesViewModel = PurchasesViewModel()
+    private var purchasesViewModel: PurchasesViewModel = PurchasesViewModel(),
+    private var context: Any? = null
 ) {
     /// Initialize using the fake view models inside the onboarding screen
     constructor(onboardingScreenViewModel: OnboardingScreenViewModel): this(
@@ -101,6 +104,11 @@ class MainView(
                 val navController = rememberNavController()
 
                 val showPaywall by purchasesViewModel.shouldShowPaywall.collectAsState()
+
+                LaunchedEffect(Unit) {
+                    delay(10000)
+                    requestReview(context)
+                }
 
                 /// Holds state and the bottom sheet scaffold to allow the editing screen to appear
                 /// as a sheet from the bottom of the screen.
