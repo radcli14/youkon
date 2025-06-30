@@ -99,33 +99,27 @@ class MeasurementView(
     /// Numeric field on the left to modify `value`, and dropdown on the right to modify `unit` of the `YkMeasurement`
     @Composable
     private fun ValueAndUnitStack(vm: MeasurementViewModel) {
-        Row(
-            modifier = Modifier.onboardingModifier(highlightValueAndUnit),
-            horizontalArrangement = Arrangement.spacedBy(8.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            val isExtended = purchases?.isExtended?.value == true
-            val availableUnits = if (isExtended) vm.unit.value.allUnits else vm.unit.value.basicUnits
-            MeasurementTextField(
-                value = vm.value.value,
-                label = stringResource(Res.string.value),
-                modifier = Modifier.weight(1f),
-                borderColor = MaterialTheme.colorScheme.secondary,
-                controlsAreAbove = true,
-                updateMeasurement = { vm.updateValue(it) },
-                alignedContent = { alignedModifier ->
-                    UnitDropdown(
-                        unit = vm.unit.value,
-                        availableUnits = availableUnits,
-                        isNested = true,
-                        isExtended = isExtended,
-                        includeUnitless = true,
-                        modifier = alignedModifier,
-                        onClick = { it?.let { vm.updateUnit(it) } },
-                        onShowPaywall = { purchases?.showPaywall() }
-                    ).Body()
-                }
-            )
-        }
+        val isExtended = purchases?.isExtended?.value == true
+        val availableUnits = if (isExtended) vm.unit.value.allUnits else vm.unit.value.basicUnits
+        MeasurementTextField(
+            value = vm.value.value,
+            label = stringResource(Res.string.value),
+            borderColor = MaterialTheme.colorScheme.secondary,
+            controlsAreAbove = true,
+            baselineIsAligned = false,
+            updateMeasurement = vm::updateValue,
+            alignedContent = { alignedModifier ->
+                UnitDropdown(
+                    unit = vm.unit.value,
+                    availableUnits = availableUnits,
+                    isNested = true,
+                    isExtended = isExtended,
+                    includeUnitless = true,
+                    modifier = alignedModifier,
+                    onClick = { it?.let { vm.updateUnit(it) } },
+                    onShowPaywall = { purchases?.showPaywall() }
+                ).Body()
+            }
+        )
     }
 }

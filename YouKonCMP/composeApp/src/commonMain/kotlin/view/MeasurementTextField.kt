@@ -37,6 +37,7 @@ fun MeasurementTextField(
     unitText: String? = null,
     borderColor: Color = Color.Transparent,
     controlsAreAbove: Boolean = false,
+    baselineIsAligned: Boolean = true,
     updateMeasurement: (Double) -> Unit,
     alignedContent: @Composable (Modifier) -> Unit
 ) {
@@ -66,17 +67,19 @@ fun MeasurementTextField(
             horizontalArrangement = Arrangement.spacedBy(8.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
+            val alignedModifier = if (baselineIsAligned) Modifier.alignByBaseline().weight(1f) else Modifier.weight(1f)
+
             CustomDecimalTextField(
                 value = viewModel.text,
                 label = label,
-                modifier = Modifier.weight(1f).onFocusChanged { isFocused = it.hasFocus },
+                modifier = alignedModifier.onFocusChanged { isFocused = it.hasFocus },
                 textStyle = textStyle,
                 borderColor = borderColor,
                 suffix = { unitText?.let { Text(" $it") } },
                 onValueChange = viewModel::handleTextChange
             )
 
-            alignedContent(Modifier.weight(1f))
+            alignedContent(alignedModifier)
         }
 
         AnimatedVisibility(!controlsAreAbove && isFocused) {
