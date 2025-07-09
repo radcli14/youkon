@@ -3,12 +3,11 @@ package utilities
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.decodeToImageBitmap
 import io.github.vinceglb.filekit.FileKit
-import io.github.vinceglb.filekit.ImageFormat
 import io.github.vinceglb.filekit.PlatformFile
-import io.github.vinceglb.filekit.compressImage
 import io.github.vinceglb.filekit.readBytes
 import kotlin.io.encoding.Base64
 import kotlin.io.encoding.ExperimentalEncodingApi
+import utilities.compressImage
 
 class ImageFileManipulator {
     companion object {
@@ -30,11 +29,11 @@ class ImageFileManipulator {
 /// Create a thumbnail by compressing and resizing
 suspend fun PlatformFile.thumbnailBytes(quality: Int = 80, size: Int = 256): ByteArray {
     val imageBytes = readBytes()
-    return FileKit.compressImage(
+    return compressImage(
         bytes = imageBytes,
         quality = quality,
         maxWidth = size,
         maxHeight = size,
-        imageFormat = ImageFormat.JPEG
+        imageFormat = "JPEG"
     )
 }

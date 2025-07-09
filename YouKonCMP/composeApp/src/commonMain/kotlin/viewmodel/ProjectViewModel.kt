@@ -18,7 +18,8 @@ import model.YkMeasurement
 import model.YkProject
 import model.YkSystem
 import model.YkUnit
-import okio.ByteString.Companion.toByteString
+import kotlin.io.encoding.Base64
+import kotlin.io.encoding.ExperimentalEncodingApi
 import utilities.ImageFileManipulator
 import utilities.thumbnailBytes
 
@@ -62,9 +63,10 @@ class ProjectViewModel(
             thumbnail.value = thumbnailBytes.decodeToImageBitmap()
 
             // Add the byte string to the project model for data persistence
-            val byteString = thumbnailBytes.toByteString().base64()
+            @OptIn(ExperimentalEncodingApi::class)
+            val base64String = Base64.encode(thumbnailBytes)
             project.value = project.value.copy(
-                images = mutableListOf(byteString)
+                images = mutableListOf(base64String)
             )
             Log.d(tag, "Updated image, ${project.value.images.first().count()} thumbnail = ${thumbnail.value}")
             onProjectUpdated(project.value)
