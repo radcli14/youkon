@@ -6,7 +6,6 @@ import dev.gitlive.firebase.firestore.CollectionReference
 import dev.gitlive.firebase.firestore.DocumentSnapshot
 import dev.gitlive.firebase.firestore.FirebaseFirestore
 import dev.gitlive.firebase.firestore.FirebaseFirestoreException
-import dev.gitlive.firebase.firestore.where
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flatMapLatest

@@ -2,6 +2,7 @@ package utilities
 
 import io.github.vinceglb.filekit.FileKit
 import io.github.vinceglb.filekit.ImageFormat
+import io.github.vinceglb.filekit.compressImage
 
 actual suspend fun compressImage(
     bytes: ByteArray,

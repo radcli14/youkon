@@ -19,25 +19,26 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.unit.dp
-import theming.defaultPadding
-import theming.fullWidthSemitransparentPadded
+import kotlinx.coroutines.delay
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
+import purchases.ExtendedPurchaseState
 import purchases.PremiumFeaturesContent
-import purchases.PurchasesRepository
+import theming.defaultPadding
+import theming.fullWidthSemitransparentPadded
 import youkon.composeapp.generated.resources.Res
 import youkon.composeapp.generated.resources.cancel
 import youkon.composeapp.generated.resources.create_account
@@ -48,16 +49,14 @@ import youkon.composeapp.generated.resources.ic_create_account
 import youkon.composeapp.generated.resources.ic_delete_my_account
 import youkon.composeapp.generated.resources.ic_exit
 import youkon.composeapp.generated.resources.ic_sign_in
+import youkon.composeapp.generated.resources.logged_in_as
+import youkon.composeapp.generated.resources.login_or_create_account
 import youkon.composeapp.generated.resources.privacy_policy_button
 import youkon.composeapp.generated.resources.privacy_policy_url
 import youkon.composeapp.generated.resources.sign_in
 import youkon.composeapp.generated.resources.sign_out
 import youkon.composeapp.generated.resources.sign_out_description
 import youkon.composeapp.generated.resources.sign_out_title
-import kotlinx.coroutines.delay
-import youkon.composeapp.generated.resources.logged_in_as
-import youkon.composeapp.generated.resources.login_or_create_account
-import purchases.ExtendedPurchaseState
 
 
 @Composable
