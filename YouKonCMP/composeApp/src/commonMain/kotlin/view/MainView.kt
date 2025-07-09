@@ -63,6 +63,7 @@ import kotlinx.coroutines.launch
 import model.ProjectExpansionLevel
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
+import purchases.ExtendedPurchaseState
 import purchases.PurchasesViewModel
 import purchases.YouKonExtendedPaywall
 import theming.philosopherFont
@@ -155,7 +156,10 @@ class MainView(
                 }
 
                 AnimatedVisibility(showPaywall) {
-                    YouKonExtendedPaywall(dismissRequest = purchasesViewModel::hidePaywall)
+                    YouKonExtendedPaywall(
+                        dismissRequest = purchasesViewModel::hidePaywall,
+                        onPurchaseCompleted = purchasesViewModel::onPurchaseCompleted
+                    )
                 }
             }
         }

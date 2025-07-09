@@ -45,7 +45,26 @@ kotlin {
     }
 
     sourceSets {
+        val commonMain by getting
+        val androidMain by getting
         val desktopMain by getting
+
+        val iosX64Main by getting
+        val iosArm64Main by getting
+        val iosSimulatorArm64Main by getting
+
+        val sharedRevenueCatMain by creating {
+            dependsOn(commonMain)
+        }
+
+        val iosMain by creating {
+            dependsOn(sharedRevenueCatMain)
+            iosX64Main.dependsOn(this)
+            iosArm64Main.dependsOn(this)
+            iosSimulatorArm64Main.dependsOn(this)
+        }
+
+        androidMain.dependsOn(sharedRevenueCatMain)
 
         androidMain.dependencies {
             implementation(libs.compose.ui.tooling.preview)

@@ -57,13 +57,14 @@ import youkon.composeapp.generated.resources.sign_out_title
 import kotlinx.coroutines.delay
 import youkon.composeapp.generated.resources.logged_in_as
 import youkon.composeapp.generated.resources.login_or_create_account
+import purchases.ExtendedPurchaseState
 
 
 @Composable
 fun SettingsScreen(
     restartApp: (String) -> Unit,
     openScreen: (String) -> Unit,
-    extendedPurchaseState: PurchasesRepository.ExtendedPurchaseState,
+    extendedPurchaseState: ExtendedPurchaseState,
     showPaywall: () -> Unit,
     viewModel: SettingsViewModel
 ) {
@@ -95,7 +96,7 @@ fun SettingsScreenContent(
     onSignUpClick: () -> Unit,
     onSignOutClick: () -> Unit,
     onDeleteMyAccountClick: () -> Unit,
-    extendedPurchaseState: PurchasesRepository.ExtendedPurchaseState,
+    extendedPurchaseState: ExtendedPurchaseState,
     showPaywall: () -> Unit,
     clearMessage: () -> Unit
 ) {

@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.stateIn
 
 class PurchasesViewModel: ViewModel() {
-    val repository = PurchasesRepository.sharedInstance
+    val repository: PurchasesRepository = purchasesRepository
 
     private val tag = "PurchasesViewModel"
 
@@ -25,22 +25,10 @@ class PurchasesViewModel: ViewModel() {
         _shouldShowPaywall.value = false
     }
 
-    private val _extendedPurchaseState = MutableStateFlow(repository.extendedPurchaseState)
-    val extendedPurchaseState: StateFlow<PurchasesRepository.ExtendedPurchaseState> = _extendedPurchaseState.asStateFlow()
+    val extendedPurchaseState: StateFlow<ExtendedPurchaseState> = repository.extendedPurchaseState
+    val isExtended: StateFlow<Boolean> = repository.isExtended
 
-    val isExtended: StateFlow<Boolean> = extendedPurchaseState.map { it == PurchasesRepository.ExtendedPurchaseState.EXTENDED }
-        .stateIn(
-            viewModelScope,
-            SharingStarted.WhileSubscribed(5000),
-            extendedPurchaseState.value == PurchasesRepository.ExtendedPurchaseState.EXTENDED
-        )
-
-    init {
-        viewModelScope.launch {
-            repository.customer.collect {
-                Log.d(tag, "CustomerInfo changed: $it ${it?.hasExtendedPurchase == true}")
-                _extendedPurchaseState.value = repository.extendedPurchaseState
-            }
-        }
+    fun onPurchaseCompleted() {
+        repository.onPurchaseCompleted()
     }
 }

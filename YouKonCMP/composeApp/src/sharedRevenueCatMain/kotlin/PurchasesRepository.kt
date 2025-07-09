@@ -1,15 +1,18 @@
+package purchases
+
+import Log
 import com.revenuecat.purchases.kmp.LogLevel
 import com.revenuecat.purchases.kmp.Purchases
 import com.revenuecat.purchases.kmp.configure
 import com.revenuecat.purchases.kmp.models.CustomerInfo
 import com.revenuecat.purchases.kmp.models.Offerings
 import com.revenuecat.purchases.kmp.models.PurchasesError
+import getRevenueCatApiKey
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
-class PurchasesRepository {
-
+class PurchasesRepositoryImpl : PurchasesRepository {
     init {
         Purchases.logLevel = LogLevel.DEBUG
         Purchases.configure(apiKey = getRevenueCatApiKey())
@@ -18,79 +21,63 @@ class PurchasesRepository {
     private val tag = "PurchasesRepository"
 
     private val _error = MutableStateFlow<PurchasesError?>(null)
-    var error: StateFlow<PurchasesError?> = _error.asStateFlow()
-    val errorMessage: String get() {
-        error.value?.underlyingErrorMessage?.let {
-            return "Error: $it"
-        }
-        return "No Error"
+    private val _offerings = MutableStateFlow<Offerings?>(null)
+    private val _customer = MutableStateFlow<CustomerInfo?>(null)
+
+    private val _extendedPurchaseState = MutableStateFlow(ExtendedPurchaseState.BASIC)
+    override val extendedPurchaseState: StateFlow<ExtendedPurchaseState> = _extendedPurchaseState.asStateFlow()
+    override val isExtended: StateFlow<Boolean> = MutableStateFlow(false) // You can implement this as needed
+
+    private var lastCustomerInfo: CustomerInfo? = null
+
+    init {
+        startFetchingData()
     }
 
-    private val _offerings = MutableStateFlow<Offerings?>(null)
-    var offerings: StateFlow<Offerings?> = _offerings.asStateFlow()
-
-    private val _customer = MutableStateFlow<CustomerInfo?>(null)
-    val customer: StateFlow<CustomerInfo?> = _customer.asStateFlow()
-
-    /// New method to start fetching data
-    fun startFetchingData() {
+    private fun startFetchingData() {
         getOfferings()
         getCustomer()
     }
 
-    /// When an error is received, add it to the StateFlow, and log it at the error level
     private fun updateError(newError: PurchasesError) {
         _error.value = newError
-        error.value?.underlyingErrorMessage?.let { message -> Log.e(tag, message) }
+        _extendedPurchaseState.value = ExtendedPurchaseState.ERROR
+        newError.underlyingErrorMessage?.let { message -> Log.e(tag, message) }
     }
 
-    fun getOfferings() {
+    private fun getOfferings() {
         Purchases.sharedInstance.getOfferings(
             onError = { updateError(it) },
-            onSuccess = { updateOfferings(it) }
+            onSuccess = { _offerings.value = it; Log.d(tag, "Offerings: ${it.all}") }
         )
     }
 
-    private fun updateOfferings(newOfferings: Offerings) {
-        _offerings.value = newOfferings
-        Log.d(tag, "Offerings: ${newOfferings.all}")
-    }
-
-    fun getCustomer() {
+    private fun getCustomer() {
         Purchases.sharedInstance.getCustomerInfo(
             onError = { updateError(it) },
             onSuccess = { updateCustomerInfo(it) }
         )
     }
 
-    // Call this when customer info updates from RevenueCat SDK callbacks
+    // Platform-specific: call this from the paywall callback
     fun updateCustomerInfo(info: CustomerInfo) {
+        lastCustomerInfo = info
         _customer.value = info
+        _extendedPurchaseState.value = if (info.hasExtendedPurchase) ExtendedPurchaseState.EXTENDED else ExtendedPurchaseState.BASIC
         Log.d(tag, "Customer: Extended=${info.hasExtendedPurchase}")
     }
 
-    enum class ExtendedPurchaseState {
-        EXTENDED, BASIC, ERROR
-    }
-
-    val extendedPurchaseState: ExtendedPurchaseState
-        get() {
-        return when {
-            customer.value?.hasExtendedPurchase == true -> ExtendedPurchaseState.EXTENDED
-            error.value != null -> ExtendedPurchaseState.ERROR
-            else -> ExtendedPurchaseState.BASIC
-        }
+    override fun onPurchaseCompleted() {
+        lastCustomerInfo?.let { updateCustomerInfo(it) }
     }
 
     companion object {
-        val sharedInstance: PurchasesRepository by lazy {
-            val instance = PurchasesRepository()
-            instance.startFetchingData() // Call after instance is fully constructed
-            instance
-        }
+        val sharedInstance: PurchasesRepositoryImpl by lazy { PurchasesRepositoryImpl() }
     }
 }
 
 val CustomerInfo.hasExtendedPurchase: Boolean get() {
     return entitlements.get("Extended")?.isActive == true
 }
+
+actual val purchasesRepository: PurchasesRepository = PurchasesRepositoryImpl.sharedInstance

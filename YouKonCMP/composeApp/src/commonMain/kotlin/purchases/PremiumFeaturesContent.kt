@@ -19,7 +19,7 @@ import youkon.composeapp.generated.resources.want_new_features
 
 @Composable
 fun PremiumFeaturesContent(
-    extendedPurchaseState: PurchasesRepository.ExtendedPurchaseState,
+    extendedPurchaseState: ExtendedPurchaseState,
     showPaywall: () -> Unit
 ) {
     Column(
@@ -33,16 +33,16 @@ fun PremiumFeaturesContent(
         )
 
         when (extendedPurchaseState) {
-            PurchasesRepository.ExtendedPurchaseState.BASIC -> {
+            ExtendedPurchaseState.BASIC -> {
                 Text(stringResource(Res.string.want_new_features), color = MaterialTheme.colorScheme.onSurface)
                 Button(onClick = showPaywall) {
                     Text(stringResource(Res.string.extend_youkon), color = MaterialTheme.colorScheme.onSurface)
                 }
             }
-            PurchasesRepository.ExtendedPurchaseState.EXTENDED -> {
+            ExtendedPurchaseState.EXTENDED -> {
                 Text(stringResource(Res.string.have_extended), color = MaterialTheme.colorScheme.onSurface)
             }
-            PurchasesRepository.ExtendedPurchaseState.ERROR -> {
+            ExtendedPurchaseState.ERROR -> {
                 Text(stringResource(Res.string.purchase_error_generic), color = MaterialTheme.colorScheme.onSurface)
             }
         }
