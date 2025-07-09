@@ -22,6 +22,17 @@ kotlin {
 
     jvm("desktop")
 
+    js(IR) {
+        moduleName = "YouKon"
+        browser() {
+            commonWebpackConfig() {
+                outputFileName = "YouKon.js"
+                devServer = (devServer ?: org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackConfig.DevServer()).copy()
+            }
+            binaries.executable()
+        }
+    }
+
     listOf(
         iosX64(),
         iosArm64(),
@@ -42,6 +53,21 @@ kotlin {
             //implementation(project.dependencies.platform("com.google.firebase:firebase-bom:latest")) // Use the latest Firebase BoM
             //implementation(libs.firebase.appcheck.playintegrity)
             implementation(libs.review.ktx)
+
+            // Add the purchases-kmp dependencies.
+            implementation(libs.purchases.core)
+            implementation(libs.purchases.ui)
+            implementation(libs.purchases.datetime)   // Optional
+            implementation(libs.purchases.either)     // Optional
+            implementation(libs.purchases.result)     // Optional
+        }
+        iosMain.dependencies {
+            // Add the purchases-kmp dependencies.
+            implementation(libs.purchases.core)
+            implementation(libs.purchases.ui)
+            implementation(libs.purchases.datetime)   // Optional
+            implementation(libs.purchases.either)     // Optional
+            implementation(libs.purchases.result)     // Optional
         }
         commonMain.dependencies {
             implementation(compose.runtime)
@@ -59,13 +85,6 @@ kotlin {
             implementation(libs.gitlive.firebase.firestore)
             implementation(libs.gitlive.firebase.common)
             implementation(libs.lifecycle.viewmodel.compose)
-
-            // Add the purchases-kmp dependencies.
-            implementation(libs.purchases.core)
-            implementation(libs.purchases.ui)
-            implementation(libs.purchases.datetime)   // Optional
-            implementation(libs.purchases.either)     // Optional
-            implementation(libs.purchases.result)     // Optional
 
             // Add the FileKit support for image selection
             implementation(libs.filekit.core)
