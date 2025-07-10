@@ -11,7 +11,13 @@ class StorageServiceImpl : StorageService {
 
     override suspend fun getProject(user: YkUser, projectId: String): YkProject? = null
     override suspend fun userExists(userId: String): Boolean = false
-    override suspend fun getUser(userId: String, email: String?): YkUser = YkUser()
+    override suspend fun getUser(userId: String, email: String?): YkUser =
+        YkUser(
+            name = email ?: "Web User",
+            id = userId.ifBlank { "wasm-user-id" },
+            isAnonymous = false,
+            projects = mutableListOf()
+        )
     override suspend fun getUserProjects(userId: String): MutableList<YkProject> = mutableListOf()
     override suspend fun save(user: YkUser, project: YkProject): String = ""
     override suspend fun save(user: YkUser): String = ""

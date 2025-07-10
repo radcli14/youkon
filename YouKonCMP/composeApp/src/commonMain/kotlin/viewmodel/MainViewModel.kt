@@ -11,6 +11,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import firebase.service.StorageService
+import getPlatform
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -52,8 +53,14 @@ class MainViewModel(
 
         // Set up the listeners for changes in the account login or storage states
         viewModelScope.launch {
-            collectAccountService()
-            collectStorageService()
+            // TODO: find a more robust way to bypass if account and storage services aren't available
+            val platform = getPlatform().name
+            if (platform != "WASM") {
+                collectAccountService()
+                collectStorageService()
+            } else {
+                Log.d(tag, "WARNING: No account services for platform: $platform")
+            }
         }
     }
 
@@ -98,8 +105,8 @@ class MainViewModel(
                 try {
                     Log.d(tag, "collectAccountService, accountUser = $accountUser")
 
-                    // Preserve current projects and update user details from Firebase account
-                    var currentUserProjects = user.value.projects
+                    // Defensive: always start with a non-null list
+                    var currentUserProjects = user.value.projects ?: mutableListOf()
 
                     if (!accountUser.isAnonymous) {
                         try {
@@ -107,7 +114,7 @@ class MainViewModel(
                             val storageUser = cloudStorage?.getUser(accountUser.id)
                             if (storageUser != null) {
                                 Log.d(tag, "Got storage user: ${storageUser.summary}")
-                                currentUserProjects = storageUser.projects // Use projects from cloud
+                                currentUserProjects = storageUser.projects ?: mutableListOf() // Defensive: never null
                             } else {
                                 Log.e(tag, "Failed to get user from cloud storage - null result. Retaining local projects.")
                                 // currentUserProjects remains as the locally loaded projects
@@ -126,7 +133,7 @@ class MainViewModel(
                         id = account.currentUserId,
                         name = account.currentUserName,
                         isAnonymous = accountUser.isAnonymous,
-                        projects = currentUserProjects
+                        projects = currentUserProjects ?: mutableListOf() // Defensive: never null
                     )
 
                     // Re-initialize projectsCardViewModel with the updated user

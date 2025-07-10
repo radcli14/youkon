@@ -6,10 +6,16 @@ import kotlinx.coroutines.flow.flowOf
 import model.YkUser
 
 class AccountServiceImpl : AccountService {
-    override val currentUserId: String = ""
-    override val currentUserName: String = ""
-    override val hasUser: Boolean = false
-    override val currentUser: Flow<YkUser> = flowOf(YkUser())
+    override val currentUserId: String = "wasm-user-id"
+    override val currentUserName: String = "Web User"
+    override val hasUser: Boolean = true
+    override val currentUser: Flow<YkUser> = flowOf(
+        YkUser(
+            name = currentUserName,
+            id = currentUserId,
+            isAnonymous = false
+        )
+    )
 
     override suspend fun authenticate(email: String, password: String) { /* no-op */ }
     override suspend fun sendRecoveryEmail(email: String) { /* no-op */ }
