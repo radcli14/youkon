@@ -5,6 +5,7 @@ import dev.gitlive.firebase.firestore.firestore
 import firebase.service.LogServiceImpl
 import firebase.service.StorageServiceImpl
 import firebase.login.LoginViewModel
+import firebase.service.AccountServiceImpl
 import viewmodel.MainViewModel
 import viewmodel.OnboardingScreenViewModel
 import viewmodel.QuickConvertCardViewModel

@@ -17,5 +17,6 @@ actual suspend fun compressImage(
     maxHeight: Int,
     imageFormat: String
 ): ByteArray {
-    TODO("Not yet implemented")
+    // No-op for WASM/web: just return the original bytes
+    return bytes
 }
