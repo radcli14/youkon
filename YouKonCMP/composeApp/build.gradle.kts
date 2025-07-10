@@ -64,9 +64,20 @@ kotlin {
         val sharedRevenueCatMain by creating {
             dependsOn(commonMain)
         }
+        val sharedFirebaseMain by creating {
+            dependsOn(commonMain)
+            dependencies {
+                implementation(libs.gitlive.firebase.auth)
+                //implementation(libs.gitlive.firebase.crashlytics)
+                implementation(libs.gitlive.firebase.perf)
+                implementation(libs.gitlive.firebase.firestore)
+                implementation(libs.gitlive.firebase.common)
+            }
+        }
 
         val iosMain by creating {
             dependsOn(sharedRevenueCatMain)
+            dependsOn(sharedFirebaseMain)
             iosX64Main.dependsOn(this)
             iosArm64Main.dependsOn(this)
             iosSimulatorArm64Main.dependsOn(this)
@@ -79,6 +90,8 @@ kotlin {
         }
 
         androidMain.dependsOn(sharedRevenueCatMain)
+        androidMain.dependsOn(sharedFirebaseMain)
+        desktopMain.dependsOn(sharedFirebaseMain)
 
         androidMain.dependencies {
             implementation(libs.compose.ui.tooling.preview)
@@ -112,11 +125,6 @@ kotlin {
             implementation(libs.material.icons.core)
             implementation(libs.material.icons.extended)
             implementation(libs.kotlinx.serialization.json)
-            implementation(libs.gitlive.firebase.auth)
-            //implementation(libs.gitlive.firebase.crashlytics)
-            implementation(libs.gitlive.firebase.perf)
-            implementation(libs.gitlive.firebase.firestore)
-            implementation(libs.gitlive.firebase.common)
             implementation(libs.lifecycle.viewmodel.compose)
 
             // Add the FileKit support for image selection

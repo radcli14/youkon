@@ -1,6 +1,5 @@
 package com.dcengineer.youkon
 
-import AccountServiceImpl
 import App
 import Storage
 import android.content.Context
@@ -17,6 +16,7 @@ import dev.gitlive.firebase.auth.auth
 import dev.gitlive.firebase.firestore.firestore
 import dev.gitlive.firebase.initialize
 import firebase.login.LoginViewModel
+import firebase.service.AccountServiceImpl
 import firebase.service.LogServiceImpl
 import firebase.service.StorageServiceImpl
 import firebase.settings.SettingsViewModel

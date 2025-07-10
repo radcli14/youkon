@@ -1,6 +1,11 @@
 package firebase.service
 
-class StorageServiceImpl : StorageService {
+import dev.gitlive.firebase.firestore.FirebaseFirestore
+
+class StorageServiceImpl(
+    private val firestore: FirebaseFirestore,
+    private val auth: AccountService
+) : StorageService {
     // Stub implementation for WASM
     // Implement all methods as no-ops or throw NotImplementedError
 } 
