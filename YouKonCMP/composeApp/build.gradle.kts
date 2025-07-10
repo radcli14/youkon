@@ -1,5 +1,6 @@
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
+import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackConfig
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
@@ -23,20 +24,23 @@ kotlin {
 
     jvm("desktop")
 
-    js(IR) {
-        moduleName = "YouKon"
-        browser() {
-            commonWebpackConfig() {
-                outputFileName = "YouKon.js"
-                devServer = (devServer ?: org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackConfig.DevServer()).copy()
-            }
-            binaries.executable()
-        }
-    }
-
     @OptIn(ExperimentalWasmDsl::class)
     wasmJs {
-        browser()
+        outputModuleName.set("YouKon")
+        browser {
+            val rootDirPath = project.rootDir.path
+            val projectDirPath = project.projectDir.path
+            commonWebpackConfig {
+                outputFileName = "youkon.js"
+                devServer = (devServer ?: KotlinWebpackConfig.DevServer()).apply {
+                    static = (static ?: mutableListOf()).apply {
+                        // Serve sources to debug inside browser
+                        add(rootDirPath)
+                        add(projectDirPath)
+                    }
+                }
+            }
+        }
         binaries.executable()
     }
 
@@ -56,6 +60,7 @@ kotlin {
         val androidMain by getting
         val desktopMain by getting
         val wasmJsMain by getting
+        wasmJsMain.dependsOn(commonMain)
 
         val iosX64Main by getting
         val iosArm64Main by getting
@@ -63,6 +68,14 @@ kotlin {
 
         val sharedRevenueCatMain by creating {
             dependsOn(commonMain)
+            dependencies {
+                // Add the purchases-kmp dependencies.
+                implementation(libs.purchases.core)
+                implementation(libs.purchases.ui)
+                implementation(libs.purchases.datetime)   // Optional
+                implementation(libs.purchases.either)     // Optional
+                implementation(libs.purchases.result)     // Optional
+            }
         }
         val sharedFirebaseMain by creating {
             dependsOn(commonMain)
@@ -83,12 +96,6 @@ kotlin {
             iosSimulatorArm64Main.dependsOn(this)
         }
 
-        val jsMain by getting {
-            dependencies {
-                implementation(compose.html.core)
-            }
-        }
-
         androidMain.dependsOn(sharedRevenueCatMain)
         androidMain.dependsOn(sharedFirebaseMain)
         desktopMain.dependsOn(sharedFirebaseMain)
@@ -99,21 +106,6 @@ kotlin {
             //implementation(project.dependencies.platform("com.google.firebase:firebase-bom:latest")) // Use the latest Firebase BoM
             //implementation(libs.firebase.appcheck.playintegrity)
             implementation(libs.review.ktx)
-
-            // Add the purchases-kmp dependencies.
-            implementation(libs.purchases.core)
-            implementation(libs.purchases.ui)
-            implementation(libs.purchases.datetime)   // Optional
-            implementation(libs.purchases.either)     // Optional
-            implementation(libs.purchases.result)     // Optional
-        }
-        iosMain.dependencies {
-            // Add the purchases-kmp dependencies.
-            implementation(libs.purchases.core)
-            implementation(libs.purchases.ui)
-            implementation(libs.purchases.datetime)   // Optional
-            implementation(libs.purchases.either)     // Optional
-            implementation(libs.purchases.result)     // Optional
         }
         commonMain.dependencies {
             implementation(compose.runtime)

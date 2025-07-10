@@ -32,6 +32,7 @@ materialIconsExtendedVersion = "1.7.1"
 mvvmCore = "0.16.1"
 navigationCompose = "2.9.0-beta01"
 roomCompilerProcessingTesting = "2.7.1"
+skikoWasmJs = "0.9.19"
 uiToolingPreviewAndroid = "1.8.2"
 firebaseCrashlyticsBuildtools = "3.0.4"
 annotationJvm = "1.9.1"
@@ -104,6 +105,7 @@ purchases-result = { module = "com.revenuecat.purchases:purchases-kmp-result", v
 purchases-ui = { module = "com.revenuecat.purchases:purchases-kmp-ui", version.ref = "purchases-kmp"}
 core-ktx = { group = "com.google.android.play", name = "core-ktx", version.ref = "coreKtx" }
 review-ktx = { group = "com.google.android.play", name = "review-ktx", version.ref = "reviewKtx" }
+skiko-wasm-js = { module = "org.jetbrains.skiko:skiko-wasm-js", version.ref = "skikoWasmJs" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
